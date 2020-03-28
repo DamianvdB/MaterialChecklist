@@ -1,7 +1,8 @@
-package com.dvdb.checklist
+package com.dvdb.checklist.sample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.dvdb.checklist.R
 
 class MainActivity : AppCompatActivity() {
 
