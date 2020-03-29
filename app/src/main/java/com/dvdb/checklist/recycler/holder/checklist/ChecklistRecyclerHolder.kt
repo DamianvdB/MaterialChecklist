@@ -17,29 +17,25 @@ import com.dvdb.checklist.util.setTintCompat
 import com.dvdb.checklist.util.setVisible
 import kotlinx.android.synthetic.main.item_checklist.view.*
 
-private class ChecklistRecyclerHolder(
+internal class ChecklistRecyclerHolder private constructor(
     itemView: View,
     config: ChecklistRecyclerHolderThemeConfig,
     private val enterKeyListenerFactory: EnterKeyListenerFactory,
     private val listener: ChecklistRecyclerHolderItemListener
-) : BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderThemeConfig>(itemView) {
+) : BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderThemeConfig>(itemView, config) {
 
-    init {
-        initialiseView(config)
+    override fun initialiseView() {
+        initialiseDragIndicator()
+        initialiseCheckbox()
+        initialiseContent()
+        initialiseDelete()
     }
 
-    private fun initialiseView(config: ChecklistRecyclerHolderThemeConfig) {
-        initialiseDragIndicator(config)
-        initialiseCheckbox(config)
-        initialiseContent(config)
-        initialiseDelete(config)
-    }
-
-    private fun initialiseDragIndicator(config: ChecklistRecyclerHolderThemeConfig) {
+    private fun initialiseDragIndicator() {
         itemView.item_checklist_drag_indicator.drawable.setTintCompat(config.dragIndicatorTintColor)
     }
 
-    private fun initialiseCheckbox(config: ChecklistRecyclerHolderThemeConfig) {
+    private fun initialiseCheckbox() {
         itemView.item_checklist_checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 itemView.item_checklist_content.paintFlags =
@@ -55,7 +51,7 @@ private class ChecklistRecyclerHolder(
         }
     }
 
-    private fun initialiseContent(config: ChecklistRecyclerHolderThemeConfig) {
+    private fun initialiseContent() {
         itemView.item_checklist_content.textSize = config.contentTextSizeSP
 
         config.contentTypeFace?.let {
@@ -83,17 +79,13 @@ private class ChecklistRecyclerHolder(
         })
     }
 
-    private fun initialiseDelete(config: ChecklistRecyclerHolderThemeConfig) {
+    private fun initialiseDelete() {
         itemView.item_checklist_delete.drawable.setTintCompat(config.deleteTintColor)
 
         itemView.item_checklist_delete.setOnClickListener {
 //            itemView.item_checklist_content.requestFocus()
             listener.onItemDeleteClicked(adapterPosition)
         }
-    }
-
-    override fun updateThemeConfig(config: ChecklistRecyclerHolderThemeConfig) {
-        initialiseView(config)
     }
 
     override fun bindView(item: ChecklistRecyclerItem) {
@@ -104,26 +96,27 @@ private class ChecklistRecyclerHolder(
             itemView.item_checklist_content.requestFocus()
         }
     }
-}
 
-internal class ChecklistRecyclerHolderFactory(
-    private val parent: ViewGroup,
-    private val config: ChecklistRecyclerHolderThemeConfig,
-    private val enterKeyListenerFactory: EnterKeyListenerFactory,
-    private val listener: ChecklistRecyclerHolderItemListener
-) : BaseRecyclerHolderFactory<ChecklistRecyclerItem, ChecklistRecyclerHolderThemeConfig> {
+    class Factory(
+        private val enterKeyListenerFactory: EnterKeyListenerFactory,
+        private val listener: ChecklistRecyclerHolderItemListener
+    ) : BaseRecyclerHolderFactory<ChecklistRecyclerItem, ChecklistRecyclerHolderThemeConfig> {
 
-    override fun create(): BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderThemeConfig> {
-        val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_checklist,
-            parent,
-            false
-        )
-        return ChecklistRecyclerHolder(
-            itemView,
-            config,
-            enterKeyListenerFactory,
-            listener
-        )
+        override fun create(
+            parent: ViewGroup,
+            config: ChecklistRecyclerHolderThemeConfig
+        ): BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderThemeConfig> {
+            val itemView = LayoutInflater.from(parent.context).inflate(
+                R.layout.item_checklist,
+                parent,
+                false
+            )
+            return ChecklistRecyclerHolder(
+                itemView,
+                config,
+                enterKeyListenerFactory,
+                listener
+            )
+        }
     }
 }

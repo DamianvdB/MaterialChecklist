@@ -6,11 +6,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.checklist.recycler.item.base.BaseRecyclerItem
 
 internal abstract class BaseRecyclerHolder<T : BaseRecyclerItem, C : BaseRecyclerHolderThemeConfig>(
-    itemView: View
+    itemView: View,
+    protected var config: C
 ) : RecyclerView.ViewHolder(itemView) {
     private val context: Context = itemView.context
 
-    abstract fun updateThemeConfig(config: C)
+    init {
+        this.initialiseView()
+    }
+
+    fun updateConfigConditionally(config: C) {
+        if (this.config != config) {
+            this.config = config
+            initialiseView()
+        }
+    }
+
+    abstract fun initialiseView()
 
     abstract fun bindView(item: T)
 }
