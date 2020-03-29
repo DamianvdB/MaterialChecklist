@@ -3,4 +3,9 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="cl_text_content_light">@color/md_grey_900</color>
+    <color name="cl_text_content_checked_light">@color/md_grey_400</color>
+    <color name="cl_image_tint_light">@color/md_grey_700</color>
+    <color name="cl_image_tint_variant_light">@color/md_grey_400</color>
 </resources>

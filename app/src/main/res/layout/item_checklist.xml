@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/item_checklist_drag_indicator"
+        style="@style/ClickableView"
+        android:layout_width="@dimen/icon_size_medium"
+        android:layout_height="@dimen/icon_size_medium"
+        android:layout_marginEnd="@dimen/spacing_medium"
+        android:layout_marginRight="@dimen/spacing_medium"
+        android:src="@drawable/ic_drag_indicator"
+        tools:tint="@color/cl_image_tint_variant_light" />
+
+    <CheckBox
+        android:id="@+id/item_checklist_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/item_checklist_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginLeft="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_medium"
+        android:layout_marginRight="@dimen/spacing_medium"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine|textCapSentences"
+        android:paddingTop="@dimen/spacing_small_medium"
+        android:paddingBottom="@dimen/spacing_small_medium"
+        tools:ignore="LabelFor"
+        tools:text="Buy ingredients for sunday lunch"
+        tools:textColor="?android:textColorPrimary" />
+
+    <ImageView
+        android:id="@+id/item_checklist_delete"
+        style="@style/ClickableView"
+        android:layout_width="@dimen/icon_size_medium"
+        android:layout_height="@dimen/icon_size_medium"
+        android:src="@drawable/ic_close"
+        android:visibility="gone"
+        tools:tint="@color/cl_image_tint_light"
+        tools:visibility="visible" />
+
+</LinearLayout>
