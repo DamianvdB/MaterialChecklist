@@ -8,7 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="ClickableView">
+    <style name="ClickableViewBordered">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="ClickableViewBorderless">
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>

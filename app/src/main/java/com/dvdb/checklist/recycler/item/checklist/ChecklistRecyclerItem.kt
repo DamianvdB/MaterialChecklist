@@ -2,7 +2,7 @@ package com.dvdb.checklist.recycler.item.checklist
 
 import com.dvdb.checklist.recycler.item.base.BaseRecyclerItem
 
-data class ChecklistRecyclerItem(
+internal data class ChecklistRecyclerItem(
     val content: String,
     val isChecked: Boolean = false,
     val isRequestFocus: Boolean = false,

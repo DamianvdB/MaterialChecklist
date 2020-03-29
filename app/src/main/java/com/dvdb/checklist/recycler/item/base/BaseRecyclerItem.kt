@@ -1,6 +1,6 @@
 package com.dvdb.checklist.recycler.item.base
 
-abstract class BaseRecyclerItem {
+internal abstract class BaseRecyclerItem {
     abstract val type: Type
 
     enum class Type {

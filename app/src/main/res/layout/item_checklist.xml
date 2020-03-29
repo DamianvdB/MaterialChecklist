@@ -8,7 +8,7 @@
 
     <ImageView
         android:id="@+id/item_checklist_drag_indicator"
-        style="@style/ClickableView"
+        style="@style/ClickableViewBorderless"
         android:layout_width="@dimen/icon_size_medium"
         android:layout_height="@dimen/icon_size_medium"
         android:layout_marginEnd="@dimen/spacing_medium"
@@ -41,7 +41,7 @@
 
     <ImageView
         android:id="@+id/item_checklist_delete"
-        style="@style/ClickableView"
+        style="@style/ClickableViewBorderless"
         android:layout_width="@dimen/icon_size_medium"
         android:layout_height="@dimen/icon_size_medium"
         android:src="@drawable/ic_close"
