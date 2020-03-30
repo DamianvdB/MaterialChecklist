@@ -11,20 +11,16 @@ internal abstract class BaseRecyclerHolder<T : BaseRecyclerItem, C : BaseRecycle
 ) : RecyclerView.ViewHolder(itemView) {
     private val context: Context = itemView.context
 
-    init {
-        this.initialiseView()
-    }
-
     fun updateConfigConditionally(config: C) {
         if (this.config != config) {
             this.config = config
-            initialiseView()
+            onConfigUpdated()
         }
     }
 
-    abstract fun initialiseView()
-
     abstract fun bindView(item: T)
+
+    abstract fun onConfigUpdated()
 }
 
 interface BaseRecyclerHolderThemeConfig

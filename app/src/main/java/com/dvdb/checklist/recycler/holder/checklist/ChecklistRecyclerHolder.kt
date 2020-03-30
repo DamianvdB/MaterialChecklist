@@ -24,7 +24,11 @@ internal class ChecklistRecyclerHolder private constructor(
     private val listener: ChecklistRecyclerHolderItemListener
 ) : BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderConfig>(itemView, config) {
 
-    override fun initialiseView() {
+    init {
+        initialiseView()
+    }
+
+    private fun initialiseView() {
         initialiseDragIndicator()
         initialiseCheckbox()
         initialiseContent()
@@ -37,22 +41,15 @@ internal class ChecklistRecyclerHolder private constructor(
 
     private fun initialiseCheckbox() {
         itemView.item_checklist_checkbox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                itemView.item_checklist_content.paintFlags =
-                    itemView.item_checklist_content.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                itemView.item_checklist_content.setTextColor(config.contentCheckedTextColor)
-            } else {
-                itemView.item_checklist_content.paintFlags =
-                    itemView.item_checklist_content.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                itemView.item_checklist_content.setTextColor(config.contentUncheckedTextColor)
-            }
-
+            updateContentAppearanceForCheckedState(isChecked)
             listener.onItemChecked(adapterPosition, isChecked)
         }
     }
 
     private fun initialiseContent() {
-        itemView.item_checklist_content.textSize = config.contentTextSizeSP
+        config.contentTextSizeSP?.let {
+            itemView.item_checklist_content.textSize = it
+        }
 
         config.contentTypeFace?.let {
             itemView.item_checklist_content.typeface = it
@@ -89,12 +86,33 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     override fun bindView(item: ChecklistRecyclerItem) {
+        if (itemView.item_checklist_checkbox.isChecked == item.isChecked) {
+            updateContentAppearanceForCheckedState(item.isChecked)
+        }
+
         itemView.item_checklist_checkbox.isChecked = item.isChecked
 
         itemView.item_checklist_content.setText(item.content)
+
         if (item.isRequestFocus) {
             itemView.item_checklist_content.requestFocus()
         }
+    }
+
+    private fun updateContentAppearanceForCheckedState(isChecked: Boolean) {
+        if (isChecked) {
+            itemView.item_checklist_content.paintFlags =
+                itemView.item_checklist_content.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            itemView.item_checklist_content.setTextColor(config.contentCheckedTextColor)
+        } else {
+            itemView.item_checklist_content.paintFlags =
+                itemView.item_checklist_content.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            itemView.item_checklist_content.setTextColor(config.contentUncheckedTextColor)
+        }
+    }
+
+    override fun onConfigUpdated() {
+        initialiseView()
     }
 
     class Factory(

@@ -17,7 +17,11 @@ internal class ChecklistNewRecyclerHolder private constructor(
     private val onItemClicked: (position: Int) -> Unit
 ) : BaseRecyclerHolder<ChecklistNewRecyclerItem, ChecklistNewRecyclerHolderConfig>(itemView, config) {
 
-    override fun initialiseView() {
+    init {
+        initialiseView()
+    }
+
+    private fun initialiseView() {
         initialiseRoot()
         initialiseAdd()
         initialiseContent()
@@ -34,7 +38,9 @@ internal class ChecklistNewRecyclerHolder private constructor(
     private fun initialiseContent() {
         itemView.item_checklist_new_content.setTextColor(config.contentTextColor)
 
-        itemView.item_checklist_new_content.textSize = config.contentTextSizeSP
+        config.contentTextSizeSP?.let {
+            itemView.item_checklist_new_content.textSize = it
+        }
 
         config.contentTypeFace?.let {
             itemView.item_checklist_new_content.typeface = it
@@ -43,6 +49,10 @@ internal class ChecklistNewRecyclerHolder private constructor(
 
     override fun bindView(item: ChecklistNewRecyclerItem) {
         itemView.item_checklist_new_content.text = item.content
+    }
+
+    override fun onConfigUpdated() {
+        initialiseView()
     }
 
     internal class Factory(
