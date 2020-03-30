@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.dvdb.checklist.R
 import com.dvdb.checklist.recycler.holder.base.BaseRecyclerHolder
 import com.dvdb.checklist.recycler.holder.base.factory.BaseRecyclerHolderFactory
-import com.dvdb.checklist.recycler.holder.checklist.config.ChecklistRecyclerHolderThemeConfig
+import com.dvdb.checklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
 import com.dvdb.checklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
 import com.dvdb.checklist.recycler.holder.util.EnterKeyListenerFactory
 import com.dvdb.checklist.recycler.item.checklist.ChecklistRecyclerItem
@@ -19,10 +19,10 @@ import kotlinx.android.synthetic.main.item_checklist.view.*
 
 internal class ChecklistRecyclerHolder private constructor(
     itemView: View,
-    config: ChecklistRecyclerHolderThemeConfig,
+    config: ChecklistRecyclerHolderConfig,
     private val enterKeyListenerFactory: EnterKeyListenerFactory,
     private val listener: ChecklistRecyclerHolderItemListener
-) : BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderThemeConfig>(itemView, config) {
+) : BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderConfig>(itemView, config) {
 
     override fun initialiseView() {
         initialiseDragIndicator()
@@ -100,12 +100,12 @@ internal class ChecklistRecyclerHolder private constructor(
     class Factory(
         private val enterKeyListenerFactory: EnterKeyListenerFactory,
         private val listener: ChecklistRecyclerHolderItemListener
-    ) : BaseRecyclerHolderFactory<ChecklistRecyclerItem, ChecklistRecyclerHolderThemeConfig> {
+    ) : BaseRecyclerHolderFactory<ChecklistRecyclerItem, ChecklistRecyclerHolderConfig> {
 
         override fun create(
             parent: ViewGroup,
-            config: ChecklistRecyclerHolderThemeConfig
-        ): BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderThemeConfig> {
+            config: ChecklistRecyclerHolderConfig
+        ): BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderConfig> {
             val itemView = LayoutInflater.from(parent.context).inflate(
                 R.layout.item_checklist,
                 parent,

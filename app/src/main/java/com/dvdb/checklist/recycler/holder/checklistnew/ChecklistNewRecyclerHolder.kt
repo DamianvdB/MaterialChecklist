@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import com.dvdb.checklist.R
 import com.dvdb.checklist.recycler.holder.base.BaseRecyclerHolder
 import com.dvdb.checklist.recycler.holder.base.factory.BaseRecyclerHolderFactory
-import com.dvdb.checklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderThemeConfig
+import com.dvdb.checklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderConfig
 import com.dvdb.checklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
 import com.dvdb.checklist.util.setTintCompat
 import kotlinx.android.synthetic.main.item_checklist_new.view.*
 
 internal class ChecklistNewRecyclerHolder private constructor(
     itemView: View,
-    config: ChecklistNewRecyclerHolderThemeConfig,
+    config: ChecklistNewRecyclerHolderConfig,
     private val onItemClicked: (position: Int) -> Unit
-) : BaseRecyclerHolder<ChecklistNewRecyclerItem, ChecklistNewRecyclerHolderThemeConfig>(itemView, config) {
+) : BaseRecyclerHolder<ChecklistNewRecyclerItem, ChecklistNewRecyclerHolderConfig>(itemView, config) {
 
     override fun initialiseView() {
         initialiseRoot()
@@ -47,12 +47,12 @@ internal class ChecklistNewRecyclerHolder private constructor(
 
     internal class Factory(
         private val onItemClicked: (position: Int) -> Unit
-    ) : BaseRecyclerHolderFactory<ChecklistNewRecyclerItem, ChecklistNewRecyclerHolderThemeConfig> {
+    ) : BaseRecyclerHolderFactory<ChecklistNewRecyclerItem, ChecklistNewRecyclerHolderConfig> {
 
         override fun create(
             parent: ViewGroup,
-            config: ChecklistNewRecyclerHolderThemeConfig
-        ): BaseRecyclerHolder<ChecklistNewRecyclerItem, ChecklistNewRecyclerHolderThemeConfig> {
+            config: ChecklistNewRecyclerHolderConfig
+        ): BaseRecyclerHolder<ChecklistNewRecyclerItem, ChecklistNewRecyclerHolderConfig> {
             val itemView = LayoutInflater.from(parent.context).inflate(
                 R.layout.item_checklist_new,
                 parent,

@@ -1,9 +1,9 @@
 package com.dvdb.checklist.recycler.adapter.config
 
-import com.dvdb.checklist.recycler.holder.checklist.config.ChecklistRecyclerHolderThemeConfig
-import com.dvdb.checklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderThemeConfig
+import com.dvdb.checklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
+import com.dvdb.checklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderConfig
 
 internal data class ChecklistItemAdapterConfig(
-    val checklistConfig: ChecklistRecyclerHolderThemeConfig,
-    val checklistNewConfig: ChecklistNewRecyclerHolderThemeConfig
+    val checklistConfig: ChecklistRecyclerHolderConfig,
+    val checklistNewConfig: ChecklistNewRecyclerHolderConfig
 )
