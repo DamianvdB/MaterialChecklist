@@ -9,10 +9,11 @@
     <ImageView
         android:id="@+id/item_checklist_drag_indicator"
         style="@style/ClickableViewBorderless"
-        android:layout_width="@dimen/icon_size_medium"
-        android:layout_height="@dimen/icon_size_medium"
+        android:layout_width="@dimen/icon_size_large"
+        android:layout_height="@dimen/icon_size_large"
         android:layout_marginEnd="@dimen/spacing_medium"
         android:layout_marginRight="@dimen/spacing_medium"
+        android:padding="@dimen/spacing_tiny"
         android:src="@drawable/ic_drag_indicator"
         tools:tint="@color/cl_image_tint_variant_light" />
 
@@ -42,8 +43,9 @@
     <ImageView
         android:id="@+id/item_checklist_delete"
         style="@style/ClickableViewBorderless"
-        android:layout_width="@dimen/icon_size_medium"
-        android:layout_height="@dimen/icon_size_medium"
+        android:layout_width="@dimen/icon_size_large"
+        android:layout_height="@dimen/icon_size_large"
+        android:padding="@dimen/spacing_tiny"
         android:src="@drawable/ic_close"
         android:visibility="gone"
         tools:tint="@color/cl_image_tint_light"

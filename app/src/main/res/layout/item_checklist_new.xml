@@ -9,10 +9,11 @@
 
     <ImageView
         android:id="@+id/item_checklist_new_add"
-        android:layout_width="@dimen/icon_size_medium"
-        android:layout_height="@dimen/icon_size_medium"
+        android:layout_width="@dimen/icon_size_large"
+        android:layout_height="@dimen/icon_size_large"
         android:layout_marginStart="@dimen/item_checklist_new_add_start_margin"
         android:layout_marginLeft="@dimen/item_checklist_new_add_start_margin"
+        android:padding="@dimen/spacing_tiny"
         android:src="@drawable/ic_add"
         tools:tint="@color/cl_image_tint_variant_light" />
 
