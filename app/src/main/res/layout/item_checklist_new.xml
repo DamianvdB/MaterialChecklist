@@ -17,7 +17,7 @@
         tools:tint="@color/cl_image_tint_variant_light" />
 
     <TextView
-        android:id="@+id/item_checklist_new_content"
+        android:id="@+id/item_checklist_new_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_medium"
@@ -25,10 +25,10 @@
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:ellipsize="end"
-        android:maxLines="@integer/item_checklist_new_content_max_lines"
+        android:maxLines="@integer/item_checklist_new_text_max_lines"
         android:paddingTop="@dimen/spacing_small_medium"
         android:paddingBottom="@dimen/spacing_small_medium"
-        tools:text="@string/item_checklist_new_content"
-        tools:textColor="@color/cl_text_checklist_item_new_content_light" />
+        tools:text="@string/item_checklist_new_text"
+        tools:textColor="@color/cl_text_checklist_item_new_text_light" />
 
 </LinearLayout>

@@ -22,7 +22,7 @@
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/item_checklist_content"
+        android:id="@+id/item_checklist_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_medium"

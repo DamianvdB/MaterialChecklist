@@ -3,7 +3,7 @@ package com.dvdb.checklist.recycler.holder.checklist.listener
 internal interface ChecklistRecyclerHolderItemListener {
     fun onItemChecked(position: Int, isChecked: Boolean)
 
-    fun onItemContentChanged(position: Int, content: String)
+    fun onItemTextChanged(position: Int, text: String)
 
     fun onItemEnterKeyPressed(position: Int)
 

@@ -24,7 +24,7 @@ internal class ChecklistNewRecyclerHolder private constructor(
     private fun initialiseView() {
         initialiseRoot()
         initialiseAdd()
-        initialiseContent()
+        initialiseText()
     }
 
     private fun initialiseRoot() {
@@ -35,20 +35,20 @@ internal class ChecklistNewRecyclerHolder private constructor(
         itemView.item_checklist_new_add.drawable.setTintCompat(config.addTintColor)
     }
 
-    private fun initialiseContent() {
-        itemView.item_checklist_new_content.setTextColor(config.contentTextColor)
+    private fun initialiseText() {
+        itemView.item_checklist_new_text.setTextColor(config.textColor)
 
-        config.contentTextSizeSP?.let {
-            itemView.item_checklist_new_content.textSize = it
+        config.textSizeSP?.let {
+            itemView.item_checklist_new_text.textSize = it
         }
 
-        config.contentTypeFace?.let {
-            itemView.item_checklist_new_content.typeface = it
+        config.typeFace?.let {
+            itemView.item_checklist_new_text.typeface = it
         }
     }
 
     override fun bindView(item: ChecklistNewRecyclerItem) {
-        itemView.item_checklist_new_content.text = item.content
+        itemView.item_checklist_new_text.text = item.text
     }
 
     override fun onConfigUpdated() {

@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Checklist</string>
-    <string name="item_checklist_new_content">List item</string>
+    <string name="item_checklist_new_text">List item</string>
 </resources>
