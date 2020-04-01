@@ -42,6 +42,7 @@ internal class ChecklistRecyclerHolder private constructor(
     private fun initialiseCheckbox() {
         itemView.item_checklist_checkbox.setOnCheckedChangeListener { _, isChecked ->
             updateTextAppearanceForCheckedState(isChecked)
+            updateDragIndicatorVisibility(isChecked)
             listener.onItemChecked(adapterPosition, isChecked)
         }
     }
@@ -87,6 +88,7 @@ internal class ChecklistRecyclerHolder private constructor(
 
     override fun bindView(item: ChecklistRecyclerItem) {
         if (itemView.item_checklist_checkbox.isChecked == item.isChecked) {
+            updateDragIndicatorVisibility(item.isChecked)
             updateTextAppearanceForCheckedState(item.isChecked)
         }
 
@@ -97,6 +99,10 @@ internal class ChecklistRecyclerHolder private constructor(
         if (item.isRequestFocus) {
             itemView.item_checklist_text.requestFocus()
         }
+    }
+
+    private fun updateDragIndicatorVisibility(isChecked: Boolean) {
+        itemView.item_checklist_drag_indicator.setVisible(!isChecked, View.INVISIBLE)
     }
 
     private fun updateTextAppearanceForCheckedState(isChecked: Boolean) {
