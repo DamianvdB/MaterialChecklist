@@ -1,5 +1,6 @@
 package com.dvdb.checklist.recycler.holder.checklistnew
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,11 +37,11 @@ internal class ChecklistNewRecyclerHolder private constructor(
     }
 
     private fun initialiseText() {
-        itemView.item_checklist_new_text.setTextColor(config.textColor)
+        itemView.item_checklist_new_text.text = config.text
 
-        config.textSizeSP?.let {
-            itemView.item_checklist_new_text.textSize = it
-        }
+        itemView.item_checklist_new_text.setTextSize(TypedValue.COMPLEX_UNIT_PX, config.textSize)
+
+        itemView.item_checklist_new_text.setTextColor(config.textColor)
 
         config.typeFace?.let {
             itemView.item_checklist_new_text.typeface = it
@@ -48,7 +49,6 @@ internal class ChecklistNewRecyclerHolder private constructor(
     }
 
     override fun bindView(item: ChecklistNewRecyclerItem) {
-        itemView.item_checklist_new_text.text = item.text
     }
 
     override fun onConfigUpdated() {

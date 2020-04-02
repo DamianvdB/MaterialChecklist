@@ -2,6 +2,7 @@ package com.dvdb.checklist.recycler.holder.checklist
 
 import android.graphics.Paint
 import android.text.Editable
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,9 +49,7 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     private fun initialiseText() {
-        config.textSizeSP?.let {
-            itemView.item_checklist_text.textSize = it
-        }
+        itemView.item_checklist_text.setTextSize(TypedValue.COMPLEX_UNIT_PX, config.textSize)
 
         config.typeFace?.let {
             itemView.item_checklist_text.typeface = it
