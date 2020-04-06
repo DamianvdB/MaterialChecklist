@@ -18,6 +18,30 @@ class RecyclerItemMapperTest {
 
     @Test
     fun toFormattedText() {
+        val expectedContents = validChecklistContents
+        val inputItems = validChecklistItems
+        val actualContents = RecyclerItemMapper.toFormattedText(inputItems)
+
+        Assert.assertEquals(expectedContents, actualContents)
+    }
+
+    @Test
+    fun toFormattedText_withMalformedCheckSymbols() {
+        val expectedContents = "[x] [x] Buy beer\n[x] [ ] Buy steak\n[x] [X]Buy brandy\n[ ] [ ] Buy Coca-Cola\n[x] [] Buy Portuguese buns"
+        val inputItems = listOf(
+            ChecklistRecyclerItem("[x] Buy beer", true),
+            ChecklistRecyclerItem("[ ] Buy steak", true),
+            ChecklistRecyclerItem("[X]Buy brandy", true),
+            ChecklistRecyclerItem("[ ] Buy Coca-Cola", false),
+            ChecklistRecyclerItem("[] Buy Portuguese buns", true)
+        )
+        val actualContents = RecyclerItemMapper.toFormattedText(inputItems)
+
+        Assert.assertEquals(expectedContents, actualContents)
+    }
+
+    @Test
+    fun toItems() {
         val expectedItems = validChecklistItems
         val inputText = validChecklistContents
         val actualItems = RecyclerItemMapper.toItems(inputText)
@@ -26,7 +50,7 @@ class RecyclerItemMapperTest {
     }
 
     @Test
-    fun toFormattedText_WithMalformedCheckSymbol() {
+    fun toItems_withMalformedCheckSymbol() {
         val expectedItems = listOf(
             ChecklistRecyclerItem("    Missing check symbol"),
             ChecklistRecyclerItem("[x]Missing space after symbol"),
@@ -43,11 +67,11 @@ class RecyclerItemMapperTest {
     }
 
     @Test
-    fun toItems() {
-        val expectedContents = validChecklistContents
-        val inputItems = validChecklistItems
-        val actualContents = RecyclerItemMapper.toFormattedText(inputItems)
+    fun toItems_withMalformedCheckSymbolsInUpperCase() {
+        val expectedItems = validChecklistItems
+        val inputText = validChecklistContents.replace("[x]", "[X]")
+        val actualItems = RecyclerItemMapper.toItems(inputText)
 
-        Assert.assertEquals(expectedContents, actualContents)
+        Assert.assertEquals(expectedItems, actualItems)
     }
 }

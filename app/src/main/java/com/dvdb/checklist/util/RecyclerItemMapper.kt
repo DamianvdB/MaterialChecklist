@@ -1,5 +1,6 @@
 package com.dvdb.checklist.util
 
+import android.annotation.SuppressLint
 import com.dvdb.checklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.checklist.recycler.item.checklist.ChecklistRecyclerItem
 
@@ -17,12 +18,13 @@ internal object RecyclerItemMapper {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     fun toItems(formattedText: String): List<BaseRecyclerItem> {
         return formattedText.split(DELIMINATOR_CHARACTER).map { text ->
             if (text.isFormatValid()) {
                 ChecklistRecyclerItem(
                     text.substring(4, text.length),
-                    text.substring(0, 3).isChecked()
+                    text.substring(0, 3).toLowerCase().isChecked()
                 )
             } else {
                 ChecklistRecyclerItem(text)
@@ -30,8 +32,9 @@ internal object RecyclerItemMapper {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private fun String.isFormatValid(): Boolean {
-        return (contains(UNCHECKED_SYMBOL) || contains(CHECKED_SYMBOL)) && substring(3, 4).isBlank()
+        return substring(0, 4).toLowerCase().run { this == "$UNCHECKED_SYMBOL " || this == "$CHECKED_SYMBOL " }
     }
 
     private fun String.isChecked(): Boolean {
