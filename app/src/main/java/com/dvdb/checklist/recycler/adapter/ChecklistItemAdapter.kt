@@ -25,6 +25,14 @@ internal class ChecklistItemAdapter(
             }
         }
 
+    var requestFocus: ChecklistItemAdapterRequestFocus = ChecklistItemAdapterRequestFocus(RecyclerView.NO_POSITION)
+        set(value) {
+            if (field != value) {
+                field = value
+                notifyItemChanged(value.position)
+            }
+        }
+
     override fun getItemViewType(position: Int) = _items[position].type.ordinal
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -40,9 +48,18 @@ internal class ChecklistItemAdapter(
         if (holder is ChecklistRecyclerHolder && item is ChecklistRecyclerItem) {
             holder.updateConfigConditionally(config.checklistConfig)
             holder.bindView(item)
+
+            if (position == requestFocus.position) {
+                holder.requestFocus(
+                    requestFocus.isStartSelection,
+                    requestFocus.isShowKeyboard
+                )
+            }
+
         } else if (holder is ChecklistNewRecyclerHolder && item is ChecklistNewRecyclerItem) {
             holder.updateConfigConditionally(config.checklistNewConfig)
             holder.bindView(item)
+
         } else {
             error("Unknown holder. Must be of type 'ChecklistRecyclerHolder' or 'ChecklistNewRecyclerHolder'")
         }

@@ -6,22 +6,24 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.checklist.R
 import com.dvdb.checklist.recycler.holder.base.BaseRecyclerHolder
 import com.dvdb.checklist.recycler.holder.base.factory.BaseRecyclerHolderFactory
 import com.dvdb.checklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
 import com.dvdb.checklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
-import com.dvdb.checklist.recycler.holder.util.EnterKeyListenerFactory
+import com.dvdb.checklist.recycler.holder.util.EnterActionPerformedFactory
 import com.dvdb.checklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.checklist.util.SimpleTextChangedListener
 import com.dvdb.checklist.util.setTintCompat
 import com.dvdb.checklist.util.setVisible
+import com.dvdb.checklist.util.showKeyboard
 import kotlinx.android.synthetic.main.item_checklist.view.*
 
 internal class ChecklistRecyclerHolder private constructor(
     itemView: View,
     config: ChecklistRecyclerHolderConfig,
-    private val enterKeyListenerFactory: EnterKeyListenerFactory,
+    private val enterActionActionFactory: EnterActionPerformedFactory,
     private val listener: ChecklistRecyclerHolderItemListener
 ) : BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderConfig>(itemView, config) {
 
@@ -42,8 +44,6 @@ internal class ChecklistRecyclerHolder private constructor(
 
     private fun initialiseCheckbox() {
         itemView.item_checklist_checkbox.setOnCheckedChangeListener { _, isChecked ->
-            updateTextAppearanceForCheckedState(isChecked)
-            updateDragIndicatorVisibility(isChecked)
             listener.onItemChecked(adapterPosition, isChecked)
         }
     }
@@ -58,8 +58,10 @@ internal class ChecklistRecyclerHolder private constructor(
         itemView.item_checklist_text.addTextChangedListener(
             object : SimpleTextChangedListener() {
                 override fun afterTextChanged(s: Editable?) {
-                    if (itemView.item_checklist_text.isFocused) {
-                        listener.onItemTextChanged(adapterPosition, s.toString())
+                    if (itemView.item_checklist_text.isFocused && adapterPosition != RecyclerView.NO_POSITION) {
+                        s?.let { text ->
+                            listener.onItemTextChanged(adapterPosition, text.toString())
+                        }
                     }
                 }
             })
@@ -69,10 +71,11 @@ internal class ChecklistRecyclerHolder private constructor(
                 hasFocus,
                 View.INVISIBLE
             )
+            listener.onItemFocusChanged(adapterPosition, hasFocus)
         }
 
-        itemView.item_checklist_text.setOnKeyListener(enterKeyListenerFactory.create {
-            listener.onItemEnterKeyPressed(adapterPosition)
+        itemView.item_checklist_text.setOnEditorActionListener(enterActionActionFactory.create {
+            listener.onItemEnterKeyPressed(adapterPosition, itemView.item_checklist_text)
         })
     }
 
@@ -80,24 +83,25 @@ internal class ChecklistRecyclerHolder private constructor(
         itemView.item_checklist_delete.drawable.setTintCompat(config.deleteTintColor)
 
         itemView.item_checklist_delete.setOnClickListener {
-//            itemView.item_checklist_text.requestFocus()
             listener.onItemDeleteClicked(adapterPosition)
         }
     }
 
+    fun requestFocus(isStartSelection: Boolean, isShowKeyboard: Boolean) {
+        itemView.item_checklist_text.requestFocus()
+        itemView.item_checklist_text.setSelection(if (isStartSelection) 0 else itemView.item_checklist_text.length())
+
+        if (isShowKeyboard) {
+            itemView.item_checklist_text.showKeyboard()
+        }
+    }
+
     override fun bindView(item: ChecklistRecyclerItem) {
-        if (itemView.item_checklist_checkbox.isChecked == item.isChecked) {
-            updateDragIndicatorVisibility(item.isChecked)
-            updateTextAppearanceForCheckedState(item.isChecked)
-        }
-
-        itemView.item_checklist_checkbox.isChecked = item.isChecked
-
         itemView.item_checklist_text.setText(item.text)
+        itemView.item_checklist_checkbox.setChecked(item.isChecked, false)
 
-        if (item.isRequestFocus) {
-            itemView.item_checklist_text.requestFocus()
-        }
+        updateDragIndicatorVisibility(item.isChecked)
+        updateTextAppearanceForCheckedState(item.isChecked)
     }
 
     private fun updateDragIndicatorVisibility(isChecked: Boolean) {
@@ -121,7 +125,7 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     class Factory(
-        private val enterKeyListenerFactory: EnterKeyListenerFactory,
+        private val enterActionPerformedFactory: EnterActionPerformedFactory,
         private val listener: ChecklistRecyclerHolderItemListener
     ) : BaseRecyclerHolderFactory<ChecklistRecyclerItem, ChecklistRecyclerHolderConfig> {
 
@@ -137,7 +141,7 @@ internal class ChecklistRecyclerHolder private constructor(
             return ChecklistRecyclerHolder(
                 itemView,
                 config,
-                enterKeyListenerFactory,
+                enterActionPerformedFactory,
                 listener
             )
         }
