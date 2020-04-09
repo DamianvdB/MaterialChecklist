@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="Checklist">
+        <attr name="text_color_unchecked" format="color" />
+        <attr name="text_color_checked" format="color" />
+        <attr name="text_color_add_new" format="color" />
+        <attr name="text_size_px" format="reference" />
+        <attr name="text_new_item" format="string" />
+        <attr name="image_tint_color" format="color" />
+        <attr name="image_tint_color_light" format="color" />
+    </declare-styleable>
+
+</resources>
