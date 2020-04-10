@@ -19,6 +19,11 @@ internal fun View.showKeyboard() {
         ?.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
 }
 
+internal fun View.hideKeyboard() {
+    (context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
+        ?.hideSoftInputFromWindow(windowToken, 0)
+}
+
 internal fun Drawable.setTintCompat(@ColorInt color: Int) {
     DrawableCompat.setTint(this, color)
 }

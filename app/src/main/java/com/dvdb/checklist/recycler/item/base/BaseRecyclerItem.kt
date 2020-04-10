@@ -6,6 +6,5 @@ internal abstract class BaseRecyclerItem {
     enum class Type {
         CHECKLIST,
         CHECKLIST_NEW,
-        CHECKLIST_DIVIDER
     }
 }
