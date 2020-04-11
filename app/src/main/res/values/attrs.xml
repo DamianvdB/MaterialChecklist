@@ -2,13 +2,17 @@
 <resources>
 
     <declare-styleable name="Checklist">
-        <attr name="text_color_unchecked" format="color" />
-        <attr name="text_color_checked" format="color" />
-        <attr name="text_color_add_new" format="color" />
+        <attr name="text_color" format="color" />
         <attr name="text_size_px" format="reference" />
         <attr name="text_new_item" format="string" />
-        <attr name="image_tint_color" format="color" />
-        <attr name="image_tint_color_light" format="color" />
+        <attr name="text_alpha_checked_item" format="float" />
+        <attr name="text_alpha_new_item" format="float" />
+        <attr name="icon_tint_color" format="color" />
+        <attr name="icon_alpha_drag_indicator" format="float" />
+        <attr name="icon_alpha_delete" format="float" />
+        <attr name="icon_alpha_add" format="float" />
+        <attr name="checkbox_tint_color" format="color" />
+        <attr name="checkbox_alpha_checked_item" format="float" />
     </declare-styleable>
 
 </resources>

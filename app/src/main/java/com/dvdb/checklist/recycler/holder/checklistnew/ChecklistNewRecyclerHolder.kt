@@ -45,13 +45,15 @@ internal class ChecklistNewRecyclerHolder private constructor(
     }
 
     private fun initialiseAdd() {
-        addIcon.drawable.setTintCompat(config.addTintColor)
+        addIcon.drawable.setTintCompat(config.iconTintColor)
+        addIcon.alpha = config.iconAlphaAdd
     }
 
     private fun initialiseText() {
         text.text = config.text
         text.setTextSize(TypedValue.COMPLEX_UNIT_PX, config.textSize)
         text.setTextColor(config.textColor)
+        text.alpha = config.textAlpha
 
         config.typeFace?.let {
             text.typeface = it

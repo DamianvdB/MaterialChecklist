@@ -15,7 +15,7 @@
         android:layout_marginRight="@dimen/spacing_medium"
         android:padding="@dimen/spacing_tiny"
         android:src="@drawable/ic_drag_indicator"
-        tools:tint="@color/cl_image_tint_variant_light" />
+        tools:tint="@color/cl_icon_tint_light" />
 
     <com.dvdb.checklist.widget.CheckboxWidget
         android:id="@+id/item_checklist_checkbox"
@@ -49,7 +49,7 @@
         android:padding="@dimen/spacing_tiny"
         android:src="@drawable/ic_close"
         android:visibility="gone"
-        tools:tint="@color/cl_image_tint_light"
+        tools:tint="@color/cl_icon_tint_light"
         tools:visibility="visible" />
 
 </LinearLayout>

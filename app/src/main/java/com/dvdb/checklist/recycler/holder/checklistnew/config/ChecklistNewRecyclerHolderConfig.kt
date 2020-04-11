@@ -7,8 +7,10 @@ import com.dvdb.checklist.recycler.holder.base.BaseRecyclerHolderThemeConfig
 
 class ChecklistNewRecyclerHolderConfig(
     val text: String,
-    @Px val textSize: Float,
     @ColorInt val textColor: Int,
-    @ColorInt val addTintColor: Int,
+    @Px val textSize: Float,
+    val textAlpha: Float,
+    @ColorInt val iconTintColor: Int,
+    val iconAlphaAdd: Float,
     val typeFace: Typeface? = null
 ) : BaseRecyclerHolderThemeConfig

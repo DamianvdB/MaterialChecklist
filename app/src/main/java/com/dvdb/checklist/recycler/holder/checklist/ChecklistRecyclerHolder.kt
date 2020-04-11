@@ -1,5 +1,6 @@
 package com.dvdb.checklist.recycler.holder.checklist
 
+import android.content.res.ColorStateList
 import android.graphics.Paint
 import android.text.Editable
 import android.util.TypedValue
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.widget.CompoundButtonCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.checklist.R
 import com.dvdb.checklist.recycler.holder.base.BaseRecyclerHolder
@@ -22,6 +24,8 @@ import com.dvdb.checklist.util.showKeyboard
 import com.dvdb.checklist.widget.CheckboxWidget
 import com.dvdb.checklist.widget.EditTextWidget
 import kotlinx.android.synthetic.main.item_checklist.view.*
+
+private const val DEFAULT_ALPHA = 1.0f
 
 internal class ChecklistRecyclerHolder private constructor(
     itemView: View,
@@ -40,10 +44,12 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     override fun bindView(item: ChecklistRecyclerItem) {
-        text.setText(item.text)
-        checkbox.setChecked(item.isChecked, false)
+        dragIndicatorIcon.setVisible(!item.isChecked, View.INVISIBLE)
 
-        updateDragIndicatorVisibility(item.isChecked)
+        checkbox.setChecked(item.isChecked, false)
+        checkbox.alpha = if (item.isChecked) config.checkboxAlphaCheckedItem else DEFAULT_ALPHA
+
+        text.setText(item.text)
         updateTextAppearanceForCheckedState(item.isChecked)
     }
 
@@ -68,12 +74,17 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     private fun initialiseDragIndicator() {
-        dragIndicatorIcon.drawable.setTintCompat(config.dragIndicatorTintColor)
+        dragIndicatorIcon.drawable.setTintCompat(config.iconTintColor)
+        dragIndicatorIcon.alpha = config.iconAlphaDragIndicator
     }
 
     private fun initialiseCheckbox() {
         checkbox.setOnCheckedChangeListener { _, isChecked ->
             listener.onItemChecked(adapterPosition, isChecked)
+        }
+
+        config.checkboxTintColor?.let {
+            CompoundButtonCompat.setButtonTintList(checkbox, ColorStateList.valueOf(it))
         }
     }
 
@@ -117,25 +128,24 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     private fun initialiseDelete() {
-        deleteIcon.drawable.setTintCompat(config.deleteTintColor)
+        deleteIcon.drawable.setTintCompat(config.iconTintColor)
+        deleteIcon.alpha = config.iconAlphaDelete
 
         deleteIcon.setOnClickListener {
             listener.onItemDeleteClicked(adapterPosition)
         }
     }
 
-    private fun updateDragIndicatorVisibility(isChecked: Boolean) {
-        dragIndicatorIcon.setVisible(!isChecked, View.INVISIBLE)
-    }
-
     private fun updateTextAppearanceForCheckedState(isChecked: Boolean) {
         if (isChecked) {
             text.paintFlags = text.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            text.setTextColor(config.checkedTextColor)
+            text.alpha = config.textAlphaCheckedItem
         } else {
             text.paintFlags = text.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            text.setTextColor(config.uncheckedTextColor)
+            text.alpha = DEFAULT_ALPHA
         }
+
+        text.setTextColor(config.textColor)
     }
 
     class Factory(

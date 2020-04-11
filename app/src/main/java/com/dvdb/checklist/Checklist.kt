@@ -89,19 +89,9 @@ class Checklist(
     ): ChecklistItemAdapterConfig {
         val attributes = context.obtainStyledAttributes(attrs, R.styleable.Checklist)
 
-        val textColorUncheckedItem = attributes.getColor(
-            R.styleable.Checklist_text_color_unchecked,
+        val textColor = attributes.getColor(
+            R.styleable.Checklist_text_color,
             context.getColorCompat(R.color.cl_text_checklist_item_text_light)
-        )
-
-        val textColorCheckedItem = attributes.getColor(
-            R.styleable.Checklist_text_color_checked,
-            context.getColorCompat(R.color.cl_text_checklist_item_text_checked_light)
-        )
-
-        val textColorNewItem = attributes.getColor(
-            R.styleable.Checklist_text_color_add_new,
-            context.getColorCompat(R.color.cl_text_checklist_item_new_text_light)
         )
 
         val textSize = attributes.getDimension(
@@ -113,30 +103,65 @@ class Checklist(
             R.styleable.Checklist_text_new_item
         ) ?: context.getString(R.string.item_checklist_new_text)
 
-        val imageTintColor = attributes.getColor(
-            R.styleable.Checklist_image_tint_color,
-            context.getColorCompat(R.color.cl_image_tint_light)
+        val textAlphaCheckedItem = attributes.getFloat(
+            R.styleable.Checklist_text_alpha_checked_item,
+            0.4F
         )
 
-        val imageTintColorLight = attributes.getColor(
-            R.styleable.Checklist_image_tint_color_light,
-            context.getColorCompat(R.color.cl_image_tint_variant_light)
+        val textAlphaNewItem = attributes.getFloat(
+            R.styleable.Checklist_text_alpha_new_item,
+            0.5F
+        )
+
+        val iconTintColor = attributes.getColor(
+            R.styleable.Checklist_icon_tint_color,
+            context.getColorCompat(R.color.cl_icon_tint_light)
+        )
+
+        val iconAlphaDragIndicator = attributes.getFloat(
+            R.styleable.Checklist_icon_alpha_drag_indicator,
+            0.5F
+        )
+
+        val iconAlphaDelete = attributes.getFloat(
+            R.styleable.Checklist_icon_alpha_delete,
+            0.9F
+        )
+
+        val iconAlphaAdd = attributes.getFloat(
+            R.styleable.Checklist_icon_alpha_add,
+            0.7F
+        )
+
+        val checkboxTintColor = attributes.getColor(
+            R.styleable.Checklist_checkbox_tint_color,
+            0
+        ).run { if (this == 0) null else this }
+
+        val checkboxAlphaCheckedItem = attributes.getFloat(
+            R.styleable.Checklist_checkbox_alpha_checked_item,
+            0.4F
         )
 
         try {
             return ChecklistItemAdapterConfig(
                 checklistConfig = ChecklistRecyclerHolderConfig(
-                    textSize,
-                    textColorUncheckedItem,
-                    textColorCheckedItem,
-                    imageTintColor,
-                    imageTintColorLight
+                    textColor = textColor,
+                    textSize = textSize,
+                    textAlphaCheckedItem = textAlphaCheckedItem,
+                    iconTintColor = iconTintColor,
+                    iconAlphaDragIndicator = iconAlphaDragIndicator,
+                    iconAlphaDelete = iconAlphaDelete,
+                    checkboxAlphaCheckedItem = checkboxAlphaCheckedItem,
+                    checkboxTintColor = checkboxTintColor
                 ),
                 checklistNewConfig = ChecklistNewRecyclerHolderConfig(
-                    textNewItem,
-                    textSize,
-                    textColorNewItem,
-                    imageTintColorLight
+                    text = textNewItem,
+                    textColor = textColor,
+                    textSize = textSize,
+                    textAlpha = textAlphaNewItem,
+                    iconTintColor = iconTintColor,
+                    iconAlphaAdd = iconAlphaAdd
                 )
             )
         } finally {

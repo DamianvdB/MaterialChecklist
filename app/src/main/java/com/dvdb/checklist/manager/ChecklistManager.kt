@@ -39,7 +39,7 @@ internal class ChecklistManager(
 
     private val delayHandler: DelayHandler = DelayHandler()
 
-    private var itemPositionWithFocus: Int = NO_POSITION
+    private var currentPosition: Int = NO_POSITION
 
     fun setItems(formattedText: String) {
         setItemsInternal(RecyclerItemMapper.toItems(formattedText))
@@ -122,7 +122,7 @@ internal class ChecklistManager(
 
     override fun onItemFocusChanged(position: Int, hasFocus: Boolean) {
         if (hasFocus) {
-            itemPositionWithFocus = position
+            currentPosition = position
         }
     }
 
@@ -130,7 +130,7 @@ internal class ChecklistManager(
         val sortedItems: List<BaseRecyclerItem> = if (items.isNotEmpty()) {
             items.filterIsInstance<ChecklistRecyclerItem>()
         } else {
-            itemPositionWithFocus = 0
+            currentPosition = 0
             listOf(
                 ChecklistRecyclerItem(
                     String()
@@ -141,8 +141,8 @@ internal class ChecklistManager(
 
         adapter.items = sortedItems
 
-        if (itemPositionWithFocus != -1) {
-            requestFocusForPositionInAdapter(itemPositionWithFocus)
+        if (currentPosition != -1) {
+            requestFocusForPositionInAdapter(currentPosition)
         }
     }
 
@@ -216,7 +216,7 @@ internal class ChecklistManager(
                 }
 
             if (validPositionMap.isEmpty()) {    // No items with the same 'isChecked' flag
-                itemPositionWithFocus = -1
+                currentPosition = -1
                 hideKeyboard()
             } else {
                 requestFocusForPositionInAdapter(validPositionMap.first())

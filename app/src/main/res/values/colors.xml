@@ -9,6 +9,5 @@
 
     <color name="cl_text_checklist_item_new_text_light">@color/md_grey_600</color>
 
-    <color name="cl_image_tint_light">@color/md_grey_700</color>
-    <color name="cl_image_tint_variant_light">@color/md_grey_400</color>
+    <color name="cl_icon_tint_light">@color/md_grey_700</color>
 </resources>
