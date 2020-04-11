@@ -4,6 +4,8 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import com.dvdb.checklist.R
 import com.dvdb.checklist.recycler.holder.base.BaseRecyclerHolder
 import com.dvdb.checklist.recycler.holder.base.factory.BaseRecyclerHolderFactory
@@ -18,7 +20,17 @@ internal class ChecklistNewRecyclerHolder private constructor(
     private val onItemClicked: (position: Int) -> Unit
 ) : BaseRecyclerHolder<ChecklistNewRecyclerItem, ChecklistNewRecyclerHolderConfig>(itemView, config) {
 
+    private val addIcon: ImageView = itemView.item_checklist_new_add
+    private val text: TextView = itemView.item_checklist_new_text
+
     init {
+        initialiseView()
+    }
+
+    override fun bindView(item: ChecklistNewRecyclerItem) {
+    }
+
+    override fun onConfigUpdated() {
         initialiseView()
     }
 
@@ -33,29 +45,20 @@ internal class ChecklistNewRecyclerHolder private constructor(
     }
 
     private fun initialiseAdd() {
-        itemView.item_checklist_new_add.drawable.setTintCompat(config.addTintColor)
+        addIcon.drawable.setTintCompat(config.addTintColor)
     }
 
     private fun initialiseText() {
-        itemView.item_checklist_new_text.text = config.text
-
-        itemView.item_checklist_new_text.setTextSize(TypedValue.COMPLEX_UNIT_PX, config.textSize)
-
-        itemView.item_checklist_new_text.setTextColor(config.textColor)
+        text.text = config.text
+        text.setTextSize(TypedValue.COMPLEX_UNIT_PX, config.textSize)
+        text.setTextColor(config.textColor)
 
         config.typeFace?.let {
-            itemView.item_checklist_new_text.typeface = it
+            text.typeface = it
         }
     }
 
-    override fun bindView(item: ChecklistNewRecyclerItem) {
-    }
-
-    override fun onConfigUpdated() {
-        initialiseView()
-    }
-
-    internal class Factory(
+    class Factory(
         private val onItemClicked: (position: Int) -> Unit
     ) : BaseRecyclerHolderFactory<ChecklistNewRecyclerItem, ChecklistNewRecyclerHolderConfig> {
 

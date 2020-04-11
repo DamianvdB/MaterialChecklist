@@ -6,10 +6,26 @@ import android.widget.TextView
 
 internal class EnterActionPerformedFactory {
 
-    fun create(onEnterActionPerformed: () -> Unit) = TextView.OnEditorActionListener { _, actionId, event ->
-        if (actionId == EditorInfo.IME_ACTION_NEXT || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
-            onEnterActionPerformed()
+    fun create(
+        runnable: () -> Boolean,
+        preConditions: () -> Boolean = { false }
+    ) = TextView.OnEditorActionListener { _, actionId, event ->
+        if (preConditions()) {
+            return@OnEditorActionListener false
         }
-        return@OnEditorActionListener true
+
+        if (event == null) {
+            if (actionId != EditorInfo.IME_ACTION_NEXT && actionId != EditorInfo.IME_ACTION_DONE) {
+                return@OnEditorActionListener false
+            }
+        } else if (actionId == EditorInfo.IME_NULL || actionId == KeyEvent.KEYCODE_ENTER) {
+            if (event.action != KeyEvent.ACTION_DOWN) {
+                return@OnEditorActionListener true
+            }
+        } else {
+            return@OnEditorActionListener false
+        }
+
+        return@OnEditorActionListener runnable()
     }
 }

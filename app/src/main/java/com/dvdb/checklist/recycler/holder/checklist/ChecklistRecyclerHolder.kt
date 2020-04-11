@@ -6,6 +6,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.checklist.R
 import com.dvdb.checklist.recycler.holder.base.BaseRecyclerHolder
@@ -18,6 +19,8 @@ import com.dvdb.checklist.util.SimpleTextChangedListener
 import com.dvdb.checklist.util.setTintCompat
 import com.dvdb.checklist.util.setVisible
 import com.dvdb.checklist.util.showKeyboard
+import com.dvdb.checklist.widget.CheckboxWidget
+import com.dvdb.checklist.widget.EditTextWidget
 import kotlinx.android.synthetic.main.item_checklist.view.*
 
 internal class ChecklistRecyclerHolder private constructor(
@@ -27,8 +30,34 @@ internal class ChecklistRecyclerHolder private constructor(
     private val listener: ChecklistRecyclerHolderItemListener
 ) : BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderConfig>(itemView, config) {
 
+    private val dragIndicatorIcon: ImageView = itemView.item_checklist_drag_indicator
+    private val checkbox: CheckboxWidget = itemView.item_checklist_checkbox
+    private val text: EditTextWidget = itemView.item_checklist_text
+    private val deleteIcon: ImageView = itemView.item_checklist_delete
+
     init {
         initialiseView()
+    }
+
+    override fun bindView(item: ChecklistRecyclerItem) {
+        text.setText(item.text)
+        checkbox.setChecked(item.isChecked, false)
+
+        updateDragIndicatorVisibility(item.isChecked)
+        updateTextAppearanceForCheckedState(item.isChecked)
+    }
+
+    override fun onConfigUpdated() {
+        initialiseView()
+    }
+
+    fun requestFocus(isStartSelection: Boolean, isShowKeyboard: Boolean) {
+        text.requestFocus()
+        text.setSelection(if (isStartSelection) 0 else text.length())
+
+        if (isShowKeyboard) {
+            text.showKeyboard()
+        }
     }
 
     private fun initialiseView() {
@@ -39,26 +68,26 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     private fun initialiseDragIndicator() {
-        itemView.item_checklist_drag_indicator.drawable.setTintCompat(config.dragIndicatorTintColor)
+        dragIndicatorIcon.drawable.setTintCompat(config.dragIndicatorTintColor)
     }
 
     private fun initialiseCheckbox() {
-        itemView.item_checklist_checkbox.setOnCheckedChangeListener { _, isChecked ->
+        checkbox.setOnCheckedChangeListener { _, isChecked ->
             listener.onItemChecked(adapterPosition, isChecked)
         }
     }
 
     private fun initialiseText() {
-        itemView.item_checklist_text.setTextSize(TypedValue.COMPLEX_UNIT_PX, config.textSize)
+        text.setTextSize(TypedValue.COMPLEX_UNIT_PX, config.textSize)
 
         config.typeFace?.let {
-            itemView.item_checklist_text.typeface = it
+            text.typeface = it
         }
 
-        itemView.item_checklist_text.addTextChangedListener(
+        text.addTextChangedListener(
             object : SimpleTextChangedListener() {
                 override fun afterTextChanged(s: Editable?) {
-                    if (itemView.item_checklist_text.isFocused && adapterPosition != RecyclerView.NO_POSITION) {
+                    if (text.isFocused && adapterPosition != RecyclerView.NO_POSITION) {
                         s?.let { text ->
                             listener.onItemTextChanged(adapterPosition, text.toString())
                         }
@@ -66,62 +95,47 @@ internal class ChecklistRecyclerHolder private constructor(
                 }
             })
 
-        itemView.item_checklist_text.setOnFocusChangeListener { _, hasFocus ->
-            itemView.item_checklist_delete.setVisible(
+        text.setOnFocusChangeListener { _, hasFocus ->
+            deleteIcon.setVisible(
                 hasFocus,
                 View.INVISIBLE
             )
             listener.onItemFocusChanged(adapterPosition, hasFocus)
         }
 
-        itemView.item_checklist_text.setOnEditorActionListener(enterActionActionFactory.create {
-            listener.onItemEnterKeyPressed(adapterPosition, itemView.item_checklist_text)
-        })
+        text.setOnEditorActionListener(
+            enterActionActionFactory.create(
+                runnable = {
+                    listener.onItemEnterKeyPressed(adapterPosition, text)
+                    true
+                },
+                preConditions = {
+                    !text.isFocused
+                }
+            )
+        )
     }
 
     private fun initialiseDelete() {
-        itemView.item_checklist_delete.drawable.setTintCompat(config.deleteTintColor)
+        deleteIcon.drawable.setTintCompat(config.deleteTintColor)
 
-        itemView.item_checklist_delete.setOnClickListener {
+        deleteIcon.setOnClickListener {
             listener.onItemDeleteClicked(adapterPosition)
         }
     }
 
-    fun requestFocus(isStartSelection: Boolean, isShowKeyboard: Boolean) {
-        itemView.item_checklist_text.requestFocus()
-        itemView.item_checklist_text.setSelection(if (isStartSelection) 0 else itemView.item_checklist_text.length())
-
-        if (isShowKeyboard) {
-            itemView.item_checklist_text.showKeyboard()
-        }
-    }
-
-    override fun bindView(item: ChecklistRecyclerItem) {
-        itemView.item_checklist_text.setText(item.text)
-        itemView.item_checklist_checkbox.setChecked(item.isChecked, false)
-
-        updateDragIndicatorVisibility(item.isChecked)
-        updateTextAppearanceForCheckedState(item.isChecked)
-    }
-
     private fun updateDragIndicatorVisibility(isChecked: Boolean) {
-        itemView.item_checklist_drag_indicator.setVisible(!isChecked, View.INVISIBLE)
+        dragIndicatorIcon.setVisible(!isChecked, View.INVISIBLE)
     }
 
     private fun updateTextAppearanceForCheckedState(isChecked: Boolean) {
         if (isChecked) {
-            itemView.item_checklist_text.paintFlags =
-                itemView.item_checklist_text.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            itemView.item_checklist_text.setTextColor(config.checkedTextColor)
+            text.paintFlags = text.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            text.setTextColor(config.checkedTextColor)
         } else {
-            itemView.item_checklist_text.paintFlags =
-                itemView.item_checklist_text.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            itemView.item_checklist_text.setTextColor(config.uncheckedTextColor)
+            text.paintFlags = text.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            text.setTextColor(config.uncheckedTextColor)
         }
-    }
-
-    override fun onConfigUpdated() {
-        initialiseView()
     }
 
     class Factory(

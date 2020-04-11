@@ -22,10 +22,12 @@ class Checklist(
     attrs: AttributeSet?
 ) : FrameLayout(context, attrs) {
 
-    private val checklistManager: ChecklistManager = ChecklistManager {
-        hideKeyboard()
-        requestFocus()
-    }
+    private val checklistManager: ChecklistManager = ChecklistManager(
+        hideKeyboard = {
+            hideKeyboard()
+            requestFocus()
+        }
+    )
 
     init {
         initLayout()
@@ -34,6 +36,11 @@ class Checklist(
         addView(recyclerView)
 
         checklistManager.adapter = recyclerView.adapter as ChecklistItemAdapter
+        checklistManager.scrollToPosition = { position ->
+            if (position != RecyclerView.NO_POSITION) {
+                recyclerView.layoutManager?.scrollToPosition(position)
+            }
+        }
 
         if (isInEditMode) {
             setItems(
@@ -56,6 +63,7 @@ class Checklist(
 
     private fun initLayout() {
         isFocusableInTouchMode = true
+        requestFocus()
     }
 
     private fun createRecyclerView(config: ChecklistItemAdapterConfig): RecyclerView {

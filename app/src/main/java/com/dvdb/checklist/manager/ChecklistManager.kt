@@ -8,7 +8,10 @@ import com.dvdb.checklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.checklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.checklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
 import com.dvdb.checklist.util.DefaultRecyclerItemComparator
+import com.dvdb.checklist.util.DelayHandler
 import com.dvdb.checklist.util.RecyclerItemMapper
+
+private const val NO_POSITION = -1
 
 internal class ChecklistManager(
     private val hideKeyboard: () -> Unit
@@ -32,8 +35,11 @@ internal class ChecklistManager(
     }
 
     lateinit var adapter: ChecklistItemAdapter
+    lateinit var scrollToPosition: (position: Int) -> Unit
 
-    private var itemPositionWithFocus: Int = -1
+    private val delayHandler: DelayHandler = DelayHandler()
+
+    private var itemPositionWithFocus: Int = NO_POSITION
 
     fun setItems(formattedText: String) {
         setItemsInternal(RecyclerItemMapper.toItems(formattedText))
@@ -249,10 +255,14 @@ internal class ChecklistManager(
         isStartSelection: Boolean = false,
         isShowKeyboard: Boolean = false
     ) {
-        adapter.requestFocus = ChecklistItemAdapterRequestFocus(
-            position = position,
-            isStartSelection = isStartSelection,
-            isShowKeyboard = isShowKeyboard
-        )
+        scrollToPosition(position)
+
+        delayHandler.run {
+            adapter.requestFocus = ChecklistItemAdapterRequestFocus(
+                position = position,
+                isStartSelection = isStartSelection,
+                isShowKeyboard = isShowKeyboard
+            )
+        }
     }
 }
