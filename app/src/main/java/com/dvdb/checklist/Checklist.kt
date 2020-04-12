@@ -21,14 +21,14 @@ class Checklist(
     attrs: AttributeSet?
 ) : FrameLayout(context, attrs) {
 
-    private val manager: ChecklistManager = ChecklistManager(
+    internal val manager: ChecklistManager = ChecklistManager(
         hideKeyboard = {
             hideKeyboard()
             requestFocus()
         }
     )
 
-    private val config: ChecklistConfig = ChecklistConfig(
+    internal val config: ChecklistConfig = ChecklistConfig(
         context = context,
         attrs = attrs
     )

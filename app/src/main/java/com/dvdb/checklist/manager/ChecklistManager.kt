@@ -82,12 +82,10 @@ internal class ChecklistManager(
     }
 
     fun setConfig(config: ChecklistManagerConfig) {
-        if (this.config != config) {
-            this.config = config
+        this.config = config
 
-            enableDragAndDrop(config.dragAndDropEnabled)
-            adapter.config = config.adapterConfig
-        }
+        enableDragAndDrop(config.dragAndDropEnabled)
+        adapter.config = config.adapterConfig
     }
 
     override fun onItemChecked(position: Int, isChecked: Boolean) {
