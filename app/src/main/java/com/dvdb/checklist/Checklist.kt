@@ -9,15 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.checklist.manager.ChecklistManager
 import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapter
-import com.dvdb.checklist.recycler.adapter.config.ChecklistItemAdapterConfig
 import com.dvdb.checklist.recycler.holder.checklist.ChecklistRecyclerHolder
-import com.dvdb.checklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
 import com.dvdb.checklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
-import com.dvdb.checklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderConfig
 import com.dvdb.checklist.recycler.holder.util.EnterActionPerformedFactory
 import com.dvdb.checklist.recycler.util.ItemTouchHelperAdapter
 import com.dvdb.checklist.recycler.util.SimpleItemTouchHelper
-import com.dvdb.checklist.util.getColorCompat
 import com.dvdb.checklist.util.hideKeyboard
 
 class Checklist(
@@ -25,21 +21,28 @@ class Checklist(
     attrs: AttributeSet?
 ) : FrameLayout(context, attrs) {
 
-    private val checklistManager: ChecklistManager = ChecklistManager(
+    private val manager: ChecklistManager = ChecklistManager(
         hideKeyboard = {
             hideKeyboard()
             requestFocus()
         }
     )
 
+    private val config: ChecklistConfig = ChecklistConfig(
+        context = context,
+        attrs = attrs
+    )
+
     init {
         initLayout()
 
-        val recyclerView = createRecyclerView(createConfig(context, attrs))
+        val recyclerView = createRecyclerView()
         addView(recyclerView)
 
-        val itemTouchHelper = createItemTouchHelper(recyclerView)
-        initChecklistManager(recyclerView, itemTouchHelper)
+        val itemTouchCallback = SimpleItemTouchHelper(recyclerView.adapter as ItemTouchHelperAdapter)
+        val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+        initManager(recyclerView, itemTouchHelper, itemTouchCallback)
 
         if (isInEditMode) {
             setItems(
@@ -53,14 +56,14 @@ class Checklist(
     }
 
     fun setItems(formattedText: String) {
-        checklistManager.setItems(formattedText)
+        manager.setItems(formattedText)
     }
 
     fun getFormattedTextItems(
         keepCheckedItems: Boolean = true,
         skipCheckedItems: Boolean = false
     ): String {
-        return checklistManager.getFormattedTextItems(
+        return manager.getFormattedTextItems(
             keepCheckedItems,
             skipCheckedItems
         )
@@ -71,133 +74,48 @@ class Checklist(
         requestFocus()
     }
 
-    private fun createRecyclerView(config: ChecklistItemAdapterConfig): RecyclerView {
+    private fun createRecyclerView(): RecyclerView {
         val recyclerView = RecyclerView(context)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
         recyclerView.adapter = ChecklistItemAdapter(
-            config = config,
+            config = config.toAdapterConfig(),
             itemRecyclerHolderFactory = ChecklistRecyclerHolder.Factory(
                 EnterActionPerformedFactory(),
-                checklistManager
+                manager
             ),
             itemNewRecyclerHolderFactory = ChecklistNewRecyclerHolder.Factory(
-                checklistManager.onNewChecklistListItemClicked
+                manager.onNewChecklistListItemClicked
             ),
-            itemDragListener = checklistManager
+            itemDragListener = manager
         )
 
         return recyclerView
     }
 
-    private fun createConfig(
-        context: Context,
-        attrs: AttributeSet?
-    ): ChecklistItemAdapterConfig {
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.Checklist)
-
-        val textColor = attributes.getColor(
-            R.styleable.Checklist_text_color,
-            context.getColorCompat(R.color.cl_text_checklist_item_text_light)
-        )
-
-        val textSize = attributes.getDimension(
-            R.styleable.Checklist_text_size_px,
-            context.resources.getDimension(R.dimen.item_checklist_text_size)
-        )
-
-        val textNewItem = attributes.getString(
-            R.styleable.Checklist_text_new_item
-        ) ?: context.getString(R.string.item_checklist_new_text)
-
-        val textAlphaCheckedItem = attributes.getFloat(
-            R.styleable.Checklist_text_alpha_checked_item,
-            0.4F
-        )
-
-        val textAlphaNewItem = attributes.getFloat(
-            R.styleable.Checklist_text_alpha_new_item,
-            0.5F
-        )
-
-        val iconTintColor = attributes.getColor(
-            R.styleable.Checklist_icon_tint_color,
-            context.getColorCompat(R.color.cl_icon_tint_light)
-        )
-
-        val iconAlphaDragIndicator = attributes.getFloat(
-            R.styleable.Checklist_icon_alpha_drag_indicator,
-            0.5F
-        )
-
-        val iconAlphaDelete = attributes.getFloat(
-            R.styleable.Checklist_icon_alpha_delete,
-            0.9F
-        )
-
-        val iconAlphaAdd = attributes.getFloat(
-            R.styleable.Checklist_icon_alpha_add,
-            0.7F
-        )
-
-        val checkboxTintColor = attributes.getColor(
-            R.styleable.Checklist_checkbox_tint_color,
-            0
-        ).run { if (this == 0) null else this }
-
-        val checkboxAlphaCheckedItem = attributes.getFloat(
-            R.styleable.Checklist_checkbox_alpha_checked_item,
-            0.4F
-        )
-
-        try {
-            return ChecklistItemAdapterConfig(
-                checklistConfig = ChecklistRecyclerHolderConfig(
-                    textColor = textColor,
-                    textSize = textSize,
-                    textAlphaCheckedItem = textAlphaCheckedItem,
-                    iconTintColor = iconTintColor,
-                    iconAlphaDragIndicator = iconAlphaDragIndicator,
-                    iconAlphaDelete = iconAlphaDelete,
-                    checkboxAlphaCheckedItem = checkboxAlphaCheckedItem,
-                    checkboxTintColor = checkboxTintColor
-                ),
-                checklistNewConfig = ChecklistNewRecyclerHolderConfig(
-                    text = textNewItem,
-                    textColor = textColor,
-                    textSize = textSize,
-                    textAlpha = textAlphaNewItem,
-                    iconTintColor = iconTintColor,
-                    iconAlphaAdd = iconAlphaAdd
-                )
-            )
-        } finally {
-            attributes.recycle()
-        }
-    }
-
-    private fun createItemTouchHelper(recyclerView: RecyclerView): ItemTouchHelper {
-        val itemTouchHelper = ItemTouchHelper(SimpleItemTouchHelper(recyclerView.adapter as ItemTouchHelperAdapter))
-        itemTouchHelper.attachToRecyclerView(recyclerView)
-
-        return itemTouchHelper
-    }
-
-    private fun initChecklistManager(recyclerView: RecyclerView, itemTouchHelper: ItemTouchHelper) {
-        checklistManager.adapter = recyclerView.adapter as ChecklistItemAdapter
-
-        checklistManager.startDragAndDrop = { position ->
-            val viewHolder = recyclerView.findViewHolderForAdapterPosition(position)
-            if (viewHolder != null) {
-                itemTouchHelper.startDrag(viewHolder)
+    private fun initManager(
+        recyclerView: RecyclerView,
+        itemTouchHelper: ItemTouchHelper,
+        itemTouchCallback: SimpleItemTouchHelper
+    ) {
+        manager.lateInitState(
+            adapter = recyclerView.adapter as ChecklistItemAdapter,
+            config = config.toManagerConfig(),
+            scrollToPosition = { position ->
+                if (position != RecyclerView.NO_POSITION) {
+                    recyclerView.layoutManager?.scrollToPosition(position)
+                }
+            },
+            startDragAndDrop = { position ->
+                val viewHolder = recyclerView.findViewHolderForAdapterPosition(position)
+                if (viewHolder != null) {
+                    itemTouchHelper.startDrag(viewHolder)
+                }
+            },
+            enableDragAndDrop = { isEnabled ->
+                itemTouchCallback.setIsDragEnabled(isEnabled)
             }
-        }
-
-        checklistManager.scrollToPosition = { position ->
-            if (position != RecyclerView.NO_POSITION) {
-                recyclerView.layoutManager?.scrollToPosition(position)
-            }
-        }
+        )
     }
 }

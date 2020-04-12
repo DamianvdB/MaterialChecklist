@@ -1,6 +1,7 @@
 package com.dvdb.checklist.manager
 
 import android.widget.TextView
+import com.dvdb.checklist.manager.config.ChecklistManagerConfig
 import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapterDragListener
 import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapterRequestFocus
@@ -37,13 +38,33 @@ internal class ChecklistManager(
         )
     }
 
-    lateinit var adapter: ChecklistItemAdapter
-    lateinit var startDragAndDrop: (position: Int) -> Unit
-    lateinit var scrollToPosition: (position: Int) -> Unit
+    private lateinit var adapter: ChecklistItemAdapter
+    private lateinit var config: ChecklistManagerConfig
+    private lateinit var scrollToPosition: (position: Int) -> Unit
+    private lateinit var startDragAndDrop: (position: Int) -> Unit
+    private lateinit var enableDragAndDrop: (isEnabled: Boolean) -> Unit
 
     private val delayHandler: DelayHandler = DelayHandler()
 
     private var currentPosition: Int = NO_POSITION
+
+    fun lateInitState(
+        adapter: ChecklistItemAdapter,
+        config: ChecklistManagerConfig,
+        scrollToPosition: (position: Int) -> Unit,
+        startDragAndDrop: (position: Int) -> Unit,
+        enableDragAndDrop: (isEnabled: Boolean) -> Unit
+    ) {
+        if (this::adapter.isInitialized) {
+            error("Checklist manager state should only be initialised once")
+        }
+
+        this.adapter = adapter
+        this.config = config
+        this.scrollToPosition = scrollToPosition
+        this.startDragAndDrop = startDragAndDrop
+        this.enableDragAndDrop = enableDragAndDrop
+    }
 
     fun setItems(formattedText: String) {
         setItemsInternal(RecyclerItemMapper.toItems(formattedText))
@@ -58,6 +79,15 @@ internal class ChecklistManager(
             keepCheckSymbols = keepCheckedItems,
             skipCheckedItems = skipCheckedItems
         )
+    }
+
+    fun setConfig(config: ChecklistManagerConfig) {
+        if (this.config != config) {
+            this.config = config
+
+            enableDragAndDrop(config.dragAndDropEnabled)
+            adapter.config = config.adapterConfig
+        }
     }
 
     override fun onItemChecked(position: Int, isChecked: Boolean) {

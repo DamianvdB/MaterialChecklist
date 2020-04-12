@@ -1,11 +1,10 @@
 package com.dvdb.checklist.recycler.adapter
 
-import android.graphics.Color
-import android.os.Build
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.checklist.recycler.adapter.base.BaseRecyclerAdapter
 import com.dvdb.checklist.recycler.adapter.config.ChecklistItemAdapterConfig
+import com.dvdb.checklist.recycler.holder.DraggableRecyclerHolder
 import com.dvdb.checklist.recycler.holder.checklist.ChecklistRecyclerHolder
 import com.dvdb.checklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
 import com.dvdb.checklist.recycler.item.base.BaseRecyclerItem
@@ -81,18 +80,16 @@ internal class ChecklistItemAdapter(
     override fun onDragStart(viewHolder: RecyclerView.ViewHolder) {
         itemDragListener.onItemDragStart()
 
-        viewHolder.itemView.setBackgroundColor(Color.WHITE)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            viewHolder.itemView.elevation = 6F
+        if (viewHolder is DraggableRecyclerHolder) {
+            viewHolder.onDragStart()
         }
     }
 
     override fun onDragStop(viewHolder: RecyclerView.ViewHolder) {
         itemDragListener.onItemDragStop()
 
-        viewHolder.itemView.setBackgroundColor(Color.TRANSPARENT)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            viewHolder.itemView.elevation = 0F
+        if (viewHolder is DraggableRecyclerHolder) {
+            viewHolder.onDragStop()
         }
     }
 }

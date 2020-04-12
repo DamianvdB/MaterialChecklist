@@ -4,8 +4,19 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 internal class SimpleItemTouchHelper(
-    private val adapter: ItemTouchHelperAdapter
+    private val adapter: ItemTouchHelperAdapter,
+    isDragEnabled: Boolean = true
 ) : ItemTouchHelper.Callback() {
+
+    private var dragFlags: Int = 0
+
+    init {
+        setIsDragEnabled(isDragEnabled)
+    }
+
+    fun setIsDragEnabled(isEnabled: Boolean) {
+        dragFlags = if (isEnabled) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0
+    }
 
     override fun isLongPressDragEnabled(): Boolean = false
 
@@ -15,7 +26,6 @@ internal class SimpleItemTouchHelper(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
         val swipeFlags = 0
         return makeMovementFlags(dragFlags, swipeFlags)
     }

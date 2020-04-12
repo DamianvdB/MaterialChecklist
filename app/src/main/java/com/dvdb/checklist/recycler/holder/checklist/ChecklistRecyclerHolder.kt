@@ -2,6 +2,8 @@ package com.dvdb.checklist.recycler.holder.checklist
 
 import android.content.res.ColorStateList
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.text.Editable
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -12,6 +14,7 @@ import android.widget.ImageView
 import androidx.core.widget.CompoundButtonCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.checklist.R
+import com.dvdb.checklist.recycler.holder.DraggableRecyclerHolder
 import com.dvdb.checklist.recycler.holder.base.BaseRecyclerHolder
 import com.dvdb.checklist.recycler.holder.base.factory.BaseRecyclerHolderFactory
 import com.dvdb.checklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
@@ -33,7 +36,11 @@ internal class ChecklistRecyclerHolder private constructor(
     config: ChecklistRecyclerHolderConfig,
     private val enterActionActionFactory: EnterActionPerformedFactory,
     private val listener: ChecklistRecyclerHolderItemListener
-) : BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderConfig>(itemView, config) {
+) : BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderConfig>(itemView, config),
+    DraggableRecyclerHolder {
+
+    private val defaultBackground: Drawable? = itemView.background
+    private val defaultElevation: Float? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) itemView.elevation else null
 
     private val dragIndicatorIcon: ImageView = itemView.item_checklist_drag_indicator
     private val checkbox: CheckboxWidget = itemView.item_checklist_checkbox
@@ -45,7 +52,7 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     override fun bindView(item: ChecklistRecyclerItem) {
-        dragIndicatorIcon.setVisible(!item.isChecked, View.INVISIBLE)
+        dragIndicatorIcon.setVisible(!item.isChecked && config.iconVisibleDragIndicator, View.INVISIBLE)
 
         checkbox.setChecked(item.isChecked, false)
         checkbox.alpha = if (item.isChecked) config.checkboxAlphaCheckedItem else DEFAULT_ALPHA
@@ -56,6 +63,30 @@ internal class ChecklistRecyclerHolder private constructor(
 
     override fun onConfigUpdated() {
         initialiseView()
+    }
+
+    override fun onDragStart() {
+        config.dragActiveBackgroundColor?.let {
+            itemView.setBackgroundColor(it)
+        }
+
+        config.dragActiveElevation?.let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                itemView.elevation = it
+            }
+        }
+    }
+
+    override fun onDragStop() {
+        if (config.dragActiveBackgroundColor != null) {
+            itemView.background = defaultBackground
+        }
+
+        if (config.dragActiveElevation != null && defaultElevation != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                itemView.elevation = defaultElevation
+            }
+        }
     }
 
     fun requestFocus(isStartSelection: Boolean, isShowKeyboard: Boolean) {
@@ -77,6 +108,7 @@ internal class ChecklistRecyclerHolder private constructor(
     private fun initialiseDragIndicator() {
         dragIndicatorIcon.drawable.setTintCompat(config.iconTintColor)
         dragIndicatorIcon.alpha = config.iconAlphaDragIndicator
+        dragIndicatorIcon.setVisible(config.iconVisibleDragIndicator, View.INVISIBLE)
 
         dragIndicatorIcon.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {

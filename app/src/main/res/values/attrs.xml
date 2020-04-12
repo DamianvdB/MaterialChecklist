@@ -13,6 +13,9 @@
         <attr name="icon_alpha_add" format="float" />
         <attr name="checkbox_tint_color" format="color" />
         <attr name="checkbox_alpha_checked_item" format="float" />
+        <attr name="drag_and_drop_enabled" format="boolean" />
+        <attr name="drag_and_drop_item_active_background_color" format="color" />
+        <attr name="drag_and_drop_item_active_elevation" format="float" />
     </declare-styleable>
 
 </resources>

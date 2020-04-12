@@ -14,8 +14,8 @@ internal object RecyclerItemMapper {
 
     fun toFormattedText(
         items: List<BaseRecyclerItem>,
-        keepCheckSymbols: Boolean = true,
-        skipCheckedItems: Boolean = false
+        keepCheckSymbols: Boolean,
+        skipCheckedItems: Boolean
     ): String {
         return items.filterIsInstance<ChecklistRecyclerItem>()
             .joinToString(separator = ITEM_SEPARATOR_CHARACTER) { item ->

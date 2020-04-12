@@ -22,7 +22,11 @@ class RecyclerItemMapperTest {
     fun toFormattedText_empty() {
         val expectedContents = ""
         val inputItems = emptyList<BaseRecyclerItem>()
-        val actualContents = RecyclerItemMapper.toFormattedText(inputItems)
+        val actualContents = RecyclerItemMapper.toFormattedText(
+            inputItems,
+            keepCheckSymbols = true,
+            skipCheckedItems = false
+        )
 
         Assert.assertEquals(expectedContents, actualContents)
     }
@@ -89,7 +93,11 @@ class RecyclerItemMapperTest {
             ChecklistRecyclerItem("[ ] Buy Coca-Cola", false),
             ChecklistRecyclerItem("[] Buy Portuguese buns", true)
         )
-        val actualContents = RecyclerItemMapper.toFormattedText(inputItems)
+        val actualContents = RecyclerItemMapper.toFormattedText(
+            items = inputItems,
+            keepCheckSymbols = true,
+            skipCheckedItems = false
+        )
 
         Assert.assertEquals(expectedContents, actualContents)
     }
