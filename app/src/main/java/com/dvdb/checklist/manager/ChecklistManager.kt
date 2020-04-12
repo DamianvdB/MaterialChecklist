@@ -22,7 +22,7 @@ internal class ChecklistManager(
 
     val onNewChecklistListItemClicked: (position: Int) -> Unit = { position ->
         updateItemInAdapter(
-            ChecklistRecyclerItem(String()),
+            ChecklistRecyclerItem(""),
             position
         )
 
@@ -49,8 +49,15 @@ internal class ChecklistManager(
         setItemsInternal(RecyclerItemMapper.toItems(formattedText))
     }
 
-    fun getFormattedTextItems(): String {
-        return RecyclerItemMapper.toFormattedText(adapter.items.filterIsInstance<ChecklistRecyclerItem>())
+    fun getFormattedTextItems(
+        keepCheckedItems: Boolean,
+        skipCheckedItems: Boolean
+    ): String {
+        return RecyclerItemMapper.toFormattedText(
+            items = adapter.items.filterIsInstance<ChecklistRecyclerItem>(),
+            keepCheckSymbols = keepCheckedItems,
+            skipCheckedItems = skipCheckedItems
+        )
     }
 
     override fun onItemChecked(position: Int, isChecked: Boolean) {
@@ -169,7 +176,7 @@ internal class ChecklistManager(
             currentPosition = 0
             listOf(
                 ChecklistRecyclerItem(
-                    String()
+                    ""
                 )
             )
         }.plus(ChecklistNewRecyclerItem())
@@ -221,7 +228,7 @@ internal class ChecklistManager(
                 val itemInsertionPosition = 0
 
                 addItemToAdapter(
-                    ChecklistRecyclerItem(String()),
+                    ChecklistRecyclerItem(""),
                     itemInsertionPosition
                 )
 

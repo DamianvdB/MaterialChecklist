@@ -56,8 +56,14 @@ class Checklist(
         checklistManager.setItems(formattedText)
     }
 
-    fun getFormattedTextItems(): String {
-        return checklistManager.getFormattedTextItems()
+    fun getFormattedTextItems(
+        keepCheckedItems: Boolean = true,
+        skipCheckedItems: Boolean = false
+    ): String {
+        return checklistManager.getFormattedTextItems(
+            keepCheckedItems,
+            skipCheckedItems
+        )
     }
 
     private fun initLayout() {

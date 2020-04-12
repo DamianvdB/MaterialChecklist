@@ -1,5 +1,6 @@
 package com.dvdb.checklist.util
 
+import com.dvdb.checklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.checklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.checklist.recycler.util.RecyclerItemMapper
 import org.junit.Assert
@@ -18,10 +19,62 @@ class RecyclerItemMapperTest {
     private val validChecklistContents = "[x] Buy beer\n[x] Buy steak\n[x] Buy brandy\n[ ] Buy Coca-Cola\n[x] Buy Portuguese buns"
 
     @Test
-    fun toFormattedText() {
+    fun toFormattedText_empty() {
+        val expectedContents = ""
+        val inputItems = emptyList<BaseRecyclerItem>()
+        val actualContents = RecyclerItemMapper.toFormattedText(inputItems)
+
+        Assert.assertEquals(expectedContents, actualContents)
+    }
+
+    @Test
+    fun toFormattedText_withKeepCheckedSymbolsTrue_andSkipCheckedItemsFalse() {
         val expectedContents = validChecklistContents
         val inputItems = validChecklistItems
-        val actualContents = RecyclerItemMapper.toFormattedText(inputItems)
+        val actualContents = RecyclerItemMapper.toFormattedText(
+            items = inputItems,
+            keepCheckSymbols = true,
+            skipCheckedItems = false
+        )
+
+        Assert.assertEquals(expectedContents, actualContents)
+    }
+
+    @Test
+    fun toFormattedText_withKeepCheckSymbolsFalse_andSkipCheckedItemsFalse() {
+        val expectedContents = validChecklistContents.replace("[x] ", "").replace("[ ] ", "")
+        val inputItems = validChecklistItems
+        val actualContents = RecyclerItemMapper.toFormattedText(
+            items = inputItems,
+            keepCheckSymbols = false,
+            skipCheckedItems = false
+        )
+
+        Assert.assertEquals(expectedContents, actualContents)
+    }
+
+    @Test
+    fun toFormattedText_withKeepCheckSymbolsFalse_andSkipCheckedItemsTrue() {
+        val expectedContents = "Buy Coca-Cola\n"
+        val inputItems = validChecklistItems
+        val actualContents = RecyclerItemMapper.toFormattedText(
+            items = inputItems,
+            keepCheckSymbols = false,
+            skipCheckedItems = true
+        )
+
+        Assert.assertEquals(expectedContents, actualContents)
+    }
+
+    @Test
+    fun toFormattedText_withSkipCheckedItemsTrue_andSkipCheckedItemsTrue() {
+        val expectedContents = "[ ] Buy Coca-Cola\n"
+        val inputItems = validChecklistItems
+        val actualContents = RecyclerItemMapper.toFormattedText(
+            items = inputItems,
+            keepCheckSymbols = true,
+            skipCheckedItems = true
+        )
 
         Assert.assertEquals(expectedContents, actualContents)
     }
@@ -45,6 +98,15 @@ class RecyclerItemMapperTest {
     fun toItems() {
         val expectedItems = validChecklistItems
         val inputText = validChecklistContents
+        val actualItems = RecyclerItemMapper.toItems(inputText)
+
+        Assert.assertEquals(expectedItems, actualItems)
+    }
+
+    @Test
+    fun toItems_empty() {
+        val expectedItems = emptyList<BaseRecyclerItem>()
+        val inputText = ""
         val actualItems = RecyclerItemMapper.toItems(inputText)
 
         Assert.assertEquals(expectedItems, actualItems)

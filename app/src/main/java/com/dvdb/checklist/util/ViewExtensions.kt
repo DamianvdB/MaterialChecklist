@@ -4,7 +4,10 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 
-internal fun View.setVisible(isVisible: Boolean, hiddenVisibility: Int = View.GONE) {
+internal fun View.setVisible(
+    isVisible: Boolean,
+    hiddenVisibility: Int = View.GONE
+) {
     require(hiddenVisibility == View.GONE || hiddenVisibility == View.INVISIBLE)
     visibility = if (isVisible) View.VISIBLE else hiddenVisibility
 }
