@@ -1,4 +1,4 @@
-package com.dvdb.checklist.util
+package com.dvdb.checklist.recycler.util
 
 import com.dvdb.checklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.checklist.recycler.item.checklist.ChecklistRecyclerItem

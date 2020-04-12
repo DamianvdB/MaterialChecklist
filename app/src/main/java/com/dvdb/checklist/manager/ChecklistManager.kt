@@ -2,20 +2,23 @@ package com.dvdb.checklist.manager
 
 import android.widget.TextView
 import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapterDragListener
 import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapterRequestFocus
 import com.dvdb.checklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
 import com.dvdb.checklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.checklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.checklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
-import com.dvdb.checklist.util.DefaultRecyclerItemComparator
+import com.dvdb.checklist.recycler.util.DefaultRecyclerItemComparator
+import com.dvdb.checklist.recycler.util.RecyclerItemMapper
 import com.dvdb.checklist.util.DelayHandler
-import com.dvdb.checklist.util.RecyclerItemMapper
+import java.util.*
 
 private const val NO_POSITION = -1
 
 internal class ChecklistManager(
     private val hideKeyboard: () -> Unit
-) : ChecklistRecyclerHolderItemListener {
+) : ChecklistRecyclerHolderItemListener,
+    ChecklistItemAdapterDragListener {
 
     val onNewChecklistListItemClicked: (position: Int) -> Unit = { position ->
         updateItemInAdapter(
@@ -35,6 +38,7 @@ internal class ChecklistManager(
     }
 
     lateinit var adapter: ChecklistItemAdapter
+    lateinit var startDragAndDrop: (position: Int) -> Unit
     lateinit var scrollToPosition: (position: Int) -> Unit
 
     private val delayHandler: DelayHandler = DelayHandler()
@@ -124,6 +128,38 @@ internal class ChecklistManager(
         if (hasFocus) {
             currentPosition = position
         }
+    }
+
+    override fun onItemDragHandledClicked(position: Int) {
+        startDragAndDrop(position)
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        val items: MutableList<BaseRecyclerItem> = adapter.items.toMutableList()
+
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(items, i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(items, i, i - 1)
+            }
+        }
+
+        notifyItemMovedInAdapter(fromPosition, toPosition)
+        return true
+    }
+
+    override fun canDragOverTargetItem(currentPosition: Int, targetPosition: Int): Boolean {
+        val currentChecklistItem = adapter.items.getOrNull(currentPosition) as? ChecklistRecyclerItem
+        val targetChecklistItem = adapter.items.getOrNull(targetPosition) as? ChecklistRecyclerItem
+
+        return currentChecklistItem?.isChecked == false && targetChecklistItem?.isChecked == false
+    }
+
+    override fun onItemDragStart() {
+        hideKeyboard()
     }
 
     private fun setItemsInternal(items: List<BaseRecyclerItem>) {
@@ -264,5 +300,12 @@ internal class ChecklistManager(
                 isShowKeyboard = isShowKeyboard
             )
         }
+    }
+
+    private fun notifyItemMovedInAdapter(
+        fromPosition: Int,
+        toPosition: Int
+    ) {
+        adapter.notifyItemMoved(fromPosition, toPosition)
     }
 }

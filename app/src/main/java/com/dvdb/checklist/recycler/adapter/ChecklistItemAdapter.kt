@@ -1,5 +1,7 @@
 package com.dvdb.checklist.recycler.adapter
 
+import android.graphics.Color
+import android.os.Build
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.checklist.recycler.adapter.base.BaseRecyclerAdapter
@@ -9,13 +11,16 @@ import com.dvdb.checklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolde
 import com.dvdb.checklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.checklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.checklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
+import com.dvdb.checklist.recycler.util.ItemTouchHelperAdapter
 
 internal class ChecklistItemAdapter(
     config: ChecklistItemAdapterConfig,
     private val itemRecyclerHolderFactory: ChecklistRecyclerHolder.Factory,
     private val itemNewRecyclerHolderFactory: ChecklistNewRecyclerHolder.Factory,
+    private val itemDragListener: ChecklistItemAdapterDragListener,
     items: List<BaseRecyclerItem> = emptyList()
-) : BaseRecyclerAdapter<BaseRecyclerItem>(items) {
+) : BaseRecyclerAdapter<BaseRecyclerItem>(items),
+    ItemTouchHelperAdapter {
 
     var config: ChecklistItemAdapterConfig = config
         set(value) {
@@ -62,6 +67,32 @@ internal class ChecklistItemAdapter(
 
         } else {
             error("Unknown holder. Must be of type 'ChecklistRecyclerHolder' or 'ChecklistNewRecyclerHolder'")
+        }
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        return itemDragListener.onItemMove(fromPosition, toPosition)
+    }
+
+    override fun canDragOverTarget(current: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        return itemDragListener.canDragOverTargetItem(current.adapterPosition, target.adapterPosition)
+    }
+
+    override fun onDragStart(viewHolder: RecyclerView.ViewHolder) {
+        itemDragListener.onItemDragStart()
+
+        viewHolder.itemView.setBackgroundColor(Color.WHITE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewHolder.itemView.elevation = 6F
+        }
+    }
+
+    override fun onDragStop(viewHolder: RecyclerView.ViewHolder) {
+        itemDragListener.onItemDragStop()
+
+        viewHolder.itemView.setBackgroundColor(Color.TRANSPARENT)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewHolder.itemView.elevation = 0F
         }
     }
 }

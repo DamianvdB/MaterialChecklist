@@ -5,6 +5,7 @@ import android.graphics.Paint
 import android.text.Editable
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -76,6 +77,14 @@ internal class ChecklistRecyclerHolder private constructor(
     private fun initialiseDragIndicator() {
         dragIndicatorIcon.drawable.setTintCompat(config.iconTintColor)
         dragIndicatorIcon.alpha = config.iconAlphaDragIndicator
+
+        dragIndicatorIcon.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                listener.onItemDragHandledClicked(adapterPosition)
+                return@setOnTouchListener true
+            }
+            return@setOnTouchListener false
+        }
     }
 
     private fun initialiseCheckbox() {

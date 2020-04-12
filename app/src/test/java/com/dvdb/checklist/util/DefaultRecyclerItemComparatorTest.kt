@@ -3,6 +3,7 @@ package com.dvdb.checklist.util
 import com.dvdb.checklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.checklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.checklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
+import com.dvdb.checklist.recycler.util.DefaultRecyclerItemComparator
 import org.junit.Assert
 import org.junit.Test
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.checklist.manager.ChecklistManager
@@ -14,6 +15,8 @@ import com.dvdb.checklist.recycler.holder.checklist.config.ChecklistRecyclerHold
 import com.dvdb.checklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
 import com.dvdb.checklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderConfig
 import com.dvdb.checklist.recycler.holder.util.EnterActionPerformedFactory
+import com.dvdb.checklist.recycler.util.ItemTouchHelperAdapter
+import com.dvdb.checklist.recycler.util.SimpleItemTouchHelper
 import com.dvdb.checklist.util.getColorCompat
 import com.dvdb.checklist.util.hideKeyboard
 
@@ -35,12 +38,8 @@ class Checklist(
         val recyclerView = createRecyclerView(createConfig(context, attrs))
         addView(recyclerView)
 
-        checklistManager.adapter = recyclerView.adapter as ChecklistItemAdapter
-        checklistManager.scrollToPosition = { position ->
-            if (position != RecyclerView.NO_POSITION) {
-                recyclerView.layoutManager?.scrollToPosition(position)
-            }
-        }
+        val itemTouchHelper = createItemTouchHelper(recyclerView)
+        initChecklistManager(recyclerView, itemTouchHelper)
 
         if (isInEditMode) {
             setItems(
@@ -72,12 +71,15 @@ class Checklist(
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
         recyclerView.adapter = ChecklistItemAdapter(
-            config,
-            ChecklistRecyclerHolder.Factory(
+            config = config,
+            itemRecyclerHolderFactory = ChecklistRecyclerHolder.Factory(
                 EnterActionPerformedFactory(),
                 checklistManager
             ),
-            ChecklistNewRecyclerHolder.Factory(checklistManager.onNewChecklistListItemClicked)
+            itemNewRecyclerHolderFactory = ChecklistNewRecyclerHolder.Factory(
+                checklistManager.onNewChecklistListItemClicked
+            ),
+            itemDragListener = checklistManager
         )
 
         return recyclerView
@@ -166,6 +168,30 @@ class Checklist(
             )
         } finally {
             attributes.recycle()
+        }
+    }
+
+    private fun createItemTouchHelper(recyclerView: RecyclerView): ItemTouchHelper {
+        val itemTouchHelper = ItemTouchHelper(SimpleItemTouchHelper(recyclerView.adapter as ItemTouchHelperAdapter))
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
+        return itemTouchHelper
+    }
+
+    private fun initChecklistManager(recyclerView: RecyclerView, itemTouchHelper: ItemTouchHelper) {
+        checklistManager.adapter = recyclerView.adapter as ChecklistItemAdapter
+
+        checklistManager.startDragAndDrop = { position ->
+            val viewHolder = recyclerView.findViewHolderForAdapterPosition(position)
+            if (viewHolder != null) {
+                itemTouchHelper.startDrag(viewHolder)
+            }
+        }
+
+        checklistManager.scrollToPosition = { position ->
+            if (position != RecyclerView.NO_POSITION) {
+                recyclerView.layoutManager?.scrollToPosition(position)
+            }
         }
     }
 }

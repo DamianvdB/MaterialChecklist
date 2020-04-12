@@ -1,6 +1,7 @@
 package com.dvdb.checklist.util
 
 import com.dvdb.checklist.recycler.item.checklist.ChecklistRecyclerItem
+import com.dvdb.checklist.recycler.util.RecyclerItemMapper
 import org.junit.Assert
 import org.junit.Test
 
