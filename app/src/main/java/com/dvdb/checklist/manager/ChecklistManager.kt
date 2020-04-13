@@ -40,17 +40,24 @@ internal class ChecklistManager(
         )
     }
 
+    var onItemDeleted: ((text: String, id: String) -> Unit)? = null
+
     private lateinit var adapter: ChecklistItemAdapter
     private lateinit var config: ChecklistManagerConfig
     private lateinit var scrollToPosition: (position: Int) -> Unit
     private lateinit var startDragAndDrop: (position: Int) -> Unit
     private lateinit var enableDragAndDrop: (isEnabled: Boolean) -> Unit
 
+    private val newItemPosition: Int
+        get() = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }
+
     private val delayHandler: DelayHandler = DelayHandler()
 
     private var currentPosition: Int = NO_POSITION
 
     private val previousUncheckedItemPositions: MutableMap<String, Int> = mutableMapOf()
+
+    private val deletedItems: MutableMap<String, Pair<ChecklistRecyclerItem, Int>> = mutableMapOf()
 
     fun lateInitState(
         adapter: ChecklistItemAdapter,
@@ -90,6 +97,24 @@ internal class ChecklistManager(
 
         enableDragAndDrop(config.dragAndDropEnabled)
         adapter.config = config.adapterConfig
+    }
+
+    fun restoreDeletedItem(itemId: String): Boolean {
+        deletedItems.remove(itemId)?.let { (item, position) ->
+            val addItemPosition = if (item.isChecked) {
+                position.coerceIn(newItemPosition, adapter.itemCount)
+            } else {
+                position.coerceIn(0, newItemPosition)
+            }
+
+            addItemToAdapter(
+                item,
+                addItemPosition
+            )
+
+            return true
+        }
+        return false
     }
 
     override fun onItemChecked(
@@ -239,7 +264,7 @@ internal class ChecklistManager(
 
         setItemsInAdapter(sortedItems)
 
-        if (currentPosition != -1) {
+        if (currentPosition != NO_POSITION) {
             requestFocusForPositionInAdapter(currentPosition)
         }
     }
@@ -253,17 +278,22 @@ internal class ChecklistManager(
         val toPosition: Int =
             when (config.behaviorCheckedItem) {
                 BehaviorCheckedItem.MOVE_TO_TOP_OF_CHECKED_ITEMS -> {
-                    val positionOfNewItem = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }
-                    val positionOfFirstCheckedItem = adapter.items.indexOfFirst { it is ChecklistRecyclerItem && it.isChecked }
+                    val firstCheckedItemPosition = adapter.items.indexOfFirst { it is ChecklistRecyclerItem && it.isChecked }
                     when {
-                        positionOfFirstCheckedItem != -1 -> positionOfFirstCheckedItem
-                        positionOfNewItem != -1 -> positionOfNewItem.inc()
+                        firstCheckedItemPosition != NO_POSITION -> firstCheckedItemPosition
+                        newItemPosition != NO_POSITION -> newItemPosition.inc()
                         else -> adapter.items.lastIndex
                     }.coerceIn(0, adapter.itemCount)
                 }
+
                 BehaviorCheckedItem.MOVE_TO_BOTTOM_OF_CHECKED_ITEMS -> adapter.itemCount
+
                 BehaviorCheckedItem.KEEP_POSITION -> position
-                BehaviorCheckedItem.DELETE -> NO_POSITION
+
+                BehaviorCheckedItem.DELETE -> {
+                    saveDeletedItemAndNotifyListener(item, position)
+                    NO_POSITION
+                }
             }
 
         if (toPosition != NO_POSITION) {
@@ -288,13 +318,13 @@ internal class ChecklistManager(
     ) {
         removeItemFromAdapter(position)
 
-        val positionOfNewItem = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }.coerceAtLeast(0)
+        val newItemPosition = newItemPosition.coerceAtLeast(0)
         val toPosition: Int =
             when (config.behaviorUncheckedItem) {
                 BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION -> {
-                    previousUncheckedItemPositions.remove(item.id)?.coerceAtMost(positionOfNewItem) ?: positionOfNewItem
+                    previousUncheckedItemPositions.remove(item.id)?.coerceAtMost(newItemPosition) ?: newItemPosition
                 }
-                BehaviorUncheckedItem.MOVE_TO_BOTTOM_OF_UNCHECKED_ITEMS -> positionOfNewItem
+                BehaviorUncheckedItem.MOVE_TO_BOTTOM_OF_UNCHECKED_ITEMS -> newItemPosition
                 BehaviorUncheckedItem.MOVE_TO_TOP_OF_UNCHECKED_ITEMS -> 0
             }
 
@@ -313,6 +343,8 @@ internal class ChecklistManager(
 
         if (itemToDelete is ChecklistRecyclerItem) {
             removeItemFromAdapter(position)
+
+            saveDeletedItemAndNotifyListener(itemToDelete, position)
 
             if (adapter.itemCount == 1) {
                 val itemInsertionPosition = 0
@@ -336,8 +368,6 @@ internal class ChecklistManager(
         position: Int,
         deletedItem: ChecklistRecyclerItem
     ) {
-        val newItemPosition = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }
-
         if (position != newItemPosition && position < adapter.itemCount) {     // Valid suggested position for requesting focus on item
             requestFocusForPositionInAdapter(position)
         } else {
@@ -352,7 +382,7 @@ internal class ChecklistManager(
                 }
 
             if (validPositionMap.isEmpty()) {    // No items with the same 'isChecked' flag
-                currentPosition = -1
+                currentPosition = NO_POSITION
                 hideKeyboard()
             } else {
                 requestFocusForPositionInAdapter(validPositionMap.first())
@@ -419,6 +449,21 @@ internal class ChecklistManager(
         adapter.notifyItemMoved(
             fromPosition,
             toPosition
+        )
+    }
+
+    private fun saveDeletedItemAndNotifyListener(
+        item: ChecklistRecyclerItem,
+        position: Int
+    ) {
+        deletedItems[item.id] = Pair(
+            item,
+            position
+        )
+
+        onItemDeleted?.invoke(
+            item.text,
+            item.id
         )
     }
 }

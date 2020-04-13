@@ -5,6 +5,11 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dvdb.checklist.R
+import com.dvdb.checklist.manager.getFormattedTextItems
+import com.dvdb.checklist.manager.restoreDeletedItem
+import com.dvdb.checklist.manager.setItems
+import com.dvdb.checklist.manager.setOnItemDeletedListener
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val CHECKLIST_ITEMS_TEXT = "[ ] Send meeting notes to team\n" +
@@ -33,8 +38,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initChecklist()
+    }
 
+    private fun initChecklist() {
         main_checklist.setItems(checklistItemsText)
+
+        main_checklist.setOnItemDeletedListener { text, id ->
+            Snackbar.make(main_root, "Item deleted: \"$text\"", Snackbar.LENGTH_LONG)
+                .setAction("undo") {
+                    main_checklist.restoreDeletedItem(id)
+                }.show()
+        }
     }
 
     override fun onStop() {

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.checklist.config.ChecklistConfig
 import com.dvdb.checklist.manager.ChecklistManager
+import com.dvdb.checklist.manager.setItems
 import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.checklist.recycler.holder.checklist.ChecklistRecyclerHolder
 import com.dvdb.checklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
@@ -54,20 +55,6 @@ class Checklist(
                         "[x] Airbnb holiday home"
             )
         }
-    }
-
-    fun setItems(formattedText: String) {
-        manager.setItems(formattedText)
-    }
-
-    fun getFormattedTextItems(
-        keepCheckedItems: Boolean = true,
-        skipCheckedItems: Boolean = false
-    ): String {
-        return manager.getFormattedTextItems(
-            keepCheckedItems,
-            skipCheckedItems
-        )
     }
 
     private fun initLayout() {
