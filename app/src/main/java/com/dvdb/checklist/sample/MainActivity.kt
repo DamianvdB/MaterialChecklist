@@ -12,11 +12,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         main_checklist.setItems(
-            "[ ] Slack meeting notes to team\n" +
-                    "[ ] Order flowers for girlfriend\n" +
+            "[ ] Send meeting notes to team\n" +
+                    "[ ] Order flowers\n" +
                     "[ ] Organise vacation photos\n" +
-                    "[ ] Book flights to Dubai\n" +
-                    "[x] Airbnb holiday home"
+                    "[ ] Book holiday flights\n" +
+                    "[ ] Scan vaccination certificates\n" +
+                    "[x] Advertise holiday home\n" +
+                    "[x] Wish Sarah happy birthday"
         )
     }
 }

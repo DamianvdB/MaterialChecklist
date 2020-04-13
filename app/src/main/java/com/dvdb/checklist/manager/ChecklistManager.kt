@@ -1,6 +1,7 @@
 package com.dvdb.checklist.manager
 
 import android.widget.TextView
+import com.dvdb.checklist.config.CheckedItemBehavior
 import com.dvdb.checklist.manager.config.ChecklistManagerConfig
 import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapterDragListener
@@ -222,20 +223,29 @@ internal class ChecklistManager(
 
         val positionOfNewItem = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }
         val positionOfFirstCheckedItem = adapter.items.indexOfFirst { it is ChecklistRecyclerItem && it.isChecked }
-        val toPosition =
-            when {
-                positionOfFirstCheckedItem != -1 -> positionOfFirstCheckedItem
-                positionOfNewItem != -1 -> positionOfNewItem.inc()
-                else -> adapter.items.lastIndex
-            }.coerceIn(0, adapter.itemCount)
+        val toPosition: Int =
+            when (config.behaviorCheckedItem) {
+                CheckedItemBehavior.MOVE_TO_TOP_OF_CHECKED_ITEMS -> {
+                    when {
+                        positionOfFirstCheckedItem != -1 -> positionOfFirstCheckedItem
+                        positionOfNewItem != -1 -> positionOfNewItem.inc()
+                        else -> adapter.items.lastIndex
+                    }.coerceIn(0, adapter.itemCount)
+                }
+                CheckedItemBehavior.MOVE_TO_BOTTOM_OF_CHECKED_ITEMS -> adapter.itemCount
+                CheckedItemBehavior.KEEP_POSITION -> position
+                CheckedItemBehavior.DELETE -> NO_POSITION
+            }
 
-        addItemToAdapter(
-            item.copy(isChecked = true),
-            toPosition
-        )
+        if (toPosition != NO_POSITION) {
+            addItemToAdapter(
+                item.copy(isChecked = true),
+                toPosition
+            )
 
-        if (position == currentPosition) {
-            requestFocusForPositionInAdapter(toPosition)
+            if (position == currentPosition) {
+                requestFocusForPositionInAdapter(toPosition)
+            }
         }
     }
 

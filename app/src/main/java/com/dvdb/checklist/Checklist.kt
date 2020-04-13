@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dvdb.checklist.config.ChecklistConfig
 import com.dvdb.checklist.manager.ChecklistManager
 import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.checklist.recycler.holder.checklist.ChecklistRecyclerHolder

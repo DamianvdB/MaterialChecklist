@@ -1,7 +1,8 @@
-package com.dvdb.checklist
+package com.dvdb.checklist.config
 
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
+import com.dvdb.checklist.Checklist
 
 /**
  * Text configuration
@@ -95,6 +96,15 @@ fun Checklist.setDragAndDropItemActiveBackgroundColor(@ColorInt backgroundColor:
 
 fun Checklist.setDragAndDropItemActiveElevation(elevation: Float): Checklist {
     config.dragAndDropActiveItemElevation = elevation
+    manager.setConfig(config.toManagerConfig())
+    return this
+}
+
+/**
+ * Checked item behavior configuration
+ */
+fun Checklist.setOnItemCheckedBehavior(behavior: CheckedItemBehavior): Checklist {
+    config.behaviorCheckedItem = behavior
     manager.setConfig(config.toManagerConfig())
     return this
 }

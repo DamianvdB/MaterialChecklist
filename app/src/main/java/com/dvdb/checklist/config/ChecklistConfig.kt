@@ -1,10 +1,11 @@
-package com.dvdb.checklist
+package com.dvdb.checklist.config
 
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
+import com.dvdb.checklist.R
 import com.dvdb.checklist.manager.config.ChecklistManagerConfig
 import com.dvdb.checklist.recycler.adapter.config.ChecklistItemAdapterConfig
 import com.dvdb.checklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
@@ -43,8 +44,13 @@ internal class ChecklistConfig(
      */
     var dragAndDropEnabled: Boolean = true,
     @ColorInt var dragAndDropActiveItemBackgroundColor: Int? = null,
-    var dragAndDropActiveItemElevation: Float? = null
-) {
+    var dragAndDropActiveItemElevation: Float? = null,
+
+    /**
+     * Checked item behavior
+     */
+    var behaviorCheckedItem: CheckedItemBehavior = CheckedItemBehavior.MOVE_TO_TOP_OF_CHECKED_ITEMS
+) : Config {
 
     init {
         val attributes: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.Checklist)
@@ -54,6 +60,7 @@ internal class ChecklistConfig(
             initIconAttributes(attributes)
             initCheckboxAttributes(attributes)
             initDragAndDropAttributes(attributes)
+            initBehaviorCheckedItemAttributes(attributes)
         } finally {
             attributes.recycle()
         }
@@ -61,6 +68,7 @@ internal class ChecklistConfig(
 
     fun toManagerConfig() = ChecklistManagerConfig(
         dragAndDropEnabled = dragAndDropEnabled,
+        behaviorCheckedItem = behaviorCheckedItem,
         adapterConfig = toAdapterConfig()
     )
 
@@ -163,5 +171,12 @@ internal class ChecklistConfig(
             R.styleable.Checklist_drag_and_drop_item_active_elevation,
             0F
         ).run { if (this == 0F) dragAndDropActiveItemElevation else this }
+    }
+
+    private fun initBehaviorCheckedItemAttributes(attributes: TypedArray) {
+        behaviorCheckedItem = CheckedItemBehavior.values()[attributes.getInt(
+            R.styleable.Checklist_behavior_checked_item,
+            behaviorCheckedItem.ordinal
+        )]
     }
 }

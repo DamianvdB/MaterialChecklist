@@ -3,9 +3,10 @@ package com.dvdb.checklist.recycler.holder.base
 import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.dvdb.checklist.config.Config
 import com.dvdb.checklist.recycler.item.base.BaseRecyclerItem
 
-internal abstract class BaseRecyclerHolder<T : BaseRecyclerItem, C : BaseRecyclerHolderThemeConfig>(
+internal abstract class BaseRecyclerHolder<T : BaseRecyclerItem, C : BaseRecyclerHolderConfig>(
     itemView: View,
     protected var config: C
 ) : RecyclerView.ViewHolder(itemView) {
@@ -23,4 +24,4 @@ internal abstract class BaseRecyclerHolder<T : BaseRecyclerItem, C : BaseRecycle
     abstract fun onConfigUpdated()
 }
 
-interface BaseRecyclerHolderThemeConfig
+internal interface BaseRecyclerHolderConfig : Config

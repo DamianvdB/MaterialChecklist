@@ -3,7 +3,7 @@ package com.dvdb.checklist.recycler.holder.checklistnew.config
 import android.graphics.Typeface
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
-import com.dvdb.checklist.recycler.holder.base.BaseRecyclerHolderThemeConfig
+import com.dvdb.checklist.recycler.holder.base.BaseRecyclerHolderConfig
 
 internal class ChecklistNewRecyclerHolderConfig(
     val text: String,
@@ -13,4 +13,4 @@ internal class ChecklistNewRecyclerHolderConfig(
     @ColorInt val iconTintColor: Int,
     val iconAlphaAdd: Float,
     val typeFace: Typeface? = null
-) : BaseRecyclerHolderThemeConfig
+) : BaseRecyclerHolderConfig
