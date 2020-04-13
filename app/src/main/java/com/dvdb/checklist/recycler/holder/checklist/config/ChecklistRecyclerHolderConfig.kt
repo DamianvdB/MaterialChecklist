@@ -5,7 +5,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import com.dvdb.checklist.recycler.holder.base.BaseRecyclerHolderThemeConfig
 
-data class ChecklistRecyclerHolderConfig(
+internal data class ChecklistRecyclerHolderConfig(
     @ColorInt val textColor: Int,
     @Px val textSize: Float,
     val textAlphaCheckedItem: Float,

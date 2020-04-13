@@ -6,7 +6,7 @@ import com.dvdb.checklist.recycler.util.RecyclerItemMapper
 import org.junit.Assert
 import org.junit.Test
 
-class RecyclerItemMapperTest {
+internal class RecyclerItemMapperTest {
 
     private val validChecklistItems = listOf(
         ChecklistRecyclerItem("Buy beer", true),

@@ -3,7 +3,7 @@ package com.dvdb.checklist.util
 import android.text.Editable
 import android.text.TextWatcher
 
-open class SimpleTextChangedListener : TextWatcher {
+internal open class SimpleTextChangedListener : TextWatcher {
     override fun afterTextChanged(s: Editable?) {}
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

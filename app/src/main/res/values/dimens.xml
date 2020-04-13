@@ -5,6 +5,7 @@
     <dimen name="spacing_small">4dp</dimen>
     <dimen name="spacing_small_medium">6dp</dimen>
     <dimen name="spacing_medium">8dp</dimen>
+    <dimen name="spacing_medium_large">12dp</dimen>
     <dimen name="spacing_large">16dp</dimen>
     <dimen name="spacing_xlarge">24dp</dimen>
 
@@ -20,7 +21,8 @@
     <dimen name="text_size_large">16sp</dimen>
     <dimen name="text_size_xlarge">18sp</dimen>
 
-    <dimen name="item_checklist_text_size">18sp</dimen>
-    <dimen name="item_checklist_new_add_start_margin">40dp</dimen>
+    <dimen name="cl_item_checklist_text_size">16sp</dimen>
+    <dimen name="cl_item_checklist_new_add_start_margin">30dp</dimen>
+    <dimen name="cl_item_checklist_new_text_start_margin">14dp</dimen>
 
 </resources>

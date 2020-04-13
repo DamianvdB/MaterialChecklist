@@ -7,7 +7,7 @@ import com.dvdb.checklist.recycler.util.DefaultRecyclerItemComparator
 import org.junit.Assert
 import org.junit.Test
 
-class DefaultRecyclerItemComparatorTest {
+internal class DefaultRecyclerItemComparatorTest {
 
     @Test
     fun onlyUncheckedItemsTest() {
