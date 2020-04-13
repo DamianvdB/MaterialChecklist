@@ -233,6 +233,10 @@ internal class ChecklistManager(
             item.copy(isChecked = true),
             toPosition
         )
+
+        if (position == currentPosition) {
+            requestFocusForPositionInAdapter(toPosition)
+        }
     }
 
     private fun handleItemUnchecked(item: ChecklistRecyclerItem, position: Int) {
@@ -244,6 +248,10 @@ internal class ChecklistManager(
             item.copy(isChecked = false),
             toPosition
         )
+
+        if (position == currentPosition) {
+            requestFocusForPositionInAdapter(toPosition)
+        }
     }
 
     private fun handleDeleteItem(position: Int) {
