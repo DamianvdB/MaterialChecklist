@@ -1,7 +1,8 @@
 package com.dvdb.checklist.manager
 
 import android.widget.TextView
-import com.dvdb.checklist.config.CheckedItemBehavior
+import com.dvdb.checklist.config.BehaviorCheckedItem
+import com.dvdb.checklist.config.BehaviorUncheckedItem
 import com.dvdb.checklist.manager.config.ChecklistManagerConfig
 import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.checklist.recycler.adapter.ChecklistItemAdapterDragListener
@@ -49,6 +50,8 @@ internal class ChecklistManager(
 
     private var currentPosition: Int = NO_POSITION
 
+    private val previousUncheckedItemPositions: MutableMap<String, Int> = mutableMapOf()
+
     fun lateInitState(
         adapter: ChecklistItemAdapter,
         config: ChecklistManagerConfig,
@@ -89,8 +92,11 @@ internal class ChecklistManager(
         adapter.config = config.adapterConfig
     }
 
-    override fun onItemChecked(position: Int, isChecked: Boolean) {
-        val item = adapter.items[position]
+    override fun onItemChecked(
+        position: Int,
+        isChecked: Boolean
+    ) {
+        val item = adapter.items.getOrNull(position)
 
         if (item is ChecklistRecyclerItem) {
             if (isChecked) {
@@ -101,8 +107,11 @@ internal class ChecklistManager(
         }
     }
 
-    override fun onItemTextChanged(position: Int, text: String) {
-        val item = adapter.items[position]
+    override fun onItemTextChanged(
+        position: Int,
+        text: String
+    ) {
+        val item = adapter.items.getOrNull(position)
 
         if (item is ChecklistRecyclerItem) {
             updateItemInAdapter(
@@ -113,8 +122,11 @@ internal class ChecklistManager(
         }
     }
 
-    override fun onItemEnterKeyPressed(position: Int, textView: TextView) {
-        val currentItem = adapter.items[position]
+    override fun onItemEnterKeyPressed(
+        position: Int,
+        textView: TextView
+    ) {
+        val currentItem = adapter.items.getOrNull(position)
 
         if (currentItem is ChecklistRecyclerItem) {
             val text = textView.text
@@ -143,8 +155,8 @@ internal class ChecklistManager(
             val newItemPosition = position + 1
             addItemToAdapter(
                 ChecklistRecyclerItem(
-                    newItemText,
-                    currentItem.isChecked
+                    text = newItemText,
+                    isChecked = currentItem.isChecked
                 ),
                 newItemPosition
             )
@@ -160,7 +172,10 @@ internal class ChecklistManager(
         handleDeleteItem(position)
     }
 
-    override fun onItemFocusChanged(position: Int, hasFocus: Boolean) {
+    override fun onItemFocusChanged(
+        position: Int,
+        hasFocus: Boolean
+    ) {
         if (hasFocus) {
             currentPosition = position
         }
@@ -170,7 +185,10 @@ internal class ChecklistManager(
         startDragAndDrop(position)
     }
 
-    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+    override fun onItemMove(
+        fromPosition: Int,
+        toPosition: Int
+    ): Boolean {
         val items: MutableList<BaseRecyclerItem> = adapter.items.toMutableList()
 
         if (fromPosition < toPosition) {
@@ -183,11 +201,23 @@ internal class ChecklistManager(
             }
         }
 
-        notifyItemMovedInAdapter(fromPosition, toPosition)
+        notifyItemMovedInAdapter(
+            fromPosition,
+            toPosition
+        )
+
+        setItemsInAdapter(
+            items = items,
+            notify = false
+        )
+
         return true
     }
 
-    override fun canDragOverTargetItem(currentPosition: Int, targetPosition: Int): Boolean {
+    override fun canDragOverTargetItem(
+        currentPosition: Int,
+        targetPosition: Int
+    ): Boolean {
         val currentChecklistItem = adapter.items.getOrNull(currentPosition) as? ChecklistRecyclerItem
         val targetChecklistItem = adapter.items.getOrNull(targetPosition) as? ChecklistRecyclerItem
 
@@ -203,38 +233,37 @@ internal class ChecklistManager(
             items.filterIsInstance<ChecklistRecyclerItem>()
         } else {
             currentPosition = 0
-            listOf(
-                ChecklistRecyclerItem(
-                    ""
-                )
-            )
+            listOf(ChecklistRecyclerItem(""))
         }.plus(ChecklistNewRecyclerItem())
             .sortedWith(DefaultRecyclerItemComparator)
 
-        adapter.items = sortedItems
+        setItemsInAdapter(sortedItems)
 
         if (currentPosition != -1) {
             requestFocusForPositionInAdapter(currentPosition)
         }
     }
 
-    private fun handleItemChecked(item: ChecklistRecyclerItem, position: Int) {
+    private fun handleItemChecked(
+        item: ChecklistRecyclerItem,
+        position: Int
+    ) {
         removeItemFromAdapter(position)
 
-        val positionOfNewItem = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }
-        val positionOfFirstCheckedItem = adapter.items.indexOfFirst { it is ChecklistRecyclerItem && it.isChecked }
         val toPosition: Int =
             when (config.behaviorCheckedItem) {
-                CheckedItemBehavior.MOVE_TO_TOP_OF_CHECKED_ITEMS -> {
+                BehaviorCheckedItem.MOVE_TO_TOP_OF_CHECKED_ITEMS -> {
+                    val positionOfNewItem = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }
+                    val positionOfFirstCheckedItem = adapter.items.indexOfFirst { it is ChecklistRecyclerItem && it.isChecked }
                     when {
                         positionOfFirstCheckedItem != -1 -> positionOfFirstCheckedItem
                         positionOfNewItem != -1 -> positionOfNewItem.inc()
                         else -> adapter.items.lastIndex
                     }.coerceIn(0, adapter.itemCount)
                 }
-                CheckedItemBehavior.MOVE_TO_BOTTOM_OF_CHECKED_ITEMS -> adapter.itemCount
-                CheckedItemBehavior.KEEP_POSITION -> position
-                CheckedItemBehavior.DELETE -> NO_POSITION
+                BehaviorCheckedItem.MOVE_TO_BOTTOM_OF_CHECKED_ITEMS -> adapter.itemCount
+                BehaviorCheckedItem.KEEP_POSITION -> position
+                BehaviorCheckedItem.DELETE -> NO_POSITION
             }
 
         if (toPosition != NO_POSITION) {
@@ -246,13 +275,28 @@ internal class ChecklistManager(
             if (position == currentPosition) {
                 requestFocusForPositionInAdapter(toPosition)
             }
+
+            if (config.behaviorUncheckedItem == BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION) {
+                previousUncheckedItemPositions[item.id] = position
+            }
         }
     }
 
-    private fun handleItemUnchecked(item: ChecklistRecyclerItem, position: Int) {
+    private fun handleItemUnchecked(
+        item: ChecklistRecyclerItem,
+        position: Int
+    ) {
         removeItemFromAdapter(position)
 
-        val toPosition = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }.coerceAtLeast(0)
+        val positionOfNewItem = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }.coerceAtLeast(0)
+        val toPosition: Int =
+            when (config.behaviorUncheckedItem) {
+                BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION -> {
+                    previousUncheckedItemPositions.remove(item.id)?.coerceAtMost(positionOfNewItem) ?: positionOfNewItem
+                }
+                BehaviorUncheckedItem.MOVE_TO_BOTTOM_OF_UNCHECKED_ITEMS -> positionOfNewItem
+                BehaviorUncheckedItem.MOVE_TO_TOP_OF_UNCHECKED_ITEMS -> 0
+            }
 
         addItemToAdapter(
             item.copy(isChecked = false),
@@ -265,7 +309,7 @@ internal class ChecklistManager(
     }
 
     private fun handleDeleteItem(position: Int) {
-        val itemToDelete = adapter.items[position]
+        val itemToDelete = adapter.items.getOrNull(position)
 
         if (itemToDelete is ChecklistRecyclerItem) {
             removeItemFromAdapter(position)
@@ -288,7 +332,10 @@ internal class ChecklistManager(
         }
     }
 
-    private fun findNextPositionToFocusOnItemDeletion(position: Int, deletedItem: ChecklistRecyclerItem) {
+    private fun findNextPositionToFocusOnItemDeletion(
+        position: Int,
+        deletedItem: ChecklistRecyclerItem
+    ) {
         val newItemPosition = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }
 
         if (position != newItemPosition && position < adapter.itemCount) {     // Valid suggested position for requesting focus on item
@@ -311,6 +358,16 @@ internal class ChecklistManager(
                 requestFocusForPositionInAdapter(validPositionMap.first())
             }
         }
+    }
+
+    private fun setItemsInAdapter(
+        items: List<BaseRecyclerItem>,
+        notify: Boolean = true
+    ) {
+        adapter.setItems(
+            items = items,
+            notify = notify
+        )
     }
 
     private fun addItemToAdapter(
@@ -359,6 +416,9 @@ internal class ChecklistManager(
         fromPosition: Int,
         toPosition: Int
     ) {
-        adapter.notifyItemMoved(fromPosition, toPosition)
+        adapter.notifyItemMoved(
+            fromPosition,
+            toPosition
+        )
     }
 }

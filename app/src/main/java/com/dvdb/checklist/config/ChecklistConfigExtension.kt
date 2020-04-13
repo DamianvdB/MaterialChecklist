@@ -101,10 +101,16 @@ fun Checklist.setDragAndDropItemActiveElevation(elevation: Float): Checklist {
 }
 
 /**
- * Checked item behavior configuration
+ * Behavior configuration
  */
-fun Checklist.setOnItemCheckedBehavior(behavior: CheckedItemBehavior): Checklist {
+fun Checklist.setOnItemCheckedBehavior(behavior: BehaviorCheckedItem): Checklist {
     config.behaviorCheckedItem = behavior
+    manager.setConfig(config.toManagerConfig())
+    return this
+}
+
+fun Checklist.setOnItemUncheckedBehavior(behavior: BehaviorUncheckedItem): Checklist {
+    config.behaviorUncheckedItem = behavior
     manager.setConfig(config.toManagerConfig())
     return this
 }

@@ -47,9 +47,10 @@ internal class ChecklistConfig(
     var dragAndDropActiveItemElevation: Float? = null,
 
     /**
-     * Checked item behavior
+     *  Behavior
      */
-    var behaviorCheckedItem: CheckedItemBehavior = CheckedItemBehavior.MOVE_TO_TOP_OF_CHECKED_ITEMS
+    var behaviorCheckedItem: BehaviorCheckedItem = BehaviorCheckedItem.MOVE_TO_TOP_OF_CHECKED_ITEMS,
+    var behaviorUncheckedItem: BehaviorUncheckedItem = BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION
 ) : Config {
 
     init {
@@ -60,7 +61,7 @@ internal class ChecklistConfig(
             initIconAttributes(attributes)
             initCheckboxAttributes(attributes)
             initDragAndDropAttributes(attributes)
-            initBehaviorCheckedItemAttributes(attributes)
+            initBehaviorAttributes(attributes)
         } finally {
             attributes.recycle()
         }
@@ -69,6 +70,7 @@ internal class ChecklistConfig(
     fun toManagerConfig() = ChecklistManagerConfig(
         dragAndDropEnabled = dragAndDropEnabled,
         behaviorCheckedItem = behaviorCheckedItem,
+        behaviorUncheckedItem = behaviorUncheckedItem,
         adapterConfig = toAdapterConfig()
     )
 
@@ -173,10 +175,15 @@ internal class ChecklistConfig(
         ).run { if (this == 0F) dragAndDropActiveItemElevation else this }
     }
 
-    private fun initBehaviorCheckedItemAttributes(attributes: TypedArray) {
-        behaviorCheckedItem = CheckedItemBehavior.values()[attributes.getInt(
+    private fun initBehaviorAttributes(attributes: TypedArray) {
+        behaviorCheckedItem = BehaviorCheckedItem.values()[attributes.getInt(
             R.styleable.Checklist_behavior_checked_item,
             behaviorCheckedItem.ordinal
+        )]
+
+        behaviorUncheckedItem = BehaviorUncheckedItem.values()[attributes.getInt(
+            R.styleable.Checklist_behavior_unchecked_item,
+            behaviorUncheckedItem.ordinal
         )]
     }
 }

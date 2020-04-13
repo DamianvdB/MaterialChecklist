@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.widget.CompoundButtonCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.checklist.R
 import com.dvdb.checklist.recycler.holder.DraggableRecyclerHolder
 import com.dvdb.checklist.recycler.holder.base.BaseRecyclerHolder
@@ -139,7 +138,7 @@ internal class ChecklistRecyclerHolder private constructor(
         text.addTextChangedListener(
             object : SimpleTextChangedListener() {
                 override fun afterTextChanged(s: Editable?) {
-                    if (text.isFocused && adapterPosition != RecyclerView.NO_POSITION) {
+                    if (text.isFocused) {
                         s?.let { text ->
                             listener.onItemTextChanged(adapterPosition, text.toString())
                         }

@@ -11,28 +11,45 @@ internal abstract class BaseRecyclerAdapter<T>(
 
     override fun getItemCount() = _items.size
 
-    var items: List<T>
+    val items: List<T>
         get() = _items.toList()
-        set(value) {
-            _items = value.toMutableList()
+
+    fun setItems(
+        items: List<T>,
+        notify: Boolean = true
+    ) {
+        _items = items.toMutableList()
+        if (notify) {
             notifyDataSetChanged()
         }
+    }
 
-    fun addItem(item: T, position: Int, notify: Boolean = true) {
+    fun addItem(
+        item: T,
+        position: Int,
+        notify: Boolean = true
+    ) {
         _items.add(position, item)
         if (notify) {
             notifyItemInserted(position)
         }
     }
 
-    fun removeItem(position: Int, notify: Boolean = true) {
+    fun removeItem(
+        position: Int,
+        notify: Boolean = true
+    ) {
         _items.removeAt(position)
         if (notify) {
             notifyItemRemoved(position)
         }
     }
 
-    fun updateItem(item: T, position: Int, notify: Boolean = true) {
+    fun updateItem(
+        item: T,
+        position: Int,
+        notify: Boolean = true
+    ) {
         _items[position] = item
         if (notify) {
             notifyItemChanged(position)
