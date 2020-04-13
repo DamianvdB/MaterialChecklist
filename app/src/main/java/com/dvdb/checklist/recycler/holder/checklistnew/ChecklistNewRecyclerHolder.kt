@@ -42,6 +42,15 @@ internal class ChecklistNewRecyclerHolder private constructor(
 
     private fun initialiseRoot() {
         itemView.setOnClickListener { onItemClicked(adapterPosition) }
+
+        config.horizontalPadding?.toInt()?.let { padding ->
+            itemView.setPadding(
+                padding,
+                itemView.paddingTop,
+                padding,
+                itemView.paddingBottom
+            )
+        }
     }
 
     private fun initialiseAdd() {
@@ -55,7 +64,7 @@ internal class ChecklistNewRecyclerHolder private constructor(
         text.setTextColor(config.textColor)
         text.alpha = config.textAlpha
 
-        config.typeFace?.let {
+        config.textTypeFace?.let {
             text.typeface = it
         }
     }

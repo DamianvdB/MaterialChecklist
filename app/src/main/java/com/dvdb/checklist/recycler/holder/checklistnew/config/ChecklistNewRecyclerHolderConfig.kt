@@ -10,7 +10,8 @@ internal class ChecklistNewRecyclerHolderConfig(
     @ColorInt val textColor: Int,
     @Px val textSize: Float,
     val textAlpha: Float,
+    val textTypeFace: Typeface?,
     @ColorInt val iconTintColor: Int,
     val iconAlphaAdd: Float,
-    val typeFace: Typeface? = null
+    @Px val horizontalPadding: Float?
 ) : BaseRecyclerHolderConfig

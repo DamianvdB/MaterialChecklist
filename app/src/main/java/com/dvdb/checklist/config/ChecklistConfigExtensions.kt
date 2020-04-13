@@ -1,5 +1,6 @@
 package com.dvdb.checklist.config
 
+import android.graphics.Typeface
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import com.dvdb.checklist.Checklist
@@ -33,6 +34,12 @@ fun Checklist.setCheckedItemTextAlpha(alpha: Float): Checklist {
 
 fun Checklist.setNewItemTextAlpha(alpha: Float): Checklist {
     config.textAlphaNewItem = alpha
+    manager.setConfig(config.toManagerConfig())
+    return this
+}
+
+fun Checklist.setTextTypeFace(typeface: Typeface): Checklist {
+    config.textTypeFace = typeface
     manager.setConfig(config.toManagerConfig())
     return this
 }
@@ -94,7 +101,7 @@ fun Checklist.setDragAndDropItemActiveBackgroundColor(@ColorInt backgroundColor:
     return this
 }
 
-fun Checklist.setDragAndDropItemActiveElevation(elevation: Float): Checklist {
+fun Checklist.setDragAndDropItemActiveElevation(@Px elevation: Float): Checklist {
     config.dragAndDropActiveItemElevation = elevation
     manager.setConfig(config.toManagerConfig())
     return this
@@ -111,6 +118,15 @@ fun Checklist.setOnItemCheckedBehavior(behavior: BehaviorCheckedItem): Checklist
 
 fun Checklist.setOnItemUncheckedBehavior(behavior: BehaviorUncheckedItem): Checklist {
     config.behaviorUncheckedItem = behavior
+    manager.setConfig(config.toManagerConfig())
+    return this
+}
+
+/**
+ * Item configuration
+ */
+fun Checklist.setItemHorizontalPadding(@Px padding: Float): Checklist {
+    config.itemHorizontalPadding = padding
     manager.setConfig(config.toManagerConfig())
     return this
 }

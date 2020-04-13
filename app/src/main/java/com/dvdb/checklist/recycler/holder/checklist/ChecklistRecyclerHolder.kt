@@ -98,10 +98,22 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     private fun initialiseView() {
+        initialiseRoot()
         initialiseDragIndicator()
         initialiseCheckbox()
         initialiseText()
         initialiseDelete()
+    }
+
+    private fun initialiseRoot() {
+        config.horizontalPadding?.toInt()?.let { padding ->
+            itemView.setPadding(
+                padding,
+                itemView.paddingTop,
+                padding,
+                itemView.paddingBottom
+            )
+        }
     }
 
     private fun initialiseDragIndicator() {
@@ -131,7 +143,7 @@ internal class ChecklistRecyclerHolder private constructor(
     private fun initialiseText() {
         text.setTextSize(TypedValue.COMPLEX_UNIT_PX, config.textSize)
 
-        config.typeFace?.let {
+        config.textTypeFace?.let {
             text.typeface = it
         }
 

@@ -2,9 +2,11 @@ package com.dvdb.checklist.sample
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Typeface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dvdb.checklist.R
+import com.dvdb.checklist.config.setTextTypeFace
 import com.dvdb.checklist.manager.getFormattedTextItems
 import com.dvdb.checklist.manager.restoreDeletedItem
 import com.dvdb.checklist.manager.setItems
@@ -50,6 +52,8 @@ class MainActivity : AppCompatActivity() {
                     main_checklist.restoreDeletedItem(id)
                 }.show()
         }
+
+        main_checklist.setTextTypeFace(Typeface.MONOSPACE)
     }
 
     override fun onStop() {

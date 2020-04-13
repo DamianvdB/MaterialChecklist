@@ -2,9 +2,11 @@ package com.dvdb.checklist.config
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Typeface
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
+import androidx.annotation.StyleableRes
 import com.dvdb.checklist.R
 import com.dvdb.checklist.manager.config.ChecklistManagerConfig
 import com.dvdb.checklist.recycler.adapter.config.ChecklistItemAdapterConfig
@@ -24,6 +26,7 @@ internal class ChecklistConfig(
     var textNewItem: String = context.getString(R.string.item_checklist_new_text),
     var textAlphaCheckedItem: Float = 0.4F,
     var textAlphaNewItem: Float = 0.5F,
+    var textTypeFace: Typeface? = null,
 
     /**
      * Icon
@@ -44,13 +47,18 @@ internal class ChecklistConfig(
      */
     var dragAndDropEnabled: Boolean = true,
     @ColorInt var dragAndDropActiveItemBackgroundColor: Int? = null,
-    var dragAndDropActiveItemElevation: Float? = null,
+    @Px var dragAndDropActiveItemElevation: Float? = null,
 
     /**
      *  Behavior
      */
     var behaviorCheckedItem: BehaviorCheckedItem = BehaviorCheckedItem.MOVE_TO_TOP_OF_CHECKED_ITEMS,
-    var behaviorUncheckedItem: BehaviorUncheckedItem = BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION
+    var behaviorUncheckedItem: BehaviorUncheckedItem = BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION,
+
+    /**
+     * Item
+     */
+    var itemHorizontalPadding: Float? = null
 ) : Config {
 
     init {
@@ -62,6 +70,7 @@ internal class ChecklistConfig(
             initCheckboxAttributes(attributes)
             initDragAndDropAttributes(attributes)
             initBehaviorAttributes(attributes)
+            initItemAttributes(attributes)
         } finally {
             attributes.recycle()
         }
@@ -79,6 +88,7 @@ internal class ChecklistConfig(
             textColor = textColor,
             textSize = textSize,
             textAlphaCheckedItem = textAlphaCheckedItem,
+            textTypeFace = textTypeFace,
             iconTintColor = iconTintColor,
             iconAlphaDragIndicator = iconAlphaDragIndicator,
             iconAlphaDelete = iconAlphaDelete,
@@ -86,15 +96,18 @@ internal class ChecklistConfig(
             checkboxAlphaCheckedItem = checkboxAlphaCheckedItem,
             checkboxTintColor = checkboxTintColor,
             dragActiveBackgroundColor = dragAndDropActiveItemBackgroundColor,
-            dragActiveElevation = dragAndDropActiveItemElevation
+            dragActiveElevation = dragAndDropActiveItemElevation,
+            horizontalPadding = itemHorizontalPadding
         ),
         checklistNewConfig = ChecklistNewRecyclerHolderConfig(
             text = textNewItem,
             textColor = textColor,
             textSize = textSize,
             textAlpha = textAlphaNewItem,
+            textTypeFace = textTypeFace,
             iconTintColor = iconTintColor,
-            iconAlphaAdd = iconAlphaAdd
+            iconAlphaAdd = iconAlphaAdd,
+            horizontalPadding = itemHorizontalPadding
         )
     )
 
@@ -185,5 +198,15 @@ internal class ChecklistConfig(
             R.styleable.Checklist_behavior_unchecked_item,
             behaviorUncheckedItem.ordinal
         )]
+    }
+
+    private fun initItemAttributes(attributes: TypedArray) {
+        attributes.getDimensionOrNull(R.styleable.Checklist_item_horizontal_padding)?.let {
+            itemHorizontalPadding = it
+        }
+    }
+
+    private fun TypedArray.getDimensionOrNull(@StyleableRes index: Int): Float? {
+        return getDimension(index, 0F).run { if (this != 0f) this else null }
     }
 }

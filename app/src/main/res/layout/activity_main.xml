@@ -12,14 +12,11 @@
         android:id="@+id/main_checklist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
         app:checkbox_tint_color="#616161"
         app:drag_and_drop_item_active_background_color="@android:color/white"
-        app:drag_and_drop_item_active_elevation="6.0" />
+        app:drag_and_drop_item_active_elevation="6.0"
+        app:item_horizontal_padding="16dp" />
 
 </LinearLayout>
