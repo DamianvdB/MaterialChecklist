@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Material Checklist</string>
+    <public name="dummy_1" type="drawable" />
 </resources>

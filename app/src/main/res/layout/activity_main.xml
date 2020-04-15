@@ -8,15 +8,15 @@
     android:background="@android:color/white"
     tools:context=".sample.MainActivity">
 
-    <com.dvdb.checklist.Checklist
+    <com.dvdb.materialchecklist.MaterialChecklist
         android:id="@+id/main_checklist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/spacing_large"
         android:layout_marginBottom="8dp"
-        app:checkbox_tint_color="#616161"
+        app:checkbox_tint_color="@color/md_grey_700"
         app:drag_and_drop_item_active_background_color="@android:color/white"
         app:drag_and_drop_item_active_elevation="6.0"
-        app:item_horizontal_padding="16dp" />
+        app:item_horizontal_padding="@dimen/spacing_large" />
 
 </LinearLayout>

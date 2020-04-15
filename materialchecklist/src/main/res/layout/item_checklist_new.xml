@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    tools:ignore="UseCompoundDrawables">
+
+    <ImageView
+        android:id="@+id/item_checklist_new_add"
+        android:layout_width="@dimen/icon_size_large"
+        android:layout_height="@dimen/icon_size_large"
+        android:layout_marginStart="@dimen/mc_item_checklist_new_add_start_margin"
+        android:layout_marginLeft="@dimen/mc_item_checklist_new_add_start_margin"
+        android:padding="@dimen/spacing_tiny"
+        android:src="@drawable/ic_add"
+        tools:tint="@color/mc_icon_tint" />
+
+    <TextView
+        android:id="@+id/item_checklist_new_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/mc_item_checklist_new_text_start_margin"
+        android:layout_marginLeft="@dimen/mc_item_checklist_new_text_start_margin"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:ellipsize="end"
+        android:maxLines="@integer/item_checklist_new_text_max_lines"
+        android:paddingTop="@dimen/spacing_small_medium"
+        android:paddingBottom="@dimen/spacing_small_medium"
+        tools:text="@string/item_checklist_new_text" />
+
+</LinearLayout>

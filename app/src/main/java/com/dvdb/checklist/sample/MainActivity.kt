@@ -6,11 +6,11 @@ import android.graphics.Typeface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dvdb.checklist.R
-import com.dvdb.checklist.config.setTextTypeFace
-import com.dvdb.checklist.manager.getFormattedTextItems
-import com.dvdb.checklist.manager.restoreDeletedItem
-import com.dvdb.checklist.manager.setItems
-import com.dvdb.checklist.manager.setOnItemDeletedListener
+import com.dvdb.materialchecklist.config.setTextTypeFace
+import com.dvdb.materialchecklist.manager.getFormattedTextItems
+import com.dvdb.materialchecklist.manager.restoreDeletedItem
+import com.dvdb.materialchecklist.manager.setItems
+import com.dvdb.materialchecklist.manager.setOnItemDeletedListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 

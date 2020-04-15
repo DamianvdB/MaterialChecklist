@@ -1,2 +1,3 @@
 rootProject.name='Checklist'
 include ':app'
+include ':materialchecklist'
