@@ -177,6 +177,10 @@ internal class ChecklistRecyclerHolder private constructor(
                 }
             )
         )
+
+        text.onDeleteKeyPressed = {
+            listener.onItemDeleteKeyPressed(adapterPosition)
+        }
     }
 
     private fun initialiseDelete() {

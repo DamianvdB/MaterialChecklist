@@ -197,6 +197,10 @@ internal class ChecklistManager(
         handleDeleteItem(position)
     }
 
+    override fun onItemDeleteKeyPressed(position: Int) {
+        handleDeleteItem(position, false)
+    }
+
     override fun onItemFocusChanged(
         position: Int,
         hasFocus: Boolean
@@ -338,13 +342,15 @@ internal class ChecklistManager(
         }
     }
 
-    private fun handleDeleteItem(position: Int) {
+    private fun handleDeleteItem(position: Int, savedDeletedItemForRestoration: Boolean = true) {
         val itemToDelete = adapter.items.getOrNull(position)
 
         if (itemToDelete is ChecklistRecyclerItem) {
             removeItemFromAdapter(position)
 
-            saveDeletedItemAndNotifyListener(itemToDelete, position)
+            if (savedDeletedItemForRestoration) {
+                saveDeletedItemAndNotifyListener(itemToDelete, position)
+            }
 
             if (adapter.itemCount == 1) {
                 val itemInsertionPosition = 0
