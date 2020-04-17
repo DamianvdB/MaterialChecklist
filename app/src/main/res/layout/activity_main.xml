@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_marginBottom="8dp"
+        app:text_size_px="@dimen/text_size_xlarge"
         app:checkbox_tint_color="@color/md_grey_700"
         app:drag_and_drop_item_active_background_color="@android:color/white"
         app:drag_and_drop_item_active_elevation="6.0"
