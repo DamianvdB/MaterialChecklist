@@ -23,7 +23,7 @@ internal class ChecklistConfig(
      */
     @ColorInt var textColor: Int = context.getColorCompat(R.color.mc_text_checklist_item_text),
     @Px var textSize: Float = context.resources.getDimension(R.dimen.mc_item_checklist_text_size),
-    var textNewItem: String = context.getString(R.string.item_checklist_new_text),
+    var textNewItem: String = context.getString(R.string.mc_item_checklist_new_text),
     var textAlphaCheckedItem: Float = 0.4F,
     var textAlphaNewItem: Float = 0.5F,
     var textTypeFace: Typeface? = null,

@@ -9,38 +9,50 @@ import com.dvdb.materialchecklist.MaterialChecklist
  * Text configuration
  */
 fun MaterialChecklist.setTextColor(@ColorInt textColor: Int): MaterialChecklist {
-    config.textColor = textColor
-    manager.setConfig(config.toManagerConfig())
+    if (config.textColor != textColor) {
+        config.textColor = textColor
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
 fun MaterialChecklist.setTextSize(@Px textSize: Float): MaterialChecklist {
-    config.textSize = textSize
-    manager.setConfig(config.toManagerConfig())
+    if (config.textSize != textSize) {
+        config.textSize = textSize
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
 fun MaterialChecklist.setNewItemText(text: String): MaterialChecklist {
-    config.textNewItem = text
-    manager.setConfig(config.toManagerConfig())
+    if (config.textNewItem != text) {
+        config.textNewItem = text
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
 fun MaterialChecklist.setCheckedItemTextAlpha(alpha: Float): MaterialChecklist {
-    config.textAlphaCheckedItem = alpha
-    manager.setConfig(config.toManagerConfig())
+    if (config.textAlphaCheckedItem != alpha) {
+        config.textAlphaCheckedItem = alpha
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
 fun MaterialChecklist.setNewItemTextAlpha(alpha: Float): MaterialChecklist {
-    config.textAlphaNewItem = alpha
-    manager.setConfig(config.toManagerConfig())
+    if (config.textAlphaNewItem != alpha) {
+        config.textAlphaNewItem = alpha
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
 fun MaterialChecklist.setTextTypeFace(typeface: Typeface): MaterialChecklist {
-    config.textTypeFace = typeface
-    manager.setConfig(config.toManagerConfig())
+    if (config.textTypeFace != typeface) {
+        config.textTypeFace = typeface
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
@@ -48,26 +60,34 @@ fun MaterialChecklist.setTextTypeFace(typeface: Typeface): MaterialChecklist {
  * Icon configuration
  */
 fun MaterialChecklist.setIconTintColor(@ColorInt tintColor: Int): MaterialChecklist {
-    config.iconTintColor = tintColor
-    manager.setConfig(config.toManagerConfig())
+    if (config.iconTintColor != tintColor) {
+        config.iconTintColor = tintColor
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
 fun MaterialChecklist.setDragIndicatorIconAlpha(alpha: Float): MaterialChecklist {
-    config.iconAlphaDragIndicator = alpha
-    manager.setConfig(config.toManagerConfig())
+    if (config.iconAlphaDragIndicator != alpha) {
+        config.iconAlphaDragIndicator = alpha
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
 fun MaterialChecklist.setDeleteIconAlpha(alpha: Float): MaterialChecklist {
-    config.iconAlphaDelete = alpha
-    manager.setConfig(config.toManagerConfig())
+    if (config.iconAlphaDelete != alpha) {
+        config.iconAlphaDelete = alpha
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
 fun MaterialChecklist.setAddIconAlpha(alpha: Float): MaterialChecklist {
-    config.iconAlphaAdd = alpha
-    manager.setConfig(config.toManagerConfig())
+    if (config.iconAlphaAdd != alpha) {
+        config.iconAlphaAdd = alpha
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
@@ -75,14 +95,18 @@ fun MaterialChecklist.setAddIconAlpha(alpha: Float): MaterialChecklist {
  * Checkbox configuration
  */
 fun MaterialChecklist.setCheckboxTintColor(@ColorInt tintColor: Int): MaterialChecklist {
-    config.checkboxTintColor = tintColor
-    manager.setConfig(config.toManagerConfig())
+    if (config.checkboxTintColor != tintColor) {
+        config.checkboxTintColor = tintColor
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
 fun MaterialChecklist.setCheckedItemCheckboxAlpha(alpha: Float): MaterialChecklist {
-    config.checkboxAlphaCheckedItem = alpha
-    manager.setConfig(config.toManagerConfig())
+    if (config.textAlphaCheckedItem != alpha) {
+        config.checkboxAlphaCheckedItem = alpha
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
@@ -90,20 +114,26 @@ fun MaterialChecklist.setCheckedItemCheckboxAlpha(alpha: Float): MaterialCheckli
  * Drag-and-drop configuration
  */
 fun MaterialChecklist.setDragAndDropEnabled(isEnabled: Boolean): MaterialChecklist {
-    config.dragAndDropEnabled = isEnabled
-    manager.setConfig(config.toManagerConfig())
+    if (config.dragAndDropEnabled != isEnabled) {
+        config.dragAndDropEnabled = isEnabled
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
 fun MaterialChecklist.setDragAndDropItemActiveBackgroundColor(@ColorInt backgroundColor: Int): MaterialChecklist {
-    config.dragAndDropActiveItemBackgroundColor = backgroundColor
-    manager.setConfig(config.toManagerConfig())
+    if (config.dragAndDropActiveItemBackgroundColor != backgroundColor) {
+        config.dragAndDropActiveItemBackgroundColor = backgroundColor
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
 fun MaterialChecklist.setDragAndDropItemActiveElevation(@Px elevation: Float): MaterialChecklist {
-    config.dragAndDropActiveItemElevation = elevation
-    manager.setConfig(config.toManagerConfig())
+    if (config.dragAndDropActiveItemElevation != elevation) {
+        config.dragAndDropActiveItemElevation = elevation
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
@@ -111,14 +141,18 @@ fun MaterialChecklist.setDragAndDropItemActiveElevation(@Px elevation: Float): M
  * Behavior configuration
  */
 fun MaterialChecklist.setOnItemCheckedBehavior(behavior: BehaviorCheckedItem): MaterialChecklist {
-    config.behaviorCheckedItem = behavior
-    manager.setConfig(config.toManagerConfig())
+    if (config.behaviorCheckedItem != behavior) {
+        config.behaviorCheckedItem = behavior
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
 fun MaterialChecklist.setOnItemUncheckedBehavior(behavior: BehaviorUncheckedItem): MaterialChecklist {
-    config.behaviorUncheckedItem = behavior
-    manager.setConfig(config.toManagerConfig())
+    if (config.behaviorUncheckedItem != behavior) {
+        config.behaviorUncheckedItem = behavior
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }
 
@@ -126,7 +160,9 @@ fun MaterialChecklist.setOnItemUncheckedBehavior(behavior: BehaviorUncheckedItem
  * Item configuration
  */
 fun MaterialChecklist.setItemHorizontalPadding(@Px padding: Float): MaterialChecklist {
-    config.itemHorizontalPadding = padding
-    manager.setConfig(config.toManagerConfig())
+    if (config.itemHorizontalPadding != padding) {
+        config.itemHorizontalPadding = padding
+        manager.setConfig(config.toManagerConfig())
+    }
     return this
 }

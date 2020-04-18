@@ -29,6 +29,6 @@
         android:maxLines="@integer/item_checklist_new_text_max_lines"
         android:paddingTop="@dimen/spacing_small_medium"
         android:paddingBottom="@dimen/spacing_small_medium"
-        tools:text="@string/item_checklist_new_text" />
+        tools:text="@string/mc_item_checklist_new_text" />
 
 </LinearLayout>
