@@ -103,7 +103,7 @@ fun MaterialChecklist.setCheckboxTintColor(@ColorInt tintColor: Int): MaterialCh
 }
 
 fun MaterialChecklist.setCheckedItemCheckboxAlpha(alpha: Float): MaterialChecklist {
-    if (config.textAlphaCheckedItem != alpha) {
+    if (config.checkboxAlphaCheckedItem != alpha) {
         config.checkboxAlphaCheckedItem = alpha
         manager.setConfig(config.toManagerConfig())
     }
