@@ -1,0 +1,40 @@
+<resources>
+
+    <string-array name="settings_text_type_face_entries">
+        <item>Default</item>
+        <item>Monospace</item>
+        <item>Sans-Serif</item>
+        <item>Serif</item>
+    </string-array>
+    <string-array name="settings_text_type_face_values">
+        <item>default</item>
+        <item>monospace</item>
+        <item>sans_serif</item>
+        <item>serif</item>
+    </string-array>
+
+    <string-array name="settings_behavior_checked_item_entries">
+        <item>Move to the top of the other checked items</item>
+        <item>Move to the bottom of the other checked items</item>
+        <item>Keep position</item>
+        <item>Delete</item>
+    </string-array>
+    <string-array name="settings_behavior_checked_item_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="settings_behavior_unchecked_item_entries">
+        <item>Move to the previous unchecked position</item>
+        <item>Move to the bottom of the other unchecked items</item>
+        <item>Move to the top of the other unchecked items</item>
+    </string-array>
+    <string-array name="settings_behavior_unchecked_item_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>

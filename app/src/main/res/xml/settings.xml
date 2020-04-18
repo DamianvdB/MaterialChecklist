@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="Text Configuration"
+        app:iconSpaceReserved="false">
+
+        <EditTextPreference
+            android:defaultValue="#212121"
+            android:key="@string/pref_settings_text_color"
+            android:summary="Set the text color for checklist items"
+            android:title="Text Color"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="16"
+            android:key="@string/pref_settings_text_size"
+            android:summary="Set the text size for checklist items"
+            android:title="Text Size"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="@string/mc_item_checklist_new_text"
+            android:key="@string/pref_settings_text_new_item"
+            android:summary="Set the text for the new checklist item"
+            android:title="New Item Text"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="0.4"
+            android:key="@string/pref_settings_text_alpha_checked_item"
+            android:summary="Set the text alpha value for checked checklist items"
+            android:title="Text Checked Item Alpha"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="0.5"
+            android:key="@string/pref_settings_text_alpha_new_item"
+            android:summary="Set the text alpha value for the new checklist item"
+            android:title="New Item Text Alpha"
+            app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:defaultValue="default"
+            android:entries="@array/settings_text_type_face_entries"
+            android:entryValues="@array/settings_text_type_face_values"
+            android:key="@string/pref_settings_text_type_face"
+            android:summary="Set the type face for checklist items"
+            android:title="Text Type Face"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Icon Configuration"
+        app:iconSpaceReserved="false">
+
+        <EditTextPreference
+            android:defaultValue="#616161"
+            android:key="@string/pref_settings_icon_tint_color"
+            android:summary="Set the overall icon tint color"
+            android:title="Icon Tint Color"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="0.5"
+            android:key="@string/pref_settings_icon_alpha_drag_indicator"
+            android:summary="Set the alpha value for the drag indicator icon"
+            android:title="Drag Indicator Icon Alpha"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="0.9"
+            android:key="@string/pref_settings_icon_alpha_delete"
+            android:summary="Set the alpha value for the delete icon"
+            android:title="Delete Icon Alpha"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="0.7"
+            android:key="@string/pref_settings_icon_alpha_add"
+            android:summary="Set the alpha value for the add icon"
+            android:title="Add Icon Alpha"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Checkbox Configuration"
+        app:iconSpaceReserved="false">
+
+        <EditTextPreference
+            android:key="@string/pref_settings_checkbox_tint_color"
+            android:summary="Set the checkbox tint color"
+            android:title="Checkbox Tint Color"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="0.4"
+            android:key="@string/pref_settings_checkbox_alpha_checked_item"
+            android:summary="Set the alpha value for the checkbox of the checked checklist items"
+            android:title="Checked Items Checkbox Alpha"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Drag-and-Drop Configuration"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_settings_drag_and_drop_enabled"
+            android:summary="Set whether checklist items should be draggable"
+            android:title="Enable drag-and-drop"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="#FFFFFF"
+            android:key="@string/pref_settings_drag_and_drop_item_background_color"
+            android:summary="Set the background color of a checklist item while it is being dragged"
+            android:title="Item Background"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="6.0"
+            android:key="@string/pref_settings_drag_and_drop_item_elevation"
+            android:summary="Set the elevation of a checklist item while it is being dragged"
+            android:title="Item Elevation"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Behavior Configuration"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/settings_behavior_checked_item_entries"
+            android:entryValues="@array/settings_behavior_checked_item_values"
+            android:key="@string/pref_settings_behavior_checked_item"
+            android:summary="Set the behavior when an checklist item is checked"
+            android:title="Checked Item Behavior"
+            app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/settings_behavior_unchecked_item_entries"
+            android:entryValues="@array/settings_behavior_unchecked_item_values"
+            android:key="@string/pref_settings_behavior_unchecked_item"
+            android:summary="Set the behavior when an checklist item is unchecked"
+            android:title="Unchecked Item Behavior"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Item Configuration"
+        app:iconSpaceReserved="false">
+
+        <EditTextPreference
+            android:defaultValue="16"
+            android:key="@string/pref_settings_item_horizontal_padding"
+            android:summary="Set the item horizontal padding"
+            android:title="Horizontal Item Padding"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
