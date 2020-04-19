@@ -133,7 +133,7 @@ internal class MainActivity : AppCompatActivity() {
         main_checklist.setCheckedItemCheckboxAlpha(checklistConfiguration.checkboxAlphaCheckedItem)
 
         // Apply drag-and-drop settings from config to checklist system
-        main_checklist.setDragAndDropEnabled(checklistConfiguration.dragAndDropEnabled)
+        main_checklist.setDragAndDropToggleMode(checklistConfiguration.dragAndDropToggleMode)
 
         checklistConfiguration.dragAndDropActiveItemBackgroundColor?.let {
             main_checklist.setDragAndDropItemActiveBackgroundColor(it)

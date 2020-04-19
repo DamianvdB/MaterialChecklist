@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.widget.CompoundButtonCompat
 import com.dvdb.materialchecklist.R
+import com.dvdb.materialchecklist.config.DragAndDropToggleMode
 import com.dvdb.materialchecklist.recycler.holder.DraggableRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.base.BaseRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.base.factory.BaseRecyclerHolderFactory
@@ -49,7 +50,10 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     override fun bindView(item: ChecklistRecyclerItem) {
-        dragIndicatorIcon.setVisible(!item.isChecked && config.iconVisibleDragIndicator, View.INVISIBLE)
+        dragIndicatorIcon.setVisible(
+            !item.isChecked && config.dragAndDropToggleMode != DragAndDropToggleMode.NONE,
+            View.INVISIBLE
+        )
 
         checkbox.setChecked(item.isChecked, false)
         checkbox.alpha = if (item.isChecked) config.checkboxAlphaCheckedItem else DEFAULT_ALPHA
@@ -63,13 +67,13 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     override fun onDragStart() {
-        config.dragActiveBackgroundColor?.let {
+        config.dragAndDropActiveBackgroundColor?.let {
             itemView.setBackgroundColor(it)
         }
     }
 
     override fun onDragStop() {
-        if (config.dragActiveBackgroundColor != null) {
+        if (config.dragAndDropActiveBackgroundColor != null) {
             itemView.background = defaultBackground
         }
     }
@@ -105,14 +109,35 @@ internal class ChecklistRecyclerHolder private constructor(
     private fun initialiseDragIndicator() {
         dragIndicatorIcon.drawable.setTintCompat(config.iconTintColor)
         dragIndicatorIcon.alpha = config.iconAlphaDragIndicator
-        dragIndicatorIcon.setVisible(config.iconVisibleDragIndicator, View.INVISIBLE)
+        dragIndicatorIcon.setVisible(
+            config.dragAndDropToggleMode != DragAndDropToggleMode.NONE,
+            View.INVISIBLE
+        )
 
-        dragIndicatorIcon.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                listener.onItemDragHandledClicked(adapterPosition)
-                return@setOnTouchListener true
+        when (config.dragAndDropToggleMode) {
+            DragAndDropToggleMode.ON_TOUCH -> {
+                dragIndicatorIcon.setOnTouchListener { _, event ->
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        listener.onItemDragHandledClicked(adapterPosition)
+                        return@setOnTouchListener true
+                    }
+                    return@setOnTouchListener false
+                }
+
+                dragIndicatorIcon.setOnLongClickListener(null)
             }
-            return@setOnTouchListener false
+
+            DragAndDropToggleMode.ON_LONG_CLICK -> {
+                dragIndicatorIcon.setOnLongClickListener {
+                    listener.onItemDragHandledClicked(adapterPosition)
+                    return@setOnLongClickListener true
+                }
+
+                dragIndicatorIcon.setOnTouchListener { _, _ -> false }
+            }
+
+            DragAndDropToggleMode.NONE -> {
+            }
         }
     }
 

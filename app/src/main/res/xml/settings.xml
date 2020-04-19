@@ -106,11 +106,13 @@
         android:title="Drag-and-Drop Configuration"
         app:iconSpaceReserved="false">
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/pref_settings_drag_and_drop_enabled"
-            android:summary="Set whether checklist items should be draggable"
-            android:title="Enable drag-and-drop"
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/settings_behavior_drag_and_drop_toggle_mode_entries"
+            android:entryValues="@array/settings_behavior_drag_and_drop_toggle_mode_values"
+            android:key="@string/pref_settings_drag_and_drop_toggle_mode"
+            android:summary="Set drag-and-drop toggle mode for checklist items"
+            android:title="Drag-and-Drop Toggle Mode"
             app:iconSpaceReserved="false" />
 
         <EditTextPreference

@@ -12,7 +12,7 @@
     <string name="pref_settings_icon_alpha_add">pref_settings_icon_alpha_add</string>
     <string name="pref_settings_checkbox_tint_color">pref_settings_checkbox_tint_color</string>
     <string name="pref_settings_checkbox_alpha_checked_item">pref_settings_checkbox_alpha_checked_item</string>
-    <string name="pref_settings_drag_and_drop_enabled">pref_settings_drag_and_drop_enabled</string>
+    <string name="pref_settings_drag_and_drop_toggle_mode">pref_settings_drag_and_drop_toggle_mode</string>
     <string name="pref_settings_drag_and_drop_item_background_color">pref_settings_drag_and_drop_item_background_color</string>
     <string name="pref_settings_behavior_checked_item">pref_settings_behavior_checked_item</string>
     <string name="pref_settings_behavior_unchecked_item">pref_settings_behavior_unchecked_item</string>

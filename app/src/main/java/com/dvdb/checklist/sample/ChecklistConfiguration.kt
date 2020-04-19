@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import com.dvdb.checklist.R
 import com.dvdb.materialchecklist.config.BehaviorCheckedItem
 import com.dvdb.materialchecklist.config.BehaviorUncheckedItem
+import com.dvdb.materialchecklist.config.DragAndDropToggleMode
 
 internal class ChecklistConfiguration(
     private val context: Context,
@@ -80,8 +81,11 @@ internal class ChecklistConfiguration(
     /**
      * Drag-and-drop
      */
-    val dragAndDropEnabled: Boolean
-        get() = sharedPreferences.getBoolean(context.getString(R.string.pref_settings_drag_and_drop_enabled), true)
+    val dragAndDropToggleMode: DragAndDropToggleMode
+        get() = DragAndDropToggleMode.fromInt(
+            sharedPreferences.getString(context.getString(R.string.pref_settings_drag_and_drop_toggle_mode), null)?.toIntOrNull()
+                ?: 0
+        )
 
     val dragAndDropActiveItemBackgroundColor: Int?
         get() = parseColorOrNull(
@@ -94,13 +98,13 @@ internal class ChecklistConfiguration(
      */
     val behaviorCheckedItem: BehaviorCheckedItem
         get() = BehaviorCheckedItem.fromInt(
-            sharedPreferences.getString(context.getString(R.string.pref_settings_behavior_checked_item), null)?.toInt()
+            sharedPreferences.getString(context.getString(R.string.pref_settings_behavior_checked_item), null)?.toIntOrNull()
                 ?: 0
         )
 
     val behaviorUncheckedItem: BehaviorUncheckedItem
         get() = BehaviorUncheckedItem.fromInt(
-            sharedPreferences.getString(context.getString(R.string.pref_settings_behavior_unchecked_item), null)?.toInt()
+            sharedPreferences.getString(context.getString(R.string.pref_settings_behavior_unchecked_item), null)?.toIntOrNull()
                 ?: 0
         )
 

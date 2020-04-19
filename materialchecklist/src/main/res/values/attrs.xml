@@ -16,7 +16,12 @@
         <attr name="checkbox_tint_color" format="color" />
         <attr name="checkbox_alpha_checked_item" format="float" />
 
-        <attr name="drag_and_drop_enabled" format="boolean" />
+        <attr name="drag_and_drop_toggle_mode" format="enum">
+            <enum name="ON_TOUCH" value="0" />
+            <enum name="ON_LONG_CLICK" value="1" />
+            <enum name="NONE" value="2" />
+        </attr>
+
         <attr name="drag_and_drop_item_active_background_color" format="color" />
 
         <attr name="behavior_checked_item" format="enum">

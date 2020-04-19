@@ -3,6 +3,7 @@ package com.dvdb.materialchecklist.recycler.holder.checklist.config
 import android.graphics.Typeface
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
+import com.dvdb.materialchecklist.config.DragAndDropToggleMode
 import com.dvdb.materialchecklist.recycler.holder.base.BaseRecyclerHolderConfig
 
 internal data class ChecklistRecyclerHolderConfig(
@@ -13,9 +14,9 @@ internal data class ChecklistRecyclerHolderConfig(
     @ColorInt val iconTintColor: Int,
     val iconAlphaDragIndicator: Float,
     val iconAlphaDelete: Float,
-    val iconVisibleDragIndicator: Boolean,
     val checkboxAlphaCheckedItem: Float,
     @ColorInt val checkboxTintColor: Int?,
-    @ColorInt val dragActiveBackgroundColor: Int?,
+    val dragAndDropToggleMode: DragAndDropToggleMode,
+    @ColorInt val dragAndDropActiveBackgroundColor: Int?,
     @Px val horizontalPadding: Float?
 ) : BaseRecyclerHolderConfig

@@ -45,7 +45,7 @@ internal class ChecklistConfig(
     /**
      * Drag-and-drop
      */
-    var dragAndDropEnabled: Boolean = true,
+    var dragAndDropToggleMode: DragAndDropToggleMode = DragAndDropToggleMode.ON_TOUCH,
     @ColorInt var dragAndDropActiveItemBackgroundColor: Int? = null,
 
     /**
@@ -76,7 +76,7 @@ internal class ChecklistConfig(
     }
 
     fun toManagerConfig() = ChecklistManagerConfig(
-        dragAndDropEnabled = dragAndDropEnabled,
+        dragAndDropEnabled = dragAndDropToggleMode != DragAndDropToggleMode.NONE,
         behaviorCheckedItem = behaviorCheckedItem,
         behaviorUncheckedItem = behaviorUncheckedItem,
         adapterConfig = toAdapterConfig()
@@ -91,10 +91,10 @@ internal class ChecklistConfig(
             iconTintColor = iconTintColor,
             iconAlphaDragIndicator = iconAlphaDragIndicator,
             iconAlphaDelete = iconAlphaDelete,
-            iconVisibleDragIndicator = dragAndDropEnabled,
             checkboxAlphaCheckedItem = checkboxAlphaCheckedItem,
             checkboxTintColor = checkboxTintColor,
-            dragActiveBackgroundColor = dragAndDropActiveItemBackgroundColor,
+            dragAndDropToggleMode = dragAndDropToggleMode,
+            dragAndDropActiveBackgroundColor = dragAndDropActiveItemBackgroundColor,
             horizontalPadding = itemHorizontalPadding
         ),
         checklistNewConfig = ChecklistNewRecyclerHolderConfig(
@@ -170,10 +170,10 @@ internal class ChecklistConfig(
     }
 
     private fun initDragAndDropAttributes(attributes: TypedArray) {
-        dragAndDropEnabled = attributes.getBoolean(
-            R.styleable.MaterialChecklist_drag_and_drop_enabled,
-            dragAndDropEnabled
-        )
+        dragAndDropToggleMode = DragAndDropToggleMode.values()[attributes.getInt(
+            R.styleable.MaterialChecklist_drag_and_drop_toggle_mode,
+            dragAndDropToggleMode.ordinal
+        )]
 
         dragAndDropActiveItemBackgroundColor = attributes.getColor(
             R.styleable.MaterialChecklist_drag_and_drop_item_active_background_color,
