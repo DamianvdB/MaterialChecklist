@@ -139,10 +139,6 @@ internal class MainActivity : AppCompatActivity() {
             main_checklist.setDragAndDropItemActiveBackgroundColor(it)
         }
 
-        checklistConfiguration.dragAndDropActiveItemElevation?.let {
-            main_checklist.setDragAndDropItemActiveElevation(it)
-        }
-
         // Apply item behavior settings from config to checklist system
         main_checklist.setOnItemCheckedBehavior(checklistConfiguration.behaviorCheckedItem)
             .setOnItemUncheckedBehavior(checklistConfiguration.behaviorUncheckedItem)

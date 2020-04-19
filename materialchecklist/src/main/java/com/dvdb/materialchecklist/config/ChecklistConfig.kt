@@ -47,7 +47,6 @@ internal class ChecklistConfig(
      */
     var dragAndDropEnabled: Boolean = true,
     @ColorInt var dragAndDropActiveItemBackgroundColor: Int? = null,
-    @Px var dragAndDropActiveItemElevation: Float? = null,
 
     /**
      *  Behavior
@@ -96,7 +95,6 @@ internal class ChecklistConfig(
             checkboxAlphaCheckedItem = checkboxAlphaCheckedItem,
             checkboxTintColor = checkboxTintColor,
             dragActiveBackgroundColor = dragAndDropActiveItemBackgroundColor,
-            dragActiveElevation = dragAndDropActiveItemElevation,
             horizontalPadding = itemHorizontalPadding
         ),
         checklistNewConfig = ChecklistNewRecyclerHolderConfig(
@@ -181,11 +179,6 @@ internal class ChecklistConfig(
             R.styleable.MaterialChecklist_drag_and_drop_item_active_background_color,
             0
         ).run { if (this == 0) dragAndDropActiveItemBackgroundColor else this }
-
-        dragAndDropActiveItemElevation = attributes.getFloat(
-            R.styleable.MaterialChecklist_drag_and_drop_item_active_elevation,
-            0F
-        ).run { if (this == 0F) dragAndDropActiveItemElevation else this }
     }
 
     private fun initBehaviorAttributes(attributes: TypedArray) {

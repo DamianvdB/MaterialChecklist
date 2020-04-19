@@ -15,7 +15,6 @@
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/spacing_medium"
         app:drag_and_drop_item_active_background_color="@android:color/white"
-        app:drag_and_drop_item_active_elevation="6.0"
         app:item_horizontal_padding="@dimen/spacing_large" />
 
 </LinearLayout>

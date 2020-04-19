@@ -3,7 +3,6 @@ package com.dvdb.materialchecklist.recycler.holder.checklist
 import android.content.res.ColorStateList
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.text.Editable
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -39,7 +38,6 @@ internal class ChecklistRecyclerHolder private constructor(
     DraggableRecyclerHolder {
 
     private val defaultBackground: Drawable? = itemView.background
-    private val defaultElevation: Float? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) itemView.elevation else null
 
     private val dragIndicatorIcon: ImageView = itemView.item_checklist_drag_indicator
     private val checkbox: CheckboxWidget = itemView.item_checklist_checkbox
@@ -68,23 +66,11 @@ internal class ChecklistRecyclerHolder private constructor(
         config.dragActiveBackgroundColor?.let {
             itemView.setBackgroundColor(it)
         }
-
-        config.dragActiveElevation?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                itemView.elevation = it
-            }
-        }
     }
 
     override fun onDragStop() {
         if (config.dragActiveBackgroundColor != null) {
             itemView.background = defaultBackground
-        }
-
-        if (config.dragActiveElevation != null && defaultElevation != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                itemView.elevation = defaultElevation
-            }
         }
     }
 

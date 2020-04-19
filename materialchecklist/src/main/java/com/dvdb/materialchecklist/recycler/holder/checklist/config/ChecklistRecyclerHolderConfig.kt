@@ -17,6 +17,5 @@ internal data class ChecklistRecyclerHolderConfig(
     val checkboxAlphaCheckedItem: Float,
     @ColorInt val checkboxTintColor: Int?,
     @ColorInt val dragActiveBackgroundColor: Int?,
-    @Px val dragActiveElevation: Float?,
     @Px val horizontalPadding: Float?
 ) : BaseRecyclerHolderConfig

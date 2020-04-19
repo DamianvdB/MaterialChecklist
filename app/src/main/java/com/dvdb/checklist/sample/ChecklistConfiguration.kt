@@ -89,9 +89,6 @@ internal class ChecklistConfiguration(
                 ?: ""
         )
 
-    val dragAndDropActiveItemElevation: Float?
-        get() = sharedPreferences.getString(context.getString(R.string.pref_settings_drag_and_drop_item_elevation), null)?.toFloatOrNull()
-
     /**
      *  Behavior
      */

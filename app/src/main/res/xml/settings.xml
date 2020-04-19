@@ -119,13 +119,6 @@
             android:summary="Set the background color of a checklist item while it is being dragged"
             android:title="Item Background"
             app:iconSpaceReserved="false" />
-
-        <EditTextPreference
-            android:defaultValue="6.0"
-            android:key="@string/pref_settings_drag_and_drop_item_elevation"
-            android:summary="Set the elevation of a checklist item while it is being dragged"
-            android:title="Item Elevation"
-            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
     <PreferenceCategory

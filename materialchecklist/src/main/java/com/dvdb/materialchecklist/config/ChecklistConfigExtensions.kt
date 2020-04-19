@@ -129,14 +129,6 @@ fun MaterialChecklist.setDragAndDropItemActiveBackgroundColor(@ColorInt backgrou
     return this
 }
 
-fun MaterialChecklist.setDragAndDropItemActiveElevation(@Px elevation: Float): MaterialChecklist {
-    if (config.dragAndDropActiveItemElevation != elevation) {
-        config.dragAndDropActiveItemElevation = elevation
-        manager.setConfig(config.toManagerConfig())
-    }
-    return this
-}
-
 /**
  * Behavior configuration
  */
