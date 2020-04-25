@@ -64,11 +64,11 @@ class MaterialChecklist(
 
         if (isInEditMode) {
             setItems(
-                "[ ] Slack meeting notes to team\n" +
-                        "[ ] Order flowers for girlfriend\n" +
-                        "[ ] Organise vacation photos\n" +
+                "[ ] Send meeting notes to team\n" +
+                        "[ ] Order flowers\n" +
+                        "[ ] Organise camera gear \n" +
                         "[ ] Book flights to Dubai\n" +
-                        "[x] Airbnb holiday home"
+                        "[x] Lease out holiday home"
             )
         }
     }

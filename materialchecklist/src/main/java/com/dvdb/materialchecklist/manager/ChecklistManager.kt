@@ -115,6 +115,18 @@ internal class ChecklistManager(
         adapter.config = config.adapterConfig
     }
 
+    fun restoreDeleteItems(itemIds: List<String>): Boolean {
+        var allItemsRemoved = true
+
+        itemIds.forEach { itemId ->
+            if (!restoreDeletedItem(itemId) && allItemsRemoved) {
+                allItemsRemoved = false
+            }
+        }
+
+        return allItemsRemoved
+    }
+
     fun restoreDeletedItem(itemId: String): Boolean {
         deletedItems.remove(itemId)?.let { (item, position) ->
             val addItemPosition = if (item.isChecked) {
@@ -131,6 +143,29 @@ internal class ChecklistManager(
             return true
         }
         return false
+    }
+
+    fun removeAllCheckedItems(): List<String> {
+        val removedItemIds: MutableList<String> = mutableListOf()
+        val items = adapter.items.filterIndexed { index, item ->
+            val shouldKeep = item is ChecklistNewRecyclerItem || item is ChecklistRecyclerItem && !item.isChecked
+            if (!shouldKeep) {
+                removedItemIds.add((item as ChecklistRecyclerItem).id)
+
+                saveDeletedItem(
+                    item,
+                    index
+                )
+            }
+
+            shouldKeep
+        }
+
+        if (removedItemIds.isNotEmpty()) {
+            adapter.setItems(items)
+        }
+
+        return removedItemIds
     }
 
     override fun onItemChecked(
@@ -474,11 +509,21 @@ internal class ChecklistManager(
         )
     }
 
-    private fun saveDeletedItemAndNotifyListener(
+    private fun saveDeletedItem(
         item: ChecklistRecyclerItem,
         position: Int
     ) {
         deletedItems[item.id] = Pair(
+            item,
+            position
+        )
+    }
+
+    private fun saveDeletedItemAndNotifyListener(
+        item: ChecklistRecyclerItem,
+        position: Int
+    ) {
+        saveDeletedItem(
             item,
             position
         )

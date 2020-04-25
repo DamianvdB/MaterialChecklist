@@ -6,6 +6,10 @@
         android:title="@string/menu_github" />
 
     <item
+        android:id="@+id/menu_main_activity_remove_checked_items"
+        android:title="@string/menu_remove_checked_items" />
+
+    <item
         android:id="@+id/menu_main_activity_settings"
         android:title="@string/menu_settings" />
 

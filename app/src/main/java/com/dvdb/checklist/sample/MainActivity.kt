@@ -28,10 +28,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.dvdb.checklist.R
 import com.dvdb.materialchecklist.config.*
-import com.dvdb.materialchecklist.manager.getFormattedTextItems
-import com.dvdb.materialchecklist.manager.restoreDeletedItem
-import com.dvdb.materialchecklist.manager.setItems
-import com.dvdb.materialchecklist.manager.setOnItemDeletedListener
+import com.dvdb.materialchecklist.manager.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -74,23 +71,12 @@ internal class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_main_activity_settings -> {
-                dismissKeyboard()
+            R.id.menu_main_activity_github -> handleOnGithubMenuItemClicked()
 
-                startActivityForResult(
-                    Intent(this, SettingsActivity::class.java),
-                    SETTINGS_ACTIVITY_REQUEST_CODE
-                )
-            }
-            R.id.menu_main_activity_github -> {
-                dismissKeyboard()
+            R.id.menu_main_activity_remove_checked_items -> handleOnRemoveCheckedItemsClicked()
 
-                startActivity(
-                    Intent(Intent.ACTION_VIEW)
-                        .setData(Uri.parse("http://bit.ly/damian_van_den_berg_github"))
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                )
-            }
+            R.id.menu_main_activity_settings -> handleOnSettingsMenuItemClicked()
+
             else -> {
             }
         }
@@ -113,7 +99,7 @@ internal class MainActivity : AppCompatActivity() {
         main_checklist.setItems(checklistItemsText)
 
         main_checklist.setOnItemDeletedListener { text, id ->
-            val message: String = if (text.isNotEmpty()) "Item deleted: \"$text\"" else "Item deleted"
+            val message: String = if (text.isNotEmpty()) "Checklist item deleted: \"$text\"" else "Checklist item deleted"
             Snackbar.make(main_root, message, Snackbar.LENGTH_LONG)
                 .setAction("undo") {
                     main_checklist.restoreDeletedItem(id)
@@ -163,6 +149,43 @@ internal class MainActivity : AppCompatActivity() {
         checklistConfiguration.itemHorizontalPadding?.let {
             main_checklist.setItemHorizontalPadding(it)
         }
+    }
+
+    private fun handleOnGithubMenuItemClicked() {
+        dismissKeyboard()
+
+        startActivity(
+            Intent(Intent.ACTION_VIEW)
+                .setData(Uri.parse("http://bit.ly/damian_van_den_berg_github"))
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
+    }
+
+    private fun handleOnRemoveCheckedItemsClicked() {
+        val itemIdsOfRemovedItems = main_checklist.removeAllCheckedItems()
+
+        val message = resources.getQuantityString(
+            R.plurals.item_checked_removed,
+            itemIdsOfRemovedItems.size,
+            itemIdsOfRemovedItems.size
+        )
+
+        Snackbar.make(main_root, message, Snackbar.LENGTH_LONG).apply {
+            if (itemIdsOfRemovedItems.isNotEmpty()) {
+                setAction("undo") {
+                    main_checklist.restoreDeleteItems(itemIdsOfRemovedItems)
+                }
+            }
+        }.show()
+    }
+
+    private fun handleOnSettingsMenuItemClicked() {
+        dismissKeyboard()
+
+        startActivityForResult(
+            Intent(this, SettingsActivity::class.java),
+            SETTINGS_ACTIVITY_REQUEST_CODE
+        )
     }
 
     private fun dismissKeyboard() {

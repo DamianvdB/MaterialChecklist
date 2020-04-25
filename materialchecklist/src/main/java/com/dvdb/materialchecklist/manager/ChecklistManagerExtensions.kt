@@ -36,6 +36,32 @@ fun MaterialChecklist.setOnItemDeletedListener(listener: ((text: String, itemId:
     manager.onItemDeleted = listener
 }
 
+/**
+ * Restore deleted checklist items.
+ *
+ * @param itemIds The id's of the checklist items to restore.
+ * @return 'true' if all items were restored, otherwise 'false'.
+ */
+fun MaterialChecklist.restoreDeleteItems(itemIds: List<String>): Boolean {
+    return manager.restoreDeleteItems(itemIds)
+}
+
+/**
+ * Restore a deleted checklist item.
+ *
+ * @param itemId The id of the checklist item to restore.
+ * @return 'true' if item was restored, otherwise 'false'.
+ */
 fun MaterialChecklist.restoreDeletedItem(itemId: String): Boolean {
     return manager.restoreDeletedItem(itemId)
+}
+
+/**
+ * Remove all checklist items that are checked.
+ * These items can be restored using their id's.
+ *
+ * @return id's of checklist items removed.
+ */
+fun MaterialChecklist.removeAllCheckedItems(): List<String> {
+    return manager.removeAllCheckedItems()
 }
