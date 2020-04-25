@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/item_checklist_drag_indicator"
         android:layout_width="@dimen/icon_size_large"
-        android:layout_height="@dimen/icon_size_large"
+        android:layout_height="match_parent"
         android:padding="@dimen/spacing_tiny"
         android:src="@drawable/ic_drag_indicator"
         tools:tint="@color/mc_icon_tint" />
