@@ -75,6 +75,8 @@ internal class MainActivity : AppCompatActivity() {
 
             R.id.menu_main_activity_remove_checked_items -> handleOnRemoveCheckedItemsClicked()
 
+            R.id.menu_main_activity_uncheck_checked_items -> handleOnUncheckCheckedItemsClicked()
+
             R.id.menu_main_activity_settings -> handleOnSettingsMenuItemClicked()
 
             else -> {
@@ -177,6 +179,10 @@ internal class MainActivity : AppCompatActivity() {
                 }
             }
         }.show()
+    }
+
+    private fun handleOnUncheckCheckedItemsClicked() {
+        main_checklist.uncheckAllCheckedItems()
     }
 
     private fun handleOnSettingsMenuItemClicked() {

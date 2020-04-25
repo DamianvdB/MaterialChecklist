@@ -65,3 +65,12 @@ fun MaterialChecklist.restoreDeletedItem(itemId: String): Boolean {
 fun MaterialChecklist.removeAllCheckedItems(): List<String> {
     return manager.removeAllCheckedItems()
 }
+
+/**
+ * Uncheck all checklist items that are checked.
+ *
+ * @return 'true' if any checked items were marked as unchecked, otherwise 'false'.
+ */
+fun MaterialChecklist.uncheckAllCheckedItems(): Boolean {
+    return manager.uncheckAllCheckedItems()
+}

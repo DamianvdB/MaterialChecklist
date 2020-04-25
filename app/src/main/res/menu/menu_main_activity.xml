@@ -10,6 +10,10 @@
         android:title="@string/menu_remove_checked_items" />
 
     <item
+        android:id="@+id/menu_main_activity_uncheck_checked_items"
+        android:title="@string/menu_uncheck_checked_items" />
+
+    <item
         android:id="@+id/menu_main_activity_settings"
         android:title="@string/menu_settings" />
 

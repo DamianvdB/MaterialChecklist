@@ -168,6 +168,23 @@ internal class ChecklistManager(
         return removedItemIds
     }
 
+    fun uncheckAllCheckedItems(): Boolean {
+        var anyItemsUnchecked = false
+
+        adapter.items.forEachIndexed { index, item ->
+            if (item is ChecklistRecyclerItem && item.isChecked) {
+                handleItemUnchecked(
+                    item,
+                    index
+                )
+
+                anyItemsUnchecked = true
+            }
+        }
+
+        return anyItemsUnchecked
+    }
+
     override fun onItemChecked(
         position: Int,
         isChecked: Boolean

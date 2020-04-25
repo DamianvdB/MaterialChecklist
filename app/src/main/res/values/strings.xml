@@ -6,6 +6,7 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_github">GitHub</string>
     <string name="menu_remove_checked_items">Remove checked items</string>
+    <string name="menu_uncheck_checked_items">Uncheck checked items</string>
 
     <plurals name="item_checked_removed">
         <item quantity="one">%d checked item removed</item>
