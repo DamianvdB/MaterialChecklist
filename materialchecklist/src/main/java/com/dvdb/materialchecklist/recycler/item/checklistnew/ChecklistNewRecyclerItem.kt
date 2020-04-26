@@ -17,7 +17,9 @@
 package com.dvdb.materialchecklist.recycler.item.checklistnew
 
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.util.RecyclerItemIdentifierUtil
 
 internal data class ChecklistNewRecyclerItem(
-    override val type: Type = Type.CHECKLIST_NEW
+    override val type: Type = Type.CHECKLIST_NEW,
+    override val id: Long = RecyclerItemIdentifierUtil.nextIdentifier
 ) : BaseRecyclerItem()

@@ -12,8 +12,6 @@
         android:id="@+id/main_checklist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/spacing_large"
-        android:layout_marginBottom="@dimen/spacing_medium"
         app:drag_and_drop_item_active_background_color="@android:color/white"
         app:item_horizontal_padding="@dimen/spacing_large" />
 

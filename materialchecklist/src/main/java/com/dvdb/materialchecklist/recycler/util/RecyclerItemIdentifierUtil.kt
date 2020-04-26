@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.item.checklist
+package com.dvdb.materialchecklist.recycler.util
 
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.util.RecyclerItemIdentifierUtil
+import java.util.concurrent.atomic.AtomicLong
 
-internal data class ChecklistRecyclerItem(
-    val text: String,
-    val isChecked: Boolean = false,
-    override val type: Type = Type.CHECKLIST,
-    override val id: Long = RecyclerItemIdentifierUtil.nextIdentifier
-) : BaseRecyclerItem()
+/**
+ * A utility class used to atomically increment and return a unique long value.
+ */
+internal object RecyclerItemIdentifierUtil {
+
+    private val incrementer: AtomicLong = AtomicLong()
+
+    val nextIdentifier: Long
+        get() = incrementer.incrementAndGet()
+}

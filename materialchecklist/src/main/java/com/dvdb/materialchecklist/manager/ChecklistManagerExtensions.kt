@@ -32,7 +32,7 @@ fun MaterialChecklist.getFormattedTextItems(
     )
 }
 
-fun MaterialChecklist.setOnItemDeletedListener(listener: ((text: String, itemId: String) -> Unit)) {
+fun MaterialChecklist.setOnItemDeletedListener(listener: ((text: String, itemId: Long) -> Unit)) {
     manager.onItemDeleted = listener
 }
 
@@ -42,7 +42,7 @@ fun MaterialChecklist.setOnItemDeletedListener(listener: ((text: String, itemId:
  * @param itemIds The id's of the checklist items to restore.
  * @return 'true' if all items were restored, otherwise 'false'.
  */
-fun MaterialChecklist.restoreDeleteItems(itemIds: List<String>): Boolean {
+fun MaterialChecklist.restoreDeleteItems(itemIds: List<Long>): Boolean {
     return manager.restoreDeleteItems(itemIds)
 }
 
@@ -52,7 +52,7 @@ fun MaterialChecklist.restoreDeleteItems(itemIds: List<String>): Boolean {
  * @param itemId The id of the checklist item to restore.
  * @return 'true' if item was restored, otherwise 'false'.
  */
-fun MaterialChecklist.restoreDeletedItem(itemId: String): Boolean {
+fun MaterialChecklist.restoreDeletedItem(itemId: Long): Boolean {
     return manager.restoreDeletedItem(itemId)
 }
 
@@ -62,7 +62,7 @@ fun MaterialChecklist.restoreDeletedItem(itemId: String): Boolean {
  *
  * @return id's of checklist items removed.
  */
-fun MaterialChecklist.removeAllCheckedItems(): List<String> {
+fun MaterialChecklist.removeAllCheckedItems(): List<Long> {
     return manager.removeAllCheckedItems()
 }
 

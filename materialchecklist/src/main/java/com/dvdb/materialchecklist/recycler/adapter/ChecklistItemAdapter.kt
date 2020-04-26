@@ -53,7 +53,13 @@ internal class ChecklistItemAdapter(
             }
         }
 
-    override fun getItemViewType(position: Int) = _items[position].type.ordinal
+    init {
+        setHasStableIds(true)
+    }
+
+    override fun getItemId(position: Int): Long = items[position].id
+
+    override fun getItemViewType(position: Int): Int = _items[position].type.ordinal
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {

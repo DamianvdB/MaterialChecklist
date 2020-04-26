@@ -56,7 +56,7 @@ internal class ChecklistManager(
         )
     }
 
-    var onItemDeleted: ((text: String, id: String) -> Unit)? = null
+    var onItemDeleted: ((text: String, id: Long) -> Unit)? = null
 
     private lateinit var adapter: ChecklistItemAdapter
     private lateinit var config: ChecklistManagerConfig
@@ -71,9 +71,9 @@ internal class ChecklistManager(
 
     private var currentPosition: Int = NO_POSITION
 
-    private val previousUncheckedItemPositions: MutableMap<String, Int> = mutableMapOf()
+    private val previousUncheckedItemPositions: MutableMap<Long, Int> = mutableMapOf()
 
-    private val deletedItems: MutableMap<String, Pair<ChecklistRecyclerItem, Int>> = mutableMapOf()
+    private val deletedItems: MutableMap<Long, Pair<ChecklistRecyclerItem, Int>> = mutableMapOf()
 
     fun lateInitState(
         adapter: ChecklistItemAdapter,
@@ -115,7 +115,7 @@ internal class ChecklistManager(
         adapter.config = config.adapterConfig
     }
 
-    fun restoreDeleteItems(itemIds: List<String>): Boolean {
+    fun restoreDeleteItems(itemIds: List<Long>): Boolean {
         var allItemsRemoved = true
 
         itemIds.forEach { itemId ->
@@ -127,7 +127,7 @@ internal class ChecklistManager(
         return allItemsRemoved
     }
 
-    fun restoreDeletedItem(itemId: String): Boolean {
+    fun restoreDeletedItem(itemId: Long): Boolean {
         deletedItems.remove(itemId)?.let { (item, position) ->
             val addItemPosition = if (item.isChecked) {
                 position.coerceIn(newItemPosition, adapter.itemCount)
@@ -145,8 +145,8 @@ internal class ChecklistManager(
         return false
     }
 
-    fun removeAllCheckedItems(): List<String> {
-        val removedItemIds: MutableList<String> = mutableListOf()
+    fun removeAllCheckedItems(): List<Long> {
+        val removedItemIds: MutableList<Long> = mutableListOf()
         val items = adapter.items.filterIndexed { index, item ->
             val shouldKeep = item is ChecklistNewRecyclerItem || item is ChecklistRecyclerItem && !item.isChecked
             if (!shouldKeep) {

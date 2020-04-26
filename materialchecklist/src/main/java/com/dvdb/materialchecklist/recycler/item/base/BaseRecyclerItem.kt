@@ -18,6 +18,7 @@ package com.dvdb.materialchecklist.recycler.item.base
 
 internal abstract class BaseRecyclerItem {
     abstract val type: Type
+    abstract val id: Long
 
     enum class Type {
         CHECKLIST,
