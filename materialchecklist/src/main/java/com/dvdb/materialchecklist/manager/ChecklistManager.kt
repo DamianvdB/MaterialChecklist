@@ -33,6 +33,7 @@ import com.dvdb.materialchecklist.util.DelayHandler
 import java.util.*
 
 private const val NO_POSITION = -1
+private const val ENABLE_ITEM_ANIMATIONS_DELAY_MS = 1000L
 
 internal class ChecklistManager(
     private val hideKeyboard: () -> Unit
@@ -64,6 +65,7 @@ internal class ChecklistManager(
     private lateinit var startDragAndDrop: (position: Int) -> Unit
     private lateinit var enableDragAndDrop: (isEnabled: Boolean) -> Unit
     private lateinit var updateItemPadding: (firstItemTopPadding: Float?, lastItemBottomPadding: Float?) -> Unit
+    private lateinit var enableItemAnimations: (isEnabled: Boolean) -> Unit
 
     private val newItemPosition: Int
         get() = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }
@@ -82,7 +84,8 @@ internal class ChecklistManager(
         scrollToPosition: (position: Int) -> Unit,
         startDragAndDrop: (position: Int) -> Unit,
         enableDragAndDrop: (isEnabled: Boolean) -> Unit,
-        updateItemPadding: (firstItemTopPadding: Float?, lastItemBottomPadding: Float?) -> Unit
+        updateItemPadding: (firstItemTopPadding: Float?, lastItemBottomPadding: Float?) -> Unit,
+        enableItemAnimations: (isEnabled: Boolean) -> Unit
     ) {
         if (this::adapter.isInitialized) {
             error("Checklist manager state should only be initialised once")
@@ -94,6 +97,7 @@ internal class ChecklistManager(
         this.startDragAndDrop = startDragAndDrop
         this.enableDragAndDrop = enableDragAndDrop.also { it(config.dragAndDropEnabled) }
         this.updateItemPadding = updateItemPadding.also { it(config.itemFirstTopPadding, config.itemLastBottomPadding) }
+        this.enableItemAnimations = enableItemAnimations
     }
 
     fun setItems(formattedText: String) {
@@ -346,10 +350,18 @@ internal class ChecklistManager(
         }.plus(ChecklistNewRecyclerItem())
             .sortedWith(DefaultRecyclerItemComparator)
 
+        enableItemAnimations(false)
+
         setItemsInAdapter(sortedItems)
 
         if (currentPosition != NO_POSITION) {
             requestFocusForPositionInAdapter(currentPosition)
+        }
+
+        resetInternalState()
+
+        delayHandler.run(ENABLE_ITEM_ANIMATIONS_DELAY_MS) {
+            enableItemAnimations(true)
         }
     }
 
@@ -561,5 +573,10 @@ internal class ChecklistManager(
             item.text,
             item.id
         )
+    }
+
+    private fun resetInternalState() {
+        previousUncheckedItemPositions.clear()
+        deletedItems.clear()
     }
 }

@@ -2,8 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_main_activity_github"
-        android:title="@string/menu_github" />
+        android:id="@+id/menu_main_activity_convert_to_text"
+        android:title="@string/menu_convert_to_text" />
+
+    <item
+        android:id="@+id/menu_main_activity_convert_to_checklist"
+        android:title="@string/menu_convert_to_checklist" />
 
     <item
         android:id="@+id/menu_main_activity_remove_checked_items"
@@ -12,6 +16,10 @@
     <item
         android:id="@+id/menu_main_activity_uncheck_checked_items"
         android:title="@string/menu_uncheck_checked_items" />
+
+    <item
+        android:id="@+id/menu_main_activity_github"
+        android:title="@string/menu_github" />
 
     <item
         android:id="@+id/menu_main_activity_settings"

@@ -31,6 +31,7 @@ import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHol
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.util.EnterActionPerformedFactory
 import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
+import com.dvdb.materialchecklist.recycler.util.RecyclerSpaceItemDecorator
 import com.dvdb.materialchecklist.recycler.util.SimpleItemTouchHelper
 import com.dvdb.materialchecklist.util.hideKeyboard
 
@@ -106,38 +107,105 @@ class MaterialChecklist(
         manager.lateInitState(
             adapter = recyclerView.adapter as ChecklistItemAdapter,
             config = config.toManagerConfig(),
-            scrollToPosition = { position ->
-                if (position != RecyclerView.NO_POSITION) {
-                    recyclerView.layoutManager?.scrollToPosition(position)
-                }
-            },
-            startDragAndDrop = { position ->
-                val viewHolder = recyclerView.findViewHolderForAdapterPosition(position)
-                if (viewHolder != null) {
-                    itemTouchHelper.startDrag(viewHolder)
-                }
-            },
-            enableDragAndDrop = { isEnabled ->
-                itemTouchCallback.setIsDragEnabled(isEnabled)
-            },
-            updateItemPadding = { firstItemTopPadding, lastItemBottomPadding ->
-                for (index in 0 until recyclerView.itemDecorationCount) {
-                    val itemDecoration = recyclerView.getItemDecorationAt(index)
-                    if (itemDecoration is RecyclerSpaceItemDecorator) {
-                        recyclerView.removeItemDecoration(itemDecoration)
-                        break
-                    }
-                }
+            scrollToPosition = createManagerScrollToPositionFunction(recyclerView),
+            startDragAndDrop = createManagerStartDragAndDropFunction(recyclerView, itemTouchHelper),
+            enableDragAndDrop = createManagerEnableDragAndDropFunction(itemTouchCallback),
+            updateItemPadding = createManagerUpdateItemPaddingFunction(recyclerView),
+            enableItemAnimations = createManagerEnableItemAnimationsFunction(recyclerView)
+        )
+    }
 
-                if (firstItemTopPadding != null || lastItemBottomPadding != null) {
-                    recyclerView.addItemDecoration(
-                        RecyclerSpaceItemDecorator(
-                            firstItemMargin = firstItemTopPadding?.toInt() ?: 0,
-                            lastItemMargin = lastItemBottomPadding?.toInt() ?: 0
-                        )
-                    )
+    /**
+     * Creates a function for the checklist manager for scrolling to a checklist item at the provided position
+     * in the recycler view.
+     *
+     * @param recyclerView The recycler view to use for scrolling to the checklist.
+     */
+    private fun createManagerScrollToPositionFunction(recyclerView: RecyclerView): (position: Int) -> Unit {
+        return { position ->
+            if (position != RecyclerView.NO_POSITION) {
+                recyclerView.layoutManager?.scrollToPosition(position)
+            }
+        }
+    }
+
+    /**
+     * Creates a function for the checklist manager for starting the drag-and-drop functionality
+     * for a checklist item at the provided position in the recycler view.
+     *
+     * @param recyclerView The recycler view containing the checklist item to use as the target.
+     * @param itemTouchHelper The item touch helper to use for starting the drag-and-drop functionality.
+     */
+    private fun createManagerStartDragAndDropFunction(
+        recyclerView: RecyclerView,
+        itemTouchHelper: ItemTouchHelper
+    ): (position: Int) -> Unit {
+        return { position ->
+            val viewHolder = recyclerView.findViewHolderForAdapterPosition(position)
+            if (viewHolder != null) {
+                itemTouchHelper.startDrag(viewHolder)
+            }
+        }
+    }
+
+    /**
+     * Creates a function for the checklist manager for enabling/disabling the drag-and-drop functionality
+     * for checklist items.
+     *
+     * @param itemTouchCallback The item touch callback helper to use for enabling/disabling the drag-and-drop functionality.
+     */
+    private fun createManagerEnableDragAndDropFunction(itemTouchCallback: SimpleItemTouchHelper): (isEnabled: Boolean) -> Unit {
+        return { isEnabled ->
+            itemTouchCallback.setIsDragEnabled(isEnabled)
+        }
+    }
+
+    /**
+     * Creates a function for the checklist manager for updating the padding of the first and last checklist items
+     * in the recycler view.
+     *
+     * @param recyclerView The recycler view containing the checklist items.
+     */
+    private fun createManagerUpdateItemPaddingFunction(recyclerView: RecyclerView): (firstItemTopPadding: Float?, lastItemBottomPadding: Float?) -> Unit {
+        return { firstItemTopPadding, lastItemBottomPadding ->
+            for (index in 0 until recyclerView.itemDecorationCount) {
+                val itemDecoration = recyclerView.getItemDecorationAt(index)
+                if (itemDecoration is RecyclerSpaceItemDecorator) {
+                    recyclerView.removeItemDecoration(itemDecoration)
+                    break
                 }
             }
-        )
+
+            if (firstItemTopPadding != null || lastItemBottomPadding != null) {
+                recyclerView.addItemDecoration(
+                    RecyclerSpaceItemDecorator(
+                        firstItemMargin = firstItemTopPadding?.toInt() ?: 0,
+                        lastItemMargin = lastItemBottomPadding?.toInt() ?: 0
+                    )
+                )
+            }
+        }
+    }
+
+    /**
+     * Creates a function for the checklist manager for enabling/disabling the item animations (add, remove, change, etc.)
+     * of the recycler view.
+     *
+     * @param recyclerView The recycler view to use for enabling/disabling the item animations.
+     */
+    private fun createManagerEnableItemAnimationsFunction(recyclerView: RecyclerView): (isEnabled: Boolean) -> Unit {
+        var itemAnimator: RecyclerView.ItemAnimator? = null
+
+        return { isEnabled ->
+            if (recyclerView.itemAnimator != null && recyclerView.itemAnimator != itemAnimator) {
+                itemAnimator = recyclerView.itemAnimator
+            }
+
+            if (isEnabled) {
+                recyclerView.itemAnimator = itemAnimator
+            } else {
+                recyclerView.itemAnimator = null
+            }
+        }
     }
 }

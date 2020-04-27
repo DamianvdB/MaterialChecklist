@@ -23,6 +23,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
@@ -34,7 +35,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 private const val SETTINGS_ACTIVITY_REQUEST_CODE = 1000
 
-private const val CHECKLIST_ITEMS_TEXT = "[ ] Send meeting notes to team\n" +
+private const val SP_CHECKLIST_ITEMS_TEXT_KEY = "mc_items_text"
+
+private const val SP_SHOW_CHECKLIST_KEY = "mc_show_checklist"
+
+private const val CHECKLIST_ITEMS_SAMPLE_TEXT = "[ ] Send meeting notes to team\n" +
         "[ ] Order flowers\n" +
         "[ ] Organise vacation photos\n" +
         "[ ] Book holiday flights\n" +
@@ -42,43 +47,59 @@ private const val CHECKLIST_ITEMS_TEXT = "[ ] Send meeting notes to team\n" +
         "[x] Advertise holiday home\n" +
         "[x] Wish Sarah happy birthday"
 
-private const val SP_CHECKLIST_ITEMS_TEXT_KEY = "cl_items_text"
-
 internal class MainActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var checklistConfiguration: ChecklistConfiguration
 
-    private var checklistItemsText: String = CHECKLIST_ITEMS_TEXT
+    private var checklistItemsText: String = CHECKLIST_ITEMS_SAMPLE_TEXT
         get() = sharedPreferences.getString(SP_CHECKLIST_ITEMS_TEXT_KEY, field) ?: field
         set(value) {
             field = value
             sharedPreferences.edit().putString(SP_CHECKLIST_ITEMS_TEXT_KEY, value).apply()
         }
 
+    private var showChecklist: Boolean = true
+        get() = sharedPreferences.getBoolean(SP_SHOW_CHECKLIST_KEY, field)
+        set(value) {
+            field = value
+            sharedPreferences.edit().putBoolean(SP_SHOW_CHECKLIST_KEY, value).apply()
+        }
+
+    private lateinit var convertToTextMenuItem: MenuItem
+    private lateinit var convertToChecklistMenuItem: MenuItem
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         checklistConfiguration = ChecklistConfiguration(this, sharedPreferences)
-        initChecklist()
+
+        initView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main_activity, menu)
+
+        convertToTextMenuItem = menu!!.findItem(R.id.menu_activity_convert_to_text).apply {
+            isVisible = showChecklist
+        }
+        convertToChecklistMenuItem = menu.findItem(R.id.menu_activity_convert_to_checklist).apply {
+            isVisible = !showChecklist
+        }
+
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.menu_activity_convert_to_text -> handleOnConvertToTextMenuItemClicked()
+            R.id.menu_activity_convert_to_checklist -> handleOnConvertToChecklistMenuItemClicked()
+            R.id.menu_main_activity_remove_checked_items -> handleOnRemoveCheckedItemsMenuItemClicked()
+            R.id.menu_main_activity_uncheck_checked_items -> handleOnUncheckCheckedItemsMenuItemClicked()
             R.id.menu_main_activity_github -> handleOnGithubMenuItemClicked()
-
-            R.id.menu_main_activity_remove_checked_items -> handleOnRemoveCheckedItemsClicked()
-
-            R.id.menu_main_activity_uncheck_checked_items -> handleOnUncheckCheckedItemsClicked()
-
             R.id.menu_main_activity_settings -> handleOnSettingsMenuItemClicked()
-
             else -> {
             }
         }
@@ -93,13 +114,26 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        checklistItemsText = main_checklist.getFormattedTextItems()
+        checklistItemsText = if (showChecklist) main_checklist.getFormattedTextItems() else main_text.text.toString()
         super.onStop()
     }
 
-    private fun initChecklist() {
-        main_checklist.setItems(checklistItemsText)
+    private fun initView() {
+        initChecklist()
 
+        if (showChecklist) {
+            main_checklist.setItems(checklistItemsText)
+        } else {
+            main_text.setText(checklistItemsText)
+
+            main_text.visibility = View.VISIBLE
+            main_checklist.visibility = View.GONE
+        }
+
+        handleSettingChecklistConfiguration()
+    }
+
+    private fun initChecklist() {
         main_checklist.setOnItemDeletedListener { text, id ->
             val message: String = if (text.isNotEmpty()) "Checklist item deleted: \"$text\"" else "Checklist item deleted"
             Snackbar.make(main_root, message, Snackbar.LENGTH_LONG)
@@ -107,8 +141,6 @@ internal class MainActivity : AppCompatActivity() {
                     main_checklist.restoreDeletedItem(id)
                 }.show()
         }
-
-        handleSettingChecklistConfiguration()
     }
 
     private fun handleSettingChecklistConfiguration() {
@@ -160,17 +192,33 @@ internal class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleOnGithubMenuItemClicked() {
-        dismissKeyboard()
-
-        startActivity(
-            Intent(Intent.ACTION_VIEW)
-                .setData(Uri.parse("http://bit.ly/damian_van_den_berg_github"))
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        )
+    private fun handleOnConvertToChecklistMenuItemClicked() {
+        updateVisibleContentOnConvertMenuItemClicked(true)
     }
 
-    private fun handleOnRemoveCheckedItemsClicked() {
+    private fun handleOnConvertToTextMenuItemClicked() {
+        updateVisibleContentOnConvertMenuItemClicked(false)
+    }
+
+    private fun updateVisibleContentOnConvertMenuItemClicked(isConvertToChecklistMenuItemClicked: Boolean) {
+        showChecklist = isConvertToChecklistMenuItemClicked
+
+        convertToTextMenuItem.isVisible = isConvertToChecklistMenuItemClicked
+        convertToChecklistMenuItem.isVisible = !isConvertToChecklistMenuItemClicked
+
+        if (isConvertToChecklistMenuItemClicked) {
+            val content: String = main_text.text.toString()
+            main_checklist.setItems(content)
+        } else {
+            val content: String = main_checklist.getFormattedTextItems()
+            main_text.setText(content)
+        }
+
+        main_text.visibility = if (isConvertToChecklistMenuItemClicked) View.GONE else View.VISIBLE
+        main_checklist.visibility = if (isConvertToChecklistMenuItemClicked) View.VISIBLE else View.GONE
+    }
+
+    private fun handleOnRemoveCheckedItemsMenuItemClicked() {
         val itemIdsOfRemovedItems = main_checklist.removeAllCheckedItems()
 
         val message = resources.getQuantityString(
@@ -188,8 +236,18 @@ internal class MainActivity : AppCompatActivity() {
         }.show()
     }
 
-    private fun handleOnUncheckCheckedItemsClicked() {
+    private fun handleOnUncheckCheckedItemsMenuItemClicked() {
         main_checklist.uncheckAllCheckedItems()
+    }
+
+    private fun handleOnGithubMenuItemClicked() {
+        dismissKeyboard()
+
+        startActivity(
+            Intent(Intent.ACTION_VIEW)
+                .setData(Uri.parse("http://bit.ly/damian_van_den_berg_github_material_checklist"))
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
     }
 
     private fun handleOnSettingsMenuItemClicked() {

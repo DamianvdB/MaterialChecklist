@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist
+package com.dvdb.materialchecklist.recycler.util
 
 import android.graphics.Rect
 import android.view.View
