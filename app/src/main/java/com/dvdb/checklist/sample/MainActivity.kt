@@ -82,10 +82,10 @@ internal class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main_activity, menu)
 
-        convertToTextMenuItem = menu!!.findItem(R.id.menu_activity_convert_to_text).apply {
+        convertToTextMenuItem = menu!!.findItem(R.id.menu_main_activity_convert_to_text).apply {
             isVisible = showChecklist
         }
-        convertToChecklistMenuItem = menu.findItem(R.id.menu_activity_convert_to_checklist).apply {
+        convertToChecklistMenuItem = menu.findItem(R.id.menu_main_activity_convert_to_checklist).apply {
             isVisible = !showChecklist
         }
 
@@ -94,8 +94,8 @@ internal class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_activity_convert_to_text -> handleOnConvertToTextMenuItemClicked()
-            R.id.menu_activity_convert_to_checklist -> handleOnConvertToChecklistMenuItemClicked()
+            R.id.menu_main_activity_convert_to_text -> handleOnConvertToTextMenuItemClicked()
+            R.id.menu_main_activity_convert_to_checklist -> handleOnConvertToChecklistMenuItemClicked()
             R.id.menu_main_activity_remove_checked_items -> handleOnRemoveCheckedItemsMenuItemClicked()
             R.id.menu_main_activity_uncheck_checked_items -> handleOnUncheckCheckedItemsMenuItemClicked()
             R.id.menu_main_activity_github -> handleOnGithubMenuItemClicked()
