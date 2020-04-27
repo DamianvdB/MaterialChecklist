@@ -18,13 +18,14 @@ package com.dvdb.materialchecklist.util
 
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
+import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
 
 internal fun List<BaseRecyclerItem>.resetIds(): List<BaseRecyclerItem> {
     return map { item ->
-        if (item is ChecklistRecyclerItem) {
-            item.copy(id = "")
-        } else {
-            item
+        when (item) {
+            is ChecklistRecyclerItem -> item.copy(id = 0)
+            is ChecklistNewRecyclerItem -> item.copy(id = 0)
+            else -> item
         }
     }
 }

@@ -98,9 +98,9 @@ internal class ChecklistConfiguration(
      * Drag-and-drop
      */
     val dragAndDropToggleMode: DragAndDropToggleMode
-        get() = DragAndDropToggleMode.fromInt(
-            sharedPreferences.getString(context.getString(R.string.pref_settings_drag_and_drop_toggle_mode), null)?.toIntOrNull()
-                ?: 0
+        get() = DragAndDropToggleMode.fromString(
+            sharedPreferences.getString(context.getString(R.string.pref_settings_drag_and_drop_toggle_mode), null)
+                ?: ""
         )
 
     val dragAndDropActiveItemBackgroundColor: Int?
@@ -113,15 +113,15 @@ internal class ChecklistConfiguration(
      *  Behavior
      */
     val behaviorCheckedItem: BehaviorCheckedItem
-        get() = BehaviorCheckedItem.fromInt(
-            sharedPreferences.getString(context.getString(R.string.pref_settings_behavior_checked_item), null)?.toIntOrNull()
-                ?: 0
+        get() = BehaviorCheckedItem.fromString(
+            sharedPreferences.getString(context.getString(R.string.pref_settings_behavior_checked_item), null)
+                ?: ""
         )
 
     val behaviorUncheckedItem: BehaviorUncheckedItem
-        get() = BehaviorUncheckedItem.fromInt(
-            sharedPreferences.getString(context.getString(R.string.pref_settings_behavior_unchecked_item), null)?.toIntOrNull()
-                ?: 0
+        get() = BehaviorUncheckedItem.fromString(
+            sharedPreferences.getString(context.getString(R.string.pref_settings_behavior_unchecked_item), null)
+                ?: ""
         )
 
     /**

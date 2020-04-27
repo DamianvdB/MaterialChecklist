@@ -129,6 +129,12 @@ fun MaterialChecklist.setCheckedItemCheckboxAlpha(alpha: Float): MaterialCheckli
 /**
  * Drag-and-drop configuration
  */
+
+/**
+ * Set the checklist item drag-and-drop toggle mode.
+ *
+ * @param toggleMode The drag-and-drop toggle mode to set for checklist items.
+ */
 fun MaterialChecklist.setDragAndDropToggleMode(toggleMode: DragAndDropToggleMode): MaterialChecklist {
     if (config.dragAndDropToggleMode != toggleMode) {
         config.dragAndDropToggleMode = toggleMode
@@ -148,6 +154,12 @@ fun MaterialChecklist.setDragAndDropItemActiveBackgroundColor(@ColorInt backgrou
 /**
  * Behavior configuration
  */
+
+/**
+ * Set the checklist item on checked behavior.
+ *
+ * @param behavior The item behavior to set when an item is checked.
+ */
 fun MaterialChecklist.setOnItemCheckedBehavior(behavior: BehaviorCheckedItem): MaterialChecklist {
     if (config.behaviorCheckedItem != behavior) {
         config.behaviorCheckedItem = behavior
@@ -156,6 +168,11 @@ fun MaterialChecklist.setOnItemCheckedBehavior(behavior: BehaviorCheckedItem): M
     return this
 }
 
+/**
+ * Set the checklist item on unchecked behavior.
+ *
+ * @param behavior The item behavior to set when an item is unchecked.
+ */
 fun MaterialChecklist.setOnItemUncheckedBehavior(behavior: BehaviorUncheckedItem): MaterialChecklist {
     if (config.behaviorUncheckedItem != behavior) {
         config.behaviorUncheckedItem = behavior
@@ -169,7 +186,7 @@ fun MaterialChecklist.setOnItemUncheckedBehavior(behavior: BehaviorUncheckedItem
  */
 
 /**
- * Set padding to checklist items.
+ * Set the padding to checklist items.
  *
  * @param firstItemTopPadding The padding in pixels to set to the top of the first checklist item.
  * @param leftAndRightPadding The padding in pixels to set to the left and right of each checklist item.

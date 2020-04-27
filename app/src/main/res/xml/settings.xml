@@ -107,7 +107,7 @@
         app:iconSpaceReserved="false">
 
         <ListPreference
-            android:defaultValue="0"
+            android:defaultValue="on_touch"
             android:entries="@array/settings_behavior_drag_and_drop_toggle_mode_entries"
             android:entryValues="@array/settings_behavior_drag_and_drop_toggle_mode_values"
             android:key="@string/pref_settings_drag_and_drop_toggle_mode"
@@ -128,7 +128,7 @@
         app:iconSpaceReserved="false">
 
         <ListPreference
-            android:defaultValue="0"
+            android:defaultValue="move_to_top_of_checked_items"
             android:entries="@array/settings_behavior_checked_item_entries"
             android:entryValues="@array/settings_behavior_checked_item_values"
             android:key="@string/pref_settings_behavior_checked_item"
@@ -137,7 +137,7 @@
             app:iconSpaceReserved="false" />
 
         <ListPreference
-            android:defaultValue="0"
+            android:defaultValue="move_to_previous_position"
             android:entries="@array/settings_behavior_unchecked_item_entries"
             android:entryValues="@array/settings_behavior_unchecked_item_values"
             android:key="@string/pref_settings_behavior_unchecked_item"
