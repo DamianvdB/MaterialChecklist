@@ -73,7 +73,9 @@ internal class ChecklistConfig(
     /**
      * Item
      */
-    var itemHorizontalPadding: Float? = null
+    @Px var itemFirstTopPadding: Float? = null,
+    @Px var itemLeftAndRightPadding: Float? = null,
+    @Px var itemLastBottomPadding: Float? = null
 ) : Config {
 
     init {
@@ -95,6 +97,8 @@ internal class ChecklistConfig(
         dragAndDropEnabled = dragAndDropToggleMode != DragAndDropToggleMode.NONE,
         behaviorCheckedItem = behaviorCheckedItem,
         behaviorUncheckedItem = behaviorUncheckedItem,
+        itemFirstTopPadding = itemFirstTopPadding,
+        itemLastBottomPadding = itemLastBottomPadding,
         adapterConfig = toAdapterConfig()
     )
 
@@ -111,7 +115,7 @@ internal class ChecklistConfig(
             checkboxTintColor = checkboxTintColor,
             dragAndDropToggleMode = dragAndDropToggleMode,
             dragAndDropActiveBackgroundColor = dragAndDropActiveItemBackgroundColor,
-            horizontalPadding = itemHorizontalPadding
+            horizontalPadding = itemLeftAndRightPadding
         ),
         checklistNewConfig = ChecklistNewRecyclerHolderConfig(
             text = textNewItem,
@@ -121,7 +125,7 @@ internal class ChecklistConfig(
             textTypeFace = textTypeFace,
             iconTintColor = iconTintColor,
             iconAlphaAdd = iconAlphaAdd,
-            horizontalPadding = itemHorizontalPadding
+            horizontalPadding = itemLeftAndRightPadding
         )
     )
 
@@ -132,7 +136,7 @@ internal class ChecklistConfig(
         )
 
         textSize = attributes.getDimension(
-            R.styleable.MaterialChecklist_text_size_px,
+            R.styleable.MaterialChecklist_text_size,
             textSize
         )
 
@@ -210,8 +214,16 @@ internal class ChecklistConfig(
     }
 
     private fun initItemAttributes(attributes: TypedArray) {
-        attributes.getDimensionOrNull(R.styleable.MaterialChecklist_item_horizontal_padding)?.let {
-            itemHorizontalPadding = it
+        attributes.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_first_top)?.let {
+            itemFirstTopPadding = it
+        }
+
+        attributes.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_left_and_right)?.let {
+            itemLeftAndRightPadding = it
+        }
+
+        attributes.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_last_bottom)?.let {
+            itemLastBottomPadding = it
         }
     }
 

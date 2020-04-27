@@ -16,5 +16,7 @@
     <string name="pref_settings_drag_and_drop_item_background_color">pref_settings_drag_and_drop_item_background_color</string>
     <string name="pref_settings_behavior_checked_item">pref_settings_behavior_checked_item</string>
     <string name="pref_settings_behavior_unchecked_item">pref_settings_behavior_unchecked_item</string>
-    <string name="pref_settings_item_horizontal_padding">pref_settings_item_horizontal_padding</string>
+    <string name="pref_settings_item_left_and_right_padding">pref_settings_item_left_and_right_padding</string>
+    <string name="pref_settings_item_first_top_padding">pref_settings_item_first_top_padding</string>
+    <string name="pref_settings_item_last_bottom_padding">pref_settings_item_last_bottom_padding</string>
 </resources>

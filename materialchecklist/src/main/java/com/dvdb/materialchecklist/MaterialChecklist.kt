@@ -119,6 +119,24 @@ class MaterialChecklist(
             },
             enableDragAndDrop = { isEnabled ->
                 itemTouchCallback.setIsDragEnabled(isEnabled)
+            },
+            updateItemPadding = { firstItemTopPadding, lastItemBottomPadding ->
+                for (index in 0 until recyclerView.itemDecorationCount) {
+                    val itemDecoration = recyclerView.getItemDecorationAt(index)
+                    if (itemDecoration is RecyclerSpaceItemDecorator) {
+                        recyclerView.removeItemDecoration(itemDecoration)
+                        break
+                    }
+                }
+
+                if (firstItemTopPadding != null || lastItemBottomPadding != null) {
+                    recyclerView.addItemDecoration(
+                        RecyclerSpaceItemDecorator(
+                            firstItemMargin = firstItemTopPadding?.toInt() ?: 0,
+                            lastItemMargin = lastItemBottomPadding?.toInt() ?: 0
+                        )
+                    )
+                }
             }
         )
     }

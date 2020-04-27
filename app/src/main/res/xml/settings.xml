@@ -152,9 +152,23 @@
 
         <EditTextPreference
             android:defaultValue="16"
-            android:key="@string/pref_settings_item_horizontal_padding"
-            android:summary="Set the item horizontal padding"
-            android:title="Horizontal Item Padding"
+            android:key="@string/pref_settings_item_first_top_padding"
+            android:summary="Set the first item top padding"
+            android:title="Top Padding"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="16"
+            android:key="@string/pref_settings_item_left_and_right_padding"
+            android:summary="Set the item left and right padding"
+            android:title="Left and Right Padding"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="16"
+            android:key="@string/pref_settings_item_last_bottom_padding"
+            android:summary="Set the last item bottom padding"
+            android:title="Bottom Padding"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
 

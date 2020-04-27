@@ -147,9 +147,16 @@ internal class MainActivity : AppCompatActivity() {
         main_checklist.setOnItemCheckedBehavior(checklistConfiguration.behaviorCheckedItem)
             .setOnItemUncheckedBehavior(checklistConfiguration.behaviorUncheckedItem)
 
-        // Apply item setting from config to checklist system
-        checklistConfiguration.itemHorizontalPadding?.let {
-            main_checklist.setItemHorizontalPadding(it)
+        // Apply item settings from config to checklist system
+        if (checklistConfiguration.itemFirstTopPadding != null ||
+            checklistConfiguration.itemLeftAndRightPadding != null ||
+            checklistConfiguration.itemLastBottomPadding != null
+        ) {
+            main_checklist.setItemPadding(
+                firstItemTopPadding = checklistConfiguration.itemFirstTopPadding,
+                leftAndRightPadding = checklistConfiguration.itemLeftAndRightPadding,
+                lastItemBottomPadding = checklistConfiguration.itemLastBottomPadding
+            )
         }
     }
 

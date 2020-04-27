@@ -63,6 +63,7 @@ internal class ChecklistManager(
     private lateinit var scrollToPosition: (position: Int) -> Unit
     private lateinit var startDragAndDrop: (position: Int) -> Unit
     private lateinit var enableDragAndDrop: (isEnabled: Boolean) -> Unit
+    private lateinit var updateItemPadding: (firstItemTopPadding: Float?, lastItemBottomPadding: Float?) -> Unit
 
     private val newItemPosition: Int
         get() = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }
@@ -80,7 +81,8 @@ internal class ChecklistManager(
         config: ChecklistManagerConfig,
         scrollToPosition: (position: Int) -> Unit,
         startDragAndDrop: (position: Int) -> Unit,
-        enableDragAndDrop: (isEnabled: Boolean) -> Unit
+        enableDragAndDrop: (isEnabled: Boolean) -> Unit,
+        updateItemPadding: (firstItemTopPadding: Float?, lastItemBottomPadding: Float?) -> Unit
     ) {
         if (this::adapter.isInitialized) {
             error("Checklist manager state should only be initialised once")
@@ -90,7 +92,8 @@ internal class ChecklistManager(
         this.config = config
         this.scrollToPosition = scrollToPosition
         this.startDragAndDrop = startDragAndDrop
-        this.enableDragAndDrop = enableDragAndDrop
+        this.enableDragAndDrop = enableDragAndDrop.also { it(config.dragAndDropEnabled) }
+        this.updateItemPadding = updateItemPadding.also { it(config.itemFirstTopPadding, config.itemLastBottomPadding) }
     }
 
     fun setItems(formattedText: String) {
@@ -109,10 +112,19 @@ internal class ChecklistManager(
     }
 
     fun setConfig(config: ChecklistManagerConfig) {
-        this.config = config
+        if (this.config.dragAndDropEnabled != config.dragAndDropEnabled) {
+            enableDragAndDrop(config.dragAndDropEnabled)
+        }
 
-        enableDragAndDrop(config.dragAndDropEnabled)
-        adapter.config = config.adapterConfig
+        if (this.config.itemFirstTopPadding != config.itemFirstTopPadding || this.config.itemLastBottomPadding != config.itemLastBottomPadding) {
+            updateItemPadding(config.itemFirstTopPadding, config.itemLastBottomPadding)
+        }
+
+        if (this.config.adapterConfig != config.adapterConfig) {
+            adapter.config = config.adapterConfig
+        }
+
+        this.config = config
     }
 
     fun restoreDeleteItems(itemIds: List<Long>): Boolean {

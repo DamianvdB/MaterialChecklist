@@ -167,9 +167,23 @@ fun MaterialChecklist.setOnItemUncheckedBehavior(behavior: BehaviorUncheckedItem
 /**
  * Item configuration
  */
-fun MaterialChecklist.setItemHorizontalPadding(@Px padding: Float): MaterialChecklist {
-    if (config.itemHorizontalPadding != padding) {
-        config.itemHorizontalPadding = padding
+
+/**
+ * Set padding to checklist items.
+ *
+ * @param firstItemTopPadding The padding in pixels to set to the top of the first checklist item.
+ * @param leftAndRightPadding The padding in pixels to set to the left and right of each checklist item.
+ * @param lastItemBottomPadding The padding in pixels to set to the bottom of the last checklist item.
+ */
+fun MaterialChecklist.setItemPadding(
+    @Px firstItemTopPadding: Float? = null,
+    @Px leftAndRightPadding: Float? = null,
+    @Px lastItemBottomPadding: Float? = null
+): MaterialChecklist {
+    if (config.itemFirstTopPadding != firstItemTopPadding || config.itemLeftAndRightPadding != leftAndRightPadding || config.itemLastBottomPadding != lastItemBottomPadding) {
+        config.itemFirstTopPadding = firstItemTopPadding
+        config.itemLeftAndRightPadding = leftAndRightPadding
+        config.itemLastBottomPadding = lastItemBottomPadding
         manager.setConfig(config.toManagerConfig())
     }
     return this

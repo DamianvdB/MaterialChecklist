@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_root"
     android:layout_width="match_parent"
@@ -11,8 +10,6 @@
     <com.dvdb.materialchecklist.MaterialChecklist
         android:id="@+id/main_checklist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:drag_and_drop_item_active_background_color="@android:color/white"
-        app:item_horizontal_padding="@dimen/spacing_large" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
