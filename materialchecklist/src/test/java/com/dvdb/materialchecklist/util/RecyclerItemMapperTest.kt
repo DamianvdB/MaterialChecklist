@@ -40,67 +40,67 @@ internal class RecyclerItemMapperTest {
         val inputItems = emptyList<BaseRecyclerItem>()
         val actualContents = RecyclerItemMapper.toFormattedText(
             inputItems,
-            keepCheckSymbols = true,
-            skipCheckedItems = false
+            keepCheckboxSymbols = true,
+            keepCheckedItems = true
         )
 
         Assert.assertEquals(expectedContents, actualContents)
     }
 
     @Test
-    fun toFormattedText_withKeepCheckedSymbolsTrue_andSkipCheckedItemsFalse() {
+    fun toFormattedText_withKeepCheckboxSymbolsTrue_andKeepCheckedItemsTrue() {
         val expectedContents = validChecklistContents
         val inputItems = validChecklistItems
         val actualContents = RecyclerItemMapper.toFormattedText(
             items = inputItems,
-            keepCheckSymbols = true,
-            skipCheckedItems = false
+            keepCheckboxSymbols = true,
+            keepCheckedItems = true
         )
 
         Assert.assertEquals(expectedContents, actualContents)
     }
 
     @Test
-    fun toFormattedText_withKeepCheckSymbolsFalse_andSkipCheckedItemsFalse() {
+    fun toFormattedText_withKeepCheckboxSymbolsFalse_andKeepCheckedItemsTrue() {
         val expectedContents = validChecklistContents.replace("[x] ", "").replace("[ ] ", "")
         val inputItems = validChecklistItems
         val actualContents = RecyclerItemMapper.toFormattedText(
             items = inputItems,
-            keepCheckSymbols = false,
-            skipCheckedItems = false
+            keepCheckboxSymbols = false,
+            keepCheckedItems = true
         )
 
         Assert.assertEquals(expectedContents, actualContents)
     }
 
     @Test
-    fun toFormattedText_withKeepCheckSymbolsFalse_andSkipCheckedItemsTrue() {
+    fun toFormattedText_withKeepCheckboxSymbolsFalse_andKeepCheckedItemsFalse() {
         val expectedContents = "Buy Coca-Cola\n"
         val inputItems = validChecklistItems
         val actualContents = RecyclerItemMapper.toFormattedText(
             items = inputItems,
-            keepCheckSymbols = false,
-            skipCheckedItems = true
+            keepCheckboxSymbols = false,
+            keepCheckedItems = false
         )
 
         Assert.assertEquals(expectedContents, actualContents)
     }
 
     @Test
-    fun toFormattedText_withSkipCheckedItemsTrue_andSkipCheckedItemsTrue() {
+    fun toFormattedText_withKeepCheckboxSymbolsTrue_andKeepCheckedItemsFalse() {
         val expectedContents = "[ ] Buy Coca-Cola\n"
         val inputItems = validChecklistItems
         val actualContents = RecyclerItemMapper.toFormattedText(
             items = inputItems,
-            keepCheckSymbols = true,
-            skipCheckedItems = true
+            keepCheckboxSymbols = true,
+            keepCheckedItems = false
         )
 
         Assert.assertEquals(expectedContents, actualContents)
     }
 
     @Test
-    fun toFormattedText_withMalformedCheckSymbols() {
+    fun toFormattedText_withMalformedCheckboxSymbols() {
         val expectedContents = "[x] [x] Buy beer\n[x] [ ] Buy steak\n[x] [X]Buy brandy\n[ ] [ ] Buy Coca-Cola\n[x] [] Buy Portuguese buns"
         val inputItems = listOf(
             ChecklistRecyclerItem("[x] Buy beer", true),
@@ -111,8 +111,8 @@ internal class RecyclerItemMapperTest {
         )
         val actualContents = RecyclerItemMapper.toFormattedText(
             items = inputItems,
-            keepCheckSymbols = true,
-            skipCheckedItems = false
+            keepCheckboxSymbols = true,
+            keepCheckedItems = true
         )
 
         Assert.assertEquals(expectedContents, actualContents)
@@ -137,7 +137,7 @@ internal class RecyclerItemMapperTest {
     }
 
     @Test
-    fun toItems_withMalformedCheckSymbol() {
+    fun toItems_withMalformedCheckboxSymbol() {
         val expectedItems = listOf(
             ChecklistRecyclerItem("    Missing check symbol"),
             ChecklistRecyclerItem("[x]Missing space after symbol"),
@@ -154,7 +154,7 @@ internal class RecyclerItemMapperTest {
     }
 
     @Test
-    fun toItems_withMalformedCheckSymbolsInUpperCase() {
+    fun toItems_withMalformedCheckboxSymbolsInUpperCase() {
         val expectedItems = validChecklistItems
         val inputText = validChecklistContents.replace("[x]", "[X]")
         val actualItems = RecyclerItemMapper.toItems(inputText).resetIds()

@@ -35,6 +35,9 @@ import java.util.*
 private const val NO_POSITION = -1
 private const val ENABLE_ITEM_ANIMATIONS_DELAY_MS = 1000L
 
+/**
+ * Manages the state and the behavior of checklist items.
+ */
 internal class ChecklistManager(
     private val hideKeyboard: () -> Unit
 ) : ChecklistRecyclerHolderItemListener,
@@ -105,13 +108,13 @@ internal class ChecklistManager(
     }
 
     fun getFormattedTextItems(
-        keepCheckedItems: Boolean,
-        skipCheckedItems: Boolean
+        keepCheckboxSymbols: Boolean,
+        keepCheckedItems: Boolean
     ): String {
         return RecyclerItemMapper.toFormattedText(
             items = adapter.items.filterIsInstance<ChecklistRecyclerItem>(),
-            keepCheckSymbols = keepCheckedItems,
-            skipCheckedItems = skipCheckedItems
+            keepCheckboxSymbols = keepCheckboxSymbols,
+            keepCheckedItems = keepCheckedItems
         )
     }
 

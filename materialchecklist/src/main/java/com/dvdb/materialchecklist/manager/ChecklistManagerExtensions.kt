@@ -18,20 +18,40 @@ package com.dvdb.materialchecklist.manager
 
 import com.dvdb.materialchecklist.MaterialChecklist
 
+/**
+ * Sets the list of checklist items by parsing the [formattedText] string.
+ *
+ * @param formattedText The formatted string to parse containing the checklist items.
+ */
 fun MaterialChecklist.setItems(formattedText: String) {
     manager.setItems(formattedText)
 }
 
+/**
+ * Gets the formatted string representation of the checklist items.
+ *
+ * Be careful with editing the result of this method. Edits to the returned string may result in
+ * the loss of state to the checklist items.
+ *
+ * @param keepCheckboxSymbols The flag to keep or remove the checkbox symbols of the checklist items.
+ * @param keepCheckedItems The flag to keep or remove the checklist items that are marked as checked.
+ * @return The formatted string representation of the checklist items.
+ */
 fun MaterialChecklist.getFormattedTextItems(
-    keepCheckedItems: Boolean = true,
-    skipCheckedItems: Boolean = false
+    keepCheckboxSymbols: Boolean = true,
+    keepCheckedItems: Boolean = true
 ): String {
     return manager.getFormattedTextItems(
-        keepCheckedItems,
-        skipCheckedItems
+        keepCheckboxSymbols,
+        keepCheckedItems
     )
 }
 
+/**
+ * Sets a listener for when a checklist item is deleted.
+ *
+ * @param listener The listener to be notified when a checklist item is deleted.
+ */
 fun MaterialChecklist.setOnItemDeletedListener(listener: ((text: String, itemId: Long) -> Unit)) {
     manager.onItemDeleted = listener
 }
@@ -50,24 +70,24 @@ fun MaterialChecklist.restoreDeleteItems(itemIds: List<Long>): Boolean {
  * Restore a deleted checklist item.
  *
  * @param itemId The id of the checklist item to restore.
- * @return 'true' if item was restored, otherwise 'false'.
+ * @return 'true' if the item was restored, otherwise 'false'.
  */
 fun MaterialChecklist.restoreDeletedItem(itemId: Long): Boolean {
     return manager.restoreDeletedItem(itemId)
 }
 
 /**
- * Remove all checklist items that are checked.
+ * Remove all the checklist items that are checked.
  * These items can be restored using their id's.
  *
- * @return id's of checklist items removed.
+ * @return id's of the checklist items removed.
  */
 fun MaterialChecklist.removeAllCheckedItems(): List<Long> {
     return manager.removeAllCheckedItems()
 }
 
 /**
- * Uncheck all checklist items that are checked.
+ * Uncheck all the checklist items that are checked.
  *
  * @return 'true' if any checked items were marked as unchecked, otherwise 'false'.
  */

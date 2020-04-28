@@ -67,7 +67,7 @@ class MaterialChecklist(
             setItems(
                 "[ ] Send meeting notes to team\n" +
                         "[ ] Order flowers\n" +
-                        "[ ] Organise camera gear \n" +
+                        "[ ] Organise camera gear\n" +
                         "[ ] Book flights to Dubai\n" +
                         "[x] Lease out holiday home"
             )

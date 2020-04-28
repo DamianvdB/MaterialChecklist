@@ -30,13 +30,13 @@ internal object RecyclerItemMapper {
 
     fun toFormattedText(
         items: List<BaseRecyclerItem>,
-        keepCheckSymbols: Boolean,
-        skipCheckedItems: Boolean
+        keepCheckboxSymbols: Boolean,
+        keepCheckedItems: Boolean
     ): String {
         return items.filterIsInstance<ChecklistRecyclerItem>()
             .joinToString(separator = ITEM_SEPARATOR_CHARACTER) { item ->
-                if (!skipCheckedItems || !item.isChecked) {
-                    val prefix = if (keepCheckSymbols) {
+                if (keepCheckedItems || !item.isChecked) {
+                    val prefix = if (keepCheckboxSymbols) {
                         (if (item.isChecked) CHECKED_SYMBOL else UNCHECKED_SYMBOL) + " "
                     } else {
                         ""
