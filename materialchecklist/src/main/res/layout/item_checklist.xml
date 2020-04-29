@@ -45,7 +45,7 @@
         android:layout_height="@dimen/icon_size_large"
         android:padding="@dimen/spacing_tiny"
         android:src="@drawable/ic_close"
-        android:visibility="gone"
+        android:visibility="invisible"
         tools:tint="@color/mc_icon_tint"
         tools:visibility="visible" />
 
