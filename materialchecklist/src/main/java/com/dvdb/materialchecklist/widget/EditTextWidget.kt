@@ -27,14 +27,22 @@ import androidx.appcompat.widget.AppCompatEditText
 /**
  * Edit Text widget that avoids carriage-return and line-feed while in multi-line mode.
  *
- * Additionally listens for delete key presses on the input connection.
+ * Additionally, provides listeners for:
+ * 1. Changes in the current selection positioning.
+ * 2. Delete key presses via the input connection.
  */
 internal class EditTextWidget(
     context: Context,
     attrs: AttributeSet?
 ) : AppCompatEditText(context, attrs) {
 
-    var onDeleteKeyPressed: (() -> Unit) = {}
+    var onSelectionChanged: ((startSelection: Int, endSelection: Int) -> Unit)? = null
+    var onDeleteKeyPressed: (() -> Unit)? = null
+
+    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
+        super.onSelectionChanged(selStart, selEnd)
+        onSelectionChanged?.invoke(selStart, selEnd)
+    }
 
     override fun onCreateInputConnection(outAttrs: EditorInfo?): InputConnection {
         val connection = super.onCreateInputConnection(outAttrs)
@@ -56,7 +64,7 @@ internal class EditTextWidget(
 
         override fun sendKeyEvent(event: KeyEvent?): Boolean {
             if (event?.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_DEL) {
-                onDeleteKeyPressed()
+                onDeleteKeyPressed?.invoke()
             }
             return super.sendKeyEvent(event)
         }
