@@ -14,7 +14,7 @@
             app:iconSpaceReserved="false" />
 
         <EditTextPreference
-            android:defaultValue="16"
+            android:defaultValue="14"
             android:key="@string/pref_settings_text_size"
             android:summary="Set the text size for checklist items"
             android:title="Text Size"
