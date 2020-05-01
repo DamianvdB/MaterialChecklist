@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.materialchecklist.config.ChecklistConfig
+import com.dvdb.materialchecklist.manager.ChecklistManager
 import com.dvdb.materialchecklist.manager.ChecklistManagerImpl
 import com.dvdb.materialchecklist.manager.setItems
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
@@ -40,7 +41,7 @@ class MaterialChecklist(
     attrs: AttributeSet?
 ) : FrameLayout(context, attrs) {
 
-    internal val manager: ChecklistManagerImpl = ChecklistManagerImpl(
+    internal val manager: ChecklistManager = ChecklistManagerImpl(
         hideKeyboard = {
             hideKeyboard()
             requestFocus()
@@ -91,7 +92,7 @@ class MaterialChecklist(
                 manager
             ),
             itemNewRecyclerHolderFactory = ChecklistNewRecyclerHolder.Factory(
-                manager.onNewChecklistListItemClicked
+                manager.onCreateNewChecklistItemClicked
             ),
             itemDragListener = manager
         )

@@ -16,6 +16,7 @@
 
 package com.dvdb.materialchecklist.manager
 
+import androidx.annotation.CheckResult
 import com.dvdb.materialchecklist.MaterialChecklist
 
 /**
@@ -37,6 +38,7 @@ fun MaterialChecklist.setItems(formattedText: String) {
  * @param keepCheckedItems The flag to keep or remove the checklist items that are marked as checked.
  * @return The formatted string representation of the checklist items.
  */
+@CheckResult
 fun MaterialChecklist.getFormattedTextItems(
     keepCheckboxSymbols: Boolean = true,
     keepCheckedItems: Boolean = true

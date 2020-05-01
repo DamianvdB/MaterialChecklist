@@ -21,9 +21,7 @@ import com.dvdb.materialchecklist.config.BehaviorCheckedItem
 import com.dvdb.materialchecklist.config.BehaviorUncheckedItem
 import com.dvdb.materialchecklist.manager.config.ChecklistManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapterDragListener
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapterRequestFocus
-import com.dvdb.materialchecklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
@@ -39,28 +37,40 @@ private const val ENABLE_ITEM_ANIMATIONS_DELAY_MS = 1000L
  * Manages the state and the behavior of checklist items.
  */
 internal class ChecklistManagerImpl(
-    private val hideKeyboard: () -> Unit
-) : ChecklistRecyclerHolderItemListener,
-    ChecklistItemAdapterDragListener {
+    hideKeyboard: () -> Unit
+) : ChecklistManager {
 
-    val onNewChecklistListItemClicked: (position: Int) -> Unit = { position ->
+    /**
+     * Called when the [ChecklistNewRecyclerItem] is clicked at
+     * position in the list.
+     */
+    override val onCreateNewChecklistItemClicked: (position: Int) -> Unit = { position ->
         updateItemInAdapter(
             ChecklistRecyclerItem(""),
             position
         )
 
-        requestFocusForPositionInAdapter(
-            position,
-            isShowKeyboard = true
-        )
+        focusManager.onNewItemCreated(position)
 
         addItemToAdapter(
             ChecklistNewRecyclerItem(),
-            position + 1
+            position.inc()
         )
     }
 
-    var onItemDeleted: ((text: String, id: Long) -> Unit)? = null
+    /**
+     * Called when a checklist item has been deleted. The id of the item can
+     * be used to restore the deleted item by calling [restoreDeletedItem].
+     */
+    override var onItemDeleted: ((text: String, id: Long) -> Unit) = { _, _ -> }
+
+    private val focusManager: ChecklistFocusManager =
+        ChecklistFocusManagerImpl(
+            checklistItems = { if (::adapter.isInitialized) adapter.items else emptyList() },
+            requestFocus = createFocusManagerRequestFocusAtPositionInAdapterFunction(),
+            hideKeyboard = hideKeyboard,
+            createNewItemPosition = { createNewItemPosition }
+        )
 
     private lateinit var adapter: ChecklistItemAdapter
     private lateinit var config: ChecklistManagerConfig
@@ -70,18 +80,35 @@ internal class ChecklistManagerImpl(
     private lateinit var updateItemPadding: (firstItemTopPadding: Float?, lastItemBottomPadding: Float?) -> Unit
     private lateinit var enableItemAnimations: (isEnabled: Boolean) -> Unit
 
-    private val newItemPosition: Int
+    /**
+     * The [createNewItemPosition] of the [ChecklistNewRecyclerItem] in the list. All checked
+     * [ChecklistRecyclerItem]s should always be positioned above [createNewItemPosition]. All unchecked
+     * [ChecklistRecyclerItem]s should always be positioned below [createNewItemPosition].
+     */
+    private val createNewItemPosition: Int
         get() = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }
 
     private val delayHandler: DelayHandler = DelayHandler()
 
-    private var currentPosition: Int = NO_POSITION
-
     private val previousUncheckedItemPositions: MutableMap<Long, Int> = mutableMapOf()
-
     private val deletedItems: MutableMap<Long, Pair<ChecklistRecyclerItem, Int>> = mutableMapOf()
 
-    fun lateInitState(
+    /**
+     * Initialise the checklist manager with the required functions
+     * to manage the state and behavior of the checklist items.
+     *
+     * This method should only be called once.
+     *
+     * @param adapter The adapter for the checklist items.
+     * @param config The configuration defining the behavior and appearance of checklist items.
+     * @param scrollToPosition The function to scroll to the provided position of a checklist item in the list.
+     * @param startDragAndDrop The function to start the drag-and-drop functionality for a
+     * checklist item at the provided position in the list.
+     * @param enableDragAndDrop The function to enable or disable the drag-and-drop functionality.
+     * @param updateItemPadding The function to update the padding of the first and/or last checklist item in the list.
+     * @param enableItemAnimations The function to enable or disable the list animations on data set changes.
+     */
+    override fun lateInitState(
         adapter: ChecklistItemAdapter,
         config: ChecklistManagerConfig,
         scrollToPosition: (position: Int) -> Unit,
@@ -103,11 +130,22 @@ internal class ChecklistManagerImpl(
         this.enableItemAnimations = enableItemAnimations
     }
 
-    fun setItems(formattedText: String) {
+    /**
+     * Sets and displays the checklist items by parsing the
+     * [formattedText] into checklist items.
+     */
+    override fun setItems(formattedText: String) {
         setItemsInternal(RecyclerItemMapper.toItems(formattedText))
     }
 
-    fun getFormattedTextItems(
+    /**
+     * Gets the formatted text representation of the current
+     * checklist items. The [keepCheckboxSymbols] flag is used to
+     * either retain or remove the checkbox symbols of the checklist items.
+     * The [keepCheckedItems] flag is used to either retain or remove all checked
+     * checklist items.
+     */
+    override fun getFormattedTextItems(
         keepCheckboxSymbols: Boolean,
         keepCheckedItems: Boolean
     ): String {
@@ -118,7 +156,11 @@ internal class ChecklistManagerImpl(
         )
     }
 
-    fun setConfig(config: ChecklistManagerConfig) {
+    /**
+     * Sets the customisable [config] which defines the appearance and
+     * behavior of checklist items.
+     */
+    override fun setConfig(config: ChecklistManagerConfig) {
         if (this.config.dragAndDropEnabled != config.dragAndDropEnabled) {
             enableDragAndDrop(config.dragAndDropEnabled)
         }
@@ -134,24 +176,34 @@ internal class ChecklistManagerImpl(
         this.config = config
     }
 
-    fun restoreDeleteItems(itemIds: List<Long>): Boolean {
-        var allItemsRemoved = true
+    /**
+     * Restore the checklist items with [itemIds] that were deleted in the
+     * current session. Return true if all the items with [itemIds] were
+     * restored.
+     */
+    override fun restoreDeleteItems(itemIds: List<Long>): Boolean {
+        var allItemsRestore = true
 
         itemIds.forEach { itemId ->
-            if (!restoreDeletedItem(itemId) && allItemsRemoved) {
-                allItemsRemoved = false
+            if (!restoreDeletedItem(itemId) && allItemsRestore) {
+                allItemsRestore = false
             }
         }
 
-        return allItemsRemoved
+        return allItemsRestore
     }
 
-    fun restoreDeletedItem(itemId: Long): Boolean {
+    /**
+     * Restore the checklist item with [itemId] that was deleted in the
+     * current session. Return true if the item with [itemId] was
+     * restored.
+     */
+    override fun restoreDeletedItem(itemId: Long): Boolean {
         deletedItems.remove(itemId)?.let { (item, position) ->
             val addItemPosition = if (item.isChecked) {
-                position.coerceIn(newItemPosition, adapter.itemCount)
+                position.coerceIn(createNewItemPosition.inc(), adapter.itemCount)
             } else {
-                position.coerceIn(0, newItemPosition)
+                position.coerceIn(0, createNewItemPosition)
             }
 
             addItemToAdapter(
@@ -164,12 +216,18 @@ internal class ChecklistManagerImpl(
         return false
     }
 
-    fun removeAllCheckedItems(): List<Long> {
+    /**
+     * Remove all checklist items that are marked as checked. The
+     * item ids of all removed items will be returned.
+     */
+    override fun removeAllCheckedItems(): List<Long> {
         val removedItemIds: MutableList<Long> = mutableListOf()
+        val removedItemPositions: MutableList<Int> = mutableListOf()
         val items = adapter.items.filterIndexed { index, item ->
             val shouldKeep = item is ChecklistNewRecyclerItem || item is ChecklistRecyclerItem && !item.isChecked
             if (!shouldKeep) {
                 removedItemIds.add((item as ChecklistRecyclerItem).id)
+                removedItemPositions.add(index)
 
                 saveDeletedItem(
                     item,
@@ -181,13 +239,19 @@ internal class ChecklistManagerImpl(
         }
 
         if (removedItemIds.isNotEmpty()) {
-            adapter.setItems(items)
+            setItemsInAdapter(items)
         }
+
+        focusManager.onAllCheckedItemsRemoved(removedItemPositions)
 
         return removedItemIds
     }
 
-    fun uncheckAllCheckedItems(): Boolean {
+    /**
+     * Uncheck all the checklist items that are marked as checked. Return true
+     * if any checklist items were marked as unchecked.
+     */
+    override fun uncheckAllCheckedItems(): Boolean {
         var anyItemsUnchecked = false
 
         adapter.items.forEachIndexed { index, item ->
@@ -204,6 +268,11 @@ internal class ChecklistManagerImpl(
         return anyItemsUnchecked
     }
 
+    /**
+     * Called when a checklist item at [position] in the list
+     * has been marked as checked or unchecked, depending on the value of
+     * [isChecked].
+     */
     override fun onItemChecked(
         position: Int,
         isChecked: Boolean
@@ -219,6 +288,10 @@ internal class ChecklistManagerImpl(
         }
     }
 
+    /**
+     * Called when the [text] of a checklist item at [position] in the list
+     * has changed.
+     */
     override fun onItemTextChanged(
         position: Int,
         text: String
@@ -234,6 +307,10 @@ internal class ChecklistManagerImpl(
         }
     }
 
+    /**
+     * Called when the enter key of the [textView] has been pressed for a checklist
+     * item at [position] in the list.
+     */
     override fun onItemEnterKeyPressed(
         position: Int,
         textView: TextView
@@ -273,34 +350,76 @@ internal class ChecklistManagerImpl(
                 newItemPosition
             )
 
-            requestFocusForPositionInAdapter(
-                newItemPosition,
-                isStartSelection = true
-            )
+            focusManager.onNewItemCreated(newItemPosition)
         }
     }
 
+    /**
+     * Called when the delete key has been pressed for a checklist
+     * item at [position] in the list.
+     */
+    override fun onItemDeleteKeyPressed(position: Int) {
+        handleDeleteItem(
+            position = position,
+            saveDeletedItemForRestoration = false,
+            deletedIconClicked = false
+        )
+    }
+
+    /**
+     * Called when the delete icon has been clicked for a checklist item
+     * at [position] in the list.
+     */
     override fun onItemDeleteClicked(position: Int) {
         handleDeleteItem(position)
     }
 
-    override fun onItemDeleteKeyPressed(position: Int) {
-        handleDeleteItem(position, false)
-    }
-
+    /**
+     * Called when a checklist item's [hasFocus] changed with [startSelection] in the edit text
+     * for the item at [position] in the list.
+     */
     override fun onItemFocusChanged(
         position: Int,
+        startSelection: Int,
+        endSelection: Int,
         hasFocus: Boolean
     ) {
-        if (hasFocus) {
-            currentPosition = position
-        }
+        focusManager.onItemFocusChanged(
+            position = position,
+            startSelection = startSelection,
+            hasFocus = hasFocus
+        )
     }
 
+    /**
+     * Called when a checklist item's [startSelection] in the edit text has changed
+     * for item at [position] in the list.
+     */
+    override fun onItemSelectionChanged(
+        position: Int,
+        startSelection: Int,
+        endSelection: Int,
+        hasFocus: Boolean
+    ) {
+        focusManager.onItemSelectionChanged(
+            position = position,
+            startSelection = startSelection,
+            hasFocus = hasFocus
+        )
+    }
+
+    /**
+     * Called when the drag handle icon has been clicked for a checklist item
+     * at [position] in the list.
+     */
     override fun onItemDragHandledClicked(position: Int) {
         startDragAndDrop(position)
     }
 
+    /**
+     * Called when a checklist item has been moved from [fromPosition] to [toPosition]
+     * in the list as a result of dragging.
+     */
     override fun onItemMove(
         fromPosition: Int,
         toPosition: Int
@@ -330,6 +449,12 @@ internal class ChecklistManagerImpl(
         return true
     }
 
+    /**
+     * Determines if the checklist item at [currentPosition] can be
+     * dropped over the target item at [targetPosition] in the list.
+     * Returns true if the item at [targetPosition] is a [ChecklistRecyclerItem]
+     * and is marked as unchecked.
+     */
     override fun canDragOverTargetItem(
         currentPosition: Int,
         targetPosition: Int
@@ -340,15 +465,20 @@ internal class ChecklistManagerImpl(
         return currentChecklistItem?.isChecked == false && targetChecklistItem?.isChecked == false
     }
 
-    override fun onItemDragStart() {
-        hideKeyboard()
+    /**
+     * Called when the drag-and-drop functionality of a
+     * checklist item has started.
+     */
+    override fun onItemDragStarted() {
+        focusManager.onItemDragStarted()
     }
 
     private fun setItemsInternal(items: List<BaseRecyclerItem>) {
+        resetState()
+
         val sortedItems: List<BaseRecyclerItem> = if (items.isNotEmpty()) {
             items.filterIsInstance<ChecklistRecyclerItem>()
         } else {
-            currentPosition = 0
             listOf(ChecklistRecyclerItem(""))
         }.plus(ChecklistNewRecyclerItem())
             .sortedWith(DefaultRecyclerItemComparator)
@@ -357,11 +487,10 @@ internal class ChecklistManagerImpl(
 
         setItemsInAdapter(sortedItems)
 
-        if (currentPosition != NO_POSITION) {
-            requestFocusForPositionInAdapter(currentPosition)
-        }
-
-        resetInternalState()
+        focusManager.onItemsSet(
+            originalItems = items,
+            updatedItems = sortedItems
+        )
 
         delayHandler.run(ENABLE_ITEM_ANIMATIONS_DELAY_MS) {
             enableItemAnimations(true)
@@ -372,6 +501,7 @@ internal class ChecklistManagerImpl(
         item: ChecklistRecyclerItem,
         position: Int
     ) {
+        focusManager.onItemPreCheckedStateChanged(position)
         removeItemFromAdapter(position)
 
         val toPosition: Int =
@@ -380,7 +510,7 @@ internal class ChecklistManagerImpl(
                     val firstCheckedItemPosition = adapter.items.indexOfFirst { it is ChecklistRecyclerItem && it.isChecked }
                     when {
                         firstCheckedItemPosition != NO_POSITION -> firstCheckedItemPosition
-                        newItemPosition != NO_POSITION -> newItemPosition.inc()
+                        createNewItemPosition != NO_POSITION -> createNewItemPosition.inc()
                         else -> adapter.items.lastIndex
                     }.coerceIn(0, adapter.itemCount)
                 }
@@ -401,23 +531,26 @@ internal class ChecklistManagerImpl(
                 toPosition
             )
 
-            if (position == currentPosition) {
-                requestFocusForPositionInAdapter(toPosition)
-            }
-
             if (config.behaviorUncheckedItem == BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION) {
                 previousUncheckedItemPositions[item.id] = position
             }
         }
+
+        focusManager.onItemChecked(
+            originalPosition = position,
+            updatedPosition = toPosition,
+            item = item
+        )
     }
 
     private fun handleItemUnchecked(
         item: ChecklistRecyclerItem,
         position: Int
     ) {
+        focusManager.onItemPreCheckedStateChanged(position)
         removeItemFromAdapter(position)
 
-        val newItemPosition = newItemPosition.coerceAtLeast(0)
+        val newItemPosition = createNewItemPosition.coerceAtLeast(0)
         val toPosition: Int =
             when (config.behaviorUncheckedItem) {
                 BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION -> {
@@ -432,18 +565,24 @@ internal class ChecklistManagerImpl(
             toPosition
         )
 
-        if (position == currentPosition) {
-            requestFocusForPositionInAdapter(toPosition)
-        }
+        focusManager.onItemUnchecked(
+            originalPosition = position,
+            updatedPosition = toPosition,
+            item = item
+        )
     }
 
-    private fun handleDeleteItem(position: Int, savedDeletedItemForRestoration: Boolean = true) {
+    private fun handleDeleteItem(
+        position: Int,
+        saveDeletedItemForRestoration: Boolean = true,
+        deletedIconClicked: Boolean = true
+    ) {
         val itemToDelete = adapter.items.getOrNull(position)
 
         if (itemToDelete is ChecklistRecyclerItem) {
             removeItemFromAdapter(position)
 
-            if (savedDeletedItemForRestoration) {
+            if (saveDeletedItemForRestoration) {
                 saveDeletedItemAndNotifyListener(itemToDelete, position)
             }
 
@@ -455,38 +594,27 @@ internal class ChecklistManagerImpl(
                     itemInsertionPosition
                 )
 
-                requestFocusForPositionInAdapter(itemInsertionPosition)
+                focusManager.onNewItemCreated(itemInsertionPosition)
             } else {
-                findNextPositionToFocusOnItemDeletion(
-                    position,
-                    itemToDelete
+                focusManager.onItemDeleted(
+                    position = position,
+                    item = itemToDelete,
+                    isDeletedIconClicked = deletedIconClicked
                 )
             }
         }
     }
 
-    private fun findNextPositionToFocusOnItemDeletion(
-        position: Int,
-        deletedItem: ChecklistRecyclerItem
-    ) {
-        if (position != newItemPosition && position < adapter.itemCount) {     // Valid suggested position for requesting focus on item
-            requestFocusForPositionInAdapter(position)
-        } else {
-            val isWithinRange: (Int) -> Boolean = {
-                it in (position.dec())..(position.inc())
-            }
-            val validPositionMap = adapter.items
-                .filterIndexed { index, item ->
-                    (item as? ChecklistRecyclerItem)?.isChecked == deletedItem.isChecked && isWithinRange(index)
-                }.map {
-                    adapter.items.indexOf(it)
-                }
+    private fun createFocusManagerRequestFocusAtPositionInAdapterFunction(): (position: Int, selectionPosition: Int, showKeyboard: Boolean) -> Unit {
+        return { position, selectionPosition, showKeyboard ->
+            scrollToPosition(position)
 
-            if (validPositionMap.isEmpty()) {    // No items with the same 'isChecked' flag
-                currentPosition = NO_POSITION
-                hideKeyboard()
-            } else {
-                requestFocusForPositionInAdapter(validPositionMap.first())
+            delayHandler.run {
+                adapter.requestFocus = ChecklistItemAdapterRequestFocus(
+                    position = position,
+                    selectionPosition = selectionPosition,
+                    isShowKeyboard = showKeyboard
+                )
             }
         }
     }
@@ -527,22 +655,6 @@ internal class ChecklistManagerImpl(
         adapter.removeItem(position)
     }
 
-    private fun requestFocusForPositionInAdapter(
-        position: Int,
-        isStartSelection: Boolean = false,
-        isShowKeyboard: Boolean = false
-    ) {
-        scrollToPosition(position)
-
-        delayHandler.run {
-            adapter.requestFocus = ChecklistItemAdapterRequestFocus(
-                position = position,
-                isStartSelection = isStartSelection,
-                isShowKeyboard = isShowKeyboard
-            )
-        }
-    }
-
     private fun notifyItemMovedInAdapter(
         fromPosition: Int,
         toPosition: Int
@@ -572,13 +684,13 @@ internal class ChecklistManagerImpl(
             position
         )
 
-        onItemDeleted?.invoke(
+        onItemDeleted.invoke(
             item.text,
             item.id
         )
     }
 
-    private fun resetInternalState() {
+    private fun resetState() {
         previousUncheckedItemPositions.clear()
         deletedItems.clear()
     }

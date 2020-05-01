@@ -26,11 +26,13 @@ internal interface ChecklistRecyclerHolderItemListener {
 
     fun onItemEnterKeyPressed(position: Int, textView: TextView)
 
-    fun onItemDeleteClicked(position: Int)
-
     fun onItemDeleteKeyPressed(position: Int)
 
-    fun onItemFocusChanged(position: Int, hasFocus: Boolean)
+    fun onItemDeleteClicked(position: Int)
+
+    fun onItemFocusChanged(position: Int, startSelection: Int, endSelection: Int, hasFocus: Boolean)
+
+    fun onItemSelectionChanged(position: Int, startSelection: Int, endSelection: Int, hasFocus: Boolean)
 
     fun onItemDragHandledClicked(position: Int)
 }

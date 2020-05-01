@@ -94,9 +94,9 @@ internal class ChecklistRecyclerHolder private constructor(
         }
     }
 
-    fun requestFocus(isStartSelection: Boolean, isShowKeyboard: Boolean) {
+    fun requestFocus(selectionPosition: Int, isShowKeyboard: Boolean) {
         text.requestFocus()
-        text.setSelection(if (isStartSelection) 0 else text.length())
+        text.setSelection(selectionPosition.coerceIn(0, text.length()))
 
         if (isShowKeyboard) {
             text.showKeyboard()
@@ -190,7 +190,13 @@ internal class ChecklistRecyclerHolder private constructor(
                 hasFocus,
                 View.INVISIBLE
             )
-            listener.onItemFocusChanged(adapterPosition, hasFocus)
+
+            listener.onItemFocusChanged(
+                position = adapterPosition,
+                startSelection = text.selectionStart,
+                endSelection = text.selectionEnd,
+                hasFocus = hasFocus
+            )
         }
 
         text.setOnEditorActionListener(
@@ -204,6 +210,15 @@ internal class ChecklistRecyclerHolder private constructor(
                 }
             )
         )
+
+        text.onSelectionChanged = { startSelection, endSelection ->
+            listener.onItemSelectionChanged(
+                position = adapterPosition,
+                startSelection = startSelection,
+                endSelection = endSelection,
+                hasFocus = text.hasFocus()
+            )
+        }
 
         text.onDeleteKeyPressed = {
             listener.onItemDeleteKeyPressed(adapterPosition)

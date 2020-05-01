@@ -18,6 +18,6 @@ package com.dvdb.materialchecklist.recycler.adapter
 
 internal data class ChecklistItemAdapterRequestFocus(
     val position: Int,
-    val isStartSelection: Boolean = false,
+    val selectionPosition: Int = 0,
     val isShowKeyboard: Boolean = false
 )

@@ -22,7 +22,7 @@ internal interface ChecklistItemAdapterDragListener {
 
     fun canDragOverTargetItem(currentPosition: Int, targetPosition: Int): Boolean
 
-    fun onItemDragStart() {}
+    fun onItemDragStarted() {}
 
-    fun onItemDragStop() {}
+    fun onItemDragStopped() {}
 }

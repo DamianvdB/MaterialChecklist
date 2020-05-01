@@ -47,10 +47,8 @@ internal class ChecklistItemAdapter(
 
     var requestFocus: ChecklistItemAdapterRequestFocus = ChecklistItemAdapterRequestFocus(RecyclerView.NO_POSITION)
         set(value) {
-            if (field != value) {
-                field = value
-                notifyItemChanged(value.position)
-            }
+            field = value
+            notifyItemChanged(value.position)
         }
 
     init {
@@ -77,7 +75,7 @@ internal class ChecklistItemAdapter(
 
             if (position == requestFocus.position) {
                 holder.requestFocus(
-                    requestFocus.isStartSelection,
+                    requestFocus.selectionPosition,
                     requestFocus.isShowKeyboard
                 )
             }
@@ -100,18 +98,16 @@ internal class ChecklistItemAdapter(
     }
 
     override fun onDragStart(viewHolder: RecyclerView.ViewHolder) {
-        itemDragListener.onItemDragStart()
-
         if (viewHolder is DraggableRecyclerHolder) {
             viewHolder.onDragStart()
+            itemDragListener.onItemDragStarted()
         }
     }
 
     override fun onDragStop(viewHolder: RecyclerView.ViewHolder) {
-        itemDragListener.onItemDragStop()
-
         if (viewHolder is DraggableRecyclerHolder) {
             viewHolder.onDragStop()
+            itemDragListener.onItemDragStopped()
         }
     }
 }
