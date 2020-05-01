@@ -14,6 +14,22 @@
  * limitations under the License.
  */
 
+/*
+ * Designed and developed by Damian van den Berg.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.dvdb.checklist.sample
 
 import android.content.Context
@@ -34,6 +50,8 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val SETTINGS_ACTIVITY_REQUEST_CODE = 1000
+
+private const val CHANGE_MENU_ITEM_VISIBILITY_DELAY_MS = 100L
 
 private const val SP_CHECKLIST_ITEMS_TEXT_KEY = "mc_items_text"
 
@@ -68,6 +86,8 @@ internal class MainActivity : AppCompatActivity() {
 
     private lateinit var convertToTextMenuItem: MenuItem
     private lateinit var convertToChecklistMenuItem: MenuItem
+    private lateinit var removeCheckedItemsMenuItem: MenuItem
+    private lateinit var uncheckCheckedItemsMenuItem: MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +105,13 @@ internal class MainActivity : AppCompatActivity() {
         convertToTextMenuItem = menu!!.findItem(R.id.menu_main_activity_convert_to_text).apply {
             isVisible = showChecklist
         }
+        removeCheckedItemsMenuItem = menu.findItem(R.id.menu_main_activity_remove_checked_items).apply {
+            isVisible = showChecklist
+        }
+        uncheckCheckedItemsMenuItem = menu.findItem(R.id.menu_main_activity_uncheck_checked_items).apply {
+            isVisible = showChecklist
+        }
+
         convertToChecklistMenuItem = menu.findItem(R.id.menu_main_activity_convert_to_checklist).apply {
             isVisible = !showChecklist
         }
@@ -203,8 +230,16 @@ internal class MainActivity : AppCompatActivity() {
     private fun updateVisibleContentOnConvertMenuItemClicked(isConvertToChecklistMenuItemClicked: Boolean) {
         showChecklist = isConvertToChecklistMenuItemClicked
 
-        convertToTextMenuItem.isVisible = isConvertToChecklistMenuItemClicked
-        convertToChecklistMenuItem.isVisible = !isConvertToChecklistMenuItemClicked
+        main_root?.handler?.postDelayed(
+            {
+                convertToTextMenuItem.isVisible = isConvertToChecklistMenuItemClicked
+                removeCheckedItemsMenuItem.isVisible = isConvertToChecklistMenuItemClicked
+                uncheckCheckedItemsMenuItem.isVisible = isConvertToChecklistMenuItemClicked
+
+                convertToChecklistMenuItem.isVisible = !isConvertToChecklistMenuItemClicked
+            },
+            CHANGE_MENU_ITEM_VISIBILITY_DELAY_MS
+        )
 
         if (isConvertToChecklistMenuItemClicked) {
             val content: String = main_text.text.toString()
