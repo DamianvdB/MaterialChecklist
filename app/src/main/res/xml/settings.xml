@@ -158,7 +158,7 @@
             app:iconSpaceReserved="false" />
 
         <EditTextPreference
-            android:defaultValue="16"
+            android:defaultValue="8"
             android:key="@string/pref_settings_item_left_and_right_padding"
             android:summary="Set the item left and right padding"
             android:title="Left and Right Padding"
