@@ -64,15 +64,7 @@ class MaterialChecklist(
         itemTouchHelper.attachToRecyclerView(recyclerView)
         initManager(recyclerView, itemTouchHelper, itemTouchCallback)
 
-        if (isInEditMode) {
-            setItems(
-                "[ ] Send meeting notes to team\n" +
-                        "[ ] Order flowers\n" +
-                        "[ ] Organise camera gear\n" +
-                        "[ ] Book flights to Dubai\n" +
-                        "[x] Lease out holiday home"
-            )
-        }
+        initDefaultChecklistItems()
     }
 
     private fun initLayout() {
@@ -114,6 +106,20 @@ class MaterialChecklist(
             updateItemPadding = createManagerUpdateItemPaddingFunction(recyclerView),
             enableItemAnimations = createManagerEnableItemAnimationsFunction(recyclerView)
         )
+    }
+
+    private fun initDefaultChecklistItems() {
+        if (isInEditMode) {
+            setItems(
+                "[ ] Send meeting notes to team\n" +
+                        "[ ] Order flowers\n" +
+                        "[ ] Organise camera gear\n" +
+                        "[ ] Book flights to Dubai\n" +
+                        "[x] Lease out holiday home"
+            )
+        } else {
+            setItems("")
+        }
     }
 
     /**
