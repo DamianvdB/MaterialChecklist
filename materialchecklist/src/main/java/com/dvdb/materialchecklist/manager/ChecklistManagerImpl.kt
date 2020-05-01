@@ -38,7 +38,7 @@ private const val ENABLE_ITEM_ANIMATIONS_DELAY_MS = 1000L
 /**
  * Manages the state and the behavior of checklist items.
  */
-internal class ChecklistManager(
+internal class ChecklistManagerImpl(
     private val hideKeyboard: () -> Unit
 ) : ChecklistRecyclerHolderItemListener,
     ChecklistItemAdapterDragListener {
