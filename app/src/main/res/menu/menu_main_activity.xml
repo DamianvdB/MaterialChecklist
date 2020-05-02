@@ -18,6 +18,10 @@
         android:title="@string/menu_uncheck_checked_items" />
 
     <item
+        android:id="@+id/menu_main_activity_d_notes"
+        android:title="@string/menu_d_notes" />
+
+    <item
         android:id="@+id/menu_main_activity_github"
         android:title="@string/menu_github" />
 
