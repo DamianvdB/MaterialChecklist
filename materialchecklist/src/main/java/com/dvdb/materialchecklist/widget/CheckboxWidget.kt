@@ -35,7 +35,10 @@ internal class CheckboxWidget(
         super.setOnCheckedChangeListener(listener)
     }
 
-    fun setChecked(checked: Boolean, notify: Boolean) {
+    fun setChecked(
+        checked: Boolean,
+        notify: Boolean
+    ) {
         if (!notify) {
             super.setOnCheckedChangeListener(null)
             super.setChecked(checked)

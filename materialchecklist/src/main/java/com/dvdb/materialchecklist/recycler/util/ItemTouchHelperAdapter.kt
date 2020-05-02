@@ -20,9 +20,15 @@ import androidx.recyclerview.widget.RecyclerView
 
 internal interface ItemTouchHelperAdapter {
 
-    fun onItemMove(fromPosition: Int, toPosition: Int): Boolean
+    fun onItemMove(
+        fromPosition: Int,
+        toPosition: Int
+    ): Boolean
 
-    fun canDragOverTarget(current: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean
+    fun canDragOverTarget(
+        current: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean
 
     fun onDragStart(viewHolder: RecyclerView.ViewHolder)
 

@@ -20,7 +20,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.materialchecklist.recycler.adapter.base.BaseRecyclerAdapter
 import com.dvdb.materialchecklist.recycler.adapter.config.ChecklistItemAdapterConfig
-import com.dvdb.materialchecklist.recycler.holder.DraggableRecyclerHolder
+import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
+import com.dvdb.materialchecklist.recycler.holder.util.DraggableRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
@@ -55,19 +56,25 @@ internal class ChecklistItemAdapter(
         setHasStableIds(true)
     }
 
-    override fun getItemId(position: Int): Long = items[position].id
+    override fun getItemId(position: Int): Long = _items[position].id
 
     override fun getItemViewType(position: Int): Int = _items[position].type.ordinal
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
         return when (viewType) {
             BaseRecyclerItem.Type.CHECKLIST.ordinal -> itemRecyclerHolderFactory.create(parent, config.checklistConfig)
             BaseRecyclerItem.Type.CHECKLIST_NEW.ordinal -> itemNewRecyclerHolderFactory.create(parent, config.checklistNewConfig)
-            else -> error("Unknown item view type. Must be of type 'CHECKLIST', 'CHECKLIST_NEW' or 'CHECKLIST_DIVIDER'")
+            else -> error("Unknown item view type. Must be of type 'CHECKLIST' or 'CHECKLIST_NEW'")
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int
+    ) {
         val item = _items[position]
         if (holder is ChecklistRecyclerHolder && item is ChecklistRecyclerItem) {
             holder.updateConfigConditionally(config.checklistConfig)
@@ -89,11 +96,17 @@ internal class ChecklistItemAdapter(
         }
     }
 
-    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+    override fun onItemMove(
+        fromPosition: Int,
+        toPosition: Int
+    ): Boolean {
         return itemDragListener.onItemMove(fromPosition, toPosition)
     }
 
-    override fun canDragOverTarget(current: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+    override fun canDragOverTarget(
+        current: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
         return itemDragListener.canDragOverTargetItem(current.adapterPosition, target.adapterPosition)
     }
 

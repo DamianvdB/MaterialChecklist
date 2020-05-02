@@ -79,7 +79,7 @@ fun MaterialChecklist.restoreDeletedItem(itemId: Long): Boolean {
 }
 
 /**
- * Remove all the checklist items that are checked.
+ * Remove all the checklist items that are marked as checked.
  * These items can be restored using their id's.
  *
  * @return id's of the checklist items removed.
@@ -89,7 +89,7 @@ fun MaterialChecklist.removeAllCheckedItems(): List<Long> {
 }
 
 /**
- * Uncheck all the checklist items that are checked.
+ * Uncheck all the checklist items that are marked as checked.
  *
  * @return 'true' if any checked items were marked as unchecked, otherwise 'false'.
  */

@@ -29,7 +29,7 @@ import android.widget.ImageView
 import androidx.core.widget.CompoundButtonCompat
 import com.dvdb.materialchecklist.R
 import com.dvdb.materialchecklist.config.DragAndDropToggleMode
-import com.dvdb.materialchecklist.recycler.holder.DraggableRecyclerHolder
+import com.dvdb.materialchecklist.recycler.holder.util.DraggableRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.base.BaseRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.base.factory.BaseRecyclerHolderFactory
 import com.dvdb.materialchecklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
@@ -94,7 +94,10 @@ internal class ChecklistRecyclerHolder private constructor(
         }
     }
 
-    fun requestFocus(selectionPosition: Int, isShowKeyboard: Boolean) {
+    fun requestFocus(
+        selectionPosition: Int,
+        isShowKeyboard: Boolean
+    ) {
         text.requestFocus()
         text.setSelection(selectionPosition.coerceIn(0, text.length()))
 
@@ -159,16 +162,25 @@ internal class ChecklistRecyclerHolder private constructor(
 
     private fun initialiseCheckbox() {
         checkbox.setOnCheckedChangeListener { _, isChecked ->
-            listener.onItemChecked(adapterPosition, isChecked)
+            listener.onItemChecked(
+                adapterPosition,
+                isChecked
+            )
         }
 
         config.checkboxTintColor?.let {
-            CompoundButtonCompat.setButtonTintList(checkbox, ColorStateList.valueOf(it))
+            CompoundButtonCompat.setButtonTintList(
+                checkbox,
+                ColorStateList.valueOf(it)
+            )
         }
     }
 
     private fun initialiseText() {
-        text.setTextSize(TypedValue.COMPLEX_UNIT_PX, config.textSize)
+        text.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX,
+            config.textSize
+        )
 
         config.textTypeFace?.let {
             text.typeface = it
@@ -179,7 +191,10 @@ internal class ChecklistRecyclerHolder private constructor(
                 override fun afterTextChanged(s: Editable?) {
                     if (text.isFocused) {
                         s?.let { text ->
-                            listener.onItemTextChanged(adapterPosition, text.toString())
+                            listener.onItemTextChanged(
+                                adapterPosition,
+                                text.toString()
+                            )
                         }
                     }
                 }

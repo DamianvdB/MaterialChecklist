@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.adapter
+package com.dvdb.materialchecklist.recycler.holder.util
 
-internal interface ChecklistItemAdapterDragListener {
+internal interface DraggableRecyclerHolder {
 
-    fun onItemMove(fromPosition: Int, toPosition: Int): Boolean
+    fun onDragStart()
 
-    fun canDragOverTargetItem(currentPosition: Int, targetPosition: Int): Boolean
-
-    fun onItemDragStarted() {}
-
-    fun onItemDragStopped() {}
+    fun onDragStop()
 }

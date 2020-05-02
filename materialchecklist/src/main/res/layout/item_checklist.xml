@@ -10,6 +10,7 @@
         android:id="@+id/item_checklist_drag_indicator"
         android:layout_width="@dimen/icon_size_large"
         android:layout_height="match_parent"
+        android:contentDescription="@string/mc_item_checklist_content_description_drag_indicator"
         android:padding="@dimen/spacing_tiny"
         android:src="@drawable/ic_drag_indicator"
         tools:tint="@color/mc_icon_tint" />
@@ -43,6 +44,7 @@
         style="@style/ClickableViewBorderless"
         android:layout_width="@dimen/icon_size_large"
         android:layout_height="@dimen/icon_size_large"
+        android:contentDescription="@string/mc_item_checklist_content_description_delete"
         android:padding="@dimen/spacing_tiny"
         android:src="@drawable/ic_close"
         android:visibility="invisible"

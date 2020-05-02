@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dvdb.checklist.sample
+package com.dvdb.checklist.sample.config
 
 import android.content.Context
 import android.content.SharedPreferences

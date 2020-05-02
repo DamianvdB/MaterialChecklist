@@ -20,6 +20,10 @@ import android.os.Handler
 
 private const val DEFAULT_DELAY_MS = 100L
 
+/**
+ * A handler to post and execute a runnable after
+ * the specified amount of time elapses.
+ */
 internal class DelayHandler {
     private val handler: Handler = Handler()
 

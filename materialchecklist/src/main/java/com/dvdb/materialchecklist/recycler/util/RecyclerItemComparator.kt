@@ -22,7 +22,10 @@ import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecycle
 
 internal sealed class BaseRecyclerItemComparator : Comparator<BaseRecyclerItem> {
 
-    override fun compare(item1: BaseRecyclerItem?, item2: BaseRecyclerItem?): Int {
+    override fun compare(
+        item1: BaseRecyclerItem?,
+        item2: BaseRecyclerItem?
+    ): Int {
         return when {
             item1 is ChecklistRecyclerItem && item2 is ChecklistRecyclerItem -> compareIf(item1, item2)
             item1 is ChecklistRecyclerItem && item2 is ChecklistNewRecyclerItem -> compareIf(item1, item2)
@@ -31,9 +34,20 @@ internal sealed class BaseRecyclerItemComparator : Comparator<BaseRecyclerItem> 
         }
     }
 
-    abstract fun compareIf(item1: ChecklistRecyclerItem, item2: ChecklistRecyclerItem): Int
-    abstract fun compareIf(item1: ChecklistRecyclerItem, item2: ChecklistNewRecyclerItem): Int
-    abstract fun compareIf(item1: ChecklistNewRecyclerItem, item2: ChecklistRecyclerItem): Int
+    abstract fun compareIf(
+        item1: ChecklistRecyclerItem,
+        item2: ChecklistRecyclerItem
+    ): Int
+
+    abstract fun compareIf(
+        item1: ChecklistRecyclerItem,
+        item2: ChecklistNewRecyclerItem
+    ): Int
+
+    abstract fun compareIf(
+        item1: ChecklistNewRecyclerItem,
+        item2: ChecklistRecyclerItem
+    ): Int
 }
 
 internal object DefaultRecyclerItemComparator : BaseRecyclerItemComparator() {

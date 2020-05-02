@@ -16,12 +16,23 @@
 
 package com.dvdb.materialchecklist.config
 
+import androidx.annotation.CheckResult
+import com.dvdb.materialchecklist.config.BehaviorUncheckedItem.*
+
+/**
+ * The checklist item behavior for when a item is unchecked.
+ *
+ * Using [MOVE_TO_PREVIOUS_POSITION] moves the unchecked checklist item to its previous position. This is the default behavior.
+ * Using [MOVE_TO_BOTTOM_OF_UNCHECKED_ITEMS] moves the unchecked checklist item to the bottom of the other unchecked items.
+ * Using [MOVE_TO_TOP_OF_UNCHECKED_ITEMS] moves the unchecked checklist item to the top of the other unchecked items.
+ */
 enum class BehaviorUncheckedItem {
     MOVE_TO_PREVIOUS_POSITION,
     MOVE_TO_BOTTOM_OF_UNCHECKED_ITEMS,
     MOVE_TO_TOP_OF_UNCHECKED_ITEMS;
 
     companion object {
+        @CheckResult
         fun fromString(value: String): BehaviorUncheckedItem {
             return values().firstOrNull { it.name.equals(value, true) } ?: MOVE_TO_PREVIOUS_POSITION
         }

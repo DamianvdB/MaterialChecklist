@@ -19,9 +19,12 @@ package com.dvdb.materialchecklist.manager
 import androidx.annotation.CheckResult
 import com.dvdb.materialchecklist.manager.config.ChecklistManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapterDragListener
+import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
 import com.dvdb.materialchecklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
 
+/**
+ * Manages the state and the behavior of checklist items.
+ */
 internal interface ChecklistManager :
     ChecklistRecyclerHolderItemListener,
     ChecklistItemAdapterDragListener {

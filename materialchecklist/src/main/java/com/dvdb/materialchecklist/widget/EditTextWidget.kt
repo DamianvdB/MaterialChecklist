@@ -39,7 +39,10 @@ internal class EditTextWidget(
     var onSelectionChanged: ((startSelection: Int, endSelection: Int) -> Unit)? = null
     var onDeleteKeyPressed: (() -> Unit)? = null
 
-    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
+    override fun onSelectionChanged(
+        selStart: Int,
+        selEnd: Int
+    ) {
         super.onSelectionChanged(selStart, selEnd)
         onSelectionChanged?.invoke(selStart, selEnd)
     }

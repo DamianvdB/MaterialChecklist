@@ -16,6 +16,16 @@
 
 package com.dvdb.materialchecklist.config
 
+import androidx.annotation.CheckResult
+
+/**
+ * The checklist item behavior for when a item is checked.
+ *
+ * Using [MOVE_TO_TOP_OF_CHECKED_ITEMS] moves the checked checklist item to the top of the other checked items. This is the default behavior.
+ * Using [MOVE_TO_BOTTOM_OF_CHECKED_ITEMS] moves the checked checklist item to the bottom of the other checked items.
+ * Using [DELETE] deletes the checked checklist item.
+ * Using [KEEP_POSITION] keeps the checked checklist item at it's current position.
+ */
 enum class BehaviorCheckedItem {
     MOVE_TO_TOP_OF_CHECKED_ITEMS,
     MOVE_TO_BOTTOM_OF_CHECKED_ITEMS,
@@ -23,6 +33,7 @@ enum class BehaviorCheckedItem {
     KEEP_POSITION;
 
     companion object {
+        @CheckResult
         fun fromString(value: String): BehaviorCheckedItem {
             return values().firstOrNull { it.name.equals(value, true) } ?: MOVE_TO_TOP_OF_CHECKED_ITEMS
         }

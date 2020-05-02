@@ -94,10 +94,9 @@ internal class ChecklistManagerImpl(
     private val deletedItems: MutableMap<Long, Pair<ChecklistRecyclerItem, Int>> = mutableMapOf()
 
     /**
-     * Initialise the checklist manager with the required functions
-     * to manage the state and behavior of the checklist items.
+     * Initialise the checklist manager with the required functions.
      *
-     * This method should only be called once.
+     * This method should only be called once!
      *
      * @param adapter The adapter for the checklist items.
      * @param config The configuration defining the behavior and appearance of checklist items.
@@ -142,7 +141,7 @@ internal class ChecklistManagerImpl(
      * Gets the formatted text representation of the current
      * checklist items. The [keepCheckboxSymbols] flag is used to
      * either retain or remove the checkbox symbols of the checklist items.
-     * The [keepCheckedItems] flag is used to either retain or remove all checked
+     * The [keepCheckedItems] flag is used to either retain or remove all the checked
      * checklist items.
      */
     override fun getFormattedTextItems(
@@ -158,7 +157,7 @@ internal class ChecklistManagerImpl(
 
     /**
      * Sets the customisable [config] which defines the appearance and
-     * behavior of checklist items.
+     * behavior of the checklist items.
      */
     override fun setConfig(config: ChecklistManagerConfig) {
         if (this.config.dragAndDropEnabled != config.dragAndDropEnabled) {
@@ -222,7 +221,7 @@ internal class ChecklistManagerImpl(
 
     /**
      * Remove all checklist items that are marked as checked. The
-     * item ids of all removed items will be returned.
+     * item ids of all the removed items will be returned.
      */
     override fun removeAllCheckedItems(): List<Long> {
         val removedItemIds: MutableList<Long> = mutableListOf()
