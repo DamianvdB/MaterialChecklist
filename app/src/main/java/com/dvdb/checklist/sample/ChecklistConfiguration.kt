@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Typeface
+import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import com.dvdb.checklist.R
 import com.dvdb.materialchecklist.config.BehaviorCheckedItem
@@ -147,6 +148,10 @@ internal class ChecklistConfiguration(
     }
 
     private fun Float.toPx(context: Context): Float {
-        return this * context.resources.displayMetrics.density
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            this,
+            context.resources.displayMetrics
+        )
     }
 }
