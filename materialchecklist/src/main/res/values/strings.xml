@@ -1,0 +1,6 @@
+<resources>
+    <string name="mc_item_checklist_new_text">List item</string>
+    <string name="mc_item_checklist_new_content_description_add">Add</string>
+    <string name="mc_item_checklist_content_description_drag_indicator">Drag Indicator</string>
+    <string name="mc_item_checklist_content_description_delete">Delete</string>
+</resources>

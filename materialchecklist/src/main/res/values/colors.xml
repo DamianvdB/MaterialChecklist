@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mc_text_checklist_item_text">#212121</color>
+    <color name="mc_icon_tint">#616161</color>
+</resources>
