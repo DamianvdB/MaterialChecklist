@@ -32,11 +32,13 @@ private const val NO_ORIENTATION: Int = -1
  * @param firstItemMargin The margin in pixels to add to the top (vertical orientation ) or the left (horizontal orientation) of the first item.
  * @param lastItemMargin The margin in pixels to add to the bottom (vertical orientation ) or the right (horizontal orientation) of the last item.
  * @param sideMargin The margin in pixels to add to the left and the right (vertical orientation) or to the top and the bottom (horizontal orientation) of all items.
+ * @param defaultItemAnimator The recycler view item animator to use in place of [RecyclerSpaceItemDecorationAnimator].
  */
 internal class RecyclerSpaceItemDecorator(
     @Px private val firstItemMargin: Int = 0,
     @Px private val lastItemMargin: Int = 0,
-    @Px private val sideMargin: Int = 0
+    @Px private val sideMargin: Int = 0,
+    private val defaultItemAnimator: RecyclerView.ItemAnimator = DefaultItemAnimator()
 ) : RecyclerView.ItemDecoration() {
 
     private var orientation: Int = NO_ORIENTATION
@@ -63,13 +65,16 @@ internal class RecyclerSpaceItemDecorator(
             setHorizontalItemOffsets(position, outRect, lastPosition)
         }
 
-        if (firstItemMargin != 0 && parent.itemAnimator !is RecyclerSpaceItemDecoratorAnimation) {
-            parent.itemAnimator = RecyclerSpaceItemDecoratorAnimation(
-                firstItemOffset = firstItemMargin,
-                orientation = orientation
-            ) {
-                parent.adapter?.itemCount?.minus(1) ?: 0
+        val isSpaceDecorationItemAnimator = parent.itemAnimator is RecyclerSpaceItemDecorationAnimator
+        if (firstItemMargin != 0) {
+            if (!isSpaceDecorationItemAnimator) {
+                parent.itemAnimator = RecyclerSpaceItemDecorationAnimator(
+                    firstItemOffset = firstItemMargin,
+                    orientation = orientation
+                )
             }
+        } else if (isSpaceDecorationItemAnimator) {
+            parent.itemAnimator = defaultItemAnimator
         }
     }
 
@@ -132,12 +137,10 @@ internal class RecyclerSpaceItemDecorator(
  *
  * @param firstItemOffset The offset in pixels added to the top (vertical orientation) or the left (horizontal orientation) of the first item.
  * @param orientation The orientation of the recycler view.
- * @param lastItemIndex The function to return the index of the last item.
  */
-private class RecyclerSpaceItemDecoratorAnimation(
+private class RecyclerSpaceItemDecorationAnimator(
     @Px private val firstItemOffset: Int,
-    private val orientation: Int,
-    private val lastItemIndex: () -> Int
+    private val orientation: Int
 ) : DefaultItemAnimator() {
 
     init {
@@ -147,7 +150,7 @@ private class RecyclerSpaceItemDecoratorAnimation(
     }
 
     override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
-        return if (holder.layoutPosition == RecyclerView.NO_POSITION || holder.layoutPosition == lastItemIndex()) {
+        return if (holder.layoutPosition == RecyclerView.NO_POSITION) {
             if (orientation == RecyclerView.VERTICAL) {
                 ViewCompat.offsetTopAndBottom(holder.itemView, firstItemOffset - holder.itemView.top)
             } else {

@@ -174,6 +174,8 @@ class MaterialChecklist(
      * @param recyclerView The recycler view containing the checklist items.
      */
     private fun createManagerUpdateItemPaddingFunction(recyclerView: RecyclerView): (firstItemTopPadding: Float?, lastItemBottomPadding: Float?) -> Unit {
+        val defaultItemAnimator: RecyclerView.ItemAnimator? = recyclerView.itemAnimator
+
         return { firstItemTopPadding, lastItemBottomPadding ->
             for (index in 0 until recyclerView.itemDecorationCount) {
                 val itemDecoration = recyclerView.getItemDecorationAt(index)
@@ -185,10 +187,18 @@ class MaterialChecklist(
 
             if (firstItemTopPadding != null || lastItemBottomPadding != null) {
                 recyclerView.addItemDecoration(
-                    RecyclerSpaceItemDecorator(
-                        firstItemMargin = firstItemTopPadding?.toInt() ?: 0,
-                        lastItemMargin = lastItemBottomPadding?.toInt() ?: 0
-                    )
+                    if (defaultItemAnimator != null) {
+                        RecyclerSpaceItemDecorator(
+                            firstItemMargin = firstItemTopPadding?.toInt() ?: 0,
+                            lastItemMargin = lastItemBottomPadding?.toInt() ?: 0,
+                            defaultItemAnimator = defaultItemAnimator
+                        )
+                    } else {
+                        RecyclerSpaceItemDecorator(
+                            firstItemMargin = firstItemTopPadding?.toInt() ?: 0,
+                            lastItemMargin = lastItemBottomPadding?.toInt() ?: 0
+                        )
+                    }
                 )
             }
         }
