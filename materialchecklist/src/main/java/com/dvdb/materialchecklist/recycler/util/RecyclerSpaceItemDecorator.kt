@@ -56,10 +56,11 @@ internal class RecyclerSpaceItemDecorator(
             orientation = getOrientation(parent)
         }
 
+        val lastPosition: Int = parent.adapter?.itemCount?.dec() ?: RecyclerView.NO_POSITION
         if (orientation == LinearLayoutManager.VERTICAL) {
-            setVerticalItemOffsets(position, outRect, state)
+            setVerticalItemOffsets(position, outRect, lastPosition)
         } else {
-            setHorizontalItemOffsets(position, outRect, state)
+            setHorizontalItemOffsets(position, outRect, lastPosition)
         }
 
         if (firstItemMargin != 0 && parent.itemAnimator !is RecyclerSpaceItemDecoratorAnimation) {
@@ -75,7 +76,7 @@ internal class RecyclerSpaceItemDecorator(
     private fun setVerticalItemOffsets(
         position: Int,
         outRect: Rect,
-        state: RecyclerView.State
+        lastPosition: Int
     ) {
         outRect.run {
             if (position == 0) {
@@ -83,7 +84,7 @@ internal class RecyclerSpaceItemDecorator(
                     top = firstItemMargin
                 }
             } else {
-                if (position == state.lastIndex && lastItemMargin > 0) {
+                if (position == lastPosition && lastItemMargin > 0) {
                     bottom = lastItemMargin
                 }
             }
@@ -98,7 +99,7 @@ internal class RecyclerSpaceItemDecorator(
     private fun setHorizontalItemOffsets(
         position: Int,
         outRect: Rect,
-        state: RecyclerView.State
+        lastPosition: Int
     ) {
         outRect.run {
             if (position == 0) {
@@ -107,7 +108,7 @@ internal class RecyclerSpaceItemDecorator(
                 }
 
             } else {
-                if (position == state.lastIndex && lastItemMargin > 0) {
+                if (position == lastPosition && lastItemMargin > 0) {
                     right = lastItemMargin
                 }
             }
@@ -123,9 +124,6 @@ internal class RecyclerSpaceItemDecorator(
         return (parent.layoutManager as? LinearLayoutManager)?.orientation
             ?: error("${this.javaClass.simpleName} can only be used with a LinearLayoutManager")
     }
-
-    private val RecyclerView.State.lastIndex: Int
-        get() = itemCount - 1
 }
 
 /**

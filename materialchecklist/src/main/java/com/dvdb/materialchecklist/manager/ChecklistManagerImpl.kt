@@ -211,6 +211,10 @@ internal class ChecklistManagerImpl(
                 addItemPosition
             )
 
+            if (config.itemLastBottomPadding != 0f && adapter.items.lastIndex == addItemPosition) {
+                adapter.notifyItemChanged(adapter.items.lastIndex - 1)
+            }
+
             return true
         }
         return false
