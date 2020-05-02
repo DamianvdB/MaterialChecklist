@@ -21,6 +21,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -200,6 +201,13 @@ internal class MainActivity : AppCompatActivity() {
                 itemLeftAndRightPadding = checklistConfiguration.itemLeftAndRightPadding,
                 lastItemBottomPadding = checklistConfiguration.itemLastBottomPadding
             )
+        }
+
+        // Apply text settings from config to edit text
+        main_text.setTextColor(checklistConfiguration.textColor)
+        main_text.setTextSize(TypedValue.COMPLEX_UNIT_PX, checklistConfiguration.textSize)
+        checklistConfiguration.textTypeFace?.let {
+            main_text.typeface = it
         }
     }
 
