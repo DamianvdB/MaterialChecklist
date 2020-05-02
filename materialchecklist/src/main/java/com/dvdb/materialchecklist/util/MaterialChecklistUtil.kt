@@ -32,14 +32,15 @@
 
 package com.dvdb.materialchecklist.util
 
-import android.content.Context
-import androidx.annotation.CheckResult
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
+internal object MaterialChecklistUtil {
 
-@CheckResult
-@ColorInt
-internal fun Context.getColorCompat(@ColorRes colorRes: Int): Int {
-    return ContextCompat.getColor(this, colorRes)
+    fun assertOneSet(
+        method: String,
+        literal: Any?,
+        resourceId: Int?
+    ) {
+        require(literal != null || resourceId != null) {
+            "$method: You must specify a resource ID or literal value"
+        }
+    }
 }
