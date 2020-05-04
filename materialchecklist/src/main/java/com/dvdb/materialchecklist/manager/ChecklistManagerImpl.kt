@@ -520,8 +520,6 @@ internal class ChecklistManagerImpl(
 
                 BehaviorCheckedItem.MOVE_TO_BOTTOM_OF_CHECKED_ITEMS -> adapter.itemCount
 
-                BehaviorCheckedItem.KEEP_POSITION -> position
-
                 BehaviorCheckedItem.DELETE -> {
                     saveDeletedItemAndNotifyListener(item, position)
                     NO_POSITION
