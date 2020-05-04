@@ -51,8 +51,8 @@ private const val CHECKLIST_ITEMS_SAMPLE_TEXT = "[ ] Send meeting notes to team\
         "[x] Advertise holiday home\n" +
         "[x] Wish Sarah happy birthday"
 
-private const val D_NOTES_URL = "https://play.google.com/store/apps/details?id=com.dvdb.bergnotes"
-private const val GITHUB_URL = "http://bit.ly/damian_van_den_berg_github_material_checklist"
+private const val D_NOTES_URL = "https://bit.ly/google_play_store_d_notes"
+private const val GITHUB_URL = "https://bit.ly/github_material_checklist"
 
 internal class MainActivity : AppCompatActivity() {
 
