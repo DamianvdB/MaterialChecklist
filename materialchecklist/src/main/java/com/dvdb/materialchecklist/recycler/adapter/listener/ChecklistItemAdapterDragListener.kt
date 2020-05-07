@@ -18,9 +18,15 @@ package com.dvdb.materialchecklist.recycler.adapter.listener
 
 internal interface ChecklistItemAdapterDragListener {
 
-    fun onItemMove(fromPosition: Int, toPosition: Int): Boolean
+    fun onItemMove(
+        fromPosition: Int,
+        toPosition: Int
+    ): Boolean
 
-    fun canDragOverTargetItem(currentPosition: Int, targetPosition: Int): Boolean
+    fun canDragOverTargetItem(
+        currentPosition: Int,
+        targetPosition: Int
+    ): Boolean
 
     fun onItemDragStarted() {}
 

@@ -46,14 +46,6 @@ class BehaviorCheckedItemTest {
     }
 
     @Test
-    fun fromString_keepPosition_test() {
-        val expected = BehaviorCheckedItem.KEEP_POSITION
-        val actual = BehaviorCheckedItem.fromString("keep_position")
-
-        Assert.assertEquals(expected, actual)
-    }
-
-    @Test
     fun fromString_invalid_test() {
         val expected = BehaviorCheckedItem.MOVE_TO_TOP_OF_CHECKED_ITEMS
         val actual = BehaviorCheckedItem.fromString("")

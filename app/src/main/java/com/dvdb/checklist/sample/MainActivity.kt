@@ -51,6 +51,9 @@ private const val CHECKLIST_ITEMS_SAMPLE_TEXT = "[ ] Send meeting notes to team\
         "[x] Advertise holiday home\n" +
         "[x] Wish Sarah happy birthday"
 
+private const val D_NOTES_URL = "https://bit.ly/google_play_store_d_notes"
+private const val GITHUB_URL = "https://bit.ly/github_material_checklist"
+
 internal class MainActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
@@ -111,6 +114,7 @@ internal class MainActivity : AppCompatActivity() {
             R.id.menu_main_activity_convert_to_checklist -> handleOnConvertToChecklistMenuItemClicked()
             R.id.menu_main_activity_remove_checked_items -> handleOnRemoveCheckedItemsMenuItemClicked()
             R.id.menu_main_activity_uncheck_checked_items -> handleOnUncheckCheckedItemsMenuItemClicked()
+            R.id.menu_main_activity_d_notes -> handleOnDNotesMenuItemClicked()
             R.id.menu_main_activity_github -> handleOnGithubMenuItemClicked()
             R.id.menu_main_activity_settings -> handleOnSettingsMenuItemClicked()
             else -> {
@@ -268,12 +272,20 @@ internal class MainActivity : AppCompatActivity() {
         main_checklist.uncheckAllCheckedItems()
     }
 
+    private fun handleOnDNotesMenuItemClicked() {
+        openUrl(D_NOTES_URL)
+    }
+
     private fun handleOnGithubMenuItemClicked() {
+        openUrl(GITHUB_URL)
+    }
+
+    private fun openUrl(url: String) {
         dismissKeyboard()
 
         startActivity(
             Intent(Intent.ACTION_VIEW)
-                .setData(Uri.parse("http://bit.ly/damian_van_den_berg_github_material_checklist"))
+                .setData(Uri.parse(url))
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         )
     }

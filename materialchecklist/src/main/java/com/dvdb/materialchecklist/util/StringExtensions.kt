@@ -16,6 +16,9 @@
 
 package com.dvdb.materialchecklist.util
 
+import androidx.annotation.CheckResult
+
+@CheckResult
 internal fun String.substringOrNull(
     startIndex: Int,
     endIndex: Int
