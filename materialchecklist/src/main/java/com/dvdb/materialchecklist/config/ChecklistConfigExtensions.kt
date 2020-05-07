@@ -143,9 +143,9 @@ fun MaterialChecklist.setIconTintColor(
     assertOneSet("icon tint color", tintColor, tintColorRes)
     val context = context
     if (context != null) {
-        val newIconTintColor = tintColor ?: context.getColorCompat(tintColorRes!!)
-        if (config.iconTintColor != newIconTintColor) {
-            config.iconTintColor = newIconTintColor
+        val newTintColor = tintColor ?: context.getColorCompat(tintColorRes!!)
+        if (config.iconTintColor != newTintColor) {
+            config.iconTintColor = newTintColor
             manager.setConfig(config.toManagerConfig())
         }
     }
@@ -251,7 +251,6 @@ fun MaterialChecklist.setDragAndDropItemActiveBackgroundColor(
     assertOneSet("drag and drop item active background color", backgroundColor, backgroundColorRes)
     val context = context
     if (context != null) {
-
         val newBackgroundColor = backgroundColor ?: context.getColorCompat(backgroundColorRes!!)
         if (config.dragAndDropActiveItemBackgroundColor != newBackgroundColor) {
             config.dragAndDropActiveItemBackgroundColor = newBackgroundColor

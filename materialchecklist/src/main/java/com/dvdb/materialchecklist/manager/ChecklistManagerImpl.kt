@@ -34,7 +34,7 @@ private const val NO_POSITION = -1
 private const val ENABLE_ITEM_ANIMATIONS_DELAY_MS = 1000L
 
 /**
- * Manages the state and the behavior of checklist items.
+ * Manages the state and behavior of the checklist items.
  */
 internal class ChecklistManagerImpl(
     hideKeyboard: () -> Unit

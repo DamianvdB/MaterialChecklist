@@ -23,7 +23,7 @@ import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
 
 /**
- * Manages the state and the behavior of checklist items.
+ * Manages the state and behavior of the checklist items.
  */
 internal interface ChecklistManager :
     ChecklistRecyclerHolderItemListener,

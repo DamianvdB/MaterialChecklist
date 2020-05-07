@@ -22,7 +22,7 @@ import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 private const val NO_POSITION: Int = -1
 
 /**
- * Manages the focus and the selection behavior of the [checklistItems]. Checklist items
+ * Manages the focus and selection behavior of the [checklistItems]. Checklist items
  * will have their focus set and removed using [requestFocus] in combination of calling
  * [hideKeyboard] based on different behavioural rules. All the unchecked items should always be
  * above the [createNewItemPosition] and all the checked items should always be below [createNewItemPosition].

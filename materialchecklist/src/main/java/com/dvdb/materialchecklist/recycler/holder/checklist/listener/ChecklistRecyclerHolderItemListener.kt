@@ -20,19 +20,38 @@ import android.widget.TextView
 
 internal interface ChecklistRecyclerHolderItemListener {
 
-    fun onItemChecked(position: Int, isChecked: Boolean)
+    fun onItemChecked(
+        position: Int,
+        isChecked: Boolean
+    )
 
-    fun onItemTextChanged(position: Int, text: String)
+    fun onItemTextChanged(
+        position: Int,
+        text: String
+    )
 
-    fun onItemEnterKeyPressed(position: Int, textView: TextView)
+    fun onItemEnterKeyPressed(
+        position: Int,
+        textView: TextView
+    )
 
     fun onItemDeleteKeyPressed(position: Int)
 
     fun onItemDeleteClicked(position: Int)
 
-    fun onItemFocusChanged(position: Int, startSelection: Int, endSelection: Int, hasFocus: Boolean)
+    fun onItemFocusChanged(
+        position: Int,
+        startSelection: Int,
+        endSelection: Int,
+        hasFocus: Boolean
+    )
 
-    fun onItemSelectionChanged(position: Int, startSelection: Int, endSelection: Int, hasFocus: Boolean)
+    fun onItemSelectionChanged(
+        position: Int,
+        startSelection: Int,
+        endSelection: Int,
+        hasFocus: Boolean
+    )
 
     fun onItemDragHandledClicked(position: Int)
 }
