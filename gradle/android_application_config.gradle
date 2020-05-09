@@ -1,0 +1,18 @@
+apply plugin: "com.android.application"
+
+apply from: rootProject.file("gradle/android_common_config.gradle")
+apply from: rootProject.file("gradle/android_signing_config.gradle")
+
+android {
+    android.defaultConfig.applicationId "com.dvdb.checklist"
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix '-debug'
+        }
+    }
+}

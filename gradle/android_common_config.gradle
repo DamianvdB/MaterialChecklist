@@ -1,0 +1,27 @@
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+
+apply from: rootProject.file("dependencies.gradle")
+
+android {
+    compileSdkVersion versions.compile_sdk
+    buildToolsVersion versions.build_tools
+
+    defaultConfig {
+        minSdkVersion versions.min_sdk
+        targetSdkVersion versions.compile_sdk
+        versionCode versions.publish_version_code
+        versionName versions.publish_version
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    
+    implementation deps.kotlin
+
+    implementation deps.androidx.core
+    implementation deps.androidx.recycler_view
+
+    testImplementation deps.junit
+}
