@@ -39,7 +39,7 @@ dependencies {
 }
 ```
 
-# Usage
+## Usage
 
 ### Add the Material Checklist in XML
 ```xml
@@ -114,7 +114,7 @@ val removedItemIds: List<Long> = checklist.removeAllCheckedItems()
 checklist.uncheckAllCheckedItems()
 ```
 
-# Configuration
+## Configuration
 All the XML styling attributes are available under the ```app``` namespace:
 ```xml
 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -199,17 +199,17 @@ checklist.setOnItemCheckedBehavior(behavior: BehaviorCheckedItem)
     app:item_padding_last_bottom="..." />
 ```
 
-# Apps using MaterialChecklist
+## Apps using MaterialChecklist
 Want to be here? Open an ```issue``` or make a ```pull request```.
 
 * [D Notes](http://bit.ly/google_play_store_d_notes)
 
-# Developed by
+## Developed by
 * Damian van den Berg
 * [LinkedIn](http://bit.ly/damian_van_den_berg_linkedin)
 * [Google Play Store](https://bit.ly/damian_van_den_berg_google_play_store)
 
-# License
+## License
 
     Copyright 2020 Damian van den Berg
 
