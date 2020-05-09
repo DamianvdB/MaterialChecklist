@@ -131,7 +131,7 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        checklistItemsText = if (showChecklist) main_checklist.getFormattedTextItems() else main_text.text.toString()
+        checklistItemsText = if (showChecklist) main_checklist.getItems() else main_text.text.toString()
         super.onStop()
     }
 
@@ -242,7 +242,7 @@ internal class MainActivity : AppCompatActivity() {
             val content: String = main_text.text.toString()
             main_checklist.setItems(content)
         } else {
-            val content: String = main_checklist.getFormattedTextItems()
+            val content: String = main_checklist.getItems()
             main_text.setText(content)
         }
 
