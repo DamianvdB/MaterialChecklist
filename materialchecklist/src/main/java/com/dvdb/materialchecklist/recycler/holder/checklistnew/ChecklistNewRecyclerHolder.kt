@@ -70,7 +70,10 @@ internal class ChecklistNewRecyclerHolder private constructor(
     }
 
     private fun initialiseAdd() {
-        addIcon.drawable.setTintCompat(config.iconTintColor)
+        val tintedIcon = config.iconAdd
+        tintedIcon?.setTintCompat(config.iconTintColor)
+        addIcon.setImageDrawable(tintedIcon)
+
         addIcon.alpha = config.iconAlphaAdd
     }
 
