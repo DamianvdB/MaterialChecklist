@@ -19,6 +19,7 @@ package com.dvdb.materialchecklist.config
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.CheckResult
 import androidx.annotation.ColorInt
@@ -30,6 +31,7 @@ import com.dvdb.materialchecklist.recycler.adapter.config.ChecklistItemAdapterCo
 import com.dvdb.materialchecklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderConfig
 import com.dvdb.materialchecklist.util.getColorCompat
+import com.dvdb.materialchecklist.util.getDrawableCompat
 
 internal class ChecklistConfig(
     context: Context,
@@ -49,8 +51,11 @@ internal class ChecklistConfig(
      * Icon
      */
     @ColorInt var iconTintColor: Int = context.getColorCompat(R.color.mc_icon_tint),
+    private val iconDragIndicator: Drawable? = context.getDrawableCompat(R.drawable.ic_drag_indicator),
     var iconAlphaDragIndicator: Float = 0.5F,
+    private val iconDelete: Drawable? = context.getDrawableCompat(R.drawable.ic_close),
     var iconAlphaDelete: Float = 0.9F,
+    private val iconAdd: Drawable? = context.getDrawableCompat(R.drawable.ic_add),
     var iconAlphaAdd: Float = 0.7F,
 
     /**
@@ -112,7 +117,9 @@ internal class ChecklistConfig(
             textAlphaCheckedItem = textAlphaCheckedItem,
             textTypeFace = textTypeFace,
             iconTintColor = iconTintColor,
+            iconDragIndicator = iconDragIndicator,
             iconAlphaDragIndicator = iconAlphaDragIndicator,
+            iconDelete = iconDelete,
             iconAlphaDelete = iconAlphaDelete,
             checkboxAlphaCheckedItem = checkboxAlphaCheckedItem,
             checkboxTintColor = checkboxTintColor,
@@ -127,6 +134,7 @@ internal class ChecklistConfig(
             textAlpha = textAlphaNewItem,
             textTypeFace = textTypeFace,
             iconTintColor = iconTintColor,
+            iconAdd = iconAdd,
             iconAlphaAdd = iconAlphaAdd,
             leftAndRightPadding = itemLeftAndRightPadding
         )

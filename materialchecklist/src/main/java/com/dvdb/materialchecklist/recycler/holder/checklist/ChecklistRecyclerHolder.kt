@@ -29,11 +29,11 @@ import android.widget.ImageView
 import androidx.core.widget.CompoundButtonCompat
 import com.dvdb.materialchecklist.R
 import com.dvdb.materialchecklist.config.DragAndDropToggleMode
-import com.dvdb.materialchecklist.recycler.holder.util.DraggableRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.base.BaseRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.base.factory.BaseRecyclerHolderFactory
 import com.dvdb.materialchecklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
+import com.dvdb.materialchecklist.recycler.holder.util.DraggableRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.util.EnterActionPerformedFactory
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.util.SimpleTextChangedListener
@@ -126,8 +126,12 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     private fun initialiseDragIndicator() {
-        dragIndicatorIcon.drawable.setTintCompat(config.iconTintColor)
+        val tintedIcon = config.iconDragIndicator
+        tintedIcon?.setTintCompat(config.iconTintColor)
+        dragIndicatorIcon.setImageDrawable(tintedIcon)
+
         dragIndicatorIcon.alpha = config.iconAlphaDragIndicator
+
         dragIndicatorIcon.setVisible(
             config.dragAndDropToggleMode != DragAndDropToggleMode.NONE,
             View.INVISIBLE
@@ -241,7 +245,10 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     private fun initialiseDelete() {
-        deleteIcon.drawable.setTintCompat(config.iconTintColor)
+        val tintedIcon = config.iconDelete
+        tintedIcon?.setTintCompat(config.iconTintColor)
+        deleteIcon.setImageDrawable(tintedIcon)
+
         deleteIcon.alpha = config.iconAlphaDelete
 
         deleteIcon.setOnClickListener {

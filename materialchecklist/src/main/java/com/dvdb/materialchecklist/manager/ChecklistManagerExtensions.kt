@@ -39,7 +39,7 @@ fun MaterialChecklist.setItems(formattedText: String) {
  * @return The formatted string representation of the checklist items.
  */
 @CheckResult
-fun MaterialChecklist.getFormattedTextItems(
+fun MaterialChecklist.getItems(
     keepCheckboxSymbols: Boolean = true,
     keepCheckedItems: Boolean = true
 ): String {

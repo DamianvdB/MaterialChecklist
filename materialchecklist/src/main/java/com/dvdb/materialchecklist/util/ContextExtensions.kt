@@ -17,13 +17,21 @@
 package com.dvdb.materialchecklist.util
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import androidx.annotation.CheckResult
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 
 @CheckResult
 @ColorInt
 internal fun Context.getColorCompat(@ColorRes colorRes: Int): Int {
     return ContextCompat.getColor(this, colorRes)
+}
+
+@CheckResult
+internal fun Context.getDrawableCompat(@DrawableRes drawableRes: Int): Drawable? {
+    return AppCompatResources.getDrawable(this, drawableRes)
 }

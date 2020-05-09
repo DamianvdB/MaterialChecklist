@@ -1,0 +1,20 @@
+// Check if locale.properties file exists
+if (!project.rootProject.file('local.properties').exists()) {
+    logger.warn("local.properties not found. Skipping Bintray Release setup.")
+    return
+}
+
+// Load keystore properties
+def localPropertiesFile = rootProject.file("local.properties")
+def properties = new Properties()
+if (localPropertiesFile.exists()) {
+    properties.load(new FileInputStream(localPropertiesFile))
+}
+
+// Fetch and store properties
+ext.signing = [
+        storeFile    : properties.getProperty("storeFile"),
+        storePassword: properties.getProperty("storePassword"),
+        keyAlias     : properties.getProperty("keyAlias"),
+        keyPassword  : properties.getProperty("keyPassword")
+]

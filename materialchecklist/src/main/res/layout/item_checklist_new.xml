@@ -15,7 +15,7 @@
         android:layout_marginLeft="@dimen/mc_item_checklist_new_add_start_margin"
         android:contentDescription="@string/mc_item_checklist_new_content_description_add"
         android:padding="@dimen/spacing_tiny"
-        android:src="@drawable/ic_add"
+        tools:srcCompat="@drawable/ic_add"
         tools:tint="@color/mc_icon_tint" />
 
     <TextView

@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/mc_item_checklist_content_description_drag_indicator"
         android:padding="@dimen/spacing_tiny"
-        android:src="@drawable/ic_drag_indicator"
+        tools:srcCompat="@drawable/ic_drag_indicator"
         tools:tint="@color/mc_icon_tint" />
 
     <com.dvdb.materialchecklist.widget.CheckboxWidget
@@ -46,8 +46,8 @@
         android:layout_height="@dimen/icon_size_large"
         android:contentDescription="@string/mc_item_checklist_content_description_delete"
         android:padding="@dimen/spacing_tiny"
-        android:src="@drawable/ic_close"
         android:visibility="invisible"
+        tools:srcCompat="@drawable/ic_close"
         tools:tint="@color/mc_icon_tint"
         tools:visibility="visible" />
 
