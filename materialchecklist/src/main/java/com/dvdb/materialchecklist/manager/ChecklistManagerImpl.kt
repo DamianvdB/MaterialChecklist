@@ -130,7 +130,7 @@ internal class ChecklistManagerImpl(
     }
 
     /**
-     * Sets and displays the checklist items by parsing the
+     * Set and displays the checklist items by parsing the
      * [formattedText] into checklist items.
      */
     override fun setItems(formattedText: String) {
@@ -138,7 +138,7 @@ internal class ChecklistManagerImpl(
     }
 
     /**
-     * Gets the formatted text representation of the current
+     * Get the formatted text representation of the current
      * checklist items. The [keepCheckboxSymbols] flag is used to
      * either retain or remove the checkbox symbols of the checklist items.
      * The [keepCheckedItems] flag is used to either retain or remove all the checked
@@ -156,7 +156,7 @@ internal class ChecklistManagerImpl(
     }
 
     /**
-     * Sets the customisable [config] which defines the appearance and
+     * Set the customisable [config] which defines the appearance and
      * behavior of the checklist items.
      */
     override fun setConfig(config: ChecklistManagerConfig) {
@@ -269,6 +269,21 @@ internal class ChecklistManagerImpl(
         }
 
         return anyItemsUnchecked
+    }
+
+    /**
+     * Get the total number of checklist items.
+     */
+    override fun getItemCount(): Int {
+        return adapter.itemCount
+    }
+
+    /**
+     * Get the total number of checklist items that
+     * are marked as checked.
+     */
+    override fun getCheckedItemCount(): Int {
+        return adapter.items.count { it is ChecklistRecyclerItem && it.isChecked }
     }
 
     /**
@@ -474,6 +489,23 @@ internal class ChecklistManagerImpl(
      */
     override fun onItemDragStarted() {
         focusManager.onItemDragStarted()
+    }
+
+    /**
+     * Get the position of the checklist item in the list
+     * that has focus using the [focusManager].
+     */
+    override fun getItemFocusPosition(): Int = focusManager.getItemFocusPosition()
+
+    /**
+     * Set the focus on the checklist item at [position]
+     * in the list using the [focusManager].
+     *
+     * Returns 'true' if focus could be set on a
+     * checklist item.
+     */
+    override fun setItemFocusPosition(position: Int): Boolean {
+        return focusManager.setItemFocusPosition(position)
     }
 
     private fun setItemsInternal(items: List<BaseRecyclerItem>) {

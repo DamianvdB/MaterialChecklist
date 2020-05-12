@@ -195,6 +195,40 @@ internal class ChecklistFocusManagerImpl(
         hideKeyboardAndResetState()
     }
 
+    /**
+     * Get the position of the checklist item in the list
+     * that has focus.
+     *
+     * Returns [NO_POSITION] if no checklist item has focus.
+     */
+    override fun getItemFocusPosition(): Int = itemFocusTracker.position
+
+    /**
+     * Set the focus on the checklist item at [position]
+     * in the list.
+     *
+     * Returns 'true' if the focus could be set on a
+     * checklist item using [position] as the base position.
+     */
+    override fun setItemFocusPosition(position: Int): Boolean {
+        val positions = listOf(
+            position,
+            position.dec(),
+            position.inc()
+        )
+
+        positions.forEach { currentPosition ->
+            if (currentPosition != createNewItemPosition() && currentPosition < checklistItems().size) {
+                requestFocusForItemAtPosition(
+                    position = currentPosition,
+                    selectionPosition = Int.MAX_VALUE
+                )
+                return true
+            }
+        }
+        return false
+    }
+
     private fun handleItemCheckedStateChanged(
         originalPosition: Int,
         updatedPosition: Int,
