@@ -9,6 +9,7 @@
 The flexible, easy to use checklist library written in Kotlin for your Android projects.
 
 ## Preview
+Download the sample application from the [Google Play Store](https://bit.ly/google_play_store_material_checklist)!
 <div>
 	<img src="https://raw.githubusercontent.com/DamianvdB/MaterialChecklist/master/art/screenshots_combined.jpg" width="4320">
 </div>
