@@ -18,6 +18,7 @@ package com.dvdb.materialchecklist.manager
 
 import androidx.annotation.CheckResult
 import com.dvdb.materialchecklist.MaterialChecklist
+import com.dvdb.materialchecklist.manager.item.ChecklistItem
 
 /**
  * Set the list of checklist items by parsing the [formattedText] string.
@@ -135,4 +136,26 @@ fun MaterialChecklist.getItemFocusPosition(): Int {
  */
 fun MaterialChecklist.setItemFocusPosition(position: Int): Boolean {
     return manager.setItemFocusPosition(position)
+}
+
+/**
+ * Get the checklist item at [position] in the list.
+ *
+ * @return checklist item at [position] or null if no item could be found
+ * at [position] in the list.
+ */
+@CheckResult
+fun MaterialChecklist.getChecklistItemAtPosition(position: Int): ChecklistItem? {
+    return manager.getChecklistItemAtPosition(position)
+}
+
+/**
+ * Update the checklist [item] in the list with same id.
+ *
+ * @return 'true' if a checklist item with the same id could be found
+ * and it has different values when compared to [item]. Otherwise, return 'false'
+ * if a checklist item could not be found or they have same values.
+ */
+fun MaterialChecklist.updateChecklistItem(item: ChecklistItem): Boolean {
+    return manager.updateChecklistItem(item)
 }

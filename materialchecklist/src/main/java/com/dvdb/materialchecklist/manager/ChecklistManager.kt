@@ -17,6 +17,7 @@
 package com.dvdb.materialchecklist.manager
 
 import com.dvdb.materialchecklist.manager.config.ChecklistManagerConfig
+import com.dvdb.materialchecklist.manager.item.ChecklistItem
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
 import com.dvdb.materialchecklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
@@ -63,4 +64,8 @@ internal interface ChecklistManager :
     fun getItemCount(): Int
 
     fun getCheckedItemCount(): Int
+
+    fun getChecklistItemAtPosition(position: Int): ChecklistItem?
+
+    fun updateChecklistItem(item: ChecklistItem): Boolean
 }

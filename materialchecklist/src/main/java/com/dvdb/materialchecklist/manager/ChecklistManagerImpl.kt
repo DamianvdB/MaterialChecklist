@@ -20,6 +20,7 @@ import android.widget.TextView
 import com.dvdb.materialchecklist.config.BehaviorCheckedItem
 import com.dvdb.materialchecklist.config.BehaviorUncheckedItem
 import com.dvdb.materialchecklist.manager.config.ChecklistManagerConfig
+import com.dvdb.materialchecklist.manager.item.ChecklistItem
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapterRequestFocus
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
@@ -284,6 +285,65 @@ internal class ChecklistManagerImpl(
      */
     override fun getCheckedItemCount(): Int {
         return adapter.items.count { it is ChecklistRecyclerItem && it.isChecked }
+    }
+
+    /**
+     * Get the checklist item at [position] in the list or null if no item
+     * could not be found at [position].
+     */
+    override fun getChecklistItemAtPosition(position: Int): ChecklistItem? {
+        return (adapter.items.getOrNull(position) as? ChecklistRecyclerItem)?.toChecklistItem()
+    }
+
+    /**
+     * Update the checklist [item] in the list with same id.
+     *
+     * Return 'true' if a checklist item with the same id could be found
+     * and it has different values when compared to [item]. Otherwise, return 'false'
+     * if a checklist item could not be found or they have same values.
+     */
+    override fun updateChecklistItem(item: ChecklistItem): Boolean {
+        var isItemUpdated = false
+        val currentItem = adapter.items.firstOrNull { it.id == item.id }
+
+        if (currentItem is ChecklistRecyclerItem) {
+            val newItem = ChecklistRecyclerItem(
+                text = item.text,
+                isChecked = item.isChecked,
+                id = item.id
+            )
+
+            if (currentItem != newItem) {
+                val position = adapter.items.indexOf(currentItem)
+
+                if (position != NO_POSITION) {
+
+                    if (currentItem.isChecked != newItem.isChecked) {
+                        val newItemWithCurrentIsChecked = newItem.copy(isChecked = currentItem.isChecked)
+
+                        if (newItem.isChecked) {
+                            handleItemChecked(
+                                item = newItemWithCurrentIsChecked,
+                                position = position
+                            )
+                        } else {
+                            handleItemUnchecked(
+                                item = newItemWithCurrentIsChecked,
+                                position = position
+                            )
+                        }
+                    } else {
+                        updateItemInAdapter(
+                            item = newItem,
+                            position = position
+                        )
+                    }
+
+                    isItemUpdated = true
+                }
+            }
+        }
+        return isItemUpdated
     }
 
     /**
