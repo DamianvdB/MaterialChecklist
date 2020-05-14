@@ -31,5 +31,6 @@ internal class ChecklistNewRecyclerHolderConfig(
     @ColorInt val iconTintColor: Int,
     val iconAdd: Drawable?,
     val iconAlphaAdd: Float,
+    @Px val topAndBottomPadding: Float,
     @Px val leftAndRightPadding: Float?
 ) : BaseRecyclerHolderConfig

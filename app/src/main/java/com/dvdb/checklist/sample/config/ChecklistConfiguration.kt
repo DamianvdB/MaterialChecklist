@@ -136,6 +136,10 @@ internal class ChecklistConfiguration(
         get() = sharedPreferences.getString(context.getString(R.string.pref_settings_item_left_and_right_padding), "8.0")?.toFloatOrNull()
             ?.toPx(context)
 
+    val itemTopAndBottomPadding: Float?
+        get() = sharedPreferences.getString(context.getString(R.string.pref_settings_item_top_and_bottom_padding), "2.0")?.toFloatOrNull()
+            ?.toPx(context)
+
     val itemLastBottomPadding: Float?
         get() = sharedPreferences.getString(context.getString(R.string.pref_settings_item_last_bottom_padding), "16.0")?.toFloatOrNull()
             ?.toPx(context)

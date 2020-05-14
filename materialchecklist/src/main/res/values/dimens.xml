@@ -22,6 +22,7 @@
     <dimen name="mc_text_size_xlarge">18sp</dimen>
 
     <dimen name="mc_item_checklist_text_size">@dimen/mc_text_size_large</dimen>
+    <dimen name="mc_item_checklist_top_bottom_padding">@dimen/mc_spacing_tiny</dimen>
     <dimen name="mc_item_checklist_new_add_start_margin">30dp</dimen>
     <dimen name="mc_item_checklist_new_text_start_margin">14dp</dimen>
 

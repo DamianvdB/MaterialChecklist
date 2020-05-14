@@ -197,15 +197,20 @@ internal class MainActivity : AppCompatActivity() {
             .setOnItemUncheckedBehavior(checklistConfiguration.behaviorUncheckedItem)
 
         // Apply item settings from config to checklist system
-        if (checklistConfiguration.itemFirstTopPadding != null ||
-            checklistConfiguration.itemLeftAndRightPadding != null ||
-            checklistConfiguration.itemLastBottomPadding != null
-        ) {
-            main_checklist.setItemPadding(
-                firstItemTopPadding = checklistConfiguration.itemFirstTopPadding,
-                itemLeftAndRightPadding = checklistConfiguration.itemLeftAndRightPadding,
-                lastItemBottomPadding = checklistConfiguration.itemLastBottomPadding
-            )
+        checklistConfiguration.itemFirstTopPadding?.let {
+            main_checklist.setItemFirstTopPadding(it)
+        }
+
+        checklistConfiguration.itemLeftAndRightPadding?.let {
+            main_checklist.setItemLeftAndRightPadding(it)
+        }
+
+        checklistConfiguration.itemTopAndBottomPadding?.let {
+            main_checklist.setItemTopAndBottomPadding(it)
+        }
+
+        checklistConfiguration.itemLastBottomPadding?.let {
+            main_checklist.setItemLastBottomPadding(it)
         }
 
         // Apply text settings from config to edit text

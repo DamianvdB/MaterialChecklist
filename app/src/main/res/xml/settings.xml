@@ -165,6 +165,13 @@
             app:iconSpaceReserved="false" />
 
         <EditTextPreference
+            android:defaultValue="2"
+            android:key="@string/pref_settings_item_top_and_bottom_padding"
+            android:summary="Set the item top and bottom padding"
+            android:title="Top and Bottom Padding"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
             android:defaultValue="16"
             android:key="@string/pref_settings_item_last_bottom_padding"
             android:summary="Set the last item bottom padding"
