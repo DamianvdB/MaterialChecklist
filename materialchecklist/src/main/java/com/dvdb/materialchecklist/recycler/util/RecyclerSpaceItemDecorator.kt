@@ -84,20 +84,22 @@ internal class RecyclerSpaceItemDecorator(
         lastPosition: Int
     ) {
         outRect.run {
-            if (position == 0) {
-                if (firstItemMargin > 0) {
+            when (position) {
+                0 -> {
                     top = firstItemMargin
+
+                    if (lastPosition == 0) {
+                        bottom = lastItemMargin
+                    }
                 }
-            } else {
-                if (position == lastPosition && lastItemMargin > 0) {
+
+                lastPosition -> {
                     bottom = lastItemMargin
                 }
             }
 
-            if (sideMargin > 0) {
-                left = sideMargin
-                right = sideMargin
-            }
+            left = sideMargin
+            right = sideMargin
         }
     }
 
@@ -107,21 +109,22 @@ internal class RecyclerSpaceItemDecorator(
         lastPosition: Int
     ) {
         outRect.run {
-            if (position == 0) {
-                if (firstItemMargin > 0) {
+            when (position) {
+                0 -> {
                     left = firstItemMargin
+
+                    if (lastPosition == 0) {
+                        right = lastItemMargin
+                    }
                 }
 
-            } else {
-                if (position == lastPosition && lastItemMargin > 0) {
+                lastPosition -> {
                     right = lastItemMargin
                 }
             }
 
-            if (sideMargin > 0) {
-                top = sideMargin
-                bottom = sideMargin
-            }
+            top = sideMargin
+            bottom = sideMargin
         }
     }
 
