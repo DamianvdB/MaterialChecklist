@@ -16,8 +16,8 @@
 
 package com.dvdb.materialchecklist.manager
 
-import androidx.annotation.CheckResult
 import com.dvdb.materialchecklist.manager.config.ChecklistManagerConfig
+import com.dvdb.materialchecklist.manager.item.ChecklistItem
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
 import com.dvdb.materialchecklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
@@ -27,7 +27,8 @@ import com.dvdb.materialchecklist.recycler.holder.checklist.listener.ChecklistRe
  */
 internal interface ChecklistManager :
     ChecklistRecyclerHolderItemListener,
-    ChecklistItemAdapterDragListener {
+    ChecklistItemAdapterDragListener,
+    ChecklistFocusRequester {
 
     val onCreateNewChecklistItemClicked: (position: Int) -> Unit
 
@@ -45,7 +46,6 @@ internal interface ChecklistManager :
 
     fun setItems(formattedText: String)
 
-    @CheckResult
     fun getFormattedTextItems(
         keepCheckboxSymbols: Boolean,
         keepCheckedItems: Boolean
@@ -53,15 +53,19 @@ internal interface ChecklistManager :
 
     fun setConfig(config: ChecklistManagerConfig)
 
-    @CheckResult
     fun restoreDeleteItems(itemIds: List<Long>): Boolean
 
-    @CheckResult
     fun restoreDeletedItem(itemId: Long): Boolean
 
-    @CheckResult
     fun removeAllCheckedItems(): List<Long>
 
-    @CheckResult
     fun uncheckAllCheckedItems(): Boolean
+
+    fun getItemCount(): Int
+
+    fun getCheckedItemCount(): Int
+
+    fun getChecklistItemAtPosition(position: Int): ChecklistItem?
+
+    fun updateChecklistItem(item: ChecklistItem): Boolean
 }

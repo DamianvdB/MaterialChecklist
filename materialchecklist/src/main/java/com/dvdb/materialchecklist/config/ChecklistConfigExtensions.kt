@@ -287,43 +287,89 @@ fun MaterialChecklist.setOnItemUncheckedBehavior(behavior: BehaviorUncheckedItem
 }
 
 /**
- * Set the padding of the checklist items.
+ * Set the top padding of the first checklist item, in addition to the
+ * top padding of [setItemTopAndBottomPadding].
  *
- * @param firstItemTopPadding The literal padding for the top of the first checklist item to use.
- * @param firstItemTopPaddingRes The padding resource for the top of the first checklist item to use.
- *
- * @param itemLeftAndRightPadding The literal padding for the left and right of each checklist item to use.
- * @param itemLeftAndRightPaddingRes The padding resource for the left and right of each checklist item to use.
- *
- * @param lastItemBottomPadding The literal padding for the bottom of the last checklist item to use.
- * @param lastItemBottomPaddingRes The padding resource for the bottom of the last checklist item to use
+ * @param padding The literal padding to use.
+ * @param paddingRes The padding resource to use.
  */
-fun MaterialChecklist.setItemPadding(
-    @Px firstItemTopPadding: Float? = null,
-    @DimenRes firstItemTopPaddingRes: Int? = null,
-
-    @Px itemLeftAndRightPadding: Float? = null,
-    @DimenRes itemLeftAndRightPaddingRes: Int? = null,
-
-    @Px lastItemBottomPadding: Float? = null,
-    @DimenRes lastItemBottomPaddingRes: Int? = null
+fun MaterialChecklist.setItemFirstTopPadding(
+    @Px padding: Float? = null,
+    @DimenRes paddingRes: Int? = null
 ): MaterialChecklist {
+    assertOneSet("item first top padding", padding, paddingRes)
     val context = context
     if (context != null) {
-        val newFirstItemTopPadding: Float? =
-            firstItemTopPadding ?: firstItemTopPaddingRes?.let { context.resources.getDimension(it) }
-        val newItemLeftAndRightPadding: Float? =
-            itemLeftAndRightPadding ?: itemLeftAndRightPaddingRes?.let { context.resources.getDimension(it) }
-        val newLastItemBottomPadding: Float? =
-            lastItemBottomPadding ?: lastItemBottomPaddingRes?.let { context.resources.getDimension(it) }
+        val newPadding = padding ?: context.resources.getDimension(paddingRes!!)
+        if (config.itemFirstTopPadding != newPadding) {
+            config.itemFirstTopPadding = newPadding
+            manager.setConfig(config.toManagerConfig())
+        }
+    }
+    return this
+}
 
-        if (config.itemFirstTopPadding != newFirstItemTopPadding ||
-            config.itemLeftAndRightPadding != newItemLeftAndRightPadding ||
-            config.itemLastBottomPadding != newLastItemBottomPadding
-        ) {
-            config.itemFirstTopPadding = newFirstItemTopPadding
-            config.itemLeftAndRightPadding = newItemLeftAndRightPadding
-            config.itemLastBottomPadding = newLastItemBottomPadding
+/**
+ * Set the top and bottom padding of the checklist items.
+ *
+ * @param padding The literal padding to use.
+ * @param paddingRes The padding resource to use.
+ */
+fun MaterialChecklist.setItemTopAndBottomPadding(
+    @Px padding: Float? = null,
+    @DimenRes paddingRes: Int? = null
+): MaterialChecklist {
+    assertOneSet("item top and bottom padding", padding, paddingRes)
+    val context = context
+    if (context != null) {
+        val newPadding = padding ?: context.resources.getDimension(paddingRes!!)
+        if (config.itemTopAndBottomPadding != newPadding) {
+            config.itemTopAndBottomPadding = newPadding
+            manager.setConfig(config.toManagerConfig())
+        }
+    }
+    return this
+}
+
+/**
+ * Set the left and right padding of the checklist items.
+ *
+ * @param padding The literal padding to use.
+ * @param paddingRes The padding resource to use.
+ */
+fun MaterialChecklist.setItemLeftAndRightPadding(
+    @Px padding: Float? = null,
+    @DimenRes paddingRes: Int? = null
+): MaterialChecklist {
+    assertOneSet("item left and right padding", padding, paddingRes)
+    val context = context
+    if (context != null) {
+        val newPadding = padding ?: context.resources.getDimension(paddingRes!!)
+        if (config.itemLeftAndRightPadding != newPadding) {
+            config.itemLeftAndRightPadding = newPadding
+            manager.setConfig(config.toManagerConfig())
+        }
+    }
+    return this
+}
+
+/**
+ * Set the bottom padding of the last checklist item, in addition to the
+ * bottom padding of [setItemTopAndBottomPadding].
+ *
+ * @param padding The literal padding to use.
+ * @param paddingRes The padding resource to use.
+ */
+fun MaterialChecklist.setItemLastBottomPadding(
+    @Px padding: Float? = null,
+    @DimenRes paddingRes: Int? = null
+): MaterialChecklist {
+    assertOneSet("item last bottom padding", padding, paddingRes)
+    val context = context
+    if (context != null) {
+        val newPadding = padding ?: context.resources.getDimension(paddingRes!!)
+        if (config.itemLastBottomPadding != newPadding) {
+            config.itemLastBottomPadding = newPadding
             manager.setConfig(config.toManagerConfig())
         }
     }

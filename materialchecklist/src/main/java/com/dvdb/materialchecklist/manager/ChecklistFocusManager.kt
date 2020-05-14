@@ -22,7 +22,7 @@ import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 /**
  * Manages the focus and the selection behavior of the checklist items.
  */
-internal interface ChecklistFocusManager {
+internal interface ChecklistFocusManager : ChecklistFocusRequester {
 
     fun onItemFocusChanged(
         position: Int,

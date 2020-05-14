@@ -81,6 +81,7 @@ internal class ChecklistConfig(
      */
     @Px var itemFirstTopPadding: Float? = null,
     @Px var itemLeftAndRightPadding: Float? = null,
+    @Px var itemTopAndBottomPadding: Float = context.resources.getDimension(R.dimen.mc_item_checklist_top_bottom_padding),
     @Px var itemLastBottomPadding: Float? = null
 ) : Config {
 
@@ -125,6 +126,7 @@ internal class ChecklistConfig(
             checkboxTintColor = checkboxTintColor,
             dragAndDropToggleMode = dragAndDropToggleMode,
             dragAndDropActiveBackgroundColor = dragAndDropActiveItemBackgroundColor,
+            topAndBottomPadding = itemTopAndBottomPadding,
             leftAndRightPadding = itemLeftAndRightPadding
         ),
         checklistNewConfig = ChecklistNewRecyclerHolderConfig(
@@ -136,6 +138,7 @@ internal class ChecklistConfig(
             iconTintColor = iconTintColor,
             iconAdd = iconAdd,
             iconAlphaAdd = iconAlphaAdd,
+            topAndBottomPadding = itemTopAndBottomPadding,
             leftAndRightPadding = itemLeftAndRightPadding
         )
     )
@@ -231,6 +234,10 @@ internal class ChecklistConfig(
 
         attributes.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_left_and_right)?.let {
             itemLeftAndRightPadding = it
+        }
+
+        attributes.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_top_and_bottom)?.let {
+            itemTopAndBottomPadding = it
         }
 
         attributes.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_last_bottom)?.let {

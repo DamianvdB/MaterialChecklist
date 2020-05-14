@@ -115,14 +115,14 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     private fun initialiseRoot() {
-        config.leftAndRightPadding?.toInt()?.let { padding ->
-            itemView.setPadding(
-                padding,
-                itemView.paddingTop,
-                padding,
-                itemView.paddingBottom
-            )
-        }
+        val topAndBottomPadding = config.topAndBottomPadding.toInt()
+        val leftAndRightPadding = config.leftAndRightPadding?.toInt() ?: itemView.paddingLeft
+        itemView.setPadding(
+            leftAndRightPadding,
+            topAndBottomPadding,
+            leftAndRightPadding,
+            topAndBottomPadding
+        )
     }
 
     private fun initialiseDragIndicator() {

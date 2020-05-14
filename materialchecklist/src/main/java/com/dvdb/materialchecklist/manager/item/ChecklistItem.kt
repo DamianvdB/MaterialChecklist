@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.item.checklist
+package com.dvdb.materialchecklist.manager.item
 
-import com.dvdb.materialchecklist.manager.item.ChecklistItem
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.util.RecyclerItemIdentifierUtil
-
-internal data class ChecklistRecyclerItem(
+/**
+ * The public checklist item model.
+ */
+data class ChecklistItem(
+    val id: Long,
     val text: String,
-    val isChecked: Boolean = false,
-    override val type: Type = Type.CHECKLIST,
-    override val id: Long = RecyclerItemIdentifierUtil.nextIdentifier
-) : BaseRecyclerItem() {
-
-    fun toChecklistItem() = ChecklistItem(
-        id = id,
-        text = text,
-        isChecked = isChecked
-    )
-}
+    val isChecked: Boolean
+)
