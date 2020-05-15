@@ -184,11 +184,10 @@ checklist.setDragAndDropToggleMode(toggleMode: DragAndDropToggleMode)
 ```kotlin
 checklist.setOnItemCheckedBehavior(behavior: BehaviorCheckedItem)
     .setOnItemUncheckedBehavior(behavior: BehaviorUncheckedItem)
-    .setItemPadding(
-        firstItemTopPadding = firstItemTopPadding: Float?, firstItemTopPaddingRes: Int?,
-        itemLeftAndRightPadding = itemLeftAndRightPadding: Float?, itemLeftAndRightPaddingRes: Int?,
-        lastItemBottomPadding = lastItemBottomPadding: Float?, lastItemBottomPaddingRes: Int?
-    )
+    .setItemFirstTopPadding(padding: Float?, paddingRes: Float?)
+    .setItemLeftAndRightPadding(padding: Float?, paddingRes: Float?)
+    .setItemTopAndBottomPadding(padding: Float?, paddingRes: Float?)
+    .setItemLastBottomPadding(padding: Float?, paddingRes: Float?)
 ```
 ```xml
 <com.dvdb.materialchecklist.MaterialChecklist
