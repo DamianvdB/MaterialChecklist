@@ -1,0 +1,44 @@
+apply plugin: "com.jfrog.bintray"
+
+group "com.dvdb"
+version versions.publish_version
+
+def name = "MaterialChecklist"
+def gitUrl = "https://github.com/damianvdb/materialchecklist.git"
+def description = "An Android Checklist library"
+
+project.ext {
+    mavGitUrl = gitUrl
+    mavProjectName = name
+    mavLibraryLicenses = ["Apache-2.0": "http://www.apache.org/licenses/LICENSE-2.0.txt"]
+    mavLibraryDescription = description
+    mavPublishToMavenLocal = true
+    mavSiteUrl = "https://github.com/damianvdb/materialchecklist"
+}
+
+def properties = new Properties()
+properties.load(new FileInputStream("local.properties"))
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publications = ["mavenPublish"]
+    configurations = ["archives"]
+    override = true
+    pkg {
+        repo = "maven"
+        name = this.name
+        description = this.description
+        publicDownloadNumbers = true
+        licenses = ["Apache-2.0"]
+        vcsUrl = gitUrl
+        version {
+            name = versions.publish_version
+            desc = "Version ${versions.publish_version}"
+            released = new Date()
+            vcsTag = versions.publish_version
+        }
+    }
+}
+
+apply from: "https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/master/gradle-mavenizer.gradle"
