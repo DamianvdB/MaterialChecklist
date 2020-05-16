@@ -1,6 +1,6 @@
 # Material Checklist
+[ ![Download](https://api.bintray.com/packages/damianvdb/maven/MaterialChecklist/images/download.svg) ](https://bintray.com/damianvdb/maven/MaterialChecklist/_latestVersion)
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
-[![](https://jitpack.io/v/DamianvdB/MaterialChecklist.svg)](https://jitpack.io/#DamianvdB/MaterialChecklist)
 
 <div>
 	<img src="https://raw.githubusercontent.com/DamianvdB/MaterialChecklist/master/art/logo.png" width="96">
@@ -14,25 +14,13 @@ Download the sample application from the [Google Play Store](https://bit.ly/goog
 	<img src="https://raw.githubusercontent.com/DamianvdB/MaterialChecklist/master/art/screenshots_combined.jpg" width="4320">
 </div>
 
-## Prerequisites
-Add this in your root `build.gradle` file (**not** your module `build.gradle` file):
-
-```gradle
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-    }
-}
-```
-
 ## Dependency
-Add this to your module's `build.gradle` file (make sure the version matches the JitPack badge above):
+Add this to your module's `build.gradle` file (make sure the version matches the Bintray badge above):
 
 ```gradle
 dependencies {
   ...
-  implementation 'com.github.damianvdb:materialchecklist:1.0.0-beta3'
+  implementation 'com.dvdb:materialchecklist:1.0.0-beta4'
 
   // Required Android libraries
   implementation 'androidx.appcompat:appcompat:1.1.0'
