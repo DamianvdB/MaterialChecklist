@@ -21,6 +21,6 @@ package com.dvdb.materialchecklist.manager.item
  */
 data class ChecklistItem(
     val id: Long,
-    val text: String,
-    val isChecked: Boolean
+    var text: String,
+    var isChecked: Boolean
 )
