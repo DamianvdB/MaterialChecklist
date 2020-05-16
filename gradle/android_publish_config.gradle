@@ -3,15 +3,11 @@ apply plugin: "com.jfrog.bintray"
 group "com.dvdb"
 version versions.publish_version
 
-def name = "MaterialChecklist"
-def gitUrl = "https://github.com/damianvdb/materialchecklist.git"
-def description = "An Android Checklist library"
-
 project.ext {
-    mavGitUrl = gitUrl
-    mavProjectName = name
+    mavGitUrl = "https://github.com/damianvdb/materialchecklist.git"
+    mavProjectName = "MaterialChecklist"
     mavLibraryLicenses = ["Apache-2.0": "http://www.apache.org/licenses/LICENSE-2.0.txt"]
-    mavLibraryDescription = description
+    mavLibraryDescription = "An Android Checklist library"
     mavPublishToMavenLocal = true
     mavSiteUrl = "https://github.com/damianvdb/materialchecklist"
 }
@@ -27,11 +23,11 @@ bintray {
     override = true
     pkg {
         repo = "maven"
-        name = this.name
-        description = this.description
+        name = "MaterialChecklist"
+        description = "An Android Checklist library"
         publicDownloadNumbers = true
         licenses = ["Apache-2.0"]
-        vcsUrl = gitUrl
+        vcsUrl = "https://github.com/damianvdb/materialchecklist.git"
         version {
             name = versions.publish_version
             desc = "Version ${versions.publish_version}"
