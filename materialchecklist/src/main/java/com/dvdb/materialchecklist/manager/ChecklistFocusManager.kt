@@ -63,6 +63,11 @@ internal interface ChecklistFocusManager : ChecklistFocusRequester {
         isDeletedIconClicked: Boolean
     )
 
+    fun onItemUpdated(
+        position: Int,
+        item: ChecklistRecyclerItem
+    )
+
     fun onAllCheckedItemsRemoved(itemPositions: List<Int>)
 
     fun onItemDragStarted()

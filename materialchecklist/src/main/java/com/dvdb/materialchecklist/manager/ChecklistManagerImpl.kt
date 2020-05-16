@@ -337,6 +337,11 @@ internal class ChecklistManagerImpl(
                             item = newItem,
                             position = position
                         )
+
+                        focusManager.onItemUpdated(
+                            position = position,
+                            item = newItem
+                        )
                     }
 
                     isItemUpdated = true

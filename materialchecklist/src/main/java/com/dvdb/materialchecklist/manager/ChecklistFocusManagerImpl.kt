@@ -169,6 +169,19 @@ internal class ChecklistFocusManagerImpl(
     }
 
     /**
+     * Called when a checklist item at [position] in the list has been updated.
+     */
+    override fun onItemUpdated(
+        position: Int,
+        item: ChecklistRecyclerItem
+    ) {
+        requestFocusForItemAtPosition(
+            position = position,
+            selectionPosition = Int.MAX_VALUE
+        )
+    }
+
+    /**
      * Called when all checklist items that marked as checked have been removed from [itemPositions]
      * in the list.
      */
