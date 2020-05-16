@@ -35,9 +35,55 @@ internal class RecyclerItemMapperTest {
     private val validChecklistContents = "[x] Buy beer\n[x] Buy steak\n[x] Buy brandy\n[ ] Buy Coca-Cola\n[x] Buy Portuguese buns"
 
     @Test
-    fun toFormattedText_empty() {
+    fun toFormattedText_emptyList() {
         val expectedContents = ""
         val inputItems = emptyList<BaseRecyclerItem>()
+        val actualContents = RecyclerItemMapper.toFormattedText(
+            inputItems,
+            keepCheckboxSymbols = true,
+            keepCheckedItems = true
+        )
+
+        Assert.assertEquals(expectedContents, actualContents)
+    }
+
+    @Test
+    fun toFormattedText_oneCheckedItemInListWithEmptyText() {
+        val expectedContents = ""
+        val inputItems = listOf(ChecklistRecyclerItem("", true))
+        val actualContents = RecyclerItemMapper.toFormattedText(
+            inputItems,
+            keepCheckboxSymbols = true,
+            keepCheckedItems = true
+        )
+
+        Assert.assertEquals(expectedContents, actualContents)
+    }
+
+    @Test
+    fun toFormattedText_oneUncheckedItemInListWithEmptyText() {
+        val expectedContents = ""
+        val inputItems = listOf(ChecklistRecyclerItem("", false))
+        val actualContents = RecyclerItemMapper.toFormattedText(
+            inputItems,
+            keepCheckboxSymbols = true,
+            keepCheckedItems = true
+        )
+
+        Assert.assertEquals(expectedContents, actualContents)
+    }
+
+    @Test
+    fun toFormattedText_manyItemsInListWithEmptyText() {
+        val expectedContents = "[ ] \n[ ] \n[ ] \n[ ] \n[x] \n[x] "
+        val inputItems = listOf(
+            ChecklistRecyclerItem("", false),
+            ChecklistRecyclerItem("", false),
+            ChecklistRecyclerItem("", false),
+            ChecklistRecyclerItem("", false),
+            ChecklistRecyclerItem("", true),
+            ChecklistRecyclerItem("", true)
+        )
         val actualContents = RecyclerItemMapper.toFormattedText(
             inputItems,
             keepCheckboxSymbols = true,

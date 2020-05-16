@@ -35,7 +35,9 @@ internal object RecyclerItemMapper {
     ): String {
         return items.filterIsInstance<ChecklistRecyclerItem>()
             .joinToString(separator = ITEM_SEPARATOR_CHARACTER) { item ->
-                if (keepCheckedItems || !item.isChecked) {
+                if ((keepCheckedItems || !item.isChecked) &&
+                    (item.text.isNotEmpty() || items.size > 1)
+                ) {
                     val prefix = if (keepCheckboxSymbols) {
                         (if (item.isChecked) CHECKED_SYMBOL else UNCHECKED_SYMBOL) + " "
                     } else {
