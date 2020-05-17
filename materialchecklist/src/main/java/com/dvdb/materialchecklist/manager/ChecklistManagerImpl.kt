@@ -33,6 +33,7 @@ import java.util.*
 
 private const val NO_POSITION = -1
 private const val ENABLE_ITEM_ANIMATIONS_DELAY_MS = 1000L
+private const val MIN_ITEM_COUNT = 2
 
 /**
  * Manages the state and behavior of the checklist items.
@@ -244,6 +245,8 @@ internal class ChecklistManagerImpl(
 
         if (removedItemIds.isNotEmpty()) {
             setItemsInAdapter(items)
+
+            handleMinimumItemCountInAdapter()
         }
 
         focusManager.onAllCheckedItemsRemoved(removedItemPositions)
@@ -632,6 +635,8 @@ internal class ChecklistManagerImpl(
             if (config.behaviorUncheckedItem == BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION) {
                 previousUncheckedItemPositions[item.id] = position
             }
+        } else {
+            handleMinimumItemCountInAdapter()
         }
 
         focusManager.onItemChecked(
@@ -684,16 +689,7 @@ internal class ChecklistManagerImpl(
                 saveDeletedItemAndNotifyListener(itemToDelete, position)
             }
 
-            if (adapter.itemCount == 1) {
-                val itemInsertionPosition = 0
-
-                addItemToAdapter(
-                    ChecklistRecyclerItem(""),
-                    itemInsertionPosition
-                )
-
-                focusManager.onNewItemCreated(itemInsertionPosition)
-            } else {
+            if (!handleMinimumItemCountInAdapter()) {
                 focusManager.onItemDeleted(
                     position = position,
                     item = itemToDelete,
@@ -701,6 +697,22 @@ internal class ChecklistManagerImpl(
                 )
             }
         }
+    }
+
+    private fun handleMinimumItemCountInAdapter(): Boolean {
+        if (adapter.itemCount < MIN_ITEM_COUNT) {
+            val itemInsertionPosition = 0
+
+            addItemToAdapter(
+                ChecklistRecyclerItem(""),
+                itemInsertionPosition
+            )
+
+            focusManager.onNewItemCreated(itemInsertionPosition)
+            return true
+        }
+
+        return false
     }
 
     private fun createFocusManagerRequestFocusAtPositionInAdapterFunction(): (position: Int, selectionPosition: Int, showKeyboard: Boolean) -> Unit {

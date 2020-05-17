@@ -74,6 +74,19 @@ internal class RecyclerItemMapperTest {
     }
 
     @Test
+    fun toFormattedText_oneCheckedItemInListWithNonEmptyText() {
+        val expectedContents = "[x] Buy beer"
+        val inputItems = listOf(ChecklistRecyclerItem("Buy beer", true))
+        val actualContents = RecyclerItemMapper.toFormattedText(
+            inputItems,
+            keepCheckboxSymbols = true,
+            keepCheckedItems = true
+        )
+
+        Assert.assertEquals(expectedContents, actualContents)
+    }
+
+    @Test
     fun toFormattedText_manyItemsInListWithEmptyText() {
         val expectedContents = "[ ] \n[ ] \n[ ] \n[ ] \n[x] \n[x] "
         val inputItems = listOf(
