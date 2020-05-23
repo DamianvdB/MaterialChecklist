@@ -21,9 +21,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.materialchecklist.recycler.adapter.base.BaseRecyclerAdapter
 import com.dvdb.materialchecklist.recycler.adapter.config.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
-import com.dvdb.materialchecklist.recycler.holder.util.DraggableRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
+import com.dvdb.materialchecklist.recycler.holder.util.DraggableRecyclerHolder
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
@@ -65,8 +65,14 @@ internal class ChecklistItemAdapter(
         viewType: Int
     ): RecyclerView.ViewHolder {
         return when (viewType) {
-            BaseRecyclerItem.Type.CHECKLIST.ordinal -> itemRecyclerHolderFactory.create(parent, config.checklistConfig)
-            BaseRecyclerItem.Type.CHECKLIST_NEW.ordinal -> itemNewRecyclerHolderFactory.create(parent, config.checklistNewConfig)
+            BaseRecyclerItem.Type.CHECKLIST.ordinal -> itemRecyclerHolderFactory.create(
+                parent,
+                config.checklistConfig
+            )
+            BaseRecyclerItem.Type.CHECKLIST_NEW.ordinal -> itemNewRecyclerHolderFactory.create(
+                parent,
+                config.checklistNewConfig
+            )
             else -> error("Unknown item view type. Must be of type 'CHECKLIST' or 'CHECKLIST_NEW'")
         }
     }
@@ -113,14 +119,14 @@ internal class ChecklistItemAdapter(
     override fun onDragStart(viewHolder: RecyclerView.ViewHolder) {
         if (viewHolder is DraggableRecyclerHolder) {
             viewHolder.onDragStart()
-            itemDragListener.onItemDragStarted()
+            itemDragListener.onItemDragStarted(viewHolder.adapterPosition)
         }
     }
 
     override fun onDragStop(viewHolder: RecyclerView.ViewHolder) {
         if (viewHolder is DraggableRecyclerHolder) {
             viewHolder.onDragStop()
-            itemDragListener.onItemDragStopped()
+            itemDragListener.onItemDragStopped(viewHolder.adapterPosition)
         }
     }
 }

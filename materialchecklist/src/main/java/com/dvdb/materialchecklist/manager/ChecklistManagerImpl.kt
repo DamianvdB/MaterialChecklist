@@ -555,8 +555,8 @@ internal class ChecklistManagerImpl(
      * Called when the drag-and-drop functionality of a
      * checklist item has started.
      */
-    override fun onItemDragStarted() {
-        focusManager.onItemDragStarted()
+    override fun onItemDragStarted(position: Int) {
+        focusManager.onItemDragStarted(position)
     }
 
     /**
@@ -610,7 +610,8 @@ internal class ChecklistManagerImpl(
         val toPosition: Int =
             when (config.behaviorCheckedItem) {
                 BehaviorCheckedItem.MOVE_TO_TOP_OF_CHECKED_ITEMS -> {
-                    val firstCheckedItemPosition = adapter.items.indexOfFirst { it is ChecklistRecyclerItem && it.isChecked }
+                    val firstCheckedItemPosition =
+                        adapter.items.indexOfFirst { it is ChecklistRecyclerItem && it.isChecked }
                     when {
                         firstCheckedItemPosition != NO_POSITION -> firstCheckedItemPosition
                         createNewItemPosition != NO_POSITION -> createNewItemPosition.inc()

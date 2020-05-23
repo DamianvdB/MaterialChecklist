@@ -204,8 +204,10 @@ internal class ChecklistFocusManagerImpl(
     /**
      * Called when drag-and-drop functionality has been started for a checklist item.
      */
-    override fun onItemDragStarted() {
-        hideKeyboardAndResetState()
+    override fun onItemDragStarted(position: Int) {
+        if (itemFocusTracker.position == position) {
+            hideKeyboardAndResetState()
+        }
     }
 
     /**

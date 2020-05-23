@@ -28,7 +28,7 @@ internal interface ChecklistItemAdapterDragListener {
         targetPosition: Int
     ): Boolean
 
-    fun onItemDragStarted() {}
+    fun onItemDragStarted(position: Int) {}
 
-    fun onItemDragStopped() {}
+    fun onItemDragStopped(position: Int) {}
 }
