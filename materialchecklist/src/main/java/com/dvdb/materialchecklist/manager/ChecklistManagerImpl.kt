@@ -590,11 +590,6 @@ internal class ChecklistManagerImpl(
 
         setItemsInAdapter(sortedItems)
 
-        focusManager.onItemsSet(
-            originalItems = items,
-            updatedItems = sortedItems
-        )
-
         delayHandler.run(ENABLE_ITEM_ANIMATIONS_DELAY_MS) {
             enableItemAnimations(true)
         }

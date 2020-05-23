@@ -71,27 +71,6 @@ internal class ChecklistFocusManagerImpl(
     }
 
     /**
-     * Called when checklist [updatedItems] are set which replaces the checklist [originalItems].
-     */
-    override fun onItemsSet(
-        originalItems: List<BaseRecyclerItem>,
-        updatedItems: List<BaseRecyclerItem>
-    ) {
-        resetState()
-
-        if (originalItems.isEmpty() && updatedItems.isNotEmpty()) {
-            var currentPosition = 0
-            do {
-                if (currentPosition != createNewItemPosition()) {
-                    requestFocusForItemAtPosition(currentPosition)
-                    break
-                }
-
-            } while (++currentPosition < updatedItems.lastIndex)
-        }
-    }
-
-    /**
      * Called when a new checklist item is created at [position] in the list.
      */
     override fun onNewItemCreated(position: Int) {

@@ -16,7 +16,6 @@
 
 package com.dvdb.materialchecklist.manager
 
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 
 /**
@@ -34,11 +33,6 @@ internal interface ChecklistFocusManager : ChecklistFocusRequester {
         position: Int,
         startSelection: Int,
         hasFocus: Boolean
-    )
-
-    fun onItemsSet(
-        originalItems: List<BaseRecyclerItem>,
-        updatedItems: List<BaseRecyclerItem>
     )
 
     fun onNewItemCreated(position: Int)
