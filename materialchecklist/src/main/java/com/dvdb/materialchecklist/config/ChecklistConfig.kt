@@ -33,6 +33,9 @@ import com.dvdb.materialchecklist.recycler.holder.checklistnew.config.ChecklistN
 import com.dvdb.materialchecklist.util.getColorCompat
 import com.dvdb.materialchecklist.util.getDrawableCompat
 
+/**
+ * Defines the configurable appearance and behavior of the checklist system.
+ */
 internal class ChecklistConfig(
     context: Context,
     attrs: AttributeSet?,

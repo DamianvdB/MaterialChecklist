@@ -31,7 +31,6 @@ import androidx.preference.PreferenceManager
 import com.dvdb.checklist.R
 import com.dvdb.checklist.sample.config.ChecklistConfiguration
 import com.dvdb.materialchecklist.config.*
-import com.dvdb.materialchecklist.manager.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -152,7 +151,8 @@ internal class MainActivity : AppCompatActivity() {
 
     private fun initChecklist() {
         main_checklist.setOnItemDeletedListener { text, id ->
-            val message: String = if (text.isNotEmpty()) "Checklist item deleted: \"$text\"" else "Checklist item deleted"
+            val message: String =
+                if (text.isNotEmpty()) "Checklist item deleted: \"$text\"" else "Checklist item deleted"
             Snackbar.make(main_root, message, Snackbar.LENGTH_LONG)
                 .setAction("undo") {
                     main_checklist.restoreDeletedItem(id)
