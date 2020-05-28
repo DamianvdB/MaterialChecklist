@@ -18,6 +18,7 @@ package com.dvdb.materialchecklist.util
 
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 
 internal fun View.setVisible(
@@ -36,4 +37,10 @@ internal fun View.showKeyboard() {
 internal fun View.hideKeyboard() {
     (context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
         ?.hideSoftInputFromWindow(windowToken, 0)
+}
+
+internal inline fun View.updateLayoutParams(block: ViewGroup.LayoutParams.() -> Unit) {
+    val params = layoutParams
+    block(params)
+    layoutParams = params
 }

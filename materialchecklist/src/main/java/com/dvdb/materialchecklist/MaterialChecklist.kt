@@ -36,6 +36,7 @@ import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
 import com.dvdb.materialchecklist.recycler.util.RecyclerSpaceItemDecorator
 import com.dvdb.materialchecklist.recycler.util.SimpleItemTouchHelper
 import com.dvdb.materialchecklist.util.hideKeyboard
+import com.dvdb.materialchecklist.util.updateLayoutParams
 
 class MaterialChecklist(
     context: Context,
@@ -55,7 +56,7 @@ class MaterialChecklist(
     )
 
     init {
-        initLayout()
+        addFocusableView()
 
         val recyclerView = createRecyclerView()
         addView(recyclerView)
@@ -208,9 +209,15 @@ class MaterialChecklist(
         return manager.updateChecklistItem(item)
     }
 
-    private fun initLayout() {
-        isFocusableInTouchMode = true
-        requestFocus()
+    private fun addFocusableView() {
+        val focusableView = View(context)
+        focusableView.isFocusableInTouchMode = true
+
+        addView(focusableView)
+
+        focusableView.updateLayoutParams {
+            height = 1
+        }
     }
 
     private fun createRecyclerView(): RecyclerView {
