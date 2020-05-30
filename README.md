@@ -159,12 +159,14 @@ checklist.setCheckboxTintColor(tintColor: Int?, tintColorRes: Int?)
 ### Drag-and-drop
 ```kotlin
 checklist.setDragAndDropToggleBehavior(behavior: DragAndDropToggleBehavior)
+    .setDragAndDropDismissKeyboardBehavior(behavior: DragAndDropDismissKeyboardBehavior)
     .setDragAndDropItemActiveBackgroundColor(backgroundColor: Int?, backgroundColorRes: Int?)
 ```
 ```xml
 <com.dvdb.materialchecklist.MaterialChecklist
     ...
     app:drag_and_drop_toggle_behavior="..."
+    app:drag_and_drop_dismiss_keyboard_behavior="..."
     app:drag_and_drop_item_active_background_color="..." />
 ```
 
