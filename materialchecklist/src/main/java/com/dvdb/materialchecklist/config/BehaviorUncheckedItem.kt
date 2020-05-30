@@ -35,6 +35,11 @@ enum class BehaviorUncheckedItem {
         internal val defaultBehavior: BehaviorUncheckedItem = MOVE_TO_PREVIOUS_POSITION
 
         @CheckResult
+        fun fromInt(value: Int): BehaviorUncheckedItem {
+            return values().firstOrNull { it.ordinal == value } ?: defaultBehavior
+        }
+
+        @CheckResult
         fun fromString(value: String): BehaviorUncheckedItem {
             return values().firstOrNull { it.name.equals(value, true) } ?: defaultBehavior
         }
