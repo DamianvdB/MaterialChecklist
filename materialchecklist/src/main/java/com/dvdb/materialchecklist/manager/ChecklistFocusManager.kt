@@ -65,4 +65,9 @@ internal interface ChecklistFocusManager : ChecklistFocusRequester {
     fun onAllCheckedItemsRemoved(itemPositions: List<Int>)
 
     fun onItemDragStarted(position: Int)
+
+    fun onItemDragPositionChanged(
+        fromPosition: Int,
+        toPosition: Int
+    )
 }

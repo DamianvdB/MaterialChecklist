@@ -532,6 +532,11 @@ internal class ChecklistManagerImpl(
             notify = false
         )
 
+        focusManager.onItemDragPositionChanged(
+            fromPosition,
+            toPosition
+        )
+
         return true
     }
 

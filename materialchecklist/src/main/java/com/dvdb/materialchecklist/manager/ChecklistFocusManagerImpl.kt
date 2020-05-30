@@ -189,6 +189,16 @@ internal class ChecklistFocusManagerImpl(
     }
 
     /**
+     * Called when a checklist item moves [fromPosition] to [toPosition] during
+     * a drag-and-drop action.
+     */
+    override fun onItemDragPositionChanged(fromPosition: Int, toPosition: Int) {
+        if (itemFocusTracker.position == toPosition) {
+            itemFocusTracker = itemFocusTracker.copy(position = fromPosition)
+        }
+    }
+
+    /**
      * Get the position of the checklist item in the list
      * that has focus.
      *
