@@ -32,9 +32,11 @@ enum class DragAndDropToggleMode {
     NONE;
 
     companion object {
+        internal val defaultBehavior: DragAndDropToggleMode = ON_TOUCH
+
         @CheckResult
         fun fromString(value: String): DragAndDropToggleMode {
-            return values().firstOrNull { it.name.equals(value, true) } ?: ON_TOUCH
+            return values().firstOrNull { it.name.equals(value, true) } ?: defaultBehavior
         }
     }
 }

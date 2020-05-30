@@ -47,7 +47,7 @@ class BehaviorCheckedItemTest {
 
     @Test
     fun fromString_invalid_test() {
-        val expected = BehaviorCheckedItem.MOVE_TO_TOP_OF_CHECKED_ITEMS
+        val expected = BehaviorCheckedItem.defaultBehavior
         val actual = BehaviorCheckedItem.fromString("")
 
         Assert.assertEquals(expected, actual)

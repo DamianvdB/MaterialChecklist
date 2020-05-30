@@ -47,7 +47,7 @@ class DragAndDropToggleModeTest {
 
     @Test
     fun fromString_invalid_test() {
-        val expected = DragAndDropToggleMode.ON_TOUCH
+        val expected = DragAndDropToggleMode.defaultBehavior
         val actual = DragAndDropToggleMode.fromString("")
 
         Assert.assertEquals(expected, actual)

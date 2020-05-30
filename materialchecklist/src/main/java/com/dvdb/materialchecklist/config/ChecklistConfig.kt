@@ -70,15 +70,15 @@ internal class ChecklistConfig(
     /**
      * Drag-and-drop
      */
-    var dragAndDropToggleMode: DragAndDropToggleMode = DragAndDropToggleMode.ON_TOUCH,
+    var dragAndDropToggleMode: DragAndDropToggleMode = DragAndDropToggleMode.defaultBehavior,
     var dragAndDropDismissKeyboardBehavior: DragAndDropDismissKeyboardBehavior = DragAndDropDismissKeyboardBehavior.defaultBehavior,
     @ColorInt var dragAndDropActiveItemBackgroundColor: Int? = null,
 
     /**
      *  Behavior
      */
-    var behaviorCheckedItem: BehaviorCheckedItem = BehaviorCheckedItem.MOVE_TO_TOP_OF_CHECKED_ITEMS,
-    var behaviorUncheckedItem: BehaviorUncheckedItem = BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION,
+    var behaviorCheckedItem: BehaviorCheckedItem = BehaviorCheckedItem.defaultBehavior,
+    var behaviorUncheckedItem: BehaviorUncheckedItem = BehaviorUncheckedItem.defaultBehavior,
 
     /**
      * Item

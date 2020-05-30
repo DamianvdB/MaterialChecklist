@@ -47,7 +47,7 @@ class BehaviorUncheckedItemTest {
 
     @Test
     fun fromString_invalid_test() {
-        val expected = BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION
+        val expected = BehaviorUncheckedItem.defaultBehavior
         val actual = BehaviorUncheckedItem.fromString("")
 
         Assert.assertEquals(expected, actual)
