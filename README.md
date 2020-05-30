@@ -20,7 +20,7 @@ Add this to your module's `build.gradle` file (make sure the version matches the
 ```gradle
 dependencies {
   ...
-  implementation 'com.dvdb:materialchecklist:1.0.0-beta6'
+  implementation 'com.dvdb:materialchecklist:1.0.0-beta7'
 
   // Required Android libraries
   implementation 'androidx.appcompat:appcompat:1.1.0'
