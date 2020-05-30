@@ -47,13 +47,11 @@ internal class ChecklistFocusManagerImpl(
         startSelection: Int,
         hasFocus: Boolean
     ) {
-        itemFocusTracker = if (hasFocus) {
-            ItemFocusTracker(
+        if (hasFocus) {
+            itemFocusTracker = ItemFocusTracker(
                 position,
                 startSelection
             )
-        } else {
-            ItemFocusTracker()
         }
     }
 
@@ -174,10 +172,13 @@ internal class ChecklistFocusManagerImpl(
         if (removedItemHadFocus) {
             hideKeyboardAndResetState()
         } else {
-            requestFocusForItemAtPosition(
-                position = itemFocusTracker.position,
-                selectionPosition = itemFocusTracker.selectionPosition
-            )
+            // Request focus to maintain selection position for focused checklist item
+            if (itemFocusTracker.selectionPosition != NO_POSITION) {
+                requestFocusForItemAtPosition(
+                    position = itemFocusTracker.position,
+                    selectionPosition = itemFocusTracker.selectionPosition
+                )
+            }
         }
     }
 
