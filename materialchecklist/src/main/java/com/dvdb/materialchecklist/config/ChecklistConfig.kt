@@ -70,15 +70,15 @@ internal class ChecklistConfig(
     /**
      * Drag-and-drop
      */
-    var dragAndDropToggleMode: DragAndDropToggleMode = DragAndDropToggleMode.defaultBehavior,
-    var dragAndDropDismissKeyboardBehavior: DragAndDropDismissKeyboardBehavior = DragAndDropDismissKeyboardBehavior.defaultBehavior,
+    var dragAndDropToggleBehavior: DragAndDropToggleBehavior = DragAndDropToggleBehavior.DEFAULT,
+    var dragAndDropDismissKeyboardBehavior: DragAndDropDismissKeyboardBehavior = DragAndDropDismissKeyboardBehavior.DEFAULT,
     @ColorInt var dragAndDropActiveItemBackgroundColor: Int? = null,
 
     /**
      *  Behavior
      */
-    var behaviorCheckedItem: BehaviorCheckedItem = BehaviorCheckedItem.defaultBehavior,
-    var behaviorUncheckedItem: BehaviorUncheckedItem = BehaviorUncheckedItem.defaultBehavior,
+    var behaviorCheckedItem: BehaviorCheckedItem = BehaviorCheckedItem.DEFAULT,
+    var behaviorUncheckedItem: BehaviorUncheckedItem = BehaviorUncheckedItem.DEFAULT,
 
     /**
      * Item
@@ -106,7 +106,7 @@ internal class ChecklistConfig(
 
     @CheckResult
     fun toManagerConfig() = ChecklistManagerConfig(
-        dragAndDropEnabled = dragAndDropToggleMode != DragAndDropToggleMode.NONE,
+        dragAndDropEnabled = dragAndDropToggleBehavior != DragAndDropToggleBehavior.NONE,
         dragAndDropDismissKeyboardBehavior = dragAndDropDismissKeyboardBehavior,
         behaviorCheckedItem = behaviorCheckedItem,
         behaviorUncheckedItem = behaviorUncheckedItem,
@@ -129,7 +129,7 @@ internal class ChecklistConfig(
             iconAlphaDelete = iconAlphaDelete,
             checkboxAlphaCheckedItem = checkboxAlphaCheckedItem,
             checkboxTintColor = checkboxTintColor,
-            dragAndDropToggleMode = dragAndDropToggleMode,
+            dragAndDropToggleBehavior = dragAndDropToggleBehavior,
             dragAndDropActiveBackgroundColor = dragAndDropActiveItemBackgroundColor,
             topAndBottomPadding = itemTopAndBottomPadding,
             leftAndRightPadding = itemLeftAndRightPadding
@@ -209,9 +209,9 @@ internal class ChecklistConfig(
     }
 
     private fun initDragAndDropAttributes(attributes: TypedArray) {
-        dragAndDropToggleMode = DragAndDropToggleMode.values()[attributes.getInt(
-            R.styleable.MaterialChecklist_drag_and_drop_toggle_mode,
-            dragAndDropToggleMode.ordinal
+        dragAndDropToggleBehavior = DragAndDropToggleBehavior.values()[attributes.getInt(
+            R.styleable.MaterialChecklist_drag_and_drop_toggle_behavior,
+            dragAndDropToggleBehavior.ordinal
         )]
 
         dragAndDropDismissKeyboardBehavior = DragAndDropDismissKeyboardBehavior.values()[attributes.getInt(

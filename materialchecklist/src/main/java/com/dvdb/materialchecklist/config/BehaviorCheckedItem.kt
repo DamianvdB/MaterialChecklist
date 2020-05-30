@@ -32,16 +32,16 @@ enum class BehaviorCheckedItem {
     DELETE;
 
     companion object {
-        internal val defaultBehavior: BehaviorCheckedItem = MOVE_TO_TOP_OF_CHECKED_ITEMS
+        internal val DEFAULT: BehaviorCheckedItem = MOVE_TO_TOP_OF_CHECKED_ITEMS
 
         @CheckResult
         fun fromInt(value: Int): BehaviorCheckedItem {
-            return values().firstOrNull { it.ordinal == value } ?: defaultBehavior
+            return values().firstOrNull { it.ordinal == value } ?: DEFAULT
         }
 
         @CheckResult
         fun fromString(value: String): BehaviorCheckedItem {
-            return values().firstOrNull { it.name.equals(value, true) } ?: defaultBehavior
+            return values().firstOrNull { it.name.equals(value, true) } ?: DEFAULT
         }
     }
 }

@@ -13,12 +13,12 @@
         <item>serif</item>
     </string-array>
 
-    <string-array name="settings_behavior_drag_and_drop_toggle_mode_entries">
+    <string-array name="settings_behavior_drag_and_drop_toggle_behavior_entries">
         <item>On touch</item>
         <item>On long-click</item>
         <item>None</item>
     </string-array>
-    <string-array name="settings_behavior_drag_and_drop_toggle_mode_values">
+    <string-array name="settings_behavior_drag_and_drop_toggle_behavior_values">
         <item>on_touch</item>
         <item>on_long_click</item>
         <item>none</item>

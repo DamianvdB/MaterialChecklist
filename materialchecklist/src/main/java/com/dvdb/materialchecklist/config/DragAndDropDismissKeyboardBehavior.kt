@@ -32,16 +32,16 @@ enum class DragAndDropDismissKeyboardBehavior {
     NONE;
 
     companion object {
-        internal val defaultBehavior: DragAndDropDismissKeyboardBehavior = DISMISS_KEYBOARD_ON_ITEM_DRAGGED
+        internal val DEFAULT: DragAndDropDismissKeyboardBehavior = DISMISS_KEYBOARD_ON_ITEM_DRAGGED
 
         @CheckResult
         fun fromInt(value: Int): DragAndDropDismissKeyboardBehavior {
-            return values().firstOrNull { it.ordinal == value } ?: defaultBehavior
+            return values().firstOrNull { it.ordinal == value } ?: DEFAULT
         }
 
         @CheckResult
         fun fromString(value: String): DragAndDropDismissKeyboardBehavior {
-            return values().firstOrNull { it.name.equals(value, true) } ?: defaultBehavior
+            return values().firstOrNull { it.name.equals(value, true) } ?: DEFAULT
         }
     }
 }

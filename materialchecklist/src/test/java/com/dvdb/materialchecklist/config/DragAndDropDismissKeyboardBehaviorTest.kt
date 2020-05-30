@@ -47,7 +47,7 @@ class DragAndDropDismissKeyboardBehaviorTest {
 
     @Test
     fun fromInt_invalid_test() {
-        val expected = DragAndDropDismissKeyboardBehavior.defaultBehavior
+        val expected = DragAndDropDismissKeyboardBehavior.DEFAULT
         val actual = DragAndDropDismissKeyboardBehavior.fromInt(3)
 
         Assert.assertEquals(expected, actual)
@@ -79,7 +79,7 @@ class DragAndDropDismissKeyboardBehaviorTest {
 
     @Test
     fun fromString_invalid_test() {
-        val expected = DragAndDropDismissKeyboardBehavior.defaultBehavior
+        val expected = DragAndDropDismissKeyboardBehavior.DEFAULT
         val actual = DragAndDropDismissKeyboardBehavior.fromString("")
 
         Assert.assertEquals(expected, actual)

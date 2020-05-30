@@ -47,7 +47,7 @@ class BehaviorUncheckedItemTest {
 
     @Test
     fun fromInt_invalid_test() {
-        val expected = BehaviorUncheckedItem.defaultBehavior
+        val expected = BehaviorUncheckedItem.DEFAULT
         val actual = BehaviorUncheckedItem.fromInt(3)
 
         Assert.assertEquals(expected, actual)
@@ -79,7 +79,7 @@ class BehaviorUncheckedItemTest {
 
     @Test
     fun fromString_invalid_test() {
-        val expected = BehaviorUncheckedItem.defaultBehavior
+        val expected = BehaviorUncheckedItem.DEFAULT
         val actual = BehaviorUncheckedItem.fromString("")
 
         Assert.assertEquals(expected, actual)

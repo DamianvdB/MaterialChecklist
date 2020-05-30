@@ -226,13 +226,13 @@ fun MaterialChecklist.setCheckedItemCheckboxAlpha(alpha: Float): MaterialCheckli
 }
 
 /**
- * Set the drag-and-drop toggle mode of the checklist items.
+ * Set the drag-and-drop toggle behavior of the checklist items.
  *
- * @param toggleMode The drag-and-drop toggle mode to use.
+ * @param behavior The drag-and-drop toggle behavior to use.
  */
-fun MaterialChecklist.setDragAndDropToggleMode(toggleMode: DragAndDropToggleMode): MaterialChecklist {
-    if (config.dragAndDropToggleMode != toggleMode) {
-        config.dragAndDropToggleMode = toggleMode
+fun MaterialChecklist.setDragAndDropToggleBehavior(behavior: DragAndDropToggleBehavior): MaterialChecklist {
+    if (config.dragAndDropToggleBehavior != behavior) {
+        config.dragAndDropToggleBehavior = behavior
         manager.setConfig(config.toManagerConfig())
     }
     return this

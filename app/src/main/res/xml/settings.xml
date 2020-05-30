@@ -108,11 +108,11 @@
 
         <ListPreference
             android:defaultValue="on_touch"
-            android:entries="@array/settings_behavior_drag_and_drop_toggle_mode_entries"
-            android:entryValues="@array/settings_behavior_drag_and_drop_toggle_mode_values"
-            android:key="@string/pref_settings_drag_and_drop_toggle_mode"
-            android:summary="Set the drag-and-drop toggle mode of the checklist items"
-            android:title="Drag-and-Drop Toggle Mode"
+            android:entries="@array/settings_behavior_drag_and_drop_toggle_behavior_entries"
+            android:entryValues="@array/settings_behavior_drag_and_drop_toggle_behavior_values"
+            android:key="@string/pref_settings_drag_and_drop_toggle_behavior"
+            android:summary="Set the drag-and-drop toggle behavior of the checklist items"
+            android:title="Drag-and-Drop Toggle Behavior"
             app:iconSpaceReserved="false" />
 
         <ListPreference

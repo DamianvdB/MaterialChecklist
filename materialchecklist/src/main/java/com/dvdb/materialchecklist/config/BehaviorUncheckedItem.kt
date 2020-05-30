@@ -32,16 +32,16 @@ enum class BehaviorUncheckedItem {
     MOVE_TO_TOP_OF_UNCHECKED_ITEMS;
 
     companion object {
-        internal val defaultBehavior: BehaviorUncheckedItem = MOVE_TO_PREVIOUS_POSITION
+        internal val DEFAULT: BehaviorUncheckedItem = MOVE_TO_PREVIOUS_POSITION
 
         @CheckResult
         fun fromInt(value: Int): BehaviorUncheckedItem {
-            return values().firstOrNull { it.ordinal == value } ?: defaultBehavior
+            return values().firstOrNull { it.ordinal == value } ?: DEFAULT
         }
 
         @CheckResult
         fun fromString(value: String): BehaviorUncheckedItem {
-            return values().firstOrNull { it.name.equals(value, true) } ?: defaultBehavior
+            return values().firstOrNull { it.name.equals(value, true) } ?: DEFAULT
         }
     }
 }

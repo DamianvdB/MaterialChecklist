@@ -28,7 +28,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.widget.CompoundButtonCompat
 import com.dvdb.materialchecklist.R
-import com.dvdb.materialchecklist.config.DragAndDropToggleMode
+import com.dvdb.materialchecklist.config.DragAndDropToggleBehavior
 import com.dvdb.materialchecklist.recycler.holder.base.BaseRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.base.factory.BaseRecyclerHolderFactory
 import com.dvdb.materialchecklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
@@ -67,7 +67,7 @@ internal class ChecklistRecyclerHolder private constructor(
 
     override fun bindView(item: ChecklistRecyclerItem) {
         dragIndicatorIcon.setVisible(
-            !item.isChecked && config.dragAndDropToggleMode != DragAndDropToggleMode.NONE,
+            !item.isChecked && config.dragAndDropToggleBehavior != DragAndDropToggleBehavior.NONE,
             View.INVISIBLE
         )
 
@@ -133,12 +133,12 @@ internal class ChecklistRecyclerHolder private constructor(
         dragIndicatorIcon.alpha = config.iconAlphaDragIndicator
 
         dragIndicatorIcon.setVisible(
-            config.dragAndDropToggleMode != DragAndDropToggleMode.NONE,
+            config.dragAndDropToggleBehavior != DragAndDropToggleBehavior.NONE,
             View.INVISIBLE
         )
 
-        when (config.dragAndDropToggleMode) {
-            DragAndDropToggleMode.ON_TOUCH -> {
+        when (config.dragAndDropToggleBehavior) {
+            DragAndDropToggleBehavior.ON_TOUCH -> {
                 dragIndicatorIcon.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         listener.onItemDragHandledClicked(adapterPosition)
@@ -150,7 +150,7 @@ internal class ChecklistRecyclerHolder private constructor(
                 dragIndicatorIcon.setOnLongClickListener(null)
             }
 
-            DragAndDropToggleMode.ON_LONG_CLICK -> {
+            DragAndDropToggleBehavior.ON_LONG_CLICK -> {
                 dragIndicatorIcon.setOnLongClickListener {
                     listener.onItemDragHandledClicked(adapterPosition)
                     return@setOnLongClickListener true
@@ -159,7 +159,7 @@ internal class ChecklistRecyclerHolder private constructor(
                 dragIndicatorIcon.setOnTouchListener { _, _ -> false }
             }
 
-            DragAndDropToggleMode.NONE -> {
+            DragAndDropToggleBehavior.NONE -> {
             }
         }
     }

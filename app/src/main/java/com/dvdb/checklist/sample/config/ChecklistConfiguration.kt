@@ -26,7 +26,7 @@ import com.dvdb.checklist.R
 import com.dvdb.materialchecklist.config.BehaviorCheckedItem
 import com.dvdb.materialchecklist.config.BehaviorUncheckedItem
 import com.dvdb.materialchecklist.config.DragAndDropDismissKeyboardBehavior
-import com.dvdb.materialchecklist.config.DragAndDropToggleMode
+import com.dvdb.materialchecklist.config.DragAndDropToggleBehavior
 
 internal class ChecklistConfiguration(
     private val context: Context,
@@ -99,9 +99,9 @@ internal class ChecklistConfiguration(
     /**
      * Drag-and-drop
      */
-    val dragAndDropToggleMode: DragAndDropToggleMode
-        get() = DragAndDropToggleMode.fromString(
-            sharedPreferences.getString(context.getString(R.string.pref_settings_drag_and_drop_toggle_mode), null)
+    val dragAndDropToggleBehavior: DragAndDropToggleBehavior
+        get() = DragAndDropToggleBehavior.fromString(
+            sharedPreferences.getString(context.getString(R.string.pref_settings_drag_and_drop_toggle_behavior), null)
                 ?: ""
         )
 

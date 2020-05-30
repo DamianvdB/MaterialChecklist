@@ -77,7 +77,7 @@ internal class ChecklistManagerImpl(
                 if (::config.isInitialized) {
                     config.dragAndDropDismissKeyboardBehavior
                 } else {
-                    DragAndDropDismissKeyboardBehavior.defaultBehavior
+                    DragAndDropDismissKeyboardBehavior.DEFAULT
                 }
             }
         )

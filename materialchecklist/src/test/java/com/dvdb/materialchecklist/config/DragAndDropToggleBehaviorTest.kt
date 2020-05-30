@@ -19,68 +19,68 @@ package com.dvdb.materialchecklist.config
 import org.junit.Assert
 import org.junit.Test
 
-class DragAndDropToggleModeTest {
+class DragAndDropToggleBehaviorTest {
 
     @Test
     fun fromInt_onTouch_test() {
-        val expected = DragAndDropToggleMode.ON_TOUCH
-        val actual = DragAndDropToggleMode.fromInt(0)
+        val expected = DragAndDropToggleBehavior.ON_TOUCH
+        val actual = DragAndDropToggleBehavior.fromInt(0)
 
         Assert.assertEquals(expected, actual)
     }
 
     @Test
     fun fromInt_onLongClick_test() {
-        val expected = DragAndDropToggleMode.ON_LONG_CLICK
-        val actual = DragAndDropToggleMode.fromInt(1)
+        val expected = DragAndDropToggleBehavior.ON_LONG_CLICK
+        val actual = DragAndDropToggleBehavior.fromInt(1)
 
         Assert.assertEquals(expected, actual)
     }
 
     @Test
     fun fromInt_none_test() {
-        val expected = DragAndDropToggleMode.NONE
-        val actual = DragAndDropToggleMode.fromInt(2)
+        val expected = DragAndDropToggleBehavior.NONE
+        val actual = DragAndDropToggleBehavior.fromInt(2)
 
         Assert.assertEquals(expected, actual)
     }
 
     @Test
     fun fromInt_invalid_test() {
-        val expected = DragAndDropToggleMode.defaultBehavior
-        val actual = DragAndDropToggleMode.fromInt(3)
+        val expected = DragAndDropToggleBehavior.DEFAULT
+        val actual = DragAndDropToggleBehavior.fromInt(3)
 
         Assert.assertEquals(expected, actual)
     }
 
     @Test
     fun fromString_onTouch_test() {
-        val expected = DragAndDropToggleMode.ON_TOUCH
-        val actual = DragAndDropToggleMode.fromString("ON_TOUCH")
+        val expected = DragAndDropToggleBehavior.ON_TOUCH
+        val actual = DragAndDropToggleBehavior.fromString("ON_TOUCH")
 
         Assert.assertEquals(expected, actual)
     }
 
     @Test
     fun fromString_onLongClick_test() {
-        val expected = DragAndDropToggleMode.ON_LONG_CLICK
-        val actual = DragAndDropToggleMode.fromString("on_long_click")
+        val expected = DragAndDropToggleBehavior.ON_LONG_CLICK
+        val actual = DragAndDropToggleBehavior.fromString("on_long_click")
 
         Assert.assertEquals(expected, actual)
     }
 
     @Test
     fun fromString_none_test() {
-        val expected = DragAndDropToggleMode.NONE
-        val actual = DragAndDropToggleMode.fromString("NONE")
+        val expected = DragAndDropToggleBehavior.NONE
+        val actual = DragAndDropToggleBehavior.fromString("NONE")
 
         Assert.assertEquals(expected, actual)
     }
 
     @Test
     fun fromString_invalid_test() {
-        val expected = DragAndDropToggleMode.defaultBehavior
-        val actual = DragAndDropToggleMode.fromString("")
+        val expected = DragAndDropToggleBehavior.DEFAULT
+        val actual = DragAndDropToggleBehavior.fromString("")
 
         Assert.assertEquals(expected, actual)
     }

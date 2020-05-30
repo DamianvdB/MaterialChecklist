@@ -17,7 +17,7 @@
 package com.dvdb.materialchecklist.config
 
 import androidx.annotation.CheckResult
-import com.dvdb.materialchecklist.config.DragAndDropToggleMode.*
+import com.dvdb.materialchecklist.config.DragAndDropToggleBehavior.*
 
 /**
  * The checklist item drag-and-drop behavior.
@@ -26,22 +26,22 @@ import com.dvdb.materialchecklist.config.DragAndDropToggleMode.*
  * Using [ON_LONG_CLICK] initiates a drag for the checklist item on-click.
  * Using [NONE] disables dragging of checklist items.
  */
-enum class DragAndDropToggleMode {
+enum class DragAndDropToggleBehavior {
     ON_TOUCH,
     ON_LONG_CLICK,
     NONE;
 
     companion object {
-        internal val defaultBehavior: DragAndDropToggleMode = ON_TOUCH
+        internal val DEFAULT: DragAndDropToggleBehavior = ON_TOUCH
 
         @CheckResult
-        fun fromInt(value: Int): DragAndDropToggleMode {
-            return values().firstOrNull { it.ordinal == value } ?: defaultBehavior
+        fun fromInt(value: Int): DragAndDropToggleBehavior {
+            return values().firstOrNull { it.ordinal == value } ?: DEFAULT
         }
 
         @CheckResult
-        fun fromString(value: String): DragAndDropToggleMode {
-            return values().firstOrNull { it.name.equals(value, true) } ?: defaultBehavior
+        fun fromString(value: String): DragAndDropToggleBehavior {
+            return values().firstOrNull { it.name.equals(value, true) } ?: DEFAULT
         }
     }
 }
