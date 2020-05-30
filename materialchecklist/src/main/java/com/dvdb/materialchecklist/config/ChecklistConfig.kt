@@ -71,6 +71,7 @@ internal class ChecklistConfig(
      * Drag-and-drop
      */
     var dragAndDropToggleMode: DragAndDropToggleMode = DragAndDropToggleMode.ON_TOUCH,
+    var dragAndDropDismissKeyboardBehavior: DragAndDropDismissKeyboardBehavior = DragAndDropDismissKeyboardBehavior.defaultBehavior,
     @ColorInt var dragAndDropActiveItemBackgroundColor: Int? = null,
 
     /**
@@ -106,6 +107,7 @@ internal class ChecklistConfig(
     @CheckResult
     fun toManagerConfig() = ChecklistManagerConfig(
         dragAndDropEnabled = dragAndDropToggleMode != DragAndDropToggleMode.NONE,
+        dragAndDropDismissKeyboardBehavior = dragAndDropDismissKeyboardBehavior,
         behaviorCheckedItem = behaviorCheckedItem,
         behaviorUncheckedItem = behaviorUncheckedItem,
         itemFirstTopPadding = itemFirstTopPadding,
@@ -210,6 +212,11 @@ internal class ChecklistConfig(
         dragAndDropToggleMode = DragAndDropToggleMode.values()[attributes.getInt(
             R.styleable.MaterialChecklist_drag_and_drop_toggle_mode,
             dragAndDropToggleMode.ordinal
+        )]
+
+        dragAndDropDismissKeyboardBehavior = DragAndDropDismissKeyboardBehavior.values()[attributes.getInt(
+            R.styleable.MaterialChecklist_drag_and_drop_dismiss_keyboard_behavior,
+            dragAndDropDismissKeyboardBehavior.ordinal
         )]
 
         dragAndDropActiveItemBackgroundColor = attributes.getColor(

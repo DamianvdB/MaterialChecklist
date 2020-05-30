@@ -239,6 +239,19 @@ fun MaterialChecklist.setDragAndDropToggleMode(toggleMode: DragAndDropToggleMode
 }
 
 /**
+ * Set the drag-and-drop dismiss keyboard behavior of the checklist items.
+ *
+ * @param behavior The drag-and-drop dismiss keyboard behavior to use.
+ */
+fun MaterialChecklist.setDragAndDropDismissKeyboardBehavior(behavior: DragAndDropDismissKeyboardBehavior): MaterialChecklist {
+    if (config.dragAndDropDismissKeyboardBehavior != behavior) {
+        config.dragAndDropDismissKeyboardBehavior = behavior
+        manager.setConfig(config.toManagerConfig())
+    }
+    return this
+}
+
+/**
  * Set the background color of the checklist item while it is being dragged.
  *
  * @param backgroundColor The literal background color to use.

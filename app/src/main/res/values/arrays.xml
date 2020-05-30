@@ -24,6 +24,17 @@
         <item>none</item>
     </string-array>
 
+    <string-array name="settings_drag_and_drop_dismiss_keyboard_behavior_entries">
+        <item>Dismiss keyboard on item dragged</item>
+        <item>Dismiss keyboard on focused item dragged</item>
+        <item>None</item>
+    </string-array>
+    <string-array name="settings_drag_and_drop_dismiss_keyboard_behavior_values">
+        <item>dismiss_keyboard_on_item_dragged</item>
+        <item>dismiss_keyboard_on_focused_item_dragged</item>
+        <item>none</item>
+    </string-array>
+
     <string-array name="settings_behavior_checked_item_entries">
         <item>Move to the top of the other checked items</item>
         <item>Move to the bottom of the other checked items</item>

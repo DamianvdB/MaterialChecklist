@@ -16,6 +16,7 @@
 
 package com.dvdb.materialchecklist.manager
 
+import com.dvdb.materialchecklist.config.DragAndDropDismissKeyboardBehavior
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 
@@ -31,7 +32,8 @@ internal class ChecklistFocusManagerImpl(
     private val checklistItems: () -> List<BaseRecyclerItem>,
     private val requestFocus: (position: Int, selectionPosition: Int, showKeyboard: Boolean) -> Unit,
     private val hideKeyboard: () -> Unit,
-    private val createNewItemPosition: () -> Int
+    private val createNewItemPosition: () -> Int,
+    private val dragAndDropDismissKeyboardBehavior: () -> DragAndDropDismissKeyboardBehavior
 ) : ChecklistFocusManager {
     private var itemFocusTracker: ItemFocusTracker = ItemFocusTracker()
     private var itemFocusTrackerPreCheckedStateChanged: ItemFocusTracker = ItemFocusTracker()
@@ -183,8 +185,17 @@ internal class ChecklistFocusManagerImpl(
      * Called when drag-and-drop functionality has been started for a checklist item.
      */
     override fun onItemDragStarted(position: Int) {
-        if (itemFocusTracker.position == position) {
-            hideKeyboardAndResetState()
+        when (dragAndDropDismissKeyboardBehavior()) {
+            DragAndDropDismissKeyboardBehavior.DISMISS_KEYBOARD_ON_ITEM_DRAGGED -> hideKeyboardAndResetState()
+
+            DragAndDropDismissKeyboardBehavior.DISMISS_KEYBOARD_ON_FOCUSED_ITEM_DRAGGED -> {
+                if (itemFocusTracker.position == position) {
+                    hideKeyboardAndResetState()
+                }
+            }
+
+            DragAndDropDismissKeyboardBehavior.NONE -> {
+            }
         }
     }
 
@@ -193,8 +204,12 @@ internal class ChecklistFocusManagerImpl(
      * a drag-and-drop action.
      */
     override fun onItemDragPositionChanged(fromPosition: Int, toPosition: Int) {
-        if (itemFocusTracker.position == toPosition) {
-            itemFocusTracker = itemFocusTracker.copy(position = fromPosition)
+        if (dragAndDropDismissKeyboardBehavior() ==
+            DragAndDropDismissKeyboardBehavior.DISMISS_KEYBOARD_ON_FOCUSED_ITEM_DRAGGED
+        ) {
+            if (itemFocusTracker.position == toPosition) {
+                itemFocusTracker = itemFocusTracker.copy(position = fromPosition)
+            }
         }
     }
 

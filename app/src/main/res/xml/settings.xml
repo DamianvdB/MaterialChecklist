@@ -115,6 +115,15 @@
             android:title="Drag-and-Drop Toggle Mode"
             app:iconSpaceReserved="false" />
 
+        <ListPreference
+            android:defaultValue="dismiss_keyboard_on_item_dragged"
+            android:entries="@array/settings_drag_and_drop_dismiss_keyboard_behavior_entries"
+            android:entryValues="@array/settings_drag_and_drop_dismiss_keyboard_behavior_values"
+            android:key="@string/pref_settings_drag_and_drop_dismiss_keyboard_behavior"
+            android:summary="Set the drag-and-drop dismiss keyboard behavior of the checklist items"
+            android:title="Drag-and-Drop Dismiss Keyboard Behavior"
+            app:iconSpaceReserved="false" />
+
         <EditTextPreference
             android:defaultValue="#FFFFFF"
             android:key="@string/pref_settings_drag_and_drop_item_background_color"

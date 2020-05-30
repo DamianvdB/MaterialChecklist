@@ -20,10 +20,12 @@ import androidx.annotation.Px
 import com.dvdb.materialchecklist.config.BehaviorCheckedItem
 import com.dvdb.materialchecklist.config.BehaviorUncheckedItem
 import com.dvdb.materialchecklist.config.Config
+import com.dvdb.materialchecklist.config.DragAndDropDismissKeyboardBehavior
 import com.dvdb.materialchecklist.recycler.adapter.config.ChecklistItemAdapterConfig
 
 internal data class ChecklistManagerConfig(
     val dragAndDropEnabled: Boolean,
+    val dragAndDropDismissKeyboardBehavior: DragAndDropDismissKeyboardBehavior,
     val behaviorCheckedItem: BehaviorCheckedItem,
     val behaviorUncheckedItem: BehaviorUncheckedItem,
     @Px val itemFirstTopPadding: Float?,

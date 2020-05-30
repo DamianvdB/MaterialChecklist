@@ -19,6 +19,7 @@ package com.dvdb.materialchecklist.manager
 import android.widget.TextView
 import com.dvdb.materialchecklist.config.BehaviorCheckedItem
 import com.dvdb.materialchecklist.config.BehaviorUncheckedItem
+import com.dvdb.materialchecklist.config.DragAndDropDismissKeyboardBehavior
 import com.dvdb.materialchecklist.manager.config.ChecklistManagerConfig
 import com.dvdb.materialchecklist.manager.item.ChecklistItem
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
@@ -71,7 +72,14 @@ internal class ChecklistManagerImpl(
             checklistItems = { if (::adapter.isInitialized) adapter.items else emptyList() },
             requestFocus = createFocusManagerRequestFocusAtPositionInAdapterFunction(),
             hideKeyboard = hideKeyboard,
-            createNewItemPosition = { createNewItemPosition }
+            createNewItemPosition = { createNewItemPosition },
+            dragAndDropDismissKeyboardBehavior = {
+                if (::config.isInitialized) {
+                    config.dragAndDropDismissKeyboardBehavior
+                } else {
+                    DragAndDropDismissKeyboardBehavior.defaultBehavior
+                }
+            }
         )
 
     private lateinit var adapter: ChecklistItemAdapter

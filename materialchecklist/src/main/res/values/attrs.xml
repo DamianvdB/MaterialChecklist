@@ -22,6 +22,12 @@
             <enum name="NONE" value="2" />
         </attr>
 
+        <attr name="drag_and_drop_dismiss_keyboard_behavior" format="enum">
+            <enum name="DISMISS_KEYBOARD_ON_ITEM_DRAGGED" value="0" />
+            <enum name="DISMISS_KEYBOARD_ON_FOCUSED_ITEM_DRAGGED" value="1" />
+            <enum name="NONE" value="2" />
+        </attr>
+
         <attr name="drag_and_drop_item_active_background_color" format="color" />
 
         <attr name="behavior_checked_item" format="enum">
