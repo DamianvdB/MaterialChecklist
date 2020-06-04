@@ -32,7 +32,8 @@ internal class RecyclerItemMapperTest {
         ChecklistRecyclerItem("Buy Portuguese buns", true)
     ).resetIds()
 
-    private val validChecklistContents = "[x] Buy beer\n[x] Buy steak\n[x] Buy brandy\n[ ] Buy Coca-Cola\n[x] Buy Portuguese buns"
+    private val validChecklistContents =
+        "[x] Buy beer\n[x] Buy steak\n[x] Buy brandy\n[ ] Buy Coca-Cola\n[x] Buy Portuguese buns"
 
     @Test
     fun toFormattedText_emptyList() {
@@ -160,7 +161,8 @@ internal class RecyclerItemMapperTest {
 
     @Test
     fun toFormattedText_withMalformedCheckboxSymbols() {
-        val expectedContents = "[x] [x] Buy beer\n[x] [ ] Buy steak\n[x] [X]Buy brandy\n[ ] [ ] Buy Coca-Cola\n[x] [] Buy Portuguese buns"
+        val expectedContents =
+            "[x] [x] Buy beer\n[x] [ ] Buy steak\n[x] [X]Buy brandy\n[ ] [ ] Buy Coca-Cola\n[x] [] Buy Portuguese buns"
         val inputItems = listOf(
             ChecklistRecyclerItem("[x] Buy beer", true),
             ChecklistRecyclerItem("[ ] Buy steak", true),

@@ -135,7 +135,8 @@ internal class ChecklistManagerImpl(
         this.scrollToPosition = scrollToPosition
         this.startDragAndDrop = startDragAndDrop
         this.enableDragAndDrop = enableDragAndDrop.also { it(config.dragAndDropEnabled) }
-        this.updateItemPadding = updateItemPadding.also { it(config.itemFirstTopPadding, config.itemLastBottomPadding) }
+        this.updateItemPadding =
+            updateItemPadding.also { it(config.itemFirstTopPadding, config.itemLastBottomPadding) }
         this.enableItemAnimations = enableItemAnimations
     }
 
@@ -237,7 +238,9 @@ internal class ChecklistManagerImpl(
         val removedItemIds: MutableList<Long> = mutableListOf()
         val removedItemPositions: MutableList<Int> = mutableListOf()
         val items = adapter.items.filterIndexed { index, item ->
-            val shouldKeep = item is ChecklistNewRecyclerItem || item is ChecklistRecyclerItem && !item.isChecked
+            val shouldKeep = item is ChecklistNewRecyclerItem ||
+                    item is ChecklistRecyclerItem &&
+                    !item.isChecked
             if (!shouldKeep) {
                 removedItemIds.add((item as ChecklistRecyclerItem).id)
                 removedItemPositions.add(index)
@@ -330,7 +333,8 @@ internal class ChecklistManagerImpl(
                 if (position != NO_POSITION) {
 
                     if (currentItem.isChecked != newItem.isChecked) {
-                        val newItemWithCurrentIsChecked = newItem.copy(isChecked = currentItem.isChecked)
+                        val newItemWithCurrentIsChecked =
+                            newItem.copy(isChecked = currentItem.isChecked)
 
                         if (newItem.isChecked) {
                             handleItemChecked(
@@ -558,7 +562,8 @@ internal class ChecklistManagerImpl(
         currentPosition: Int,
         targetPosition: Int
     ): Boolean {
-        val currentChecklistItem = adapter.items.getOrNull(currentPosition) as? ChecklistRecyclerItem
+        val currentChecklistItem =
+            adapter.items.getOrNull(currentPosition) as? ChecklistRecyclerItem
         val targetChecklistItem = adapter.items.getOrNull(targetPosition) as? ChecklistRecyclerItem
 
         return currentChecklistItem?.isChecked == false && targetChecklistItem?.isChecked == false
@@ -666,7 +671,8 @@ internal class ChecklistManagerImpl(
         val toPosition: Int =
             when (config.behaviorUncheckedItem) {
                 BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION -> {
-                    previousUncheckedItemPositions.remove(item.id)?.coerceAtMost(newItemPosition) ?: newItemPosition
+                    previousUncheckedItemPositions.remove(item.id)?.coerceAtMost(newItemPosition)
+                        ?: newItemPosition
                 }
                 BehaviorUncheckedItem.MOVE_TO_BOTTOM_OF_UNCHECKED_ITEMS -> newItemPosition
                 BehaviorUncheckedItem.MOVE_TO_TOP_OF_UNCHECKED_ITEMS -> 0

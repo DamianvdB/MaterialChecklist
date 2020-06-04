@@ -61,7 +61,8 @@ class MaterialChecklist(
         val recyclerView = createRecyclerView()
         addView(recyclerView)
 
-        val itemTouchCallback = SimpleItemTouchHelper(recyclerView.adapter as ItemTouchHelperAdapter)
+        val itemTouchCallback =
+            SimpleItemTouchHelper(recyclerView.adapter as ItemTouchHelperAdapter)
         val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
         initManager(recyclerView, itemTouchHelper, itemTouchCallback)

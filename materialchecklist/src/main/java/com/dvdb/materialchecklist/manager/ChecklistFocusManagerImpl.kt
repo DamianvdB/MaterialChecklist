@@ -254,7 +254,8 @@ internal class ChecklistFocusManagerImpl(
         item: ChecklistRecyclerItem
     ) {
         val itemRemovedOnCheckedStateChanged = updatedPosition == NO_POSITION
-        val itemHadFocusPreCheckedStateChanged = originalPosition == itemFocusTrackerPreCheckedStateChanged.position
+        val itemHadFocusPreCheckedStateChanged =
+            originalPosition == itemFocusTrackerPreCheckedStateChanged.position
 
         if (!itemRemovedOnCheckedStateChanged) {
             if (itemHadFocusPreCheckedStateChanged) {
@@ -288,7 +289,8 @@ internal class ChecklistFocusManagerImpl(
             }
             val validPositionMap = checklistItems()
                 .filterIndexed { index, item ->
-                    (item as? ChecklistRecyclerItem)?.isChecked == deletedItem.isChecked && isWithinRange(index)
+                    (item as? ChecklistRecyclerItem)?.isChecked == deletedItem.isChecked &&
+                            isWithinRange(index)
                 }.map {
                     checklistItems().indexOf(it)
                 }

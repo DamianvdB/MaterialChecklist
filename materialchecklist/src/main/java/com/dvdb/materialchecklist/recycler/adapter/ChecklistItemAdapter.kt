@@ -46,7 +46,8 @@ internal class ChecklistItemAdapter(
             }
         }
 
-    var requestFocus: ChecklistItemAdapterRequestFocus = ChecklistItemAdapterRequestFocus(RecyclerView.NO_POSITION)
+    var requestFocus: ChecklistItemAdapterRequestFocus =
+        ChecklistItemAdapterRequestFocus(RecyclerView.NO_POSITION)
         set(value) {
             field = value
             notifyItemChanged(value.position)
@@ -113,7 +114,10 @@ internal class ChecklistItemAdapter(
         current: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        return itemDragListener.canDragOverTargetItem(current.adapterPosition, target.adapterPosition)
+        return itemDragListener.canDragOverTargetItem(
+            current.adapterPosition,
+            target.adapterPosition
+        )
     }
 
     override fun onDragStart(viewHolder: RecyclerView.ViewHolder) {

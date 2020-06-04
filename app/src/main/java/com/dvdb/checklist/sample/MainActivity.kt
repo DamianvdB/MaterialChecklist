@@ -90,19 +90,25 @@ internal class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main_activity, menu)
 
-        convertToTextMenuItem = menu!!.findItem(R.id.menu_main_activity_convert_to_text).apply {
-            isVisible = showChecklist
-        }
-        removeCheckedItemsMenuItem = menu.findItem(R.id.menu_main_activity_remove_checked_items).apply {
-            isVisible = showChecklist
-        }
-        uncheckCheckedItemsMenuItem = menu.findItem(R.id.menu_main_activity_uncheck_checked_items).apply {
-            isVisible = showChecklist
-        }
+        convertToTextMenuItem =
+            menu!!.findItem(R.id.menu_main_activity_convert_to_text).apply {
+                isVisible = showChecklist
+            }
 
-        convertToChecklistMenuItem = menu.findItem(R.id.menu_main_activity_convert_to_checklist).apply {
-            isVisible = !showChecklist
-        }
+        removeCheckedItemsMenuItem =
+            menu.findItem(R.id.menu_main_activity_remove_checked_items).apply {
+                isVisible = showChecklist
+            }
+
+        uncheckCheckedItemsMenuItem =
+            menu.findItem(R.id.menu_main_activity_uncheck_checked_items).apply {
+                isVisible = showChecklist
+            }
+
+        convertToChecklistMenuItem =
+            menu.findItem(R.id.menu_main_activity_convert_to_checklist).apply {
+                isVisible = !showChecklist
+            }
 
         return true
     }
@@ -130,7 +136,11 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        checklistItemsText = if (showChecklist) main_checklist.getItems() else main_text.text.toString()
+        checklistItemsText = if (showChecklist) {
+            main_checklist.getItems()
+        } else {
+            main_text.text.toString()
+        }
         super.onStop()
     }
 
@@ -252,8 +262,17 @@ internal class MainActivity : AppCompatActivity() {
             main_text.setText(content)
         }
 
-        main_text.visibility = if (isConvertToChecklistMenuItemClicked) View.GONE else View.VISIBLE
-        main_checklist.visibility = if (isConvertToChecklistMenuItemClicked) View.VISIBLE else View.GONE
+        main_text.visibility = if (isConvertToChecklistMenuItemClicked) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+
+        main_checklist.visibility = if (isConvertToChecklistMenuItemClicked) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 
     private fun handleOnRemoveCheckedItemsMenuItemClicked() {

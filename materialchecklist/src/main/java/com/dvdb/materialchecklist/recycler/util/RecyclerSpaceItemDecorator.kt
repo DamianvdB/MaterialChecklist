@@ -65,7 +65,8 @@ internal class RecyclerSpaceItemDecorator(
             setHorizontalItemOffsets(position, outRect, lastPosition)
         }
 
-        val isSpaceDecorationItemAnimator = parent.itemAnimator is RecyclerSpaceItemDecorationAnimator
+        val isSpaceDecorationItemAnimator =
+            parent.itemAnimator is RecyclerSpaceItemDecorationAnimator
         if (firstItemMargin != 0) {
             if (!isSpaceDecorationItemAnimator) {
                 parent.itemAnimator = RecyclerSpaceItemDecorationAnimator(
@@ -155,9 +156,15 @@ private class RecyclerSpaceItemDecorationAnimator(
     override fun animateRemove(holder: RecyclerView.ViewHolder): Boolean {
         return if (holder.layoutPosition == RecyclerView.NO_POSITION) {
             if (orientation == RecyclerView.VERTICAL) {
-                ViewCompat.offsetTopAndBottom(holder.itemView, firstItemOffset - holder.itemView.top)
+                ViewCompat.offsetTopAndBottom(
+                    holder.itemView,
+                    firstItemOffset - holder.itemView.top
+                )
             } else {
-                ViewCompat.offsetLeftAndRight(holder.itemView, firstItemOffset - holder.itemView.left)
+                ViewCompat.offsetLeftAndRight(
+                    holder.itemView,
+                    firstItemOffset - holder.itemView.left
+                )
             }
             super.animateRemove(holder)
             true

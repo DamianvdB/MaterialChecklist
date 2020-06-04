@@ -34,7 +34,10 @@ internal class ChecklistNewRecyclerHolder private constructor(
     itemView: View,
     config: ChecklistNewRecyclerHolderConfig,
     private val onItemClicked: (position: Int) -> Unit
-) : BaseRecyclerHolder<ChecklistNewRecyclerItem, ChecklistNewRecyclerHolderConfig>(itemView, config) {
+) : BaseRecyclerHolder<ChecklistNewRecyclerItem, ChecklistNewRecyclerHolderConfig>(
+    itemView,
+    config
+) {
 
     private val addIcon: ImageView = itemView.item_checklist_new_add
     private val text: TextView = itemView.item_checklist_new_text

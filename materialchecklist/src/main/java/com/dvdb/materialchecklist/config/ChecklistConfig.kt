@@ -90,7 +90,10 @@ internal class ChecklistConfig(
 ) : Config {
 
     init {
-        val attributes: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.MaterialChecklist)
+        val attributes: TypedArray = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.MaterialChecklist
+        )
 
         try {
             initTextAttributes(attributes)
@@ -148,109 +151,111 @@ internal class ChecklistConfig(
         )
     )
 
-    private fun initTextAttributes(attributes: TypedArray) {
-        textColor = attributes.getColor(
+    private fun initTextAttributes(attrs: TypedArray) {
+        textColor = attrs.getColor(
             R.styleable.MaterialChecklist_text_color,
             textColor
         )
 
-        textSize = attributes.getDimension(
+        textSize = attrs.getDimension(
             R.styleable.MaterialChecklist_text_size,
             textSize
         )
 
-        textNewItem = attributes.getString(
+        textNewItem = attrs.getString(
             R.styleable.MaterialChecklist_text_new_item
         ) ?: textNewItem
 
-        textAlphaCheckedItem = attributes.getFloat(
+        textAlphaCheckedItem = attrs.getFloat(
             R.styleable.MaterialChecklist_text_alpha_checked_item,
             textAlphaCheckedItem
         )
 
-        textAlphaNewItem = attributes.getFloat(
+        textAlphaNewItem = attrs.getFloat(
             R.styleable.MaterialChecklist_text_alpha_new_item,
             textAlphaNewItem
         )
     }
 
-    private fun initIconAttributes(attributes: TypedArray) {
-        iconTintColor = attributes.getColor(
+    private fun initIconAttributes(attrs: TypedArray) {
+        iconTintColor = attrs.getColor(
             R.styleable.MaterialChecklist_icon_tint_color,
             iconTintColor
         )
 
-        iconAlphaDragIndicator = attributes.getFloat(
+        iconAlphaDragIndicator = attrs.getFloat(
             R.styleable.MaterialChecklist_icon_alpha_drag_indicator,
             iconAlphaDragIndicator
         )
 
-        iconAlphaDelete = attributes.getFloat(
+        iconAlphaDelete = attrs.getFloat(
             R.styleable.MaterialChecklist_icon_alpha_delete,
             iconAlphaDelete
         )
 
-        iconAlphaAdd = attributes.getFloat(
+        iconAlphaAdd = attrs.getFloat(
             R.styleable.MaterialChecklist_icon_alpha_add,
             iconAlphaAdd
         )
     }
 
-    private fun initCheckboxAttributes(attributes: TypedArray) {
-        checkboxTintColor = attributes.getColor(
+    private fun initCheckboxAttributes(attrs: TypedArray) {
+        checkboxTintColor = attrs.getColor(
             R.styleable.MaterialChecklist_checkbox_tint_color,
             0
         ).run { if (this == 0) checkboxTintColor else this }
 
-        checkboxAlphaCheckedItem = attributes.getFloat(
+        checkboxAlphaCheckedItem = attrs.getFloat(
             R.styleable.MaterialChecklist_checkbox_alpha_checked_item,
             checkboxAlphaCheckedItem
         )
     }
 
-    private fun initDragAndDropAttributes(attributes: TypedArray) {
-        dragAndDropToggleBehavior = DragAndDropToggleBehavior.values()[attributes.getInt(
-            R.styleable.MaterialChecklist_drag_and_drop_toggle_behavior,
-            dragAndDropToggleBehavior.ordinal
-        )]
+    private fun initDragAndDropAttributes(attrs: TypedArray) {
+        dragAndDropToggleBehavior =
+            DragAndDropToggleBehavior.values()[attrs.getInt(
+                R.styleable.MaterialChecklist_drag_and_drop_toggle_behavior,
+                dragAndDropToggleBehavior.ordinal
+            )]
 
-        dragAndDropDismissKeyboardBehavior = DragAndDropDismissKeyboardBehavior.values()[attributes.getInt(
-            R.styleable.MaterialChecklist_drag_and_drop_dismiss_keyboard_behavior,
-            dragAndDropDismissKeyboardBehavior.ordinal
-        )]
+        dragAndDropDismissKeyboardBehavior =
+            DragAndDropDismissKeyboardBehavior.values()[attrs.getInt(
+                R.styleable.MaterialChecklist_drag_and_drop_dismiss_keyboard_behavior,
+                dragAndDropDismissKeyboardBehavior.ordinal
+            )]
 
-        dragAndDropActiveItemBackgroundColor = attributes.getColor(
+        dragAndDropActiveItemBackgroundColor = attrs.getColor(
             R.styleable.MaterialChecklist_drag_and_drop_item_active_background_color,
             0
         ).run { if (this == 0) dragAndDropActiveItemBackgroundColor else this }
     }
 
-    private fun initBehaviorAttributes(attributes: TypedArray) {
-        behaviorCheckedItem = BehaviorCheckedItem.values()[attributes.getInt(
+    private fun initBehaviorAttributes(attrs: TypedArray) {
+        behaviorCheckedItem = BehaviorCheckedItem.values()[attrs.getInt(
             R.styleable.MaterialChecklist_behavior_checked_item,
             behaviorCheckedItem.ordinal
         )]
 
-        behaviorUncheckedItem = BehaviorUncheckedItem.values()[attributes.getInt(
+        behaviorUncheckedItem = BehaviorUncheckedItem.values()[attrs.getInt(
             R.styleable.MaterialChecklist_behavior_unchecked_item,
             behaviorUncheckedItem.ordinal
         )]
     }
 
-    private fun initItemAttributes(attributes: TypedArray) {
-        attributes.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_first_top)?.let {
+    private fun initItemAttributes(attrs: TypedArray) {
+        attrs.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_first_top)?.let {
             itemFirstTopPadding = it
         }
 
-        attributes.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_left_and_right)?.let {
+        attrs.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_left_and_right)?.let {
             itemLeftAndRightPadding = it
         }
 
-        attributes.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_top_and_bottom)?.let {
+        attrs.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_top_and_bottom)?.let {
             itemTopAndBottomPadding = it
         }
 
-        attributes.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_last_bottom)?.let {
+        attrs.getDimensionOrNull(R.styleable.MaterialChecklist_item_padding_last_bottom)?.let {
             itemLastBottomPadding = it
         }
     }
