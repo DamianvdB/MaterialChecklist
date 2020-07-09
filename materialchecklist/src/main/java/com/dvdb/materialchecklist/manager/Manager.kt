@@ -16,6 +16,91 @@
 
 package com.dvdb.materialchecklist.manager
 
-internal interface Manager :
-    TitleManager,
-    ChecklistManager
+import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
+import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
+import com.dvdb.materialchecklist.recycler.item.title.TitleRecyclerItem
+
+internal class Manager(
+    private val titleManager: TitleManager,
+    private val checklistManager: ChecklistManager,
+    private val items: () -> List<BaseRecyclerItem>
+) : TitleManager by titleManager,
+    ChecklistManager by checklistManager {
+
+    override fun onItemMove(
+        fromPosition: Int,
+        toPosition: Int
+    ): Boolean {
+        return executeActionForRecyclerItemType(
+            item = items().getOrNull(fromPosition),
+            titleItemAction = {
+                titleManager.onItemMove(
+                    fromPosition,
+                    toPosition
+                )
+            },
+            checklistItemAction = {
+                checklistManager.onItemMove(
+                    fromPosition,
+                    toPosition
+                )
+            },
+            defaultAction = { false }
+        ) as Boolean
+    }
+
+    override fun canDragOverTargetItem(
+        currentPosition: Int,
+        targetPosition: Int
+    ): Boolean {
+        return executeActionForRecyclerItemType(
+            item = items().getOrNull(currentPosition),
+            titleItemAction = {
+                titleManager.canDragOverTargetItem(
+                    currentPosition,
+                    targetPosition
+                )
+            },
+            checklistItemAction = {
+                checklistManager.canDragOverTargetItem(
+                    currentPosition,
+                    targetPosition
+                )
+            },
+            defaultAction = { false }
+        ) as Boolean
+    }
+
+    override fun onItemDragStarted(position: Int) {
+        executeActionForRecyclerItemType(
+            item = items().getOrNull(position),
+            titleItemAction = { titleManager.onItemDragStarted(position) },
+            checklistItemAction = { checklistManager.onItemDragStarted(position) }
+        )
+    }
+
+    override fun onItemDragStopped(position: Int) {
+        executeActionForRecyclerItemType(
+            item = items().getOrNull(position),
+            titleItemAction = { titleManager.onItemDragStopped(position) },
+            checklistItemAction = { checklistManager.onItemDragStopped(position) }
+        )
+    }
+
+    private fun executeActionForRecyclerItemType(
+        item: BaseRecyclerItem?,
+        titleItemAction: () -> Any,
+        checklistItemAction: () -> Any,
+        defaultAction: () -> Any = {}
+    ): Any {
+        return when (item) {
+            is TitleRecyclerItem -> titleItemAction()
+
+            is ChecklistRecyclerItem,
+            is ChecklistNewRecyclerItem -> checklistItemAction()
+
+            else -> defaultAction()
+        }
+    }
+}

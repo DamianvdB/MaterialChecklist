@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.materialchecklist.config.ChecklistConfig
 import com.dvdb.materialchecklist.manager.ChecklistManagerImpl
 import com.dvdb.materialchecklist.manager.Manager
-import com.dvdb.materialchecklist.manager.ManagerImpl
 import com.dvdb.materialchecklist.manager.TitleManagerImpl
 import com.dvdb.materialchecklist.manager.item.ChecklistItem
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
@@ -46,7 +45,7 @@ class MaterialChecklist(
     attrs: AttributeSet?
 ) : FrameLayout(context, attrs) {
 
-    internal val manager: Manager = ManagerImpl(
+    internal val manager: Manager = Manager(
         TitleManagerImpl(),
         ChecklistManagerImpl(
             hideKeyboard = {
