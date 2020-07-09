@@ -67,6 +67,13 @@ internal class ChecklistConfiguration(
             }
         }
 
+    val textTitleHint: String = "Title"
+    val textTitleColor: Int = ContextCompat.getColor(context, R.color.colorPrimary)
+    val textTitleLinkColor: Int = ContextCompat.getColor(context, R.color.colorPrimary)
+    val textTitleHintColor: Int = Color.parseColor("#9575cd")
+    val textTitleClickableLinks: Boolean = true
+    val textTitleEditable: Boolean = true
+
     /**
      * Icon
      */
@@ -85,6 +92,8 @@ internal class ChecklistConfiguration(
     val iconAlphaAdd: Float
         get() = (sharedPreferences.getString(context.getString(R.string.pref_settings_icon_alpha_add), null))?.toFloatOrNull()
             ?: 0.7F
+
+    val iconTitleShowAction: Boolean = true
 
     /**
      * Checkbox
