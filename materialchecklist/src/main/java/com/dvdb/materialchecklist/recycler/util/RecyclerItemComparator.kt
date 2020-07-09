@@ -27,9 +27,18 @@ internal sealed class BaseRecyclerItemComparator : Comparator<BaseRecyclerItem> 
         item2: BaseRecyclerItem?
     ): Int {
         return when {
-            item1 is ChecklistRecyclerItem && item2 is ChecklistRecyclerItem -> compareIf(item1, item2)
-            item1 is ChecklistRecyclerItem && item2 is ChecklistNewRecyclerItem -> compareIf(item1, item2)
-            item1 is ChecklistNewRecyclerItem && item2 is ChecklistRecyclerItem -> compareIf(item1, item2)
+            item1 is ChecklistRecyclerItem && item2 is ChecklistRecyclerItem -> compareIf(
+                item1,
+                item2
+            )
+            item1 is ChecklistRecyclerItem && item2 is ChecklistNewRecyclerItem -> compareIf(
+                item1,
+                item2
+            )
+            item1 is ChecklistNewRecyclerItem && item2 is ChecklistRecyclerItem -> compareIf(
+                item1,
+                item2
+            )
             else -> 0
         }
     }
@@ -52,9 +61,12 @@ internal sealed class BaseRecyclerItemComparator : Comparator<BaseRecyclerItem> 
 
 internal object DefaultRecyclerItemComparator : BaseRecyclerItemComparator() {
 
-    override fun compareIf(item1: ChecklistRecyclerItem, item2: ChecklistRecyclerItem) = item1.isChecked.compareTo(item2.isChecked)
+    override fun compareIf(item1: ChecklistRecyclerItem, item2: ChecklistRecyclerItem) =
+        item1.isChecked.compareTo(item2.isChecked)
 
-    override fun compareIf(item1: ChecklistRecyclerItem, item2: ChecklistNewRecyclerItem) = if (item1.isChecked) 1 else -1
+    override fun compareIf(item1: ChecklistRecyclerItem, item2: ChecklistNewRecyclerItem) =
+        if (item1.isChecked) 1 else -1
 
-    override fun compareIf(item1: ChecklistNewRecyclerItem, item2: ChecklistRecyclerItem) = if (item2.isChecked) -1 else 1
+    override fun compareIf(item1: ChecklistNewRecyclerItem, item2: ChecklistRecyclerItem) =
+        if (item2.isChecked) -1 else 1
 }

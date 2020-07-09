@@ -36,29 +36,50 @@ internal class ChecklistConfiguration(
      * Text
      */
     val textColor: Int
-        get() = parseColorOrNull(sharedPreferences.getString(context.getString(R.string.pref_settings_text_color), null) ?: "")
-            ?: ContextCompat.getColor(context, com.dvdb.materialchecklist.R.color.mc_text_checklist_item_text)
+        get() = parseColorOrNull(
+            sharedPreferences.getString(
+                context.getString(R.string.pref_settings_text_color),
+                null
+            ) ?: ""
+        ) ?: ContextCompat.getColor(
+            context,
+            com.dvdb.materialchecklist.R.color.mc_text_checklist_item_text
+        )
 
     val textSize: Float
-        get() = (sharedPreferences.getString(context.getString(R.string.pref_settings_text_size), null))?.toFloatOrNull()?.toPx(context)
+        get() = (sharedPreferences.getString(
+            context.getString(R.string.pref_settings_text_size),
+            null
+        ))?.toFloatOrNull()?.toPx(context)
             ?: context.resources.getDimension(com.dvdb.materialchecklist.R.dimen.mc_item_checklist_text_size)
 
     val textNewItem: String
-        get() = sharedPreferences.getString(context.getString(R.string.pref_settings_text_new_item), null)
-            ?: context.getString(com.dvdb.materialchecklist.R.string.mc_item_checklist_new_text)
+        get() = sharedPreferences.getString(
+            context.getString(R.string.pref_settings_text_new_item),
+            null
+        ) ?: context.getString(com.dvdb.materialchecklist.R.string.mc_item_checklist_new_text)
 
     val textAlphaCheckedItem: Float
-        get() = (sharedPreferences.getString(context.getString(R.string.pref_settings_text_alpha_checked_item), null))?.toFloatOrNull()
+        get() = (sharedPreferences.getString(
+            context.getString(R.string.pref_settings_text_alpha_checked_item),
+            null
+        ))?.toFloatOrNull()
             ?: 0.4F
 
     val textAlphaNewItem: Float
-        get() = (sharedPreferences.getString(context.getString(R.string.pref_settings_text_alpha_new_item), null))?.toFloatOrNull()
+        get() = (sharedPreferences.getString(
+            context.getString(R.string.pref_settings_text_alpha_new_item),
+            null
+        ))?.toFloatOrNull()
             ?: 0.5F
 
     val textTypeFace: Typeface?
         get() {
             val values = context.resources.getStringArray(R.array.settings_text_type_face_values)
-            return when (sharedPreferences.getString(context.getString(R.string.pref_settings_text_type_face), "default")) {
+            return when (sharedPreferences.getString(
+                context.getString(R.string.pref_settings_text_type_face),
+                "default"
+            )) {
                 values[0] -> Typeface.DEFAULT
                 values[1] -> Typeface.MONOSPACE
                 values[2] -> Typeface.SANS_SERIF
@@ -78,19 +99,35 @@ internal class ChecklistConfiguration(
      * Icon
      */
     val iconTintColor: Int
-        get() = parseColorOrNull(sharedPreferences.getString(context.getString(R.string.pref_settings_icon_tint_color), null) ?: "")
-            ?: ContextCompat.getColor(context, com.dvdb.materialchecklist.R.color.mc_icon_tint)
+        get() = parseColorOrNull(
+            sharedPreferences.getString(
+                context.getString(R.string.pref_settings_icon_tint_color),
+                null
+            ) ?: ""
+        ) ?: ContextCompat.getColor(
+            context,
+            com.dvdb.materialchecklist.R.color.mc_icon_tint
+        )
 
     val iconAlphaDragIndicator: Float
-        get() = (sharedPreferences.getString(context.getString(R.string.pref_settings_icon_alpha_drag_indicator), null))?.toFloatOrNull()
+        get() = (sharedPreferences.getString(
+            context.getString(R.string.pref_settings_icon_alpha_drag_indicator),
+            null
+        ))?.toFloatOrNull()
             ?: 0.5F
 
     val iconAlphaDelete: Float
-        get() = (sharedPreferences.getString(context.getString(R.string.pref_settings_icon_alpha_delete), null))?.toFloatOrNull()
+        get() = (sharedPreferences.getString(
+            context.getString(R.string.pref_settings_icon_alpha_delete),
+            null
+        ))?.toFloatOrNull()
             ?: 0.9F
 
     val iconAlphaAdd: Float
-        get() = (sharedPreferences.getString(context.getString(R.string.pref_settings_icon_alpha_add), null))?.toFloatOrNull()
+        get() = (sharedPreferences.getString(
+            context.getString(R.string.pref_settings_icon_alpha_add),
+            null
+        ))?.toFloatOrNull()
             ?: 0.7F
 
     val iconTitleShowAction: Boolean = true
@@ -99,10 +136,18 @@ internal class ChecklistConfiguration(
      * Checkbox
      */
     val checkboxTintColor: Int?
-        get() = parseColorOrNull(sharedPreferences.getString(context.getString(R.string.pref_settings_checkbox_tint_color), null) ?: "")
+        get() = parseColorOrNull(
+            sharedPreferences.getString(
+                context.getString(R.string.pref_settings_checkbox_tint_color),
+                null
+            ) ?: ""
+        )
 
     val checkboxAlphaCheckedItem: Float
-        get() = (sharedPreferences.getString(context.getString(R.string.pref_settings_checkbox_alpha_checked_item), null))?.toFloatOrNull()
+        get() = (sharedPreferences.getString(
+            context.getString(R.string.pref_settings_checkbox_alpha_checked_item),
+            null
+        ))?.toFloatOrNull()
             ?: 0.4F
 
     /**
@@ -110,20 +155,26 @@ internal class ChecklistConfiguration(
      */
     val dragAndDropToggleBehavior: DragAndDropToggleBehavior
         get() = DragAndDropToggleBehavior.fromString(
-            sharedPreferences.getString(context.getString(R.string.pref_settings_drag_and_drop_toggle_behavior), null)
-                ?: ""
+            sharedPreferences.getString(
+                context.getString(R.string.pref_settings_drag_and_drop_toggle_behavior),
+                null
+            ) ?: ""
         )
 
     val dragAndDismissKeyboardBehavior: DragAndDropDismissKeyboardBehavior
         get() = DragAndDropDismissKeyboardBehavior.fromString(
-            sharedPreferences.getString(context.getString(R.string.pref_settings_drag_and_drop_dismiss_keyboard_behavior), null)
-                ?: ""
+            sharedPreferences.getString(
+                context.getString(R.string.pref_settings_drag_and_drop_dismiss_keyboard_behavior),
+                null
+            ) ?: ""
         )
 
     val dragAndDropActiveItemBackgroundColor: Int?
         get() = parseColorOrNull(
-            sharedPreferences.getString(context.getString(R.string.pref_settings_drag_and_drop_item_background_color), "#FFFFFF")
-                ?: ""
+            sharedPreferences.getString(
+                context.getString(R.string.pref_settings_drag_and_drop_item_background_color),
+                "#FFFFFF"
+            ) ?: ""
         )
 
     /**
@@ -131,33 +182,49 @@ internal class ChecklistConfiguration(
      */
     val behaviorCheckedItem: BehaviorCheckedItem
         get() = BehaviorCheckedItem.fromString(
-            sharedPreferences.getString(context.getString(R.string.pref_settings_behavior_checked_item), null)
-                ?: ""
+            sharedPreferences.getString(
+                context.getString(R.string.pref_settings_behavior_checked_item),
+                null
+            ) ?: ""
         )
 
     val behaviorUncheckedItem: BehaviorUncheckedItem
         get() = BehaviorUncheckedItem.fromString(
-            sharedPreferences.getString(context.getString(R.string.pref_settings_behavior_unchecked_item), null)
-                ?: ""
+            sharedPreferences.getString(
+                context.getString(R.string.pref_settings_behavior_unchecked_item),
+                null
+            ) ?: ""
         )
 
     /**
      * Item
      */
     val itemFirstTopPadding: Float?
-        get() = sharedPreferences.getString(context.getString(R.string.pref_settings_item_first_top_padding), "16.0")?.toFloatOrNull()
+        get() = sharedPreferences.getString(
+            context.getString(R.string.pref_settings_item_first_top_padding),
+            "16.0"
+        )?.toFloatOrNull()
             ?.toPx(context)
 
     val itemLeftAndRightPadding: Float?
-        get() = sharedPreferences.getString(context.getString(R.string.pref_settings_item_left_and_right_padding), "8.0")?.toFloatOrNull()
+        get() = sharedPreferences.getString(
+            context.getString(R.string.pref_settings_item_left_and_right_padding),
+            "8.0"
+        )?.toFloatOrNull()
             ?.toPx(context)
 
     val itemTopAndBottomPadding: Float?
-        get() = sharedPreferences.getString(context.getString(R.string.pref_settings_item_top_and_bottom_padding), "2.0")?.toFloatOrNull()
+        get() = sharedPreferences.getString(
+            context.getString(R.string.pref_settings_item_top_and_bottom_padding),
+            "2.0"
+        )?.toFloatOrNull()
             ?.toPx(context)
 
     val itemLastBottomPadding: Float?
-        get() = sharedPreferences.getString(context.getString(R.string.pref_settings_item_last_bottom_padding), "16.0")?.toFloatOrNull()
+        get() = sharedPreferences.getString(
+            context.getString(R.string.pref_settings_item_last_bottom_padding),
+            "16.0"
+        )?.toFloatOrNull()
             ?.toPx(context)
 
     private fun parseColorOrNull(color: String): Int? {

@@ -66,7 +66,11 @@ internal class EditTextWidget(
     ) : InputConnectionWrapper(target, mutable) {
 
         override fun sendKeyEvent(event: KeyEvent?): Boolean {
-            if (event?.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_DEL) {
+            if (event?.action == KeyEvent.ACTION_DOWN &&
+                event.keyCode == KeyEvent.KEYCODE_DEL &&
+                this@EditTextWidget.selectionStart == 0 &&
+                this@EditTextWidget.selectionEnd == 0
+            ) {
                 onDeleteKeyPressed?.invoke()
             }
             return super.sendKeyEvent(event)

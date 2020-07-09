@@ -56,7 +56,8 @@ class DragAndDropDismissKeyboardBehaviorTest {
     @Test
     fun fromString_dismissKeyboardOnItemDragged_test() {
         val expected = DragAndDropDismissKeyboardBehavior.DISMISS_KEYBOARD_ON_ITEM_DRAGGED
-        val actual = DragAndDropDismissKeyboardBehavior.fromString("DISMISS_KEYBOARD_ON_ITEM_DRAGGED")
+        val actual =
+            DragAndDropDismissKeyboardBehavior.fromString("DISMISS_KEYBOARD_ON_ITEM_DRAGGED")
 
         Assert.assertEquals(expected, actual)
     }
@@ -64,7 +65,8 @@ class DragAndDropDismissKeyboardBehaviorTest {
     @Test
     fun fromString_dismissKeyboardOnFocusedItemDragged_test() {
         val expected = DragAndDropDismissKeyboardBehavior.DISMISS_KEYBOARD_ON_FOCUSED_ITEM_DRAGGED
-        val actual = DragAndDropDismissKeyboardBehavior.fromString("DISMISS_KEYBOARD_ON_FOCUSED_ITEM_DRAGGED")
+        val actual =
+            DragAndDropDismissKeyboardBehavior.fromString("DISMISS_KEYBOARD_ON_FOCUSED_ITEM_DRAGGED")
 
         Assert.assertEquals(expected, actual)
     }

@@ -39,6 +39,7 @@ private const val SETTINGS_ACTIVITY_REQUEST_CODE = 1000
 private const val CHANGE_MENU_ITEM_VISIBILITY_DELAY_MS = 100L
 
 private const val SP_CHECKLIST_ITEMS_TEXT_KEY = "mc_items_text"
+
 private const val SP_SHOW_CHECKLIST_KEY = "mc_show_checklist"
 
 private const val CHECKLIST_ITEMS_SAMPLE_TEXT = "[ ] Send meeting notes to team\n" +
@@ -100,19 +101,25 @@ internal class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main_activity, menu)
 
-        convertToTextMenuItem = menu!!.findItem(R.id.menu_main_activity_convert_to_text).apply {
-            isVisible = showChecklist
-        }
-        removeCheckedItemsMenuItem = menu.findItem(R.id.menu_main_activity_remove_checked_items).apply {
-            isVisible = showChecklist
-        }
-        uncheckCheckedItemsMenuItem = menu.findItem(R.id.menu_main_activity_uncheck_checked_items).apply {
-            isVisible = showChecklist
-        }
+        convertToTextMenuItem =
+            menu!!.findItem(R.id.menu_main_activity_convert_to_text).apply {
+                isVisible = showChecklist
+            }
 
-        convertToChecklistMenuItem = menu.findItem(R.id.menu_main_activity_convert_to_checklist).apply {
-            isVisible = !showChecklist
-        }
+        removeCheckedItemsMenuItem =
+            menu.findItem(R.id.menu_main_activity_remove_checked_items).apply {
+                isVisible = showChecklist
+            }
+
+        uncheckCheckedItemsMenuItem =
+            menu.findItem(R.id.menu_main_activity_uncheck_checked_items).apply {
+                isVisible = showChecklist
+            }
+
+        convertToChecklistMenuItem =
+            menu.findItem(R.id.menu_main_activity_convert_to_checklist).apply {
+                isVisible = !showChecklist
+            }
 
         return true
     }
@@ -140,13 +147,18 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        checklistItemsText = if (showChecklist) main_checklist.getItems() else main_text.text.toString()
+        checklistItemsText = if (showChecklist) {
+            main_checklist.getItems()
+        } else {
+            main_text.text.toString()
+        }
 
         if (showChecklist) {
             main_checklist.getTitleItem()?.let { title ->
                 titleItemText = title
             }
         }
+
         super.onStop()
     }
 
@@ -251,7 +263,7 @@ internal class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleSettingTitleConfiguration(){
+    private fun handleSettingTitleConfiguration() {
         main_checklist.setTitleHint(checklistConfiguration.textTitleHint)
             .setTitleTextColor(checklistConfiguration.textTitleColor)
             .setTitleLinkTextColor(checklistConfiguration.textTitleLinkColor)
@@ -297,8 +309,17 @@ internal class MainActivity : AppCompatActivity() {
             }
         }
 
-        main_text.visibility = if (isConvertToChecklistMenuItemClicked) View.GONE else View.VISIBLE
-        main_checklist.visibility = if (isConvertToChecklistMenuItemClicked) View.VISIBLE else View.GONE
+        main_text.visibility = if (isConvertToChecklistMenuItemClicked) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+
+        main_checklist.visibility = if (isConvertToChecklistMenuItemClicked) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 
     private fun handleOnRemoveCheckedItemsMenuItemClicked() {
