@@ -25,12 +25,15 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.materialchecklist.config.ChecklistConfig
-import com.dvdb.materialchecklist.manager.ChecklistManager
 import com.dvdb.materialchecklist.manager.ChecklistManagerImpl
+import com.dvdb.materialchecklist.manager.Manager
+import com.dvdb.materialchecklist.manager.ManagerImpl
+import com.dvdb.materialchecklist.manager.TitleManagerImpl
 import com.dvdb.materialchecklist.manager.item.ChecklistItem
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
+import com.dvdb.materialchecklist.recycler.holder.title.TitleRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.util.EnterActionPerformedFactory
 import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
 import com.dvdb.materialchecklist.recycler.util.RecyclerSpaceItemDecorator
@@ -43,30 +46,58 @@ class MaterialChecklist(
     attrs: AttributeSet?
 ) : FrameLayout(context, attrs) {
 
-    internal val manager: ChecklistManager = ChecklistManagerImpl(
-        hideKeyboard = {
-            hideKeyboard()
-            requestFocus()
-        }
-    )
+    internal val manager: Manager = ManagerImpl(
+        TitleManagerImpl(),
+        ChecklistManagerImpl(
+            hideKeyboard = {
+                hideKeyboard()
+                requestFocus()
+            }
+        )
+    ) {
+        (recyclerView?.adapter as? ChecklistItemAdapter)?.items ?: emptyList()
+    }
 
     internal val config: ChecklistConfig = ChecklistConfig(
         context = context,
         attrs = attrs
     )
 
+    private val recyclerView: RecyclerView
+
     init {
         addFocusableView()
 
-        val recyclerView = createRecyclerView()
+        recyclerView = createRecyclerView()
         addView(recyclerView)
 
-        val itemTouchCallback = SimpleItemTouchHelper(recyclerView.adapter as ItemTouchHelperAdapter)
+        val itemTouchCallback =
+            SimpleItemTouchHelper(recyclerView.adapter as ItemTouchHelperAdapter)
         val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
         initManager(recyclerView, itemTouchHelper, itemTouchCallback)
 
         initDefaultChecklistItems()
+    }
+
+    fun setTitleItem(text: String) {
+        manager.setTitleItem(text)
+    }
+
+    fun removeTitleItem(): Boolean {
+        return manager.removeTitleItem()
+    }
+
+    fun getTitleItem(): String? {
+        return manager.getTitleItem()
+    }
+
+    fun setOnTitleItemEnterKeyPressed(onEnterKeyPressed: () -> Unit) {
+        manager.onTitleItemEnterKeyPressed = onEnterKeyPressed
+    }
+
+    fun setOnTitleItemActionIconClicked(onActionIconClicked: () -> Unit) {
+        manager.onTitleItemActionIconClicked = onActionIconClicked
     }
 
     /**
@@ -225,10 +256,15 @@ class MaterialChecklist(
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
+        val enterActionPerformedFactory = EnterActionPerformedFactory()
         recyclerView.adapter = ChecklistItemAdapter(
             config = config.toAdapterConfig(),
+            itemTitleRecyclerHolderFactory = TitleRecyclerHolder.Factory(
+                enterActionPerformedFactory,
+                manager
+            ),
             itemRecyclerHolderFactory = ChecklistRecyclerHolder.Factory(
-                EnterActionPerformedFactory(),
+                enterActionPerformedFactory,
                 manager
             ),
             itemNewRecyclerHolderFactory = ChecklistNewRecyclerHolder.Factory(
@@ -245,8 +281,15 @@ class MaterialChecklist(
         itemTouchHelper: ItemTouchHelper,
         itemTouchCallback: SimpleItemTouchHelper
     ) {
+        val adapter = recyclerView.adapter as ChecklistItemAdapter
+
+        manager.lateInitTitleState(
+            adapter = adapter,
+            config = config.totTitleManagerConfig()
+        )
+
         manager.lateInitState(
-            adapter = recyclerView.adapter as ChecklistItemAdapter,
+            adapter = adapter,
             config = config.toManagerConfig(),
             scrollToPosition = createManagerScrollToPositionFunction(recyclerView),
             startDragAndDrop = createManagerStartDragAndDropFunction(recyclerView, itemTouchHelper),

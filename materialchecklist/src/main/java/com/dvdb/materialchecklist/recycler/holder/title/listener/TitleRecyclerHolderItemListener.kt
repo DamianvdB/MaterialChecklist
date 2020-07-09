@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.item.base
+package com.dvdb.materialchecklist.recycler.holder.title.listener
 
-internal abstract class BaseRecyclerItem {
-    abstract val type: Type
-    abstract val id: Long
+internal interface TitleRecyclerHolderItemListener {
 
-    enum class Type {
-        TITLE,
-        CHECKLIST,
-        CHECKLIST_NEW
-    }
+    fun onTitleItemEnterKeyPressed(position: Int)
+
+    fun onTitleItemTextChanged(
+        position: Int,
+        text: String
+    )
+
+    fun onTitleItemFocusChanged(
+        position: Int,
+        startSelection: Int,
+        endSelection: Int,
+        hasFocus: Boolean
+    )
+
+    fun onTitleItemActionIconClicked(position: Int)
 }

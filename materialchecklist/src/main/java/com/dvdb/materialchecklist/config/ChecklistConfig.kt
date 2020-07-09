@@ -27,9 +27,11 @@ import androidx.annotation.Px
 import androidx.annotation.StyleableRes
 import com.dvdb.materialchecklist.R
 import com.dvdb.materialchecklist.manager.config.ChecklistManagerConfig
+import com.dvdb.materialchecklist.manager.config.TitleManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.config.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderConfig
+import com.dvdb.materialchecklist.recycler.holder.title.config.TitleRecyclerHolderConfig
 import com.dvdb.materialchecklist.util.getColorCompat
 import com.dvdb.materialchecklist.util.getDrawableCompat
 
@@ -44,16 +46,24 @@ internal class ChecklistConfig(
      * Text
      */
     @ColorInt var textColor: Int = context.getColorCompat(R.color.mc_text_checklist_item_text),
+    @ColorInt var textTitleColor: Int? = null,
+    @ColorInt var textTitleLinkColor: Int? = null,
+    @ColorInt var textTitleHintColor: Int? = null,
     @Px var textSize: Float = context.resources.getDimension(R.dimen.mc_item_checklist_text_size),
+    var textTitleHint: String = String(),
     var textNewItem: String = context.getString(R.string.mc_item_checklist_new_text),
     var textAlphaCheckedItem: Float = 0.4F,
     var textAlphaNewItem: Float = 0.5F,
+    var textTitleClickableLinks: Boolean = true,
+    var textTitleEditable: Boolean = true,
     var textTypeFace: Typeface? = null,
 
     /**
      * Icon
      */
     @ColorInt var iconTintColor: Int = context.getColorCompat(R.color.mc_icon_tint),
+    private val iconTitleAction: Drawable? = context.getDrawableCompat(R.drawable.ic_more_vert_white),
+    var iconTitleShowAction: Boolean = false,
     private val iconDragIndicator: Drawable? = context.getDrawableCompat(R.drawable.ic_drag_indicator),
     var iconAlphaDragIndicator: Float = 0.5F,
     private val iconDelete: Drawable? = context.getDrawableCompat(R.drawable.ic_close),
@@ -89,6 +99,12 @@ internal class ChecklistConfig(
     @Px var itemLastBottomPadding: Float? = null
 ) : Config {
 
+    private val titleTextSizeOffset: Float =
+        context.resources.getDimension(R.dimen.mc_item_title_text_size_offset)
+
+    private val titleLeftPaddingOffset: Float =
+        context.resources.getDimension(R.dimen.mc_spacing_medium)
+
     init {
         val attributes: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.MaterialChecklist)
 
@@ -105,6 +121,11 @@ internal class ChecklistConfig(
     }
 
     @CheckResult
+    fun totTitleManagerConfig() = TitleManagerConfig(
+        adapterConfig = toAdapterConfig()
+    )
+
+    @CheckResult
     fun toManagerConfig() = ChecklistManagerConfig(
         dragAndDropEnabled = dragAndDropToggleBehavior != DragAndDropToggleBehavior.NONE,
         dragAndDropDismissKeyboardBehavior = dragAndDropDismissKeyboardBehavior,
@@ -117,6 +138,22 @@ internal class ChecklistConfig(
 
     @CheckResult
     fun toAdapterConfig() = ChecklistItemAdapterConfig(
+        titleConfig = TitleRecyclerHolderConfig(
+            hint = textTitleHint,
+            textColor = textTitleColor ?: textColor,
+            linkTextColor = textTitleLinkColor ?: textColor,
+            hintTextColor = textTitleHintColor,
+            iconTintColor = iconTintColor,
+            textSize = textSize + titleTextSizeOffset,
+            isLinksClickable = textTitleClickableLinks,
+            isEditable = textTitleEditable,
+            isShowActionIcon = iconTitleShowAction,
+            typeFace = textTypeFace,
+            typeFaceStyle = Typeface.BOLD,
+            actionIcon = iconTitleAction,
+            leftPadding = (itemLeftAndRightPadding ?: 0f).plus(titleLeftPaddingOffset),
+            rightPadding = itemLeftAndRightPadding
+        ),
         checklistConfig = ChecklistRecyclerHolderConfig(
             textColor = textColor,
             textSize = textSize,

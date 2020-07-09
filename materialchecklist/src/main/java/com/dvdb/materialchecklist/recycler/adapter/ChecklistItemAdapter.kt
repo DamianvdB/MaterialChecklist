@@ -23,14 +23,17 @@ import com.dvdb.materialchecklist.recycler.adapter.config.ChecklistItemAdapterCo
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
 import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
+import com.dvdb.materialchecklist.recycler.holder.title.TitleRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.util.DraggableRecyclerHolder
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
+import com.dvdb.materialchecklist.recycler.item.title.TitleRecyclerItem
 import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
 
 internal class ChecklistItemAdapter(
     config: ChecklistItemAdapterConfig,
+    private val itemTitleRecyclerHolderFactory: TitleRecyclerHolder.Factory,
     private val itemRecyclerHolderFactory: ChecklistRecyclerHolder.Factory,
     private val itemNewRecyclerHolderFactory: ChecklistNewRecyclerHolder.Factory,
     private val itemDragListener: ChecklistItemAdapterDragListener,
@@ -65,6 +68,10 @@ internal class ChecklistItemAdapter(
         viewType: Int
     ): RecyclerView.ViewHolder {
         return when (viewType) {
+            BaseRecyclerItem.Type.TITLE.ordinal -> itemTitleRecyclerHolderFactory.create(
+                parent,
+                config.titleConfig
+            )
             BaseRecyclerItem.Type.CHECKLIST.ordinal -> itemRecyclerHolderFactory.create(
                 parent,
                 config.checklistConfig
@@ -82,7 +89,12 @@ internal class ChecklistItemAdapter(
         position: Int
     ) {
         val item = _items[position]
-        if (holder is ChecklistRecyclerHolder && item is ChecklistRecyclerItem) {
+
+        if (holder is TitleRecyclerHolder && item is TitleRecyclerItem) {
+            holder.updateConfigConditionally(config.titleConfig)
+            holder.bindView(item)
+
+        } else if (holder is ChecklistRecyclerHolder && item is ChecklistRecyclerItem) {
             holder.updateConfigConditionally(config.checklistConfig)
             holder.bindView(item)
 
