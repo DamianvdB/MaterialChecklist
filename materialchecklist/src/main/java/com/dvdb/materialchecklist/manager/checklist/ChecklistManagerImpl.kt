@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager
+package com.dvdb.materialchecklist.manager.checklist
 
 import android.widget.TextView
 import com.dvdb.materialchecklist.config.BehaviorCheckedItem
 import com.dvdb.materialchecklist.config.BehaviorUncheckedItem
 import com.dvdb.materialchecklist.config.DragAndDropDismissKeyboardBehavior
-import com.dvdb.materialchecklist.manager.config.ChecklistManagerConfig
-import com.dvdb.materialchecklist.manager.item.ChecklistItem
+import com.dvdb.materialchecklist.manager.checklist.config.ChecklistManagerConfig
+import com.dvdb.materialchecklist.manager.checklist.item.ChecklistItem
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapterRequestFocus
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager.config
+package com.dvdb.materialchecklist.manager.checklist.config
 
 import androidx.annotation.Px
 import com.dvdb.materialchecklist.config.BehaviorCheckedItem

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager
+package com.dvdb.materialchecklist.manager.checklist
 
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 

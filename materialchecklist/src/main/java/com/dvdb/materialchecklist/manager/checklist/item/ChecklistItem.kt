@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager
+package com.dvdb.materialchecklist.manager.checklist.item
 
-internal interface ChecklistFocusRequester {
-    fun getItemFocusPosition(): Int
-
-    fun setItemFocusPosition(position: Int): Boolean
-}
+/**
+ * The public checklist item model.
+ */
+data class ChecklistItem(
+    val id: Long,
+    var text: String,
+    var isChecked: Boolean
+)

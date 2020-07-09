@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager
 
-import com.dvdb.materialchecklist.manager.config.ChecklistManagerConfig
-import com.dvdb.materialchecklist.manager.item.ChecklistItem
+package com.dvdb.materialchecklist.manager.checklist
+
+import com.dvdb.materialchecklist.manager.checklist.config.ChecklistManagerConfig
+import com.dvdb.materialchecklist.manager.checklist.item.ChecklistItem
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
 import com.dvdb.materialchecklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
