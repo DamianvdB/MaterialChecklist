@@ -39,7 +39,6 @@ private const val SETTINGS_ACTIVITY_REQUEST_CODE = 1000
 private const val CHANGE_MENU_ITEM_VISIBILITY_DELAY_MS = 100L
 
 private const val SP_CHECKLIST_ITEMS_TEXT_KEY = "mc_items_text"
-
 private const val SP_SHOW_CHECKLIST_KEY = "mc_show_checklist"
 
 private const val CHECKLIST_ITEMS_SAMPLE_TEXT = "[ ] Send meeting notes to team\n" +
@@ -49,6 +48,10 @@ private const val CHECKLIST_ITEMS_SAMPLE_TEXT = "[ ] Send meeting notes to team\
         "[ ] Scan vaccination certificates\n" +
         "[x] Advertise holiday home\n" +
         "[x] Wish Sarah happy birthday"
+
+private const val SP_TITLE_ITEM_TEXT_KEY = "mc_item_title_text"
+
+private const val TITLE_ITEM_SAMLPE_TEXT = "Admin Tasks"
 
 private const val D_NOTES_URL = "https://bit.ly/google_play_store_d_notes"
 private const val GITHUB_URL = "https://bit.ly/github_material_checklist"
@@ -63,6 +66,13 @@ internal class MainActivity : AppCompatActivity() {
         set(value) {
             field = value
             sharedPreferences.edit().putString(SP_CHECKLIST_ITEMS_TEXT_KEY, value).apply()
+        }
+
+    private var titleItemText: String = TITLE_ITEM_SAMLPE_TEXT
+        get() = sharedPreferences.getString(SP_TITLE_ITEM_TEXT_KEY, field) ?: field
+        set(value) {
+            field = value
+            sharedPreferences.edit().putString(SP_TITLE_ITEM_TEXT_KEY, value).apply()
         }
 
     private var showChecklist: Boolean = true
@@ -124,21 +134,29 @@ internal class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == SETTINGS_ACTIVITY_REQUEST_CODE) {
-            handleSettingChecklistConfiguration()
+            handleSettingConfiguration()
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onStop() {
         checklistItemsText = if (showChecklist) main_checklist.getItems() else main_text.text.toString()
+
+        if (showChecklist) {
+            main_checklist.getTitleItem()?.let { title ->
+                titleItemText = title
+            }
+        }
         super.onStop()
     }
 
     private fun initView() {
         initChecklist()
+        initTitle()
 
         if (showChecklist) {
             main_checklist.setItems(checklistItemsText)
+            main_checklist.setTitleItem(titleItemText)
         } else {
             main_text.setText(checklistItemsText)
 
@@ -146,7 +164,7 @@ internal class MainActivity : AppCompatActivity() {
             main_checklist.visibility = View.GONE
         }
 
-        handleSettingChecklistConfiguration()
+        handleSettingConfiguration()
     }
 
     private fun initChecklist() {
@@ -158,6 +176,17 @@ internal class MainActivity : AppCompatActivity() {
                     main_checklist.restoreDeletedItem(id)
                 }.show()
         }
+    }
+
+    private fun initTitle() {
+        main_checklist.setOnTitleItemEnterKeyPressed {
+            main_checklist.setItemFocusPosition(1)
+        }
+    }
+
+    private fun handleSettingConfiguration() {
+        handleSettingChecklistConfiguration()
+        handleSettingTitleConfiguration()
     }
 
     private fun handleSettingChecklistConfiguration() {
@@ -222,6 +251,16 @@ internal class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun handleSettingTitleConfiguration(){
+        main_checklist.setTitleHint(checklistConfiguration.textTitleHint)
+            .setTitleTextColor(checklistConfiguration.textTitleColor)
+            .setTitleLinkTextColor(checklistConfiguration.textTitleLinkColor)
+            .setTitleHintTextColor(checklistConfiguration.textTitleHintColor)
+            .setTitleClickableLinks(checklistConfiguration.textTitleClickableLinks)
+            .setTitleEditable(checklistConfiguration.textTitleEditable)
+            .setTitleShowActionIcon(checklistConfiguration.iconTitleShowAction)
+    }
+
     private fun handleOnConvertToChecklistMenuItemClicked() {
         updateVisibleContentOnConvertMenuItemClicked(true)
     }
@@ -247,9 +286,15 @@ internal class MainActivity : AppCompatActivity() {
         if (isConvertToChecklistMenuItemClicked) {
             val content: String = main_text.text.toString()
             main_checklist.setItems(content)
+
+            main_checklist.setTitleItem(titleItemText)
         } else {
             val content: String = main_checklist.getItems()
             main_text.setText(content)
+
+            main_checklist.getTitleItem()?.let { title ->
+                titleItemText = title
+            }
         }
 
         main_text.visibility = if (isConvertToChecklistMenuItemClicked) View.GONE else View.VISIBLE
