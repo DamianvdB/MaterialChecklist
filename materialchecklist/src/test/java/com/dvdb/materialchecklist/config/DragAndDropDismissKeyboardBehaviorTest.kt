@@ -16,8 +16,8 @@
 
 package com.dvdb.materialchecklist.config
 
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
 class DragAndDropDismissKeyboardBehaviorTest {
 
@@ -26,7 +26,7 @@ class DragAndDropDismissKeyboardBehaviorTest {
         val expected = DragAndDropDismissKeyboardBehavior.DISMISS_KEYBOARD_ON_ITEM_DRAGGED
         val actual = DragAndDropDismissKeyboardBehavior.fromInt(0)
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -34,7 +34,7 @@ class DragAndDropDismissKeyboardBehaviorTest {
         val expected = DragAndDropDismissKeyboardBehavior.DISMISS_KEYBOARD_ON_FOCUSED_ITEM_DRAGGED
         val actual = DragAndDropDismissKeyboardBehavior.fromInt(1)
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -42,7 +42,7 @@ class DragAndDropDismissKeyboardBehaviorTest {
         val expected = DragAndDropDismissKeyboardBehavior.NONE
         val actual = DragAndDropDismissKeyboardBehavior.fromInt(2)
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -50,7 +50,7 @@ class DragAndDropDismissKeyboardBehaviorTest {
         val expected = DragAndDropDismissKeyboardBehavior.DEFAULT
         val actual = DragAndDropDismissKeyboardBehavior.fromInt(3)
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -59,7 +59,7 @@ class DragAndDropDismissKeyboardBehaviorTest {
         val actual =
             DragAndDropDismissKeyboardBehavior.fromString("DISMISS_KEYBOARD_ON_ITEM_DRAGGED")
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -68,7 +68,7 @@ class DragAndDropDismissKeyboardBehaviorTest {
         val actual =
             DragAndDropDismissKeyboardBehavior.fromString("DISMISS_KEYBOARD_ON_FOCUSED_ITEM_DRAGGED")
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -76,7 +76,7 @@ class DragAndDropDismissKeyboardBehaviorTest {
         val expected = DragAndDropDismissKeyboardBehavior.NONE
         val actual = DragAndDropDismissKeyboardBehavior.fromString("none")
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -84,6 +84,6 @@ class DragAndDropDismissKeyboardBehaviorTest {
         val expected = DragAndDropDismissKeyboardBehavior.DEFAULT
         val actual = DragAndDropDismissKeyboardBehavior.fromString("")
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 }

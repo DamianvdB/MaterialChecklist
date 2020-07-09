@@ -16,8 +16,8 @@
 
 package com.dvdb.materialchecklist.config
 
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
 class DragAndDropToggleBehaviorTest {
 
@@ -26,7 +26,7 @@ class DragAndDropToggleBehaviorTest {
         val expected = DragAndDropToggleBehavior.ON_TOUCH
         val actual = DragAndDropToggleBehavior.fromInt(0)
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -34,7 +34,7 @@ class DragAndDropToggleBehaviorTest {
         val expected = DragAndDropToggleBehavior.ON_LONG_CLICK
         val actual = DragAndDropToggleBehavior.fromInt(1)
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -42,7 +42,7 @@ class DragAndDropToggleBehaviorTest {
         val expected = DragAndDropToggleBehavior.NONE
         val actual = DragAndDropToggleBehavior.fromInt(2)
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -50,7 +50,7 @@ class DragAndDropToggleBehaviorTest {
         val expected = DragAndDropToggleBehavior.DEFAULT
         val actual = DragAndDropToggleBehavior.fromInt(3)
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -58,7 +58,7 @@ class DragAndDropToggleBehaviorTest {
         val expected = DragAndDropToggleBehavior.ON_TOUCH
         val actual = DragAndDropToggleBehavior.fromString("ON_TOUCH")
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -66,7 +66,7 @@ class DragAndDropToggleBehaviorTest {
         val expected = DragAndDropToggleBehavior.ON_LONG_CLICK
         val actual = DragAndDropToggleBehavior.fromString("on_long_click")
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -74,7 +74,7 @@ class DragAndDropToggleBehaviorTest {
         val expected = DragAndDropToggleBehavior.NONE
         val actual = DragAndDropToggleBehavior.fromString("NONE")
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -82,6 +82,6 @@ class DragAndDropToggleBehaviorTest {
         val expected = DragAndDropToggleBehavior.DEFAULT
         val actual = DragAndDropToggleBehavior.fromString("")
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 }

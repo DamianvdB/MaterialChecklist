@@ -17,8 +17,8 @@
 package com.dvdb.materialchecklist.recycler.item.checklist
 
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
 class ChecklistRecyclerItemTest {
 
@@ -27,7 +27,7 @@ class ChecklistRecyclerItemTest {
         var previousItem: BaseRecyclerItem = ChecklistRecyclerItem("")
         for (i in 0 until 100) {
             val currentItem: BaseRecyclerItem = ChecklistRecyclerItem("")
-            Assert.assertNotEquals(previousItem.id, currentItem.id)
+            Assertions.assertNotEquals(previousItem.id, currentItem.id)
             previousItem = currentItem
         }
     }

@@ -20,8 +20,8 @@ import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
 import com.dvdb.materialchecklist.recycler.util.DefaultRecyclerItemComparator
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
 internal class DefaultRecyclerItemComparatorTest {
 
@@ -38,7 +38,7 @@ internal class DefaultRecyclerItemComparatorTest {
         val expectedItems = inputItems.resetIds()
         val actualItems = inputItems.sortedWith(DefaultRecyclerItemComparator).resetIds()
 
-        Assert.assertEquals(expectedItems, actualItems)
+        Assertions.assertEquals(expectedItems, actualItems)
     }
 
     @Test
@@ -63,7 +63,7 @@ internal class DefaultRecyclerItemComparatorTest {
         ).resetIds()
         val actualItems = inputItems.sortedWith(DefaultRecyclerItemComparator).resetIds()
 
-        Assert.assertEquals(expectedItems, actualItems)
+        Assertions.assertEquals(expectedItems, actualItems)
     }
 
     @Test
@@ -79,7 +79,7 @@ internal class DefaultRecyclerItemComparatorTest {
         val expectedItems = inputItems.resetIds()
         val actualItems = inputItems.sortedWith(DefaultRecyclerItemComparator).resetIds()
 
-        Assert.assertEquals(expectedItems, actualItems)
+        Assertions.assertEquals(expectedItems, actualItems)
     }
 
     @Test
@@ -104,7 +104,7 @@ internal class DefaultRecyclerItemComparatorTest {
         ).resetIds()
         val actualItems = inputItems.sortedWith(DefaultRecyclerItemComparator).resetIds()
 
-        Assert.assertEquals(expectedItems, actualItems)
+        Assertions.assertEquals(expectedItems, actualItems)
     }
 
     @Test
@@ -127,7 +127,7 @@ internal class DefaultRecyclerItemComparatorTest {
         ).resetIds()
         val actualItems = inputItems.sortedWith(DefaultRecyclerItemComparator).resetIds()
 
-        Assert.assertEquals(expectedItems, actualItems)
+        Assertions.assertEquals(expectedItems, actualItems)
     }
 
     @Test
@@ -152,7 +152,7 @@ internal class DefaultRecyclerItemComparatorTest {
         ).resetIds()
         val actualItems = inputItems.sortedWith(DefaultRecyclerItemComparator).resetIds()
 
-        Assert.assertEquals(expectedItems, actualItems)
+        Assertions.assertEquals(expectedItems, actualItems)
     }
 
     @Test
@@ -179,6 +179,6 @@ internal class DefaultRecyclerItemComparatorTest {
         ).resetIds()
         val actualItems = inputItems.sortedWith(DefaultRecyclerItemComparator).resetIds()
 
-        Assert.assertEquals(expectedItems, actualItems)
+        Assertions.assertEquals(expectedItems, actualItems)
     }
 }

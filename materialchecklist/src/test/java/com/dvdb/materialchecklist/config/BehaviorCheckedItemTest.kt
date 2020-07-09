@@ -16,8 +16,8 @@
 
 package com.dvdb.materialchecklist.config
 
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
 class BehaviorCheckedItemTest {
 
@@ -26,7 +26,7 @@ class BehaviorCheckedItemTest {
         val expected = BehaviorCheckedItem.MOVE_TO_TOP_OF_CHECKED_ITEMS
         val actual = BehaviorCheckedItem.fromInt(0)
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -34,7 +34,7 @@ class BehaviorCheckedItemTest {
         val expected = BehaviorCheckedItem.MOVE_TO_BOTTOM_OF_CHECKED_ITEMS
         val actual = BehaviorCheckedItem.fromInt(1)
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -42,7 +42,7 @@ class BehaviorCheckedItemTest {
         val expected = BehaviorCheckedItem.DELETE
         val actual = BehaviorCheckedItem.fromInt(2)
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -50,7 +50,7 @@ class BehaviorCheckedItemTest {
         val expected = BehaviorCheckedItem.DEFAULT
         val actual = BehaviorCheckedItem.fromInt(3)
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -58,7 +58,7 @@ class BehaviorCheckedItemTest {
         val expected = BehaviorCheckedItem.MOVE_TO_TOP_OF_CHECKED_ITEMS
         val actual = BehaviorCheckedItem.fromString("MOVE_TO_TOP_OF_CHECKED_ITEMS")
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -66,7 +66,7 @@ class BehaviorCheckedItemTest {
         val expected = BehaviorCheckedItem.MOVE_TO_BOTTOM_OF_CHECKED_ITEMS
         val actual = BehaviorCheckedItem.fromString("MOVE_TO_BOTTOM_OF_CHECKED_ITEMS")
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -74,7 +74,7 @@ class BehaviorCheckedItemTest {
         val expected = BehaviorCheckedItem.DELETE
         val actual = BehaviorCheckedItem.fromString("delete")
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test
@@ -82,6 +82,6 @@ class BehaviorCheckedItemTest {
         val expected = BehaviorCheckedItem.DEFAULT
         val actual = BehaviorCheckedItem.fromString("")
 
-        Assert.assertEquals(expected, actual)
+        Assertions.assertEquals(expected, actual)
     }
 }
