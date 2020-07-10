@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-
 package com.dvdb.materialchecklist.manager.checklist
 
 import com.dvdb.materialchecklist.manager.checklist.config.ChecklistManagerConfig
 import com.dvdb.materialchecklist.manager.checklist.item.ChecklistItem
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
+import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.adapter.checklist.listener.ChecklistItemAdapterDragListener
 import com.dvdb.materialchecklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
 
 /**
@@ -61,8 +60,6 @@ internal interface ChecklistManager :
     fun removeAllCheckedItems(): List<Long>
 
     fun uncheckAllCheckedItems(): Boolean
-
-    fun getItemCount(): Int
 
     fun getCheckedItemCount(): Int
 

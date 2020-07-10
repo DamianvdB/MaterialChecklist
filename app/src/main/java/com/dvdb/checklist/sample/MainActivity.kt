@@ -296,17 +296,17 @@ internal class MainActivity : AppCompatActivity() {
         )
 
         if (isConvertToChecklistMenuItemClicked) {
+            main_checklist.setTitleItem(titleItemText)
+
             val content: String = main_text.text.toString()
             main_checklist.setItems(content)
-
-            main_checklist.setTitleItem(titleItemText)
         } else {
-            val content: String = main_checklist.getItems()
-            main_text.setText(content)
-
             main_checklist.getTitleItem()?.let { title ->
                 titleItemText = title
             }
+
+            val content: String = main_checklist.getItems()
+            main_text.setText(content)
         }
 
         main_text.visibility = if (isConvertToChecklistMenuItemClicked) {

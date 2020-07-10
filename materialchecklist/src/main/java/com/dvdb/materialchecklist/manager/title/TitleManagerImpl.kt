@@ -17,13 +17,16 @@
 package com.dvdb.materialchecklist.manager.title
 
 import com.dvdb.materialchecklist.manager.title.config.TitleManagerConfig
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.materialchecklist.manager.util.RecyclerItemPositionTracker
+import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.title.TitleRecyclerItem
 
 private const val NO_POSITION = -1
 
-internal class TitleManagerImpl : TitleManager {
+internal class TitleManagerImpl(
+    private val itemPositionTracker: RecyclerItemPositionTracker
+) : TitleManager {
 
     override var onTitleItemEnterKeyPressed: () -> Unit = {}
     override var onTitleItemActionIconClicked: () -> Unit = {}
@@ -66,7 +69,7 @@ internal class TitleManagerImpl : TitleManager {
         } else {
             addItemToAdapter(
                 TitleRecyclerItem(text = text),
-                0
+                itemPositionTracker.firstItemPosition
             )
         }
     }
@@ -126,16 +129,6 @@ internal class TitleManagerImpl : TitleManager {
         targetPosition: Int
     ): Boolean {
         return false
-    }
-
-    private fun setItemsInAdapter(
-        items: List<BaseRecyclerItem>,
-        notify: Boolean = true
-    ) {
-        adapter.setItems(
-            items = items,
-            notify = notify
-        )
     }
 
     private fun addItemToAdapter(

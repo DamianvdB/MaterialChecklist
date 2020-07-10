@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.adapter
+package com.dvdb.materialchecklist.recycler.adapter.checklist
 
 internal data class ChecklistItemAdapterRequestFocus(
     val position: Int,

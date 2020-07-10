@@ -22,8 +22,9 @@ import com.dvdb.materialchecklist.config.BehaviorUncheckedItem
 import com.dvdb.materialchecklist.config.DragAndDropDismissKeyboardBehavior
 import com.dvdb.materialchecklist.manager.checklist.config.ChecklistManagerConfig
 import com.dvdb.materialchecklist.manager.checklist.item.ChecklistItem
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapterRequestFocus
+import com.dvdb.materialchecklist.manager.util.RecyclerItemPositionTracker
+import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapterRequestFocus
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
@@ -40,6 +41,7 @@ private const val MIN_ITEM_COUNT = 2
  * Manages the state and behavior of the checklist items.
  */
 internal class ChecklistManagerImpl(
+    private val itemPositionTracker: RecyclerItemPositionTracker,
     hideKeyboard: () -> Unit
 ) : ChecklistManager {
 
@@ -97,6 +99,18 @@ internal class ChecklistManagerImpl(
      */
     private val createNewItemPosition: Int
         get() = adapter.items.indexOfFirst { it is ChecklistNewRecyclerItem }
+
+    private val firstItemPosition: Int
+        get() = itemPositionTracker.firstItemPosition
+
+    private val lastItemPosition: Int
+        get() = itemPositionTracker.lastItemPosition
+
+    private val lastItemInsertionPosition: Int
+        get() = itemPositionTracker.lastItemInsertionPosition
+
+    private val itemCount: Int
+        get() = itemPositionTracker.itemCount
 
     private val delayHandler: DelayHandler = DelayHandler()
 
@@ -211,9 +225,9 @@ internal class ChecklistManagerImpl(
     override fun restoreDeletedItem(itemId: Long): Boolean {
         deletedItems.remove(itemId)?.let { (item, position) ->
             val addItemPosition = if (item.isChecked) {
-                position.coerceIn(createNewItemPosition.inc(), adapter.itemCount)
+                position.coerceIn(createNewItemPosition.inc(), lastItemInsertionPosition)
             } else {
-                position.coerceIn(0, createNewItemPosition)
+                position.coerceIn(firstItemPosition, createNewItemPosition)
             }
 
             addItemToAdapter(
@@ -238,9 +252,7 @@ internal class ChecklistManagerImpl(
         val removedItemIds: MutableList<Long> = mutableListOf()
         val removedItemPositions: MutableList<Int> = mutableListOf()
         val items = adapter.items.filterIndexed { index, item ->
-            val shouldKeep = item is ChecklistNewRecyclerItem ||
-                    item is ChecklistRecyclerItem &&
-                    !item.isChecked
+            val shouldKeep = item !is ChecklistRecyclerItem || !item.isChecked
             if (!shouldKeep) {
                 removedItemIds.add((item as ChecklistRecyclerItem).id)
                 removedItemPositions.add(index)
@@ -284,13 +296,6 @@ internal class ChecklistManagerImpl(
         }
 
         return anyItemsUnchecked
-    }
-
-    /**
-     * Get the total number of checklist items.
-     */
-    override fun getItemCount(): Int {
-        return adapter.itemCount
     }
 
     /**
@@ -597,16 +602,21 @@ internal class ChecklistManagerImpl(
     private fun setItemsInternal(items: List<BaseRecyclerItem>) {
         resetState()
 
-        val sortedItems: List<BaseRecyclerItem> = if (items.isNotEmpty()) {
+        val sortedChecklistItems: List<BaseRecyclerItem> = if (items.isNotEmpty()) {
             items.filterIsInstance<ChecklistRecyclerItem>()
         } else {
             listOf(ChecklistRecyclerItem(""))
         }.plus(ChecklistNewRecyclerItem())
             .sortedWith(DefaultRecyclerItemComparator)
 
+        val otherItems = adapter.items.filter {
+            it !is ChecklistRecyclerItem &&
+                    it !is ChecklistNewRecyclerItem
+        }   // todo: update when attachment item type is added
+
         enableItemAnimations(false)
 
-        setItemsInAdapter(sortedItems)
+        setItemsInAdapter(otherItems + sortedChecklistItems)
 
         delayHandler.run(ENABLE_ITEM_ANIMATIONS_DELAY_MS) {
             enableItemAnimations(true)
@@ -628,11 +638,11 @@ internal class ChecklistManagerImpl(
                     when {
                         firstCheckedItemPosition != NO_POSITION -> firstCheckedItemPosition
                         createNewItemPosition != NO_POSITION -> createNewItemPosition.inc()
-                        else -> adapter.items.lastIndex
-                    }.coerceIn(0, adapter.itemCount)
+                        else -> lastItemPosition
+                    }.coerceIn(firstItemPosition, lastItemInsertionPosition)
                 }
 
-                BehaviorCheckedItem.MOVE_TO_BOTTOM_OF_CHECKED_ITEMS -> adapter.itemCount
+                BehaviorCheckedItem.MOVE_TO_BOTTOM_OF_CHECKED_ITEMS -> lastItemInsertionPosition
 
                 BehaviorCheckedItem.DELETE -> {
                     saveDeletedItemAndNotifyListener(item, position)
@@ -667,7 +677,7 @@ internal class ChecklistManagerImpl(
         focusManager.onItemPreCheckedStateChanged(position)
         removeItemFromAdapter(position)
 
-        val newItemPosition = createNewItemPosition.coerceAtLeast(0)
+        val newItemPosition = createNewItemPosition
         val toPosition: Int =
             when (config.behaviorUncheckedItem) {
                 BehaviorUncheckedItem.MOVE_TO_PREVIOUS_POSITION -> {
@@ -675,7 +685,7 @@ internal class ChecklistManagerImpl(
                         ?: newItemPosition
                 }
                 BehaviorUncheckedItem.MOVE_TO_BOTTOM_OF_UNCHECKED_ITEMS -> newItemPosition
-                BehaviorUncheckedItem.MOVE_TO_TOP_OF_UNCHECKED_ITEMS -> 0
+                BehaviorUncheckedItem.MOVE_TO_TOP_OF_UNCHECKED_ITEMS -> firstItemPosition
             }
 
         addItemToAdapter(
@@ -715,8 +725,8 @@ internal class ChecklistManagerImpl(
     }
 
     private fun handleMinimumItemCountInAdapter(): Boolean {
-        if (adapter.itemCount < MIN_ITEM_COUNT) {
-            val itemInsertionPosition = 0
+        if (itemCount < MIN_ITEM_COUNT) {
+            val itemInsertionPosition = firstItemPosition
 
             addItemToAdapter(
                 ChecklistRecyclerItem(""),

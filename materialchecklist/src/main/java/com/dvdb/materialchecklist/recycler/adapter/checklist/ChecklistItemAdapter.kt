@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.adapter
+package com.dvdb.materialchecklist.recycler.adapter.checklist
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.materialchecklist.recycler.adapter.base.BaseRecyclerAdapter
-import com.dvdb.materialchecklist.recycler.adapter.config.ChecklistItemAdapterConfig
-import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
+import com.dvdb.materialchecklist.recycler.adapter.checklist.config.ChecklistItemAdapterConfig
+import com.dvdb.materialchecklist.recycler.adapter.checklist.listener.ChecklistItemAdapterDragListener
 import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.title.TitleRecyclerHolder

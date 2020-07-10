@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager.title.config
+package com.dvdb.materialchecklist.manager.util
 
-import com.dvdb.materialchecklist.recycler.adapter.checklist.config.ChecklistItemAdapterConfig
+internal interface RecyclerItemPositionTracker {
 
-internal data class TitleManagerConfig(
-    val adapterConfig: ChecklistItemAdapterConfig
-)
+    val itemCount: Int
+
+    val firstItemPosition: Int
+
+    val lastItemPosition: Int
+
+    val lastItemInsertionPosition: Int
+        get() = lastItemPosition + 1
+}

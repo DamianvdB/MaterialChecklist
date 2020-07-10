@@ -28,7 +28,7 @@ import androidx.annotation.StyleableRes
 import com.dvdb.materialchecklist.R
 import com.dvdb.materialchecklist.manager.checklist.config.ChecklistManagerConfig
 import com.dvdb.materialchecklist.manager.title.config.TitleManagerConfig
-import com.dvdb.materialchecklist.recycler.adapter.config.ChecklistItemAdapterConfig
+import com.dvdb.materialchecklist.recycler.adapter.checklist.config.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.holder.title.config.TitleRecyclerHolderConfig

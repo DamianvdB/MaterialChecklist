@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.adapter.listener
+package com.dvdb.materialchecklist.recycler.adapter.checklist.listener
 
 internal interface ChecklistItemAdapterDragListener {
 

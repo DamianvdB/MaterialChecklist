@@ -28,12 +28,15 @@ import com.dvdb.materialchecklist.config.ChecklistConfig
 import com.dvdb.materialchecklist.manager.Manager
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManagerImpl
 import com.dvdb.materialchecklist.manager.checklist.item.ChecklistItem
+import com.dvdb.materialchecklist.manager.checklist.util.ChecklistRecyclerItemPositionTracker
 import com.dvdb.materialchecklist.manager.title.TitleManagerImpl
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.materialchecklist.manager.title.util.TitleRecyclerItemPositionTracker
+import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.title.TitleRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.util.EnterActionPerformedFactory
+import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
 import com.dvdb.materialchecklist.recycler.util.RecyclerSpaceItemDecorator
 import com.dvdb.materialchecklist.recycler.util.SimpleItemTouchHelper
@@ -45,17 +48,18 @@ class MaterialChecklist(
     attrs: AttributeSet?
 ) : FrameLayout(context, attrs) {
 
-    internal val manager: Manager = Manager(
-        TitleManagerImpl(),
+    internal val manager = Manager(
+        TitleManagerImpl(
+            itemPositionTracker = TitleRecyclerItemPositionTracker { items }
+        ),
         ChecklistManagerImpl(
+            itemPositionTracker = ChecklistRecyclerItemPositionTracker { items },
             hideKeyboard = {
                 hideKeyboard()
                 requestFocus()
             }
         )
-    ) {
-        (recyclerView?.adapter as? ChecklistItemAdapter)?.items ?: emptyList()
-    }
+    ) { items }
 
     internal val config: ChecklistConfig = ChecklistConfig(
         context = context,
@@ -63,6 +67,9 @@ class MaterialChecklist(
     )
 
     private val recyclerView: RecyclerView
+
+    private val items: List<BaseRecyclerItem>
+        get() = (recyclerView?.adapter as? ChecklistItemAdapter)?.items ?: emptyList()
 
     init {
         addFocusableView()
@@ -87,6 +94,7 @@ class MaterialChecklist(
         return manager.removeTitleItem()
     }
 
+    @CheckResult
     fun getTitleItem(): String? {
         return manager.getTitleItem()
     }

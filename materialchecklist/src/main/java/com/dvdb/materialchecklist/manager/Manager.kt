@@ -30,6 +30,10 @@ internal class Manager(
 ) : TitleManager by titleManager,
     ChecklistManager by checklistManager {
 
+    fun getItemCount(): Int {
+        return items().size
+    }
+
     override fun onItemMove(
         fromPosition: Int,
         toPosition: Int
