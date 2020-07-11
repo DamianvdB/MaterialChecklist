@@ -24,6 +24,7 @@ import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.util.DraggableRecyclerHolder
+import com.dvdb.materialchecklist.recycler.holder.util.RequestFocusRecyclerHolder
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
@@ -87,19 +88,19 @@ internal class ChecklistItemAdapter(
             holder.updateConfigConditionally(config.checklistConfig)
             holder.bindView(item)
 
-            if (position == requestFocus.position) {
-                holder.requestFocus(
-                    requestFocus.selectionPosition,
-                    requestFocus.isShowKeyboard
-                )
-            }
-
         } else if (holder is ChecklistNewRecyclerHolder && item is ChecklistNewRecyclerItem) {
             holder.updateConfigConditionally(config.checklistNewConfig)
             holder.bindView(item)
 
         } else {
             error("Unknown holder. Must be of type 'ChecklistRecyclerHolder' or 'ChecklistNewRecyclerHolder'")
+        }
+
+        if (holder is RequestFocusRecyclerHolder && position == requestFocus.position) {
+            holder.requestFocus(
+                requestFocus.selectionPosition,
+                requestFocus.isShowKeyboard
+            )
         }
     }
 

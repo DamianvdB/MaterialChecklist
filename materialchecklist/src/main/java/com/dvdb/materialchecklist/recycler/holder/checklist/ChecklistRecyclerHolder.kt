@@ -35,6 +35,7 @@ import com.dvdb.materialchecklist.recycler.holder.checklist.config.ChecklistRecy
 import com.dvdb.materialchecklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
 import com.dvdb.materialchecklist.recycler.holder.util.DraggableRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.util.EnterActionPerformedFactory
+import com.dvdb.materialchecklist.recycler.holder.util.RequestFocusRecyclerHolder
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.util.SimpleTextChangedListener
 import com.dvdb.materialchecklist.util.setTintCompat
@@ -52,7 +53,8 @@ internal class ChecklistRecyclerHolder private constructor(
     enterActionActionFactory: EnterActionPerformedFactory,
     private val listener: ChecklistRecyclerHolderItemListener
 ) : BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderConfig>(itemView, config),
-    DraggableRecyclerHolder {
+    DraggableRecyclerHolder,
+    RequestFocusRecyclerHolder {
 
     private val defaultBackground: Drawable? = itemView.background
 
@@ -95,7 +97,7 @@ internal class ChecklistRecyclerHolder private constructor(
         }
     }
 
-    fun requestFocus(
+    override fun requestFocus(
         selectionPosition: Int,
         isShowKeyboard: Boolean
     ) {
