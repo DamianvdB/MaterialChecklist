@@ -16,10 +16,10 @@
 
 package com.dvdb.materialchecklist.manager.content
 
-import com.dvdb.materialchecklist.manager.content.config.ContentManagerConfig
-import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.adapter.checklist.listener.ChecklistItemAdapterDragListener
-import com.dvdb.materialchecklist.recycler.holder.content.listener.ContentRecyclerHolderItemListener
+import ContentRecyclerHolderItemListener
+import com.dvdb.materialchecklist.manager.content.model.ContentManagerConfig
+import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
 
 internal interface ContentManager :
     ContentRecyclerHolderItemListener,

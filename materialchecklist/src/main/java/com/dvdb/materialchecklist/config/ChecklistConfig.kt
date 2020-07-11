@@ -16,6 +16,7 @@
 
 package com.dvdb.materialchecklist.config
 
+import ChecklistManagerConfig
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Typeface
@@ -26,14 +27,17 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.annotation.StyleableRes
 import com.dvdb.materialchecklist.R
-import com.dvdb.materialchecklist.manager.checklist.config.ChecklistManagerConfig
-import com.dvdb.materialchecklist.manager.content.config.ContentManagerConfig
-import com.dvdb.materialchecklist.manager.title.config.TitleManagerConfig
-import com.dvdb.materialchecklist.recycler.adapter.checklist.config.ChecklistItemAdapterConfig
-import com.dvdb.materialchecklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
-import com.dvdb.materialchecklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderConfig
-import com.dvdb.materialchecklist.recycler.holder.content.config.ContentRecyclerHolderConfig
-import com.dvdb.materialchecklist.recycler.holder.title.config.TitleRecyclerHolderConfig
+import com.dvdb.materialchecklist.config.checklist.model.BehaviorCheckedItem
+import com.dvdb.materialchecklist.config.checklist.model.BehaviorUncheckedItem
+import com.dvdb.materialchecklist.config.checklist.model.DragAndDropDismissKeyboardBehavior
+import com.dvdb.materialchecklist.config.checklist.model.DragAndDropToggleBehavior
+import com.dvdb.materialchecklist.manager.content.model.ContentManagerConfig
+import com.dvdb.materialchecklist.manager.title.model.TitleManagerConfig
+import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
+import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerHolderConfig
+import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerHolderConfig
+import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerHolderConfig
+import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerHolderConfig
 import com.dvdb.materialchecklist.util.getColorCompat
 import com.dvdb.materialchecklist.util.getDrawableCompat
 

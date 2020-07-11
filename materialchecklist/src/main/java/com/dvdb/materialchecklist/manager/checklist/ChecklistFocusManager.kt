@@ -16,7 +16,7 @@
 
 package com.dvdb.materialchecklist.manager.checklist
 
-import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
 
 /**
  * Manages the focus and the selection behavior of the checklist items.

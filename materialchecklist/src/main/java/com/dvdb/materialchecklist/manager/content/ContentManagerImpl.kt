@@ -16,11 +16,11 @@
 
 package com.dvdb.materialchecklist.manager.content
 
-import com.dvdb.materialchecklist.manager.content.config.ContentManagerConfig
-import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapterRequestFocus
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.content.ContentRecyclerItem
+import com.dvdb.materialchecklist.manager.content.model.ContentManagerConfig
+import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterRequestFocus
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerItem
 
 private const val NO_POSITION = -1
 

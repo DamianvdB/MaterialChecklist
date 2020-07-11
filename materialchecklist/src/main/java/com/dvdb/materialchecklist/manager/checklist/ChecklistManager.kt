@@ -16,11 +16,11 @@
 
 package com.dvdb.materialchecklist.manager.checklist
 
-import com.dvdb.materialchecklist.manager.checklist.config.ChecklistManagerConfig
-import com.dvdb.materialchecklist.manager.checklist.item.ChecklistItem
-import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.adapter.checklist.listener.ChecklistItemAdapterDragListener
-import com.dvdb.materialchecklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
+import ChecklistManagerConfig
+import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItem
+import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
+import com.dvdb.materialchecklist.recycler.checklist.listener.ChecklistRecyclerHolderItemListener
 
 /**
  * Manages the state and behavior of the checklist items.
@@ -53,7 +53,7 @@ internal interface ChecklistManager :
 
     fun setConfig(config: ChecklistManagerConfig)
 
-    fun restoreDeleteItems(itemIds: List<Long>): Boolean
+    fun restoreDeletedItems(itemIds: List<Long>): Boolean
 
     fun restoreDeletedItem(itemId: Long): Boolean
 

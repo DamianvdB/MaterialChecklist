@@ -1,0 +1,34 @@
+/*
+ * Designed and developed by Damian van den Berg.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.dvdb.materialchecklist.recycler.checklistnew.model
+
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+
+class ChecklistNewRecyclerItemTest {
+
+    @Test
+    fun getIdUniqueTest() {
+        var previousItem: BaseRecyclerItem = ChecklistNewRecyclerItem()
+        for (i in 0 until 100) {
+            val currentItem: BaseRecyclerItem = ChecklistNewRecyclerItem()
+            Assertions.assertNotEquals(previousItem.id, currentItem.id)
+            previousItem = currentItem
+        }
+    }
+}

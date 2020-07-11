@@ -16,11 +16,11 @@
 
 package com.dvdb.materialchecklist.manager.title
 
-import com.dvdb.materialchecklist.manager.title.config.TitleManagerConfig
+import com.dvdb.materialchecklist.manager.title.model.TitleManagerConfig
 import com.dvdb.materialchecklist.manager.util.RecyclerItemPositionTracker
-import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.title.TitleRecyclerItem
+import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 
 private const val NO_POSITION = -1
 

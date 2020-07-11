@@ -21,7 +21,10 @@ import com.dvdb.materialchecklist.MaterialChecklist
 fun MaterialChecklist.setTextEditable(editable: Boolean): MaterialChecklist {
     if (config.textEditable != editable) {
         config.textEditable = editable
-        manager.setConfig(config)
     }
     return this
+}
+
+fun MaterialChecklist.applyConfiguration() {
+    manager.setConfig(config)
 }

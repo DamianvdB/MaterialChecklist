@@ -16,18 +16,18 @@
 
 package com.dvdb.materialchecklist.manager.checklist
 
+import ChecklistManagerConfig
 import android.widget.TextView
-import com.dvdb.materialchecklist.config.BehaviorCheckedItem
-import com.dvdb.materialchecklist.config.BehaviorUncheckedItem
-import com.dvdb.materialchecklist.config.DragAndDropDismissKeyboardBehavior
-import com.dvdb.materialchecklist.manager.checklist.config.ChecklistManagerConfig
-import com.dvdb.materialchecklist.manager.checklist.item.ChecklistItem
+import com.dvdb.materialchecklist.config.checklist.model.BehaviorCheckedItem
+import com.dvdb.materialchecklist.config.checklist.model.BehaviorUncheckedItem
+import com.dvdb.materialchecklist.config.checklist.model.DragAndDropDismissKeyboardBehavior
+import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItem
 import com.dvdb.materialchecklist.manager.util.RecyclerItemPositionTracker
-import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapterRequestFocus
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
+import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterRequestFocus
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerItem
 import com.dvdb.materialchecklist.recycler.util.DefaultRecyclerItemComparator
 import com.dvdb.materialchecklist.recycler.util.RecyclerItemMapper
 import com.dvdb.materialchecklist.util.DelayHandler
@@ -205,7 +205,7 @@ internal class ChecklistManagerImpl(
      * current session. Return true if all the items with [itemIds] were
      * restored.
      */
-    override fun restoreDeleteItems(itemIds: List<Long>): Boolean {
+    override fun restoreDeletedItems(itemIds: List<Long>): Boolean {
         var allItemsRestore = true
 
         itemIds.forEach { itemId ->

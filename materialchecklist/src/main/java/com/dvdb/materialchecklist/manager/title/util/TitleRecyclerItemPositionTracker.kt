@@ -17,8 +17,8 @@
 package com.dvdb.materialchecklist.manager.title.util
 
 import com.dvdb.materialchecklist.manager.util.RecyclerItemPositionTracker
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.title.TitleRecyclerItem
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 
 internal class TitleRecyclerItemPositionTracker(
     private val items: (() -> List<BaseRecyclerItem>)

@@ -30,11 +30,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.dvdb.checklist.R
 import com.dvdb.checklist.sample.config.ChecklistConfiguration
-import com.dvdb.materialchecklist.config.*
+import com.dvdb.materialchecklist.config.checklist.*
 import com.dvdb.materialchecklist.config.content.setContentClickableLinks
 import com.dvdb.materialchecklist.config.content.setContentHint
 import com.dvdb.materialchecklist.config.content.setContentHintTextColor
 import com.dvdb.materialchecklist.config.content.setContentLinkTextColor
+import com.dvdb.materialchecklist.config.general.applyConfiguration
 import com.dvdb.materialchecklist.config.general.setTextEditable
 import com.dvdb.materialchecklist.config.title.*
 import com.google.android.material.snackbar.Snackbar
@@ -55,7 +56,7 @@ private const val CHECKLIST_ITEMS_SAMPLE_TEXT = "[ ] Send meeting notes to team\
         "[x] Wish Sarah happy birthday"
 
 private const val SP_TITLE_ITEM_TEXT_KEY = "mc_item_title_text"
-private const val TITLE_ITEM_SAMLPE_TEXT = "Admin Tasks"
+private const val TITLE_ITEM_SAMPLE_TEXT = "Admin Tasks"
 
 private const val SP_CONTENT_ITEM_TEXT_KEY = "mc_item_content_text"
 
@@ -74,7 +75,7 @@ internal class MainActivity : AppCompatActivity() {
             sharedPreferences.edit().putString(SP_CHECKLIST_ITEMS_TEXT_KEY, value).apply()
         }
 
-    private var titleItemText: String = TITLE_ITEM_SAMLPE_TEXT
+    private var titleItemText: String = TITLE_ITEM_SAMPLE_TEXT
         get() = sharedPreferences.getString(SP_TITLE_ITEM_TEXT_KEY, field) ?: field
         set(value) {
             field = value
@@ -280,6 +281,8 @@ internal class MainActivity : AppCompatActivity() {
         checklistConfiguration.textTypeFace?.let {
             main_text.typeface = it
         }
+
+        main_checklist.applyConfiguration()
     }
 
     private fun handleSettingTitleConfiguration() {
@@ -369,7 +372,7 @@ internal class MainActivity : AppCompatActivity() {
         Snackbar.make(main_root, message, Snackbar.LENGTH_LONG).apply {
             if (itemIdsOfRemovedItems.isNotEmpty()) {
                 setAction("undo") {
-                    main_checklist.restoreDeleteItems(itemIdsOfRemovedItems)
+                    main_checklist.restoreDeletedItems(itemIdsOfRemovedItems)
                 }
             }
         }.show()

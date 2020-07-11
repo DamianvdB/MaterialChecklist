@@ -16,9 +16,9 @@
 
 package com.dvdb.materialchecklist.manager.title
 
-import com.dvdb.materialchecklist.manager.title.config.TitleManagerConfig
-import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.adapter.checklist.listener.ChecklistItemAdapterDragListener
+import com.dvdb.materialchecklist.manager.title.model.TitleManagerConfig
+import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
 import com.dvdb.materialchecklist.recycler.holder.title.listener.TitleRecyclerHolderItemListener
 
 internal interface TitleManager :

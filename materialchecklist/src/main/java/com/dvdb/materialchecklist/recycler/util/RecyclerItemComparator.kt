@@ -16,9 +16,9 @@
 
 package com.dvdb.materialchecklist.recycler.util
 
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerItem
 
 internal sealed class BaseRecyclerItemComparator : Comparator<BaseRecyclerItem> {
 

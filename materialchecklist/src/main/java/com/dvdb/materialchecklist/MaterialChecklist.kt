@@ -27,21 +27,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.materialchecklist.config.ChecklistConfig
 import com.dvdb.materialchecklist.manager.Manager
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManagerImpl
-import com.dvdb.materialchecklist.manager.checklist.item.ChecklistItem
+import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItem
 import com.dvdb.materialchecklist.manager.checklist.util.ChecklistRecyclerItemPositionTracker
 import com.dvdb.materialchecklist.manager.content.ContentManagerImpl
 import com.dvdb.materialchecklist.manager.title.TitleManagerImpl
 import com.dvdb.materialchecklist.manager.title.util.TitleRecyclerItemPositionTracker
-import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHolder
-import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
-import com.dvdb.materialchecklist.recycler.holder.content.ContentRecyclerHolder
-import com.dvdb.materialchecklist.recycler.holder.title.TitleRecyclerHolder
-import com.dvdb.materialchecklist.recycler.holder.util.EnterActionPerformedFactory
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklist.holder.ChecklistRecyclerHolder
+import com.dvdb.materialchecklist.recycler.checklistnew.holder.ChecklistNewRecyclerHolder
+import com.dvdb.materialchecklist.recycler.content.holder.ContentRecyclerHolder
+import com.dvdb.materialchecklist.recycler.title.holder.TitleRecyclerHolder
 import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
 import com.dvdb.materialchecklist.recycler.util.RecyclerSpaceItemDecorator
 import com.dvdb.materialchecklist.recycler.util.SimpleItemTouchHelper
+import com.dvdb.materialchecklist.recycler.util.holder.EnterActionPerformedFactory
 import com.dvdb.materialchecklist.util.hideKeyboard
 import com.dvdb.materialchecklist.util.updateLayoutParams
 
@@ -180,8 +180,8 @@ class MaterialChecklist(
      * @param itemIds The id's of the checklist items to restore.
      * @return 'true' if all items were restored, otherwise 'false'.
      */
-    fun restoreDeleteItems(itemIds: List<Long>): Boolean {
-        return manager.restoreDeleteItems(itemIds)
+    fun restoreDeletedItems(itemIds: List<Long>): Boolean {
+        return manager.restoreDeletedItems(itemIds)
     }
 
     /**

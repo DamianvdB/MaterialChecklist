@@ -17,10 +17,10 @@
 package com.dvdb.materialchecklist.manager.title.util
 
 import com.dvdb.materialchecklist.manager.util.RecyclerItemPositionTracker
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.title.TitleRecyclerItem
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerItem
+import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

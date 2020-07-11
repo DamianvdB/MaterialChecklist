@@ -33,7 +33,6 @@ fun MaterialChecklist.setTitleHint(
         val newText = text ?: context.getString(textRes!!)
         if (config.textTitleHint != newText) {
             config.textTitleHint = newText
-            manager.setTitleConfig(config.totTitleManagerConfig())
         }
     }
     return this
@@ -49,7 +48,6 @@ fun MaterialChecklist.setTitleTextColor(
         val newTextColor = textColor ?: context.getColorCompat(textColorRes!!)
         if (config.textTitleColor != newTextColor) {
             config.textTitleColor = newTextColor
-            manager.setTitleConfig(config.totTitleManagerConfig())
         }
     }
     return this
@@ -65,7 +63,6 @@ fun MaterialChecklist.setTitleLinkTextColor(
         val newTextColor = textColor ?: context.getColorCompat(textColorRes!!)
         if (config.textTitleLinkColor != newTextColor) {
             config.textTitleLinkColor = newTextColor
-            manager.setTitleConfig(config.totTitleManagerConfig())
         }
     }
     return this
@@ -81,7 +78,6 @@ fun MaterialChecklist.setTitleHintTextColor(
         val newTextColor = textColor ?: context.getColorCompat(textColorRes!!)
         if (config.textTitleHintColor != newTextColor) {
             config.textTitleHintColor = newTextColor
-            manager.setTitleConfig(config.totTitleManagerConfig())
         }
     }
     return this
@@ -90,7 +86,6 @@ fun MaterialChecklist.setTitleHintTextColor(
 fun MaterialChecklist.setTitleClickableLinks(clickableLinks: Boolean): MaterialChecklist {
     if (config.textTitleClickableLinks != clickableLinks) {
         config.textTitleClickableLinks = clickableLinks
-        manager.setTitleConfig(config.totTitleManagerConfig())
     }
     return this
 }
@@ -98,7 +93,6 @@ fun MaterialChecklist.setTitleClickableLinks(clickableLinks: Boolean): MaterialC
 fun MaterialChecklist.setTitleShowActionIcon(showActionIcon: Boolean): MaterialChecklist {
     if (config.iconTitleShowAction != showActionIcon) {
         config.iconTitleShowAction = showActionIcon
-        manager.setTitleConfig(config.totTitleManagerConfig())
     }
     return this
 }

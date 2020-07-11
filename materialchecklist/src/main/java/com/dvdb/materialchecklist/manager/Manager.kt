@@ -20,11 +20,8 @@ import com.dvdb.materialchecklist.config.ChecklistConfig
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManager
 import com.dvdb.materialchecklist.manager.content.ContentManager
 import com.dvdb.materialchecklist.manager.title.TitleManager
-import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.title.TitleRecyclerItem
+import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 
 internal class Manager(
     private val titleManager: TitleManager,
@@ -87,6 +84,12 @@ internal class Manager(
                     toPosition
                 )
             },
+            contentItemAction = {
+                contentManager.onItemMove(
+                    fromPosition,
+                    toPosition
+                )
+            },
             checklistItemAction = {
                 checklistManager.onItemMove(
                     fromPosition,
@@ -109,6 +112,12 @@ internal class Manager(
                     targetPosition
                 )
             },
+            contentItemAction = {
+                contentManager.canDragOverTargetItem(
+                    currentPosition,
+                    targetPosition
+                )
+            },
             checklistItemAction = {
                 checklistManager.canDragOverTargetItem(
                     currentPosition,
@@ -123,6 +132,7 @@ internal class Manager(
         executeActionForRecyclerItemType(
             item = items().getOrNull(position),
             titleItemAction = { titleManager.onItemDragStarted(position) },
+            contentItemAction = { contentManager.onItemDragStarted(position) },
             checklistItemAction = { checklistManager.onItemDragStarted(position) }
         )
     }
@@ -131,6 +141,7 @@ internal class Manager(
         executeActionForRecyclerItemType(
             item = items().getOrNull(position),
             titleItemAction = { titleManager.onItemDragStopped(position) },
+            contentItemAction = { contentManager.onItemDragStopped(position) },
             checklistItemAction = { checklistManager.onItemDragStopped(position) }
         )
     }
@@ -138,16 +149,19 @@ internal class Manager(
     private fun executeActionForRecyclerItemType(
         item: BaseRecyclerItem?,
         titleItemAction: () -> Any,
+        contentItemAction: () -> Any,
         checklistItemAction: () -> Any,
         defaultAction: () -> Any = {}
     ): Any {
-        return when (item) {
-            is TitleRecyclerItem -> titleItemAction()
+        if (item == null) {
+            return defaultAction
+        }
 
-            is ChecklistRecyclerItem,
-            is ChecklistNewRecyclerItem -> checklistItemAction()
-
-            else -> defaultAction()
+        return when (item.type) {
+            BaseRecyclerItem.Type.TITLE -> titleItemAction()
+            BaseRecyclerItem.Type.CONTENT -> contentItemAction()
+            BaseRecyclerItem.Type.CHECKLIST,
+            BaseRecyclerItem.Type.CHECKLIST_NEW -> checklistItemAction()
         }
     }
 }

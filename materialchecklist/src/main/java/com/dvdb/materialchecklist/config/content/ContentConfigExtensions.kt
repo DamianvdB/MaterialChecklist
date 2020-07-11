@@ -33,7 +33,6 @@ fun MaterialChecklist.setContentHint(
         val newText = text ?: context.getString(textRes!!)
         if (config.textContentHint != newText) {
             config.textContentHint = newText
-            manager.setContentConfig(config.toContentManagerConfig())
         }
     }
     return this
@@ -49,7 +48,6 @@ fun MaterialChecklist.setContentLinkTextColor(
         val newTextColor = textColor ?: context.getColorCompat(textColorRes!!)
         if (config.textContentLinkColor != newTextColor) {
             config.textContentLinkColor = newTextColor
-            manager.setContentConfig(config.toContentManagerConfig())
         }
     }
     return this
@@ -65,7 +63,6 @@ fun MaterialChecklist.setContentHintTextColor(
         val newTextColor = textColor ?: context.getColorCompat(textColorRes!!)
         if (config.textContentHintColor != newTextColor) {
             config.textContentHintColor = newTextColor
-            manager.setContentConfig(config.toContentManagerConfig())
         }
     }
     return this
@@ -74,7 +71,6 @@ fun MaterialChecklist.setContentHintTextColor(
 fun MaterialChecklist.setContentClickableLinks(clickableLinks: Boolean): MaterialChecklist {
     if (config.textContentClickableLinks != clickableLinks) {
         config.textContentClickableLinks = clickableLinks
-        manager.setContentConfig(config.toContentManagerConfig())
     }
     return this
 }
