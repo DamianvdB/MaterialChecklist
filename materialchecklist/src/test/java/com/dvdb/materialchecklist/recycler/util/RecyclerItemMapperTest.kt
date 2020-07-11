@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.util
+package com.dvdb.materialchecklist.recycler.util
 
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
-import com.dvdb.materialchecklist.recycler.util.RecyclerItemMapper
-import org.junit.Assert
-import org.junit.Test
+import com.dvdb.materialchecklist.util.resetIds
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
 internal class RecyclerItemMapperTest {
 
@@ -45,7 +45,7 @@ internal class RecyclerItemMapperTest {
             keepCheckedItems = true
         )
 
-        Assert.assertEquals(expectedContents, actualContents)
+        Assertions.assertEquals(expectedContents, actualContents)
     }
 
     @Test
@@ -58,7 +58,7 @@ internal class RecyclerItemMapperTest {
             keepCheckedItems = true
         )
 
-        Assert.assertEquals(expectedContents, actualContents)
+        Assertions.assertEquals(expectedContents, actualContents)
     }
 
     @Test
@@ -71,7 +71,7 @@ internal class RecyclerItemMapperTest {
             keepCheckedItems = true
         )
 
-        Assert.assertEquals(expectedContents, actualContents)
+        Assertions.assertEquals(expectedContents, actualContents)
     }
 
     @Test
@@ -84,7 +84,7 @@ internal class RecyclerItemMapperTest {
             keepCheckedItems = true
         )
 
-        Assert.assertEquals(expectedContents, actualContents)
+        Assertions.assertEquals(expectedContents, actualContents)
     }
 
     @Test
@@ -104,7 +104,7 @@ internal class RecyclerItemMapperTest {
             keepCheckedItems = true
         )
 
-        Assert.assertEquals(expectedContents, actualContents)
+        Assertions.assertEquals(expectedContents, actualContents)
     }
 
     @Test
@@ -117,7 +117,7 @@ internal class RecyclerItemMapperTest {
             keepCheckedItems = true
         )
 
-        Assert.assertEquals(expectedContents, actualContents)
+        Assertions.assertEquals(expectedContents, actualContents)
     }
 
     @Test
@@ -130,7 +130,7 @@ internal class RecyclerItemMapperTest {
             keepCheckedItems = true
         )
 
-        Assert.assertEquals(expectedContents, actualContents)
+        Assertions.assertEquals(expectedContents, actualContents)
     }
 
     @Test
@@ -143,7 +143,7 @@ internal class RecyclerItemMapperTest {
             keepCheckedItems = false
         )
 
-        Assert.assertEquals(expectedContents, actualContents)
+        Assertions.assertEquals(expectedContents, actualContents)
     }
 
     @Test
@@ -156,7 +156,7 @@ internal class RecyclerItemMapperTest {
             keepCheckedItems = false
         )
 
-        Assert.assertEquals(expectedContents, actualContents)
+        Assertions.assertEquals(expectedContents, actualContents)
     }
 
     @Test
@@ -176,7 +176,7 @@ internal class RecyclerItemMapperTest {
             keepCheckedItems = true
         )
 
-        Assert.assertEquals(expectedContents, actualContents)
+        Assertions.assertEquals(expectedContents, actualContents)
     }
 
     @Test
@@ -185,7 +185,7 @@ internal class RecyclerItemMapperTest {
         val inputText = validChecklistContents
         val actualItems = RecyclerItemMapper.toItems(inputText).resetIds()
 
-        Assert.assertEquals(expectedItems, actualItems)
+        Assertions.assertEquals(expectedItems, actualItems)
     }
 
     @Test
@@ -194,7 +194,7 @@ internal class RecyclerItemMapperTest {
         val inputText = ""
         val actualItems = RecyclerItemMapper.toItems(inputText)
 
-        Assert.assertEquals(expectedItems, actualItems)
+        Assertions.assertEquals(expectedItems, actualItems)
     }
 
     @Test
@@ -211,7 +211,7 @@ internal class RecyclerItemMapperTest {
             "    Missing check symbol\n[x]Missing space after symbol\n[   Malformed check symbol 1\n x  Malformed check symbol 2\n ]  Malformed check symbol 3\nMalformed check symbol 4"
         val actualItems = RecyclerItemMapper.toItems(inputContent).resetIds()
 
-        Assert.assertEquals(expectedItems, actualItems)
+        Assertions.assertEquals(expectedItems, actualItems)
     }
 
     @Test
@@ -220,6 +220,6 @@ internal class RecyclerItemMapperTest {
         val inputText = validChecklistContents.replace("[x]", "[X]")
         val actualItems = RecyclerItemMapper.toItems(inputText).resetIds()
 
-        Assert.assertEquals(expectedItems, actualItems)
+        Assertions.assertEquals(expectedItems, actualItems)
     }
 }

@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.item.checklist
+package com.dvdb.materialchecklist.recycler.checklistnew.model
 
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
-class ChecklistRecyclerItemTest {
+class ChecklistNewRecyclerItemTest {
 
     @Test
     fun getIdUniqueTest() {
-        var previousItem: BaseRecyclerItem = ChecklistRecyclerItem("")
+        var previousItem: BaseRecyclerItem = ChecklistNewRecyclerItem()
         for (i in 0 until 100) {
-            val currentItem: BaseRecyclerItem = ChecklistRecyclerItem("")
-            Assert.assertNotEquals(previousItem.id, currentItem.id)
+            val currentItem: BaseRecyclerItem = ChecklistNewRecyclerItem()
+            Assertions.assertNotEquals(previousItem.id, currentItem.id)
             previousItem = currentItem
         }
     }
