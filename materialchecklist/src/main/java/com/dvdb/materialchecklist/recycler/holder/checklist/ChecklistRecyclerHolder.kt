@@ -49,7 +49,7 @@ private const val DEFAULT_ALPHA = 1.0f
 internal class ChecklistRecyclerHolder private constructor(
     itemView: View,
     config: ChecklistRecyclerHolderConfig,
-    private val enterActionActionFactory: EnterActionPerformedFactory,
+    enterActionActionFactory: EnterActionPerformedFactory,
     private val listener: ChecklistRecyclerHolderItemListener
 ) : BaseRecyclerHolder<ChecklistRecyclerItem, ChecklistRecyclerHolderConfig>(itemView, config),
     DraggableRecyclerHolder {
@@ -63,6 +63,7 @@ internal class ChecklistRecyclerHolder private constructor(
 
     init {
         initialiseView()
+        initListeners(enterActionActionFactory)
     }
 
     override fun bindView(item: ChecklistRecyclerItem) {
@@ -165,13 +166,6 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     private fun initialiseCheckbox() {
-        checkbox.setOnCheckedChangeListener { _, isChecked ->
-            listener.onItemChecked(
-                adapterPosition,
-                isChecked
-            )
-        }
-
         config.checkboxTintColor?.let {
             CompoundButtonCompat.setButtonTintList(
                 checkbox,
@@ -189,7 +183,32 @@ internal class ChecklistRecyclerHolder private constructor(
         config.textTypeFace?.let {
             text.typeface = it
         }
+    }
 
+    private fun initialiseDelete() {
+        val tintedIcon = config.iconDelete
+        tintedIcon?.setTintCompat(config.iconTintColor)
+        deleteIcon.setImageDrawable(tintedIcon)
+
+        deleteIcon.alpha = config.iconAlphaDelete
+    }
+
+    private fun initListeners(enterActionActionFactory: EnterActionPerformedFactory) {
+        initCheckboxListener()
+        initTextListeners(enterActionActionFactory)
+        initDeleteIconListener()
+    }
+
+    private fun initCheckboxListener() {
+        checkbox.setOnCheckedChangeListener { _, isChecked ->
+            listener.onItemChecked(
+                adapterPosition,
+                isChecked
+            )
+        }
+    }
+
+    private fun initTextListeners(enterActionActionFactory: EnterActionPerformedFactory) {
         text.addTextChangedListener(
             object : SimpleTextChangedListener() {
                 override fun afterTextChanged(s: Editable?) {
@@ -244,13 +263,7 @@ internal class ChecklistRecyclerHolder private constructor(
         }
     }
 
-    private fun initialiseDelete() {
-        val tintedIcon = config.iconDelete
-        tintedIcon?.setTintCompat(config.iconTintColor)
-        deleteIcon.setImageDrawable(tintedIcon)
-
-        deleteIcon.alpha = config.iconAlphaDelete
-
+    private fun initDeleteIconListener() {
         deleteIcon.setOnClickListener {
             listener.onItemDeleteClicked(adapterPosition)
         }

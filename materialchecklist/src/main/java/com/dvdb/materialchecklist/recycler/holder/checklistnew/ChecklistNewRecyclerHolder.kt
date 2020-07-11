@@ -44,6 +44,7 @@ internal class ChecklistNewRecyclerHolder private constructor(
 
     init {
         initialiseView()
+        initRootListener()
     }
 
     override fun bindView(item: ChecklistNewRecyclerItem) {
@@ -60,8 +61,6 @@ internal class ChecklistNewRecyclerHolder private constructor(
     }
 
     private fun initialiseRoot() {
-        itemView.setOnClickListener { onItemClicked(adapterPosition) }
-
         val topAndBottomPadding = config.topAndBottomPadding.toInt()
         val leftAndRightPadding = config.leftAndRightPadding?.toInt() ?: itemView.paddingLeft
         itemView.setPadding(
@@ -89,6 +88,10 @@ internal class ChecklistNewRecyclerHolder private constructor(
         config.textTypeFace?.let {
             text.typeface = it
         }
+    }
+
+    private fun initRootListener() {
+        itemView.setOnClickListener { onItemClicked(adapterPosition) }
     }
 
     class Factory(
