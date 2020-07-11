@@ -23,10 +23,10 @@ import android.graphics.Typeface
 import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import com.dvdb.checklist.R
-import com.dvdb.materialchecklist.config.BehaviorCheckedItem
-import com.dvdb.materialchecklist.config.BehaviorUncheckedItem
-import com.dvdb.materialchecklist.config.DragAndDropDismissKeyboardBehavior
-import com.dvdb.materialchecklist.config.DragAndDropToggleBehavior
+import com.dvdb.materialchecklist.config.model.BehaviorCheckedItem
+import com.dvdb.materialchecklist.config.model.BehaviorUncheckedItem
+import com.dvdb.materialchecklist.config.model.DragAndDropDismissKeyboardBehavior
+import com.dvdb.materialchecklist.config.model.DragAndDropToggleBehavior
 
 internal class ChecklistConfiguration(
     private val context: Context,

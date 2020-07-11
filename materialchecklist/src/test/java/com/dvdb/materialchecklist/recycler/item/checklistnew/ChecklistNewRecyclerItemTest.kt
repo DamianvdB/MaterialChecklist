@@ -16,7 +16,8 @@
 
 package com.dvdb.materialchecklist.recycler.item.checklistnew
 
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerItem
 import org.junit.Assert
 import org.junit.Test
 

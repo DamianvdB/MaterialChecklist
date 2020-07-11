@@ -17,16 +17,16 @@
 package com.dvdb.materialchecklist.manager
 
 import android.widget.TextView
-import com.dvdb.materialchecklist.config.BehaviorCheckedItem
-import com.dvdb.materialchecklist.config.BehaviorUncheckedItem
-import com.dvdb.materialchecklist.config.DragAndDropDismissKeyboardBehavior
-import com.dvdb.materialchecklist.manager.config.ChecklistManagerConfig
-import com.dvdb.materialchecklist.manager.item.ChecklistItem
+import com.dvdb.materialchecklist.config.model.BehaviorCheckedItem
+import com.dvdb.materialchecklist.config.model.BehaviorUncheckedItem
+import com.dvdb.materialchecklist.config.model.DragAndDropDismissKeyboardBehavior
+import com.dvdb.materialchecklist.manager.model.ChecklistItem
+import com.dvdb.materialchecklist.manager.model.ChecklistManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapterRequestFocus
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
+import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterRequestFocus
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerItem
 import com.dvdb.materialchecklist.recycler.util.DefaultRecyclerItemComparator
 import com.dvdb.materialchecklist.recycler.util.RecyclerItemMapper
 import com.dvdb.materialchecklist.util.DelayHandler

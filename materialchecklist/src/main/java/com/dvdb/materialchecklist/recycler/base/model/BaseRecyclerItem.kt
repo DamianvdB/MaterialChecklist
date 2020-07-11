@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.util
+package com.dvdb.materialchecklist.recycler.base.model
 
-import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
-import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerItem
+import androidx.annotation.CheckResult
 
-internal fun List<BaseRecyclerItem>.resetIds(): List<BaseRecyclerItem> {
-    return map { item ->
-        when (item) {
-            is ChecklistRecyclerItem -> item.copy(id = 0)
-            is ChecklistNewRecyclerItem -> item.copy(id = 0)
-            else -> item
+internal abstract class BaseRecyclerItem {
+    abstract val type: Type
+    abstract val id: Long
+
+    enum class Type {
+        CHECKLIST,
+        CHECKLIST_NEW;
+
+        companion object {
+            @CheckResult
+            fun fromInt(value: Int): Type? {
+                return values().firstOrNull { it.ordinal == value }
+            }
         }
     }
 }

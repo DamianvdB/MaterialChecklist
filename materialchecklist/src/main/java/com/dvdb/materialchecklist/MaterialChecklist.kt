@@ -27,14 +27,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.materialchecklist.config.ChecklistConfig
 import com.dvdb.materialchecklist.manager.ChecklistManager
 import com.dvdb.materialchecklist.manager.ChecklistManagerImpl
-import com.dvdb.materialchecklist.manager.item.ChecklistItem
+import com.dvdb.materialchecklist.manager.model.ChecklistItem
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHolder
-import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
-import com.dvdb.materialchecklist.recycler.holder.util.EnterActionPerformedFactory
+import com.dvdb.materialchecklist.recycler.checklist.holder.ChecklistRecyclerHolder
+import com.dvdb.materialchecklist.recycler.checklistnew.holder.ChecklistNewRecyclerHolder
 import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
 import com.dvdb.materialchecklist.recycler.util.RecyclerSpaceItemDecorator
 import com.dvdb.materialchecklist.recycler.util.SimpleItemTouchHelper
+import com.dvdb.materialchecklist.recycler.util.holder.EnterActionPerformedFactory
 import com.dvdb.materialchecklist.util.hideKeyboard
 import com.dvdb.materialchecklist.util.updateLayoutParams
 

@@ -16,9 +16,9 @@
 
 package com.dvdb.materialchecklist.manager
 
-import com.dvdb.materialchecklist.config.DragAndDropDismissKeyboardBehavior
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
+import com.dvdb.materialchecklist.config.model.DragAndDropDismissKeyboardBehavior
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
 
 private const val NO_POSITION: Int = -1
 

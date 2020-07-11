@@ -16,6 +16,7 @@
 
 package com.dvdb.materialchecklist.config
 
+import com.dvdb.materialchecklist.config.model.BehaviorCheckedItem
 import org.junit.Assert
 import org.junit.Test
 

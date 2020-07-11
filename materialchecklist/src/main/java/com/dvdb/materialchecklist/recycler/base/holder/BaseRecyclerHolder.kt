@@ -14,18 +14,28 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.util
+package com.dvdb.materialchecklist.recycler.base.holder
 
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
+import com.dvdb.materialchecklist.config.Config
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
-import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerItem
 
-internal fun List<BaseRecyclerItem>.resetIds(): List<BaseRecyclerItem> {
-    return map { item ->
-        when (item) {
-            is ChecklistRecyclerItem -> item.copy(id = 0)
-            is ChecklistNewRecyclerItem -> item.copy(id = 0)
-            else -> item
+internal abstract class BaseRecyclerHolder<T : BaseRecyclerItem, C : BaseRecyclerHolderConfig>(
+    itemView: View,
+    protected var config: C
+) : RecyclerView.ViewHolder(itemView) {
+
+    fun updateConfigConditionally(config: C) {
+        if (this.config != config) {
+            this.config = config
+            onConfigUpdated()
         }
     }
+
+    abstract fun bindView(item: T)
+
+    abstract fun onConfigUpdated()
 }
+
+internal interface BaseRecyclerHolderConfig : Config

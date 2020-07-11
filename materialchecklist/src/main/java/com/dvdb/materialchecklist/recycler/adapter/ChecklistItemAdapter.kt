@@ -18,17 +18,18 @@ package com.dvdb.materialchecklist.recycler.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.dvdb.materialchecklist.recycler.adapter.base.BaseRecyclerAdapter
-import com.dvdb.materialchecklist.recycler.adapter.config.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
-import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHolder
-import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
-import com.dvdb.materialchecklist.recycler.holder.util.DraggableRecyclerHolder
-import com.dvdb.materialchecklist.recycler.holder.util.RequestFocusRecyclerHolder
-import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
+import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
+import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterRequestFocus
+import com.dvdb.materialchecklist.recycler.base.adapter.BaseRecyclerAdapter
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklist.holder.ChecklistRecyclerHolder
+import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
+import com.dvdb.materialchecklist.recycler.checklistnew.holder.ChecklistNewRecyclerHolder
+import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerItem
 import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
+import com.dvdb.materialchecklist.recycler.util.holder.DraggableRecyclerHolder
+import com.dvdb.materialchecklist.recycler.util.holder.RequestFocusRecyclerHolder
 
 internal class ChecklistItemAdapter(
     config: ChecklistItemAdapterConfig,

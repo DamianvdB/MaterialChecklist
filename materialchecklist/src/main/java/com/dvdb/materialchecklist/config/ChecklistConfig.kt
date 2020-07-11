@@ -26,10 +26,14 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.annotation.StyleableRes
 import com.dvdb.materialchecklist.R
-import com.dvdb.materialchecklist.manager.config.ChecklistManagerConfig
-import com.dvdb.materialchecklist.recycler.adapter.config.ChecklistItemAdapterConfig
-import com.dvdb.materialchecklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
-import com.dvdb.materialchecklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderConfig
+import com.dvdb.materialchecklist.config.model.BehaviorCheckedItem
+import com.dvdb.materialchecklist.config.model.BehaviorUncheckedItem
+import com.dvdb.materialchecklist.config.model.DragAndDropDismissKeyboardBehavior
+import com.dvdb.materialchecklist.config.model.DragAndDropToggleBehavior
+import com.dvdb.materialchecklist.manager.model.ChecklistManagerConfig
+import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
+import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerHolderConfig
+import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerHolderConfig
 import com.dvdb.materialchecklist.util.getColorCompat
 import com.dvdb.materialchecklist.util.getDrawableCompat
 

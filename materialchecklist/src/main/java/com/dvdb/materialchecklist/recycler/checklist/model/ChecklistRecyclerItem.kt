@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.util
+package com.dvdb.materialchecklist.recycler.checklist.model
 
+import com.dvdb.materialchecklist.manager.model.ChecklistItem
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
-import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerItem
+import com.dvdb.materialchecklist.recycler.util.RecyclerItemIdentifierUtil
 
-internal fun List<BaseRecyclerItem>.resetIds(): List<BaseRecyclerItem> {
-    return map { item ->
-        when (item) {
-            is ChecklistRecyclerItem -> item.copy(id = 0)
-            is ChecklistNewRecyclerItem -> item.copy(id = 0)
-            else -> item
-        }
-    }
+internal data class ChecklistRecyclerItem(
+    val text: String,
+    val isChecked: Boolean = false,
+    override val type: Type = Type.CHECKLIST,
+    override val id: Long = RecyclerItemIdentifierUtil.nextIdentifier
+) : BaseRecyclerItem() {
+
+    fun toChecklistItem() = ChecklistItem(
+        id = id,
+        text = text,
+        isChecked = isChecked
+    )
 }

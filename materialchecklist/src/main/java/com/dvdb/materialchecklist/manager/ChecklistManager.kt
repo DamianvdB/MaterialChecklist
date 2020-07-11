@@ -16,11 +16,11 @@
 
 package com.dvdb.materialchecklist.manager
 
-import com.dvdb.materialchecklist.manager.config.ChecklistManagerConfig
-import com.dvdb.materialchecklist.manager.item.ChecklistItem
+import com.dvdb.materialchecklist.manager.model.ChecklistItem
+import com.dvdb.materialchecklist.manager.model.ChecklistManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
-import com.dvdb.materialchecklist.recycler.holder.checklist.listener.ChecklistRecyclerHolderItemListener
+import com.dvdb.materialchecklist.recycler.checklist.listener.ChecklistRecyclerHolderItemListener
 
 /**
  * Manages the state and behavior of the checklist items.
