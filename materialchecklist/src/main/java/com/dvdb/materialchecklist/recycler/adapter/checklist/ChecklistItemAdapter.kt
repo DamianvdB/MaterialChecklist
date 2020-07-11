@@ -23,17 +23,21 @@ import com.dvdb.materialchecklist.recycler.adapter.checklist.config.ChecklistIte
 import com.dvdb.materialchecklist.recycler.adapter.checklist.listener.ChecklistItemAdapterDragListener
 import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
+import com.dvdb.materialchecklist.recycler.holder.content.ContentRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.title.TitleRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.util.DraggableRecyclerHolder
+import com.dvdb.materialchecklist.recycler.holder.util.RequestFocusRecyclerHolder
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
+import com.dvdb.materialchecklist.recycler.item.content.ContentRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.title.TitleRecyclerItem
 import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
 
 internal class ChecklistItemAdapter(
     config: ChecklistItemAdapterConfig,
     private val itemTitleRecyclerHolderFactory: TitleRecyclerHolder.Factory,
+    private val itemContentRecyclerHolderFactory: ContentRecyclerHolder.Factory,
     private val itemRecyclerHolderFactory: ChecklistRecyclerHolder.Factory,
     private val itemNewRecyclerHolderFactory: ChecklistNewRecyclerHolder.Factory,
     private val itemDragListener: ChecklistItemAdapterDragListener,
@@ -73,6 +77,10 @@ internal class ChecklistItemAdapter(
                 parent,
                 config.titleConfig
             )
+            BaseRecyclerItem.Type.CONTENT.ordinal -> itemContentRecyclerHolderFactory.create(
+                parent,
+                config.contentConfig
+            )
             BaseRecyclerItem.Type.CHECKLIST.ordinal -> itemRecyclerHolderFactory.create(
                 parent,
                 config.checklistConfig
@@ -95,16 +103,13 @@ internal class ChecklistItemAdapter(
             holder.updateConfigConditionally(config.titleConfig)
             holder.bindView(item)
 
+        } else if (holder is ContentRecyclerHolder && item is ContentRecyclerItem) {
+            holder.updateConfigConditionally(config.contentConfig)
+            holder.bindView(item)
+
         } else if (holder is ChecklistRecyclerHolder && item is ChecklistRecyclerItem) {
             holder.updateConfigConditionally(config.checklistConfig)
             holder.bindView(item)
-
-            if (position == requestFocus.position) {
-                holder.requestFocus(
-                    requestFocus.selectionPosition,
-                    requestFocus.isShowKeyboard
-                )
-            }
 
         } else if (holder is ChecklistNewRecyclerHolder && item is ChecklistNewRecyclerItem) {
             holder.updateConfigConditionally(config.checklistNewConfig)
@@ -112,6 +117,13 @@ internal class ChecklistItemAdapter(
 
         } else {
             error("Unknown holder. Must be of type 'ChecklistRecyclerHolder' or 'ChecklistNewRecyclerHolder'")
+        }
+
+        if (holder is RequestFocusRecyclerHolder && position == requestFocus.position) {
+            holder.requestFocus(
+                requestFocus.selectionPosition,
+                requestFocus.isShowKeyboard
+            )
         }
     }
 

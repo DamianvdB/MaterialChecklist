@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.item.base
+package com.dvdb.materialchecklist.manager.content.config
 
-internal abstract class BaseRecyclerItem {
-    abstract val type: Type
-    abstract val id: Long
+import com.dvdb.materialchecklist.recycler.adapter.checklist.config.ChecklistItemAdapterConfig
 
-    enum class Type {
-        TITLE,
-        CONTENT,
-        CHECKLIST,
-        CHECKLIST_NEW
-    }
-}
+internal data class ContentManagerConfig(
+    val adapterConfig: ChecklistItemAdapterConfig
+)

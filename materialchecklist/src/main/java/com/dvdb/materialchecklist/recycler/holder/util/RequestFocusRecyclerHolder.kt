@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.item.base
+package com.dvdb.materialchecklist.recycler.holder.util
 
-internal abstract class BaseRecyclerItem {
-    abstract val type: Type
-    abstract val id: Long
+internal interface RequestFocusRecyclerHolder {
 
-    enum class Type {
-        TITLE,
-        CONTENT,
-        CHECKLIST,
-        CHECKLIST_NEW
-    }
+    fun requestFocus(
+        selectionPosition: Int,
+        isShowKeyboard: Boolean
+    )
 }

@@ -19,10 +19,12 @@ package com.dvdb.materialchecklist.recycler.adapter.checklist.config
 import com.dvdb.materialchecklist.config.Config
 import com.dvdb.materialchecklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderConfig
+import com.dvdb.materialchecklist.recycler.holder.content.config.ContentRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.holder.title.config.TitleRecyclerHolderConfig
 
 internal data class ChecklistItemAdapterConfig(
     val titleConfig: TitleRecyclerHolderConfig,
+    val contentConfig: ContentRecyclerHolderConfig,
     val checklistConfig: ChecklistRecyclerHolderConfig,
     val checklistNewConfig: ChecklistNewRecyclerHolderConfig
 ) : Config

@@ -27,10 +27,12 @@ import androidx.annotation.Px
 import androidx.annotation.StyleableRes
 import com.dvdb.materialchecklist.R
 import com.dvdb.materialchecklist.manager.checklist.config.ChecklistManagerConfig
+import com.dvdb.materialchecklist.manager.content.config.ContentManagerConfig
 import com.dvdb.materialchecklist.manager.title.config.TitleManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.checklist.config.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.holder.checklist.config.ChecklistRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.config.ChecklistNewRecyclerHolderConfig
+import com.dvdb.materialchecklist.recycler.holder.content.config.ContentRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.holder.title.config.TitleRecyclerHolderConfig
 import com.dvdb.materialchecklist.util.getColorCompat
 import com.dvdb.materialchecklist.util.getDrawableCompat
@@ -49,8 +51,11 @@ internal class ChecklistConfig(
     @ColorInt var textTitleColor: Int? = null,
     @ColorInt var textTitleLinkColor: Int? = null,
     @ColorInt var textTitleHintColor: Int? = null,
+    @ColorInt var textContentLinkColor: Int? = null,
+    @ColorInt var textContentHintColor: Int? = null,
     @Px var textSize: Float = context.resources.getDimension(R.dimen.mc_item_checklist_text_size),
     var textTitleHint: String = String(),
+    var textContentHint: String = String(),
     var textNewItem: String = context.getString(R.string.mc_item_checklist_new_text),
     var textAlphaCheckedItem: Float = 0.4F,
     var textAlphaNewItem: Float = 0.5F,
@@ -102,7 +107,7 @@ internal class ChecklistConfig(
     private val titleTextSizeOffset: Float =
         context.resources.getDimension(R.dimen.mc_item_title_text_size_offset)
 
-    private val titleLeftPaddingOffset: Float =
+    private val leftAndRightPaddingOffset: Float =
         context.resources.getDimension(R.dimen.mc_spacing_medium)
 
     init {
@@ -125,6 +130,11 @@ internal class ChecklistConfig(
 
     @CheckResult
     fun totTitleManagerConfig() = TitleManagerConfig(
+        adapterConfig = toAdapterConfig()
+    )
+
+    @CheckResult
+    fun toContentManagerConfig() = ContentManagerConfig(
         adapterConfig = toAdapterConfig()
     )
 
@@ -154,8 +164,20 @@ internal class ChecklistConfig(
             typeFace = textTypeFace,
             typeFaceStyle = Typeface.BOLD,
             actionIcon = iconTitleAction,
-            leftPadding = (itemLeftAndRightPadding ?: 0f).plus(titleLeftPaddingOffset),
+            leftPadding = (itemLeftAndRightPadding ?: 0f).plus(leftAndRightPaddingOffset),
             rightPadding = itemLeftAndRightPadding
+        ),
+        contentConfig = ContentRecyclerHolderConfig(
+            hint = textContentHint,
+            textColor = textColor,
+            linkTextColor = textContentLinkColor ?: textColor,
+            hintTextColor = textContentHintColor,
+            textSize = textSize,
+            isLinksClickable = textTitleClickableLinks,
+            isEditable = textTitleEditable,
+            typeFace = textTypeFace,
+            itemLeftAndRightPadding = (itemLeftAndRightPadding ?: 0f)
+                .plus(leftAndRightPaddingOffset)
         ),
         checklistConfig = ChecklistRecyclerHolderConfig(
             textColor = textColor,

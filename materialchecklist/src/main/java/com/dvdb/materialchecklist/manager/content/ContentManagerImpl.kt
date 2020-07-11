@@ -14,37 +14,32 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager.title
+package com.dvdb.materialchecklist.manager.content
 
-import com.dvdb.materialchecklist.manager.title.config.TitleManagerConfig
-import com.dvdb.materialchecklist.manager.util.RecyclerItemPositionTracker
+import com.dvdb.materialchecklist.manager.content.config.ContentManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapterRequestFocus
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.item.title.TitleRecyclerItem
+import com.dvdb.materialchecklist.recycler.item.content.ContentRecyclerItem
 
 private const val NO_POSITION = -1
 
-internal class TitleManagerImpl(
-    private val itemPositionTracker: RecyclerItemPositionTracker
-) : TitleManager {
-
-    override var onTitleItemEnterKeyPressed: () -> Unit = {}
-    override var onTitleItemActionIconClicked: () -> Unit = {}
+internal class ContentManagerImpl : ContentManager {
 
     private lateinit var adapter: ChecklistItemAdapter
-    private lateinit var config: TitleManagerConfig
+    private lateinit var config: ContentManagerConfig
 
     private var hasFocus: Boolean = false
 
-    override fun lateInitTitleState(
+    override fun lateInitContentState(
         adapter: ChecklistItemAdapter,
-        config: TitleManagerConfig
+        config: ContentManagerConfig
     ) {
         this.adapter = adapter
         this.config = config
     }
 
-    override fun setTitleConfig(config: TitleManagerConfig) {
+    override fun setContentConfig(config: ContentManagerConfig) {
         if (this.config.adapterConfig != config.adapterConfig) {
             adapter.config = config.adapterConfig
         }
@@ -52,14 +47,14 @@ internal class TitleManagerImpl(
         this.config = config
     }
 
-    override fun getTitleItem(): String? {
-        val item = adapter.items.firstOrNull { it is TitleRecyclerItem }
-        return (item as? TitleRecyclerItem)?.text
+    override fun getContentItem(): String? {
+        val item = adapter.items.firstOrNull { it is ContentRecyclerItem }
+        return (item as? ContentRecyclerItem)?.text
     }
 
-    override fun setTitleItem(text: String) {
-        val newItem = TitleRecyclerItem(text)
-        val position = adapter.items.indexOfFirst { it is TitleRecyclerItem }
+    override fun setContentItem(text: String) {
+        val newItem = ContentRecyclerItem(text)
+        val position = adapter.items.indexOfFirst { it is ContentRecyclerItem }
 
         if (position != NO_POSITION) {
             updateItemInAdapter(
@@ -69,13 +64,13 @@ internal class TitleManagerImpl(
         } else {
             addItemToAdapter(
                 newItem,
-                itemPositionTracker.firstItemPosition
+                adapter.itemCount
             )
         }
     }
 
-    override fun removeTitleItem(): Boolean {
-        val position = adapter.items.indexOfFirst { it is TitleRecyclerItem }
+    override fun removeContentItem(): Boolean {
+        val position = adapter.items.indexOfFirst { it is ContentRecyclerItem }
 
         return if (position != NO_POSITION) {
             removeItemFromAdapter(position)
@@ -85,17 +80,28 @@ internal class TitleManagerImpl(
         }
     }
 
-    override fun onTitleItemEnterKeyPressed(position: Int) {
-        onTitleItemEnterKeyPressed()
+    override fun requestContentItemFocus(): Boolean {
+        val position = adapter.items.indexOfFirst { it is ContentRecyclerItem }
+
+        return if (position != NO_POSITION) {
+            adapter.requestFocus = ChecklistItemAdapterRequestFocus(
+                position = position,
+                selectionPosition = Int.MAX_VALUE,
+                isShowKeyboard = true
+            )
+            true
+        } else {
+            false
+        }
     }
 
-    override fun onTitleItemTextChanged(
+    override fun onContentItemTextChanged(
         position: Int,
         text: String
     ) {
         val item = adapter.items.getOrNull(position)
 
-        if (item is TitleRecyclerItem) {
+        if (item is ContentRecyclerItem) {
             updateItemInAdapter(
                 item = item.copy(text),
                 position = position,
@@ -104,17 +110,13 @@ internal class TitleManagerImpl(
         }
     }
 
-    override fun onTitleItemFocusChanged(
+    override fun onContentItemFocusChanged(
         position: Int,
         startSelection: Int,
         endSelection: Int,
         hasFocus: Boolean
     ) {
         this.hasFocus = hasFocus
-    }
-
-    override fun onTitleItemActionIconClicked(position: Int) {
-        onTitleItemActionIconClicked()
     }
 
     override fun onItemMove(

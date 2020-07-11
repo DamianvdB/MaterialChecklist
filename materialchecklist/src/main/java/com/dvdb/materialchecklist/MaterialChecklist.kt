@@ -29,11 +29,13 @@ import com.dvdb.materialchecklist.manager.Manager
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManagerImpl
 import com.dvdb.materialchecklist.manager.checklist.item.ChecklistItem
 import com.dvdb.materialchecklist.manager.checklist.util.ChecklistRecyclerItemPositionTracker
+import com.dvdb.materialchecklist.manager.content.ContentManagerImpl
 import com.dvdb.materialchecklist.manager.title.TitleManagerImpl
 import com.dvdb.materialchecklist.manager.title.util.TitleRecyclerItemPositionTracker
 import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.holder.checklist.ChecklistRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.checklistnew.ChecklistNewRecyclerHolder
+import com.dvdb.materialchecklist.recycler.holder.content.ContentRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.title.TitleRecyclerHolder
 import com.dvdb.materialchecklist.recycler.holder.util.EnterActionPerformedFactory
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
@@ -52,6 +54,7 @@ class MaterialChecklist(
         TitleManagerImpl(
             itemPositionTracker = TitleRecyclerItemPositionTracker { items }
         ),
+        ContentManagerImpl(),
         ChecklistManagerImpl(
             itemPositionTracker = ChecklistRecyclerItemPositionTracker { items },
             hideKeyboard = {
@@ -86,6 +89,10 @@ class MaterialChecklist(
         initDefaultChecklistItems()
     }
 
+    /**
+     * Title item
+     */
+
     fun setTitleItem(text: String) {
         manager.setTitleItem(text)
     }
@@ -105,6 +112,27 @@ class MaterialChecklist(
 
     fun setOnTitleItemActionIconClicked(onActionIconClicked: () -> Unit) {
         manager.onTitleItemActionIconClicked = onActionIconClicked
+    }
+
+    /**
+     * Content item
+     */
+
+    fun setContentItem(text: String) {
+        manager.setContentItem(text)
+    }
+
+    fun removeContentItem(): Boolean {
+        return manager.removeContentItem()
+    }
+
+    @CheckResult
+    fun getContentItem(): String? {
+        return manager.getContentItem()
+    }
+
+    fun requestContentItemFocus(): Boolean {
+        return manager.requestContentItemFocus()
     }
 
     /**
@@ -270,6 +298,9 @@ class MaterialChecklist(
                 enterActionPerformedFactory,
                 manager
             ),
+            itemContentRecyclerHolderFactory = ContentRecyclerHolder.Factory(
+                manager
+            ),
             itemRecyclerHolderFactory = ChecklistRecyclerHolder.Factory(
                 enterActionPerformedFactory,
                 manager
@@ -283,6 +314,7 @@ class MaterialChecklist(
         return recyclerView
     }
 
+    // todo: move child manager initialisation to manager
     private fun initManager(
         recyclerView: RecyclerView,
         itemTouchHelper: ItemTouchHelper,
@@ -293,6 +325,11 @@ class MaterialChecklist(
         manager.lateInitTitleState(
             adapter = adapter,
             config = config.totTitleManagerConfig()
+        )
+
+        manager.lateInitContentState(
+            adapter = adapter,
+            config = config.toContentManagerConfig()
         )
 
         manager.lateInitState(

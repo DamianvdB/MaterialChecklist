@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.item.base
+package com.dvdb.materialchecklist.recycler.holder.content.config
 
-internal abstract class BaseRecyclerItem {
-    abstract val type: Type
-    abstract val id: Long
+import android.graphics.Typeface
+import androidx.annotation.ColorInt
+import androidx.annotation.Px
+import com.dvdb.materialchecklist.recycler.holder.base.BaseRecyclerHolderConfig
 
-    enum class Type {
-        TITLE,
-        CONTENT,
-        CHECKLIST,
-        CHECKLIST_NEW
-    }
-}
+internal class ContentRecyclerHolderConfig(
+    val hint: String,
+    @ColorInt val textColor: Int,
+    @ColorInt val linkTextColor: Int,
+    @ColorInt val hintTextColor: Int?,
+    @Px val textSize: Float,
+    val isLinksClickable: Boolean,
+    val isEditable: Boolean,
+    val typeFace: Typeface?,
+    @Px val itemLeftAndRightPadding: Float?
+) : BaseRecyclerHolderConfig

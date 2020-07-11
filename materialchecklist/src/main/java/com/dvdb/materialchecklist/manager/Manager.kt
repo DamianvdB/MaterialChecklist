@@ -17,6 +17,7 @@
 package com.dvdb.materialchecklist.manager
 
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManager
+import com.dvdb.materialchecklist.manager.content.ContentManager
 import com.dvdb.materialchecklist.manager.title.TitleManager
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
@@ -25,9 +26,11 @@ import com.dvdb.materialchecklist.recycler.item.title.TitleRecyclerItem
 
 internal class Manager(
     private val titleManager: TitleManager,
+    private val contentManager: ContentManager,
     private val checklistManager: ChecklistManager,
     private val items: () -> List<BaseRecyclerItem>
 ) : TitleManager by titleManager,
+    ContentManager by contentManager,
     ChecklistManager by checklistManager {
 
     fun getItemCount(): Int {

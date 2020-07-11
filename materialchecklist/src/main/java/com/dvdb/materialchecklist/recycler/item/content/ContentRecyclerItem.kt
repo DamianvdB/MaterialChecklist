@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.item.base
+package com.dvdb.materialchecklist.recycler.item.content
 
-internal abstract class BaseRecyclerItem {
-    abstract val type: Type
-    abstract val id: Long
+import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.util.RecyclerItemIdentifierUtil
 
-    enum class Type {
-        TITLE,
-        CONTENT,
-        CHECKLIST,
-        CHECKLIST_NEW
-    }
-}
+internal data class ContentRecyclerItem(
+    val text: String,
+    override val type: Type = Type.CONTENT,
+    override val id: Long = RecyclerItemIdentifierUtil.nextIdentifier
+) : BaseRecyclerItem()
