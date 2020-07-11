@@ -191,7 +191,7 @@ internal class ChecklistManagerImpl(
      * current session. Return true if all the items with [itemIds] were
      * restored.
      */
-    override fun restoreDeleteItems(itemIds: List<Long>): Boolean {
+    override fun restoreDeletedItems(itemIds: List<Long>): Boolean {
         var allItemsRestore = true
 
         itemIds.forEach { itemId ->

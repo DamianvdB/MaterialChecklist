@@ -53,7 +53,7 @@ internal interface ChecklistManager :
 
     fun setConfig(config: ChecklistManagerConfig)
 
-    fun restoreDeleteItems(itemIds: List<Long>): Boolean
+    fun restoreDeletedItems(itemIds: List<Long>): Boolean
 
     fun restoreDeletedItem(itemId: Long): Boolean
 

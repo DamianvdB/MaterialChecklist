@@ -89,7 +89,7 @@ checklist.restoreDeletedItem(itemId)
 
 // Restore multiple deleted items
 val itemIds: List<Long> = listOf(200, 201, 230, 240)
-checklist.restoreDeleteItems(itemIds)
+checklist.restoreDeletedItems(itemIds)
 ```
 
 ### Remove all the items that are marked as checked

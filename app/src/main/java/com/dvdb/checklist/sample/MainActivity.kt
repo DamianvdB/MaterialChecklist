@@ -287,7 +287,7 @@ internal class MainActivity : AppCompatActivity() {
         Snackbar.make(main_root, message, Snackbar.LENGTH_LONG).apply {
             if (itemIdsOfRemovedItems.isNotEmpty()) {
                 setAction("undo") {
-                    main_checklist.restoreDeleteItems(itemIdsOfRemovedItems)
+                    main_checklist.restoreDeletedItems(itemIdsOfRemovedItems)
                 }
             }
         }.show()

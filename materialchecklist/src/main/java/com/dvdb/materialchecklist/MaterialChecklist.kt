@@ -115,8 +115,8 @@ class MaterialChecklist(
      * @param itemIds The id's of the checklist items to restore.
      * @return 'true' if all items were restored, otherwise 'false'.
      */
-    fun restoreDeleteItems(itemIds: List<Long>): Boolean {
-        return manager.restoreDeleteItems(itemIds)
+    fun restoreDeletedItems(itemIds: List<Long>): Boolean {
+        return manager.restoreDeletedItems(itemIds)
     }
 
     /**
