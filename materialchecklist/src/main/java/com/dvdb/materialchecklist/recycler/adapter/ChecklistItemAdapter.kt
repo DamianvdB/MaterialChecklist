@@ -65,12 +65,12 @@ internal class ChecklistItemAdapter(
         parent: ViewGroup,
         viewType: Int
     ): RecyclerView.ViewHolder {
-        return when (viewType) {
-            BaseRecyclerItem.Type.CHECKLIST.ordinal -> itemRecyclerHolderFactory.create(
+        return when (BaseRecyclerItem.Type.fromInt(viewType)) {
+            BaseRecyclerItem.Type.CHECKLIST -> itemRecyclerHolderFactory.create(
                 parent,
                 config.checklistConfig
             )
-            BaseRecyclerItem.Type.CHECKLIST_NEW.ordinal -> itemNewRecyclerHolderFactory.create(
+            BaseRecyclerItem.Type.CHECKLIST_NEW -> itemNewRecyclerHolderFactory.create(
                 parent,
                 config.checklistNewConfig
             )

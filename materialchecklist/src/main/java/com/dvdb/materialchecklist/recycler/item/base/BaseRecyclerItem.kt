@@ -16,12 +16,21 @@
 
 package com.dvdb.materialchecklist.recycler.item.base
 
+import androidx.annotation.CheckResult
+
 internal abstract class BaseRecyclerItem {
     abstract val type: Type
     abstract val id: Long
 
     enum class Type {
         CHECKLIST,
-        CHECKLIST_NEW,
+        CHECKLIST_NEW;
+
+        companion object {
+            @CheckResult
+            fun fromInt(value: Int): Type? {
+                return values().firstOrNull { it.ordinal == value }
+            }
+        }
     }
 }
