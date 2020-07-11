@@ -27,6 +27,9 @@ import com.dvdb.materialchecklist.util.getColorCompat
  *
  * @param textColor The literal text color to use.
  * @param textColorRes The text color resource to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setTextColor(
     @ColorInt textColor: Int? = null,
@@ -38,7 +41,6 @@ fun MaterialChecklist.setTextColor(
         val newTextColor = textColor ?: context.getColorCompat(textColorRes!!)
         if (config.textColor != newTextColor) {
             config.textColor = newTextColor
-            manager.setConfig(config.toManagerConfig())
         }
     }
     return this
@@ -49,6 +51,9 @@ fun MaterialChecklist.setTextColor(
  *
  * @param textSize The literal text size to use.
  * @param textSizeRes The text size resource to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setTextSize(
     @Px textSize: Float? = null,
@@ -60,7 +65,6 @@ fun MaterialChecklist.setTextSize(
         val newTextSize = textSize ?: context.resources.getDimension(textSizeRes!!)
         if (config.textSize != newTextSize) {
             config.textSize = newTextSize
-            manager.setConfig(config.toManagerConfig())
         }
     }
     return this
@@ -71,6 +75,9 @@ fun MaterialChecklist.setTextSize(
  *
  * @param text The literal text to use.
  * @param textRes The text resource to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setNewItemText(
     text: String? = null,
@@ -82,7 +89,6 @@ fun MaterialChecklist.setNewItemText(
         val newText = text ?: context.getString(textRes!!)
         if (config.textNewItem != newText) {
             config.textNewItem = newText
-            manager.setConfig(config.toManagerConfig())
         }
     }
     return this
@@ -92,11 +98,13 @@ fun MaterialChecklist.setNewItemText(
  * Set the text alpha of the checklist items.
  *
  * @param alpha The literal text alpha to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setCheckedItemTextAlpha(alpha: Float): MaterialChecklist {
     if (config.textAlphaCheckedItem != alpha) {
         config.textAlphaCheckedItem = alpha
-        manager.setConfig(config.toManagerConfig())
     }
     return this
 }
@@ -105,11 +113,13 @@ fun MaterialChecklist.setCheckedItemTextAlpha(alpha: Float): MaterialChecklist {
  * Set the text alpha of the create new checklist item.
  *
  * @param alpha The literal text alpha to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setNewItemTextAlpha(alpha: Float): MaterialChecklist {
     if (config.textAlphaNewItem != alpha) {
         config.textAlphaNewItem = alpha
-        manager.setConfig(config.toManagerConfig())
     }
     return this
 }
@@ -118,11 +128,13 @@ fun MaterialChecklist.setNewItemTextAlpha(alpha: Float): MaterialChecklist {
  * Set the text typeface of the checklist items.
  *
  * @param typeface The typeface to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setTextTypeFace(typeface: Typeface): MaterialChecklist {
     if (config.textTypeFace != typeface) {
         config.textTypeFace = typeface
-        manager.setConfig(config.toManagerConfig())
     }
     return this
 }
@@ -135,6 +147,9 @@ fun MaterialChecklist.setTextTypeFace(typeface: Typeface): MaterialChecklist {
  *
  * @param tintColor The literal tint color to use.
  * @param tintColorRes The tint color resource to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setIconTintColor(
     @ColorInt tintColor: Int? = null,
@@ -146,7 +161,6 @@ fun MaterialChecklist.setIconTintColor(
         val newTintColor = tintColor ?: context.getColorCompat(tintColorRes!!)
         if (config.iconTintColor != newTintColor) {
             config.iconTintColor = newTintColor
-            manager.setConfig(config.toManagerConfig())
         }
     }
     return this
@@ -156,11 +170,13 @@ fun MaterialChecklist.setIconTintColor(
  * Set the alpha of the drag indicator icon of the checklist items.
  *
  * @param alpha The literal icon alpha to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setDragIndicatorIconAlpha(alpha: Float): MaterialChecklist {
     if (config.iconAlphaDragIndicator != alpha) {
         config.iconAlphaDragIndicator = alpha
-        manager.setConfig(config.toManagerConfig())
     }
     return this
 }
@@ -169,11 +185,13 @@ fun MaterialChecklist.setDragIndicatorIconAlpha(alpha: Float): MaterialChecklist
  * Set the alpha of the delete icon of the checklist items.
  *
  * @param alpha The literal icon alpha to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setDeleteIconAlpha(alpha: Float): MaterialChecklist {
     if (config.iconAlphaDelete != alpha) {
         config.iconAlphaDelete = alpha
-        manager.setConfig(config.toManagerConfig())
     }
     return this
 }
@@ -182,11 +200,13 @@ fun MaterialChecklist.setDeleteIconAlpha(alpha: Float): MaterialChecklist {
  * Set the alpha of the add icon of the checklist items.
  *
  * @param alpha The literal icon alpha to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setAddIconAlpha(alpha: Float): MaterialChecklist {
     if (config.iconAlphaAdd != alpha) {
         config.iconAlphaAdd = alpha
-        manager.setConfig(config.toManagerConfig())
     }
     return this
 }
@@ -196,6 +216,9 @@ fun MaterialChecklist.setAddIconAlpha(alpha: Float): MaterialChecklist {
  *
  * @param tintColor The literal tint color to use.
  * @param tintColorRes The tint color resource to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setCheckboxTintColor(
     @ColorInt tintColor: Int? = null,
@@ -206,7 +229,6 @@ fun MaterialChecklist.setCheckboxTintColor(
         val newTintColor = tintColor ?: context.getColorCompat(tintColorRes!!)
         if (config.checkboxTintColor != newTintColor) {
             config.checkboxTintColor = newTintColor
-            manager.setConfig(config.toManagerConfig())
         }
     }
     return this
@@ -216,11 +238,13 @@ fun MaterialChecklist.setCheckboxTintColor(
  * Set the alpha of the checkbox of the checked checklist items.
  *
  * @param alpha The literal alpha to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setCheckedItemCheckboxAlpha(alpha: Float): MaterialChecklist {
     if (config.checkboxAlphaCheckedItem != alpha) {
         config.checkboxAlphaCheckedItem = alpha
-        manager.setConfig(config.toManagerConfig())
     }
     return this
 }
@@ -229,11 +253,13 @@ fun MaterialChecklist.setCheckedItemCheckboxAlpha(alpha: Float): MaterialCheckli
  * Set the drag-and-drop toggle behavior of the checklist items.
  *
  * @param behavior The drag-and-drop toggle behavior to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setDragAndDropToggleBehavior(behavior: DragAndDropToggleBehavior): MaterialChecklist {
     if (config.dragAndDropToggleBehavior != behavior) {
         config.dragAndDropToggleBehavior = behavior
-        manager.setConfig(config.toManagerConfig())
     }
     return this
 }
@@ -242,11 +268,13 @@ fun MaterialChecklist.setDragAndDropToggleBehavior(behavior: DragAndDropToggleBe
  * Set the drag-and-drop dismiss keyboard behavior of the checklist items.
  *
  * @param behavior The drag-and-drop dismiss keyboard behavior to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setDragAndDropDismissKeyboardBehavior(behavior: DragAndDropDismissKeyboardBehavior): MaterialChecklist {
     if (config.dragAndDropDismissKeyboardBehavior != behavior) {
         config.dragAndDropDismissKeyboardBehavior = behavior
-        manager.setConfig(config.toManagerConfig())
     }
     return this
 }
@@ -256,6 +284,9 @@ fun MaterialChecklist.setDragAndDropDismissKeyboardBehavior(behavior: DragAndDro
  *
  * @param backgroundColor The literal background color to use.
  * @param backgroundColorRes The background color resource to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setDragAndDropItemActiveBackgroundColor(
     @ColorInt backgroundColor: Int? = null,
@@ -267,7 +298,6 @@ fun MaterialChecklist.setDragAndDropItemActiveBackgroundColor(
         val newBackgroundColor = backgroundColor ?: context.getColorCompat(backgroundColorRes!!)
         if (config.dragAndDropActiveItemBackgroundColor != newBackgroundColor) {
             config.dragAndDropActiveItemBackgroundColor = newBackgroundColor
-            manager.setConfig(config.toManagerConfig())
         }
     }
     return this
@@ -277,11 +307,13 @@ fun MaterialChecklist.setDragAndDropItemActiveBackgroundColor(
  * Set the on item checked behavior of the checklist items.
  *
  * @param behavior The on item checked behavior to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setOnItemCheckedBehavior(behavior: BehaviorCheckedItem): MaterialChecklist {
     if (config.behaviorCheckedItem != behavior) {
         config.behaviorCheckedItem = behavior
-        manager.setConfig(config.toManagerConfig())
     }
     return this
 }
@@ -290,11 +322,13 @@ fun MaterialChecklist.setOnItemCheckedBehavior(behavior: BehaviorCheckedItem): M
  * Set the on item unchecked behavior of the checklist items.
  *
  * @param behavior The on item unchecked behavior to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setOnItemUncheckedBehavior(behavior: BehaviorUncheckedItem): MaterialChecklist {
     if (config.behaviorUncheckedItem != behavior) {
         config.behaviorUncheckedItem = behavior
-        manager.setConfig(config.toManagerConfig())
     }
     return this
 }
@@ -305,6 +339,9 @@ fun MaterialChecklist.setOnItemUncheckedBehavior(behavior: BehaviorUncheckedItem
  *
  * @param padding The literal padding to use.
  * @param paddingRes The padding resource to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setItemFirstTopPadding(
     @Px padding: Float? = null,
@@ -316,7 +353,6 @@ fun MaterialChecklist.setItemFirstTopPadding(
         val newPadding = padding ?: context.resources.getDimension(paddingRes!!)
         if (config.itemFirstTopPadding != newPadding) {
             config.itemFirstTopPadding = newPadding
-            manager.setConfig(config.toManagerConfig())
         }
     }
     return this
@@ -327,6 +363,9 @@ fun MaterialChecklist.setItemFirstTopPadding(
  *
  * @param padding The literal padding to use.
  * @param paddingRes The padding resource to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setItemTopAndBottomPadding(
     @Px padding: Float? = null,
@@ -338,7 +377,6 @@ fun MaterialChecklist.setItemTopAndBottomPadding(
         val newPadding = padding ?: context.resources.getDimension(paddingRes!!)
         if (config.itemTopAndBottomPadding != newPadding) {
             config.itemTopAndBottomPadding = newPadding
-            manager.setConfig(config.toManagerConfig())
         }
     }
     return this
@@ -349,6 +387,9 @@ fun MaterialChecklist.setItemTopAndBottomPadding(
  *
  * @param padding The literal padding to use.
  * @param paddingRes The padding resource to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setItemLeftAndRightPadding(
     @Px padding: Float? = null,
@@ -360,7 +401,6 @@ fun MaterialChecklist.setItemLeftAndRightPadding(
         val newPadding = padding ?: context.resources.getDimension(paddingRes!!)
         if (config.itemLeftAndRightPadding != newPadding) {
             config.itemLeftAndRightPadding = newPadding
-            manager.setConfig(config.toManagerConfig())
         }
     }
     return this
@@ -372,6 +412,9 @@ fun MaterialChecklist.setItemLeftAndRightPadding(
  *
  * @param padding The literal padding to use.
  * @param paddingRes The padding resource to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
  */
 fun MaterialChecklist.setItemLastBottomPadding(
     @Px padding: Float? = null,
@@ -383,8 +426,14 @@ fun MaterialChecklist.setItemLastBottomPadding(
         val newPadding = padding ?: context.resources.getDimension(paddingRes!!)
         if (config.itemLastBottomPadding != newPadding) {
             config.itemLastBottomPadding = newPadding
-            manager.setConfig(config.toManagerConfig())
         }
     }
     return this
+}
+
+/**
+ * Apply the Checklist configuration options.
+ */
+fun MaterialChecklist.applyConfiguration() {
+    manager.setConfig(config.toManagerConfig())
 }

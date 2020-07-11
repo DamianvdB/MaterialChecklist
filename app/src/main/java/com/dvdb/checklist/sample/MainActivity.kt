@@ -230,6 +230,8 @@ internal class MainActivity : AppCompatActivity() {
         checklistConfiguration.textTypeFace?.let {
             main_text.typeface = it
         }
+
+        main_checklist.applyConfiguration()
     }
 
     private fun handleOnConvertToChecklistMenuItemClicked() {

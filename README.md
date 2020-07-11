@@ -108,6 +108,8 @@ All the XML styling attributes are available under the ```app``` namespace:
 ```xml
 xmlns:app="http://schemas.android.com/apk/res-auto"
 ```
+All configuration options programmatically set need to be terminated
+with ```applyConfiguration()``` to take effect.
 
 ### Text
 ```kotlin
@@ -117,6 +119,7 @@ checklist.setTextColor(textColor: Int?, textColorRes: Int)
     .setCheckedItemTextAlpha(alpha: Float)
     .setNewItemTextAlpha(alpha: Float)
     .setTextTypeFace(typeface: Typeface)
+    .applyConfiguration()
 ```
 ```xml
 <com.dvdb.materialchecklist.MaterialChecklist
@@ -134,6 +137,7 @@ checklist.setTextColor(textColor: Int?, textColorRes: Int)
     .setDragIndicatorIconAlpha(alpha: Float)
     .setDeleteIconAlpha(alpha: Float)
     .setAddIconAlpha(alpha: Float)
+    .applyConfiguration()
 ```
 ```xml
 <com.dvdb.materialchecklist.MaterialChecklist
@@ -148,6 +152,7 @@ checklist.setTextColor(textColor: Int?, textColorRes: Int)
 ```kotlin
 checklist.setCheckboxTintColor(tintColor: Int?, tintColorRes: Int?)
     .setCheckedItemCheckboxAlpha(alpha: Float)
+    .applyConfiguration()
 ```
 ```xml
 <com.dvdb.materialchecklist.MaterialChecklist
@@ -161,6 +166,7 @@ checklist.setCheckboxTintColor(tintColor: Int?, tintColorRes: Int?)
 checklist.setDragAndDropToggleBehavior(behavior: DragAndDropToggleBehavior)
     .setDragAndDropDismissKeyboardBehavior(behavior: DragAndDropDismissKeyboardBehavior)
     .setDragAndDropItemActiveBackgroundColor(backgroundColor: Int?, backgroundColorRes: Int?)
+    .applyConfiguration()
 ```
 ```xml
 <com.dvdb.materialchecklist.MaterialChecklist
@@ -178,6 +184,7 @@ checklist.setOnItemCheckedBehavior(behavior: BehaviorCheckedItem)
     .setItemLeftAndRightPadding(padding: Float?, paddingRes: Int?)
     .setItemTopAndBottomPadding(padding: Float?, paddingRes: Int?)
     .setItemLastBottomPadding(padding: Float?, paddingRes: Int?)
+    .applyConfiguration()
 ```
 ```xml
 <com.dvdb.materialchecklist.MaterialChecklist
