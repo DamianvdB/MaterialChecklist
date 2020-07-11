@@ -70,3 +70,11 @@ fun MaterialChecklist.setContentHintTextColor(
     }
     return this
 }
+
+fun MaterialChecklist.setContentClickableLinks(clickableLinks: Boolean): MaterialChecklist {
+    if (config.textContentClickableLinks != clickableLinks) {
+        config.textContentClickableLinks = clickableLinks
+        manager.setContentConfig(config.toContentManagerConfig())
+    }
+    return this
+}

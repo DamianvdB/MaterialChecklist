@@ -60,7 +60,8 @@ internal class ChecklistConfig(
     var textAlphaCheckedItem: Float = 0.4F,
     var textAlphaNewItem: Float = 0.5F,
     var textTitleClickableLinks: Boolean = true,
-    var textTitleEditable: Boolean = true,
+    var textContentClickableLinks: Boolean = true,
+    var textEditable: Boolean = true,
     var textTypeFace: Typeface? = null,
 
     /**
@@ -159,7 +160,7 @@ internal class ChecklistConfig(
             iconTintColor = iconTintColor,
             textSize = textSize + titleTextSizeOffset,
             isLinksClickable = textTitleClickableLinks,
-            isEditable = textTitleEditable,
+            isEditable = textEditable,
             isShowActionIcon = iconTitleShowAction,
             typeFace = textTypeFace,
             typeFaceStyle = Typeface.BOLD,
@@ -173,8 +174,8 @@ internal class ChecklistConfig(
             linkTextColor = textContentLinkColor ?: textColor,
             hintTextColor = textContentHintColor,
             textSize = textSize,
-            isLinksClickable = textTitleClickableLinks,
-            isEditable = textTitleEditable,
+            isLinksClickable = textContentClickableLinks,
+            isEditable = textEditable,
             typeFace = textTypeFace,
             itemLeftAndRightPadding = (itemLeftAndRightPadding ?: 0f)
                 .plus(leftAndRightPaddingOffset)

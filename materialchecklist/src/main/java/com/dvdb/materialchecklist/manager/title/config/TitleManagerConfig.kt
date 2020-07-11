@@ -16,8 +16,9 @@
 
 package com.dvdb.materialchecklist.manager.title.config
 
+import com.dvdb.materialchecklist.config.Config
 import com.dvdb.materialchecklist.recycler.adapter.checklist.config.ChecklistItemAdapterConfig
 
 internal data class TitleManagerConfig(
     val adapterConfig: ChecklistItemAdapterConfig
-)
+) : Config

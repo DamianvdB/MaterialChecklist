@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.config
+package com.dvdb.materialchecklist.config.title
 
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -90,14 +90,6 @@ fun MaterialChecklist.setTitleHintTextColor(
 fun MaterialChecklist.setTitleClickableLinks(clickableLinks: Boolean): MaterialChecklist {
     if (config.textTitleClickableLinks != clickableLinks) {
         config.textTitleClickableLinks = clickableLinks
-        manager.setTitleConfig(config.totTitleManagerConfig())
-    }
-    return this
-}
-
-fun MaterialChecklist.setTitleEditable(editable: Boolean): MaterialChecklist {
-    if (config.textTitleEditable != editable) {
-        config.textTitleEditable = editable
         manager.setTitleConfig(config.totTitleManagerConfig())
     }
     return this

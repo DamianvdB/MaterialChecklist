@@ -31,9 +31,12 @@ import androidx.preference.PreferenceManager
 import com.dvdb.checklist.R
 import com.dvdb.checklist.sample.config.ChecklistConfiguration
 import com.dvdb.materialchecklist.config.*
+import com.dvdb.materialchecklist.config.content.setContentClickableLinks
 import com.dvdb.materialchecklist.config.content.setContentHint
 import com.dvdb.materialchecklist.config.content.setContentHintTextColor
 import com.dvdb.materialchecklist.config.content.setContentLinkTextColor
+import com.dvdb.materialchecklist.config.general.setTextEditable
+import com.dvdb.materialchecklist.config.title.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -214,6 +217,7 @@ internal class MainActivity : AppCompatActivity() {
         handleSettingChecklistConfiguration()
         handleSettingTitleConfiguration()
         handleSettingContentConfiguration()
+        handleSettingGeneralConfiguration()
     }
 
     private fun handleSettingChecklistConfiguration() {
@@ -284,7 +288,6 @@ internal class MainActivity : AppCompatActivity() {
             .setTitleLinkTextColor(checklistConfiguration.textTitleLinkColor)
             .setTitleHintTextColor(checklistConfiguration.textTitleHintColor)
             .setTitleClickableLinks(checklistConfiguration.textTitleClickableLinks)
-            .setTitleEditable(checklistConfiguration.textTitleEditable)
             .setTitleShowActionIcon(checklistConfiguration.iconTitleShowAction)
     }
 
@@ -292,6 +295,11 @@ internal class MainActivity : AppCompatActivity() {
         main_checklist.setContentHint(checklistConfiguration.textContentHint)
             .setContentLinkTextColor(checklistConfiguration.textContentLinkColor)
             .setContentHintTextColor(checklistConfiguration.textContentHintColor)
+            .setContentClickableLinks(checklistConfiguration.textContentClickableLinks)
+    }
+
+    private fun handleSettingGeneralConfiguration() {
+        main_checklist.setTextEditable(checklistConfiguration.textEditable)
     }
 
     private fun handleOnConvertToChecklistMenuItemClicked() {

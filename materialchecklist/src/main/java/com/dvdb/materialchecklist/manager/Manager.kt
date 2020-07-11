@@ -16,9 +16,11 @@
 
 package com.dvdb.materialchecklist.manager
 
+import com.dvdb.materialchecklist.config.ChecklistConfig
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManager
 import com.dvdb.materialchecklist.manager.content.ContentManager
 import com.dvdb.materialchecklist.manager.title.TitleManager
+import com.dvdb.materialchecklist.recycler.adapter.checklist.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.item.base.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklist.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.recycler.item.checklistnew.ChecklistNewRecyclerItem
@@ -33,8 +35,44 @@ internal class Manager(
     ContentManager by contentManager,
     ChecklistManager by checklistManager {
 
+    fun lateInitState(
+        adapter: ChecklistItemAdapter,
+        config: ChecklistConfig,
+        scrollToPosition: (position: Int) -> Unit,
+        startDragAndDrop: (position: Int) -> Unit,
+        enableDragAndDrop: (isEnabled: Boolean) -> Unit,
+        updateItemPadding: (firstItemTopPadding: Float?, lastItemBottomPadding: Float?) -> Unit,
+        enableItemAnimations: (isEnabled: Boolean) -> Unit
+    ) {
+        titleManager.lateInitTitleState(
+            adapter = adapter,
+            config = config.totTitleManagerConfig()
+        )
+
+        contentManager.lateInitContentState(
+            adapter = adapter,
+            config = config.toContentManagerConfig()
+        )
+
+        checklistManager.lateInitState(
+            adapter = adapter,
+            config = config.toManagerConfig(),
+            scrollToPosition = scrollToPosition,
+            startDragAndDrop = startDragAndDrop,
+            enableDragAndDrop = enableDragAndDrop,
+            updateItemPadding = updateItemPadding,
+            enableItemAnimations = enableItemAnimations
+        )
+    }
+
     fun getItemCount(): Int {
         return items().size
+    }
+
+    fun setConfig(config: ChecklistConfig) {
+        titleManager.setTitleConfig(config.totTitleManagerConfig())
+        contentManager.setContentConfig(config.toContentManagerConfig())
+        checklistManager.setConfig(config.toManagerConfig())
     }
 
     override fun onItemMove(

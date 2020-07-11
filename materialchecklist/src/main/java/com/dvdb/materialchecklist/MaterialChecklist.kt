@@ -314,7 +314,6 @@ class MaterialChecklist(
         return recyclerView
     }
 
-    // todo: move child manager initialisation to manager
     private fun initManager(
         recyclerView: RecyclerView,
         itemTouchHelper: ItemTouchHelper,
@@ -322,19 +321,9 @@ class MaterialChecklist(
     ) {
         val adapter = recyclerView.adapter as ChecklistItemAdapter
 
-        manager.lateInitTitleState(
-            adapter = adapter,
-            config = config.totTitleManagerConfig()
-        )
-
-        manager.lateInitContentState(
-            adapter = adapter,
-            config = config.toContentManagerConfig()
-        )
-
         manager.lateInitState(
             adapter = adapter,
-            config = config.toManagerConfig(),
+            config = config,
             scrollToPosition = createManagerScrollToPositionFunction(recyclerView),
             startDragAndDrop = createManagerStartDragAndDropFunction(recyclerView, itemTouchHelper),
             enableDragAndDrop = createManagerEnableDragAndDropFunction(itemTouchCallback),

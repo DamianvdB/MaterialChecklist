@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager.content.config
+package com.dvdb.materialchecklist.config.general
 
-import com.dvdb.materialchecklist.config.Config
-import com.dvdb.materialchecklist.recycler.adapter.checklist.config.ChecklistItemAdapterConfig
+import com.dvdb.materialchecklist.MaterialChecklist
 
-internal data class ContentManagerConfig(
-    val adapterConfig: ChecklistItemAdapterConfig
-) : Config
+fun MaterialChecklist.setTextEditable(editable: Boolean): MaterialChecklist {
+    if (config.textEditable != editable) {
+        config.textEditable = editable
+        manager.setConfig(config)
+    }
+    return this
+}
