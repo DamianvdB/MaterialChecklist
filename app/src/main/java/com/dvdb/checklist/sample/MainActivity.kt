@@ -31,6 +31,9 @@ import androidx.preference.PreferenceManager
 import com.dvdb.checklist.R
 import com.dvdb.checklist.sample.config.ChecklistConfiguration
 import com.dvdb.materialchecklist.config.*
+import com.dvdb.materialchecklist.config.content.setContentHint
+import com.dvdb.materialchecklist.config.content.setContentHintTextColor
+import com.dvdb.materialchecklist.config.content.setContentLinkTextColor
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -39,9 +42,7 @@ private const val SETTINGS_ACTIVITY_REQUEST_CODE = 1000
 private const val CHANGE_MENU_ITEM_VISIBILITY_DELAY_MS = 100L
 
 private const val SP_CHECKLIST_ITEMS_TEXT_KEY = "mc_items_text"
-
 private const val SP_SHOW_CHECKLIST_KEY = "mc_show_checklist"
-
 private const val CHECKLIST_ITEMS_SAMPLE_TEXT = "[ ] Send meeting notes to team\n" +
         "[ ] Order flowers\n" +
         "[ ] Organise vacation photos\n" +
@@ -51,8 +52,9 @@ private const val CHECKLIST_ITEMS_SAMPLE_TEXT = "[ ] Send meeting notes to team\
         "[x] Wish Sarah happy birthday"
 
 private const val SP_TITLE_ITEM_TEXT_KEY = "mc_item_title_text"
-
 private const val TITLE_ITEM_SAMLPE_TEXT = "Admin Tasks"
+
+private const val SP_CONTENT_ITEM_TEXT_KEY = "mc_item_content_text"
 
 private const val D_NOTES_URL = "https://bit.ly/google_play_store_d_notes"
 private const val GITHUB_URL = "https://bit.ly/github_material_checklist"
@@ -74,6 +76,13 @@ internal class MainActivity : AppCompatActivity() {
         set(value) {
             field = value
             sharedPreferences.edit().putString(SP_TITLE_ITEM_TEXT_KEY, value).apply()
+        }
+
+    private var contentItemText: String = ""
+        get() = sharedPreferences.getString(SP_CONTENT_ITEM_TEXT_KEY, field) ?: field
+        set(value) {
+            field = value
+            sharedPreferences.edit().putString(SP_CONTENT_ITEM_TEXT_KEY, value).apply()
         }
 
     private var showChecklist: Boolean = true
@@ -157,6 +166,10 @@ internal class MainActivity : AppCompatActivity() {
             main_checklist.getTitleItem()?.let { title ->
                 titleItemText = title
             }
+
+            main_checklist.getContentItem()?.let { content ->
+                contentItemText = content
+            }
         }
 
         super.onStop()
@@ -167,8 +180,9 @@ internal class MainActivity : AppCompatActivity() {
         initTitle()
 
         if (showChecklist) {
-            main_checklist.setItems(checklistItemsText)
             main_checklist.setTitleItem(titleItemText)
+            main_checklist.setContentItem(contentItemText)
+            main_checklist.setItems(checklistItemsText)
         } else {
             main_text.setText(checklistItemsText)
 
@@ -199,6 +213,7 @@ internal class MainActivity : AppCompatActivity() {
     private fun handleSettingConfiguration() {
         handleSettingChecklistConfiguration()
         handleSettingTitleConfiguration()
+        handleSettingContentConfiguration()
     }
 
     private fun handleSettingChecklistConfiguration() {
@@ -273,6 +288,12 @@ internal class MainActivity : AppCompatActivity() {
             .setTitleShowActionIcon(checklistConfiguration.iconTitleShowAction)
     }
 
+    private fun handleSettingContentConfiguration() {
+        main_checklist.setContentHint(checklistConfiguration.textContentHint)
+            .setContentLinkTextColor(checklistConfiguration.textContentLinkColor)
+            .setContentHintTextColor(checklistConfiguration.textContentHintColor)
+    }
+
     private fun handleOnConvertToChecklistMenuItemClicked() {
         updateVisibleContentOnConvertMenuItemClicked(true)
     }
@@ -298,11 +319,17 @@ internal class MainActivity : AppCompatActivity() {
         if (isConvertToChecklistMenuItemClicked) {
             main_checklist.setTitleItem(titleItemText)
 
+            main_checklist.setContentItem(contentItemText)
+
             val content: String = main_text.text.toString()
             main_checklist.setItems(content)
         } else {
             main_checklist.getTitleItem()?.let { title ->
                 titleItemText = title
+            }
+
+            main_checklist.getContentItem()?.let { content ->
+                contentItemText = content
             }
 
             val content: String = main_checklist.getItems()

@@ -95,6 +95,10 @@ internal class ChecklistConfiguration(
     val textTitleClickableLinks: Boolean = true
     val textTitleEditable: Boolean = true
 
+    val textContentHint: String = "Content"
+    val textContentLinkColor: Int = textTitleLinkColor
+    val textContentHintColor: Int = Color.parseColor("#757575")
+
     /**
      * Icon
      */
