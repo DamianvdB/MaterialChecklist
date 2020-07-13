@@ -139,6 +139,22 @@ internal class ChecklistConfiguration(
     val iconTitleShowAction: Boolean = true
 
     /**
+     * Chip
+     */
+    val chipBackgroundColor: Int? = Color.TRANSPARENT
+    val chipStrokeColor: Int? = Color.parseColor("#bdbdbd")
+    val chipStrokeWidth: Float? = 1f.toPx(context)
+    val chipIconSize: Float =
+        context.resources.getDimension(com.dvdb.materialchecklist.R.dimen.mc_icon_size_small)
+    val chipIconEndPadding: Float? = null
+    val chipMinHeight: Float? =
+        context.resources.getDimension(com.dvdb.materialchecklist.R.dimen.mc_item_chip_min_height)
+    val chipHorizontalSpacing: Int =
+        context.resources.getDimensionPixelSize(com.dvdb.materialchecklist.R.dimen.mc_spacing_medium_large)
+    val chipLeftAndRightInternalPadding: Float =
+        context.resources.getDimension(com.dvdb.materialchecklist.R.dimen.mc_spacing_medium)
+
+    /**
      * Checkbox
      */
     val checkboxTintColor: Int?

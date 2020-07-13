@@ -16,21 +16,27 @@
 
 package com.dvdb.checklist.sample
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.StrikethroughSpan
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.dvdb.checklist.R
 import com.dvdb.checklist.sample.config.ChecklistConfiguration
 import com.dvdb.materialchecklist.config.checklist.*
+import com.dvdb.materialchecklist.config.chip.*
 import com.dvdb.materialchecklist.config.content.setContentClickableLinks
 import com.dvdb.materialchecklist.config.content.setContentHint
 import com.dvdb.materialchecklist.config.content.setContentHintTextColor
@@ -38,6 +44,7 @@ import com.dvdb.materialchecklist.config.content.setContentLinkTextColor
 import com.dvdb.materialchecklist.config.general.applyConfiguration
 import com.dvdb.materialchecklist.config.general.setTextEditable
 import com.dvdb.materialchecklist.config.title.*
+import com.dvdb.materialchecklist.manager.chip.model.ChipItem
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -67,6 +74,7 @@ internal class MainActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var checklistConfiguration: ChecklistConfiguration
+    private lateinit var toast: Toast
 
     private var checklistItemsText: String = CHECKLIST_ITEMS_SAMPLE_TEXT
         get() = sharedPreferences.getString(SP_CHECKLIST_ITEMS_TEXT_KEY, field) ?: field
@@ -101,12 +109,14 @@ internal class MainActivity : AppCompatActivity() {
     private lateinit var removeCheckedItemsMenuItem: MenuItem
     private lateinit var uncheckCheckedItemsMenuItem: MenuItem
 
+    @SuppressLint("ShowToast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         checklistConfiguration = ChecklistConfiguration(this, sharedPreferences)
+        toast = Toast.makeText(this, "", Toast.LENGTH_SHORT)
 
         initView()
     }
@@ -182,11 +192,13 @@ internal class MainActivity : AppCompatActivity() {
     private fun initView() {
         initChecklist()
         initTitle()
+        initChips()
 
         if (showChecklist) {
             main_checklist.setTitleItem(titleItemText)
             main_checklist.setContentItem(contentItemText)
             main_checklist.setItems(checklistItemsText)
+            setChips()
         } else {
             main_text.setText(checklistItemsText)
 
@@ -214,11 +226,42 @@ internal class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initChips() {
+        main_checklist.setOnChipItemClicked {
+            toast.setText("Chip item clicked with text '${it.text}'")
+            toast.show()
+        }
+    }
+
+    private fun setChips() {
+        val important = SpannableString("Important").apply {
+            setSpan(
+                StrikethroughSpan(),
+                0,
+                this.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+
+        main_checklist.setChipItems(
+            listOf(
+                ChipItem(1, important, R.drawable.ic_baseline_access_alarm_24),
+                ChipItem(2, "Errands", R.drawable.ic_baseline_access_time_24),
+                ChipItem(3, "Admin"),
+                ChipItem(4, "Work"),
+                ChipItem(5, "Groceries")
+            )
+        )
+    }
+
     private fun handleSettingConfiguration() {
         handleSettingChecklistConfiguration()
         handleSettingTitleConfiguration()
         handleSettingContentConfiguration()
+        handleSettingChipConfiguration()
         handleSettingGeneralConfiguration()
+
+        main_checklist.applyConfiguration()
     }
 
     private fun handleSettingChecklistConfiguration() {
@@ -281,8 +324,6 @@ internal class MainActivity : AppCompatActivity() {
         checklistConfiguration.textTypeFace?.let {
             main_text.typeface = it
         }
-
-        main_checklist.applyConfiguration()
     }
 
     private fun handleSettingTitleConfiguration() {
@@ -299,6 +340,30 @@ internal class MainActivity : AppCompatActivity() {
             .setContentLinkTextColor(checklistConfiguration.textContentLinkColor)
             .setContentHintTextColor(checklistConfiguration.textContentHintColor)
             .setContentClickableLinks(checklistConfiguration.textContentClickableLinks)
+    }
+
+    private fun handleSettingChipConfiguration() {
+        checklistConfiguration.chipBackgroundColor?.let {
+            main_checklist.setChipBackgroundColor(it)
+        }
+
+        checklistConfiguration.chipStrokeColor?.let {
+            main_checklist.setChipStrokeColor(it)
+        }
+
+        checklistConfiguration.chipStrokeWidth?.let {
+            main_checklist.setChipStrokeWidth(it)
+        }
+
+        main_checklist.setChipIconSize(checklistConfiguration.chipIconSize)
+
+        checklistConfiguration.chipIconEndPadding?.let {
+            main_checklist.setChipIconEndPadding(it)
+        }
+
+        main_checklist.setChipMinHeight(checklistConfiguration.chipMinHeight)
+            .setChipHorizontalSpacing(checklistConfiguration.chipHorizontalSpacing)
+            .setChipInternalLeftAndRightPadding(checklistConfiguration.chipLeftAndRightInternalPadding)
     }
 
     private fun handleSettingGeneralConfiguration() {
