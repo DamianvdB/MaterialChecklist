@@ -17,7 +17,10 @@
 package com.dvdb.materialchecklist.config.util
 
 import android.graphics.Typeface
-import androidx.annotation.*
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
+import androidx.annotation.StringRes
 import com.dvdb.materialchecklist.MaterialChecklist
 import com.dvdb.materialchecklist.config.model.BehaviorCheckedItem
 import com.dvdb.materialchecklist.config.model.BehaviorUncheckedItem
@@ -60,7 +63,7 @@ fun MaterialChecklist.setTextColor(
  * to take effect.
  */
 fun MaterialChecklist.setTextSize(
-    @Px textSize: Float? = null,
+    textSize: Float? = null,
     @DimenRes textSizeRes: Int? = null
 ): MaterialChecklist {
     assertOneSet("text size", textSize, textSizeRes)
@@ -348,7 +351,7 @@ fun MaterialChecklist.setOnItemUncheckedBehavior(behavior: BehaviorUncheckedItem
  * to take effect.
  */
 fun MaterialChecklist.setItemFirstTopPadding(
-    @Px padding: Float? = null,
+    padding: Float? = null,
     @DimenRes paddingRes: Int? = null
 ): MaterialChecklist {
     assertOneSet("item first top padding", padding, paddingRes)
@@ -372,7 +375,7 @@ fun MaterialChecklist.setItemFirstTopPadding(
  * to take effect.
  */
 fun MaterialChecklist.setItemTopAndBottomPadding(
-    @Px padding: Float? = null,
+    padding: Float? = null,
     @DimenRes paddingRes: Int? = null
 ): MaterialChecklist {
     assertOneSet("item top and bottom padding", padding, paddingRes)
@@ -396,7 +399,7 @@ fun MaterialChecklist.setItemTopAndBottomPadding(
  * to take effect.
  */
 fun MaterialChecklist.setItemLeftAndRightPadding(
-    @Px padding: Float? = null,
+    padding: Float? = null,
     @DimenRes paddingRes: Int? = null
 ): MaterialChecklist {
     assertOneSet("item left and right padding", padding, paddingRes)
@@ -421,7 +424,7 @@ fun MaterialChecklist.setItemLeftAndRightPadding(
  * to take effect.
  */
 fun MaterialChecklist.setItemLastBottomPadding(
-    @Px padding: Float? = null,
+    padding: Float? = null,
     @DimenRes paddingRes: Int? = null
 ): MaterialChecklist {
     assertOneSet("item last bottom padding", padding, paddingRes)

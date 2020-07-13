@@ -23,7 +23,6 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.CheckResult
 import androidx.annotation.ColorInt
-import androidx.annotation.Px
 import androidx.annotation.StyleableRes
 import com.dvdb.materialchecklist.R
 import com.dvdb.materialchecklist.config.model.BehaviorCheckedItem
@@ -48,7 +47,7 @@ internal class ChecklistConfig(
      * Text
      */
     @ColorInt var textColor: Int = context.getColorCompat(R.color.mc_text_checklist_item_text),
-    @Px var textSize: Float = context.resources.getDimension(R.dimen.mc_item_checklist_text_size),
+    var textSize: Float = context.resources.getDimension(R.dimen.mc_item_checklist_text_size),
     var textNewItem: String = context.getString(R.string.mc_item_checklist_new_text),
     var textAlphaCheckedItem: Float = 0.4F,
     var textAlphaNewItem: Float = 0.5F,
@@ -87,10 +86,10 @@ internal class ChecklistConfig(
     /**
      * Item
      */
-    @Px var itemFirstTopPadding: Float? = null,
-    @Px var itemLeftAndRightPadding: Float? = null,
-    @Px var itemTopAndBottomPadding: Float = context.resources.getDimension(R.dimen.mc_item_checklist_top_bottom_padding),
-    @Px var itemLastBottomPadding: Float? = null
+    var itemFirstTopPadding: Float? = null,
+    var itemLeftAndRightPadding: Float? = null,
+    var itemTopAndBottomPadding: Float = context.resources.getDimension(R.dimen.mc_item_checklist_top_bottom_padding),
+    var itemLastBottomPadding: Float? = null
 ) : Config {
 
     init {
