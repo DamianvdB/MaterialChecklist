@@ -22,7 +22,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderConfig
 
-internal class TitleRecyclerHolderConfig(
+internal data class TitleRecyclerHolderConfig(
     val hint: String,
     @ColorInt val textColor: Int,
     @ColorInt val linkTextColor: Int,

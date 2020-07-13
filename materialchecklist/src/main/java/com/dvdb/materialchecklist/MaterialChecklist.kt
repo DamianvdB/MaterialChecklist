@@ -29,6 +29,8 @@ import com.dvdb.materialchecklist.manager.Manager
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManagerImpl
 import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItem
 import com.dvdb.materialchecklist.manager.checklist.util.ChecklistRecyclerItemPositionTracker
+import com.dvdb.materialchecklist.manager.chip.ChipManagerImpl
+import com.dvdb.materialchecklist.manager.chip.model.ChipItem
 import com.dvdb.materialchecklist.manager.content.ContentManagerImpl
 import com.dvdb.materialchecklist.manager.title.TitleManagerImpl
 import com.dvdb.materialchecklist.manager.title.util.TitleRecyclerItemPositionTracker
@@ -36,6 +38,7 @@ import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.checklist.holder.ChecklistRecyclerHolder
 import com.dvdb.materialchecklist.recycler.checklistnew.holder.ChecklistNewRecyclerHolder
+import com.dvdb.materialchecklist.recycler.chip.holder.ChipContainerRecyclerHolder
 import com.dvdb.materialchecklist.recycler.content.holder.ContentRecyclerHolder
 import com.dvdb.materialchecklist.recycler.title.holder.TitleRecyclerHolder
 import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
@@ -61,7 +64,8 @@ class MaterialChecklist(
                 hideKeyboard()
                 requestFocus()
             }
-        )
+        ),
+        ChipManagerImpl()
     ) { items }
 
     internal val config: ChecklistConfig = ChecklistConfig(
@@ -133,6 +137,26 @@ class MaterialChecklist(
 
     fun requestContentItemFocus(): Boolean {
         return manager.requestContentItemFocus()
+    }
+
+    /**
+     * Chip item
+     */
+
+    fun setChipItems(items: List<ChipItem>) {
+        manager.setChipItems(items)
+    }
+
+    fun getChipItems(): List<ChipItem> {
+        return manager.getChipItems()
+    }
+
+    fun removeChipItems(): Boolean {
+        return manager.removeChipItems()
+    }
+
+    fun setOnChipItemClicked(onChipItemClicked: (ChipItem) -> Unit) {
+        manager.onItemClicked = onChipItemClicked
     }
 
     /**
@@ -308,6 +332,9 @@ class MaterialChecklist(
             itemNewRecyclerHolderFactory = ChecklistNewRecyclerHolder.Factory(
                 manager.onCreateNewChecklistItemClicked
             ),
+            itemChipContainerRecyclerHolderFactory = ChipContainerRecyclerHolder.Factory { id ->
+                manager.onItemInContainerClicked(id)
+            },
             itemDragListener = manager
         )
 

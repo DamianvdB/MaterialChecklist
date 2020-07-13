@@ -14,23 +14,26 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.checklistnew.model
+package com.dvdb.materialchecklist.recycler.chip.model
 
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderConfig
 
-internal data class ChecklistNewRecyclerHolderConfig(
-    val text: String,
+internal data class ChipContainerRecyclerHolderConfig(
     @ColorInt val textColor: Int,
     @Px val textSize: Float,
-    val textAlpha: Float,
     val textTypeFace: Typeface?,
     @ColorInt val iconTintColor: Int,
-    val iconAdd: Drawable?,
-    val iconAlphaAdd: Float,
-    @Px val topAndBottomPadding: Float,
+    @Px val iconSize: Float,
+    @Px val iconEndPadding: Float?,
+    @ColorInt val backgroundColor: Int?,
+    @ColorInt val strokeColor: Int?,
+    @Px val strokeWidth: Float?,
+    @Px val minHeight: Float,
+    @Px val horizontalSpacing: Int,
+    @Px val leftAndRightInternalPadding: Float,
+    @Px val topAndBottomPadding: Float?,
     @Px val leftAndRightPadding: Float?
 ) : BaseRecyclerHolderConfig

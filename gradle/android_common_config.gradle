@@ -23,5 +23,7 @@ dependencies {
     implementation deps.androidx.core
     implementation deps.androidx.recycler_view
 
+    implementation deps.google_material
+
     testImplementation deps.junit
 }

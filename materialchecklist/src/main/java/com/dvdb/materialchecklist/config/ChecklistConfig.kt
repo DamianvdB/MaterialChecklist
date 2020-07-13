@@ -31,6 +31,8 @@ import com.dvdb.materialchecklist.config.checklist.model.BehaviorCheckedItem
 import com.dvdb.materialchecklist.config.checklist.model.BehaviorUncheckedItem
 import com.dvdb.materialchecklist.config.checklist.model.DragAndDropDismissKeyboardBehavior
 import com.dvdb.materialchecklist.config.checklist.model.DragAndDropToggleBehavior
+import com.dvdb.materialchecklist.config.chip.model.ChipConfig
+import com.dvdb.materialchecklist.manager.chip.model.ChipManagerConfig
 import com.dvdb.materialchecklist.manager.content.model.ContentManagerConfig
 import com.dvdb.materialchecklist.manager.title.model.TitleManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
@@ -112,8 +114,24 @@ internal class ChecklistConfig(
     private val titleTextSizeOffset: Float =
         context.resources.getDimension(R.dimen.mc_item_title_text_size_offset)
 
+    private val chipTextSizeOffset: Float =
+        context.resources.getDimension(R.dimen.mc_item_chip_text_size_offset)
+
     private val leftAndRightPaddingOffset: Float =
         context.resources.getDimension(R.dimen.mc_spacing_medium)
+
+    private val chipTopAndBottomPaddingOffset: Float =
+        context.resources.getDimension(R.dimen.mc_spacing_medium)
+
+    val chipConfig: ChipConfig = ChipConfig(
+        context,
+        textColor = { textColor },
+        textSize = { textSize - chipTextSizeOffset },
+        typeFace = { textTypeFace },
+        iconTintColor = { iconTintColor },
+        leftAndRightPadding = { (itemLeftAndRightPadding ?: 0f) + leftAndRightPaddingOffset },
+        topAndBottomPadding = { itemTopAndBottomPadding + chipTopAndBottomPaddingOffset }
+    )
 
     init {
         val attributes: TypedArray = context.obtainStyledAttributes(
@@ -155,6 +173,11 @@ internal class ChecklistConfig(
     )
 
     @CheckResult
+    fun toChipManagerConfig() = ChipManagerConfig(
+        adapterConfig = toAdapterConfig()
+    )
+
+    @CheckResult
     fun toAdapterConfig() = ChecklistItemAdapterConfig(
         titleConfig = TitleRecyclerHolderConfig(
             hint = textTitleHint,
@@ -181,8 +204,7 @@ internal class ChecklistConfig(
             isLinksClickable = textContentClickableLinks,
             isEditable = textEditable,
             typeFace = textTypeFace,
-            itemLeftAndRightPadding = (itemLeftAndRightPadding ?: 0f)
-                .plus(leftAndRightPaddingOffset)
+            leftAndRightPadding = (itemLeftAndRightPadding ?: 0f) + (leftAndRightPaddingOffset)
         ),
         checklistConfig = ChecklistRecyclerHolderConfig(
             textColor = textColor,
@@ -212,7 +234,8 @@ internal class ChecklistConfig(
             iconAlphaAdd = iconAlphaAdd,
             topAndBottomPadding = itemTopAndBottomPadding,
             leftAndRightPadding = itemLeftAndRightPadding
-        )
+        ),
+        chipConfig = chipConfig.transform()
     )
 
     private fun initTextAttributes(attrs: TypedArray) {

@@ -27,5 +27,7 @@
     <dimen name="mc_item_checklist_new_text_start_margin">14dp</dimen>
     <dimen name="mc_item_title_text_size_offset">4sp</dimen>
     <dimen name="mc_item_content_min_height">60dp</dimen>
+    <dimen name="mc_item_chip_text_size_offset">2sp</dimen>
+    <dimen name="mc_item_chip_min_height">28dp</dimen>
 
 </resources>

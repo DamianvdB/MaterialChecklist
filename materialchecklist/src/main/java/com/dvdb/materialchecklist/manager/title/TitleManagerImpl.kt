@@ -36,7 +36,7 @@ internal class TitleManagerImpl(
 
     private var hasFocus: Boolean = false
 
-    override fun lateInitTitleState(
+    override fun lateInitState(
         adapter: ChecklistItemAdapter,
         config: TitleManagerConfig
     ) {
@@ -44,7 +44,7 @@ internal class TitleManagerImpl(
         this.config = config
     }
 
-    override fun setTitleConfig(config: TitleManagerConfig) {
+    override fun setConfig(config: TitleManagerConfig) {
         if (this.config.adapterConfig != config.adapterConfig) {
             adapter.config = config.adapterConfig
         }

@@ -14,26 +14,12 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.base.model
+package com.dvdb.materialchecklist.recycler.chip.model
 
-import androidx.annotation.CheckResult
+import androidx.annotation.DrawableRes
 
-internal abstract class BaseRecyclerItem {
-    abstract val type: Type
-    abstract val id: Long
-
-    enum class Type {
-        TITLE,
-        CONTENT,
-        CHECKLIST,
-        CHECKLIST_NEW,
-        CHIP;
-
-        companion object {
-            @CheckResult
-            fun fromInt(value: Int): Type? {
-                return values().firstOrNull { it.ordinal == value }
-            }
-        }
-    }
-}
+internal data class ChipRecyclerItem(
+    val id: Int,
+    val text: CharSequence,
+    @DrawableRes val iconRes: Int = -1
+)

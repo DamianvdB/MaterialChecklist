@@ -29,12 +29,12 @@ internal interface TitleManager :
 
     var onTitleItemActionIconClicked: () -> Unit
 
-    fun lateInitTitleState(
+    fun lateInitState(
         adapter: ChecklistItemAdapter,
         config: TitleManagerConfig
     )
 
-    fun setTitleConfig(config: TitleManagerConfig)
+    fun setConfig(config: TitleManagerConfig)
 
     fun getTitleItem(): String?
 

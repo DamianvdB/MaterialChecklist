@@ -18,6 +18,7 @@ package com.dvdb.materialchecklist.manager
 
 import com.dvdb.materialchecklist.config.ChecklistConfig
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManager
+import com.dvdb.materialchecklist.manager.chip.ChipManager
 import com.dvdb.materialchecklist.manager.content.ContentManager
 import com.dvdb.materialchecklist.manager.title.TitleManager
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
@@ -27,10 +28,12 @@ internal class Manager(
     private val titleManager: TitleManager,
     private val contentManager: ContentManager,
     private val checklistManager: ChecklistManager,
+    private val chipManager: ChipManager,
     private val items: () -> List<BaseRecyclerItem>
 ) : TitleManager by titleManager,
     ContentManager by contentManager,
-    ChecklistManager by checklistManager {
+    ChecklistManager by checklistManager,
+    ChipManager by chipManager {
 
     fun lateInitState(
         adapter: ChecklistItemAdapter,
@@ -41,12 +44,12 @@ internal class Manager(
         updateItemPadding: (firstItemTopPadding: Float?, lastItemBottomPadding: Float?) -> Unit,
         enableItemAnimations: (isEnabled: Boolean) -> Unit
     ) {
-        titleManager.lateInitTitleState(
+        titleManager.lateInitState(
             adapter = adapter,
             config = config.totTitleManagerConfig()
         )
 
-        contentManager.lateInitContentState(
+        contentManager.lateInitState(
             adapter = adapter,
             config = config.toContentManagerConfig()
         )
@@ -60,6 +63,11 @@ internal class Manager(
             updateItemPadding = updateItemPadding,
             enableItemAnimations = enableItemAnimations
         )
+
+        chipManager.lateInitState(
+            adapter = adapter,
+            config = config.toChipManagerConfig()
+        )
     }
 
     fun getItemCount(): Int {
@@ -67,9 +75,10 @@ internal class Manager(
     }
 
     fun setConfig(config: ChecklistConfig) {
-        titleManager.setTitleConfig(config.totTitleManagerConfig())
-        contentManager.setContentConfig(config.toContentManagerConfig())
+        titleManager.setConfig(config.totTitleManagerConfig())
+        contentManager.setConfig(config.toContentManagerConfig())
         checklistManager.setConfig(config.toManagerConfig())
+        chipManager.setConfig(config.toChipManagerConfig())
     }
 
     override fun onItemMove(
@@ -92,6 +101,12 @@ internal class Manager(
             },
             checklistItemAction = {
                 checklistManager.onItemMove(
+                    fromPosition,
+                    toPosition
+                )
+            },
+            chipItemAction = {
+                chipManager.onItemMove(
                     fromPosition,
                     toPosition
                 )
@@ -124,6 +139,12 @@ internal class Manager(
                     targetPosition
                 )
             },
+            chipItemAction = {
+                chipManager.canDragOverTargetItem(
+                    currentPosition,
+                    targetPosition
+                )
+            },
             defaultAction = { false }
         ) as Boolean
     }
@@ -133,7 +154,8 @@ internal class Manager(
             item = items().getOrNull(position),
             titleItemAction = { titleManager.onItemDragStarted(position) },
             contentItemAction = { contentManager.onItemDragStarted(position) },
-            checklistItemAction = { checklistManager.onItemDragStarted(position) }
+            checklistItemAction = { checklistManager.onItemDragStarted(position) },
+            chipItemAction = { chipManager.onItemDragStarted(position) }
         )
     }
 
@@ -142,7 +164,8 @@ internal class Manager(
             item = items().getOrNull(position),
             titleItemAction = { titleManager.onItemDragStopped(position) },
             contentItemAction = { contentManager.onItemDragStopped(position) },
-            checklistItemAction = { checklistManager.onItemDragStopped(position) }
+            checklistItemAction = { checklistManager.onItemDragStopped(position) },
+            chipItemAction = { chipManager.onItemDragStopped(position) }
         )
     }
 
@@ -151,6 +174,7 @@ internal class Manager(
         titleItemAction: () -> Any,
         contentItemAction: () -> Any,
         checklistItemAction: () -> Any,
+        chipItemAction: () -> Any,
         defaultAction: () -> Any = {}
     ): Any {
         if (item == null) {
@@ -162,6 +186,7 @@ internal class Manager(
             BaseRecyclerItem.Type.CONTENT -> contentItemAction()
             BaseRecyclerItem.Type.CHECKLIST,
             BaseRecyclerItem.Type.CHECKLIST_NEW -> checklistItemAction()
+            BaseRecyclerItem.Type.CHIP -> chipItemAction()
         }
     }
 }

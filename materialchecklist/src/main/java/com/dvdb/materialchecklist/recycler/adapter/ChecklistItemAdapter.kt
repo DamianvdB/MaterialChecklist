@@ -27,6 +27,8 @@ import com.dvdb.materialchecklist.recycler.checklist.holder.ChecklistRecyclerHol
 import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.recycler.checklistnew.holder.ChecklistNewRecyclerHolder
 import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerItem
+import com.dvdb.materialchecklist.recycler.chip.holder.ChipContainerRecyclerHolder
+import com.dvdb.materialchecklist.recycler.chip.model.ChipContainerRecyclerItem
 import com.dvdb.materialchecklist.recycler.content.holder.ContentRecyclerHolder
 import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerItem
 import com.dvdb.materialchecklist.recycler.title.holder.TitleRecyclerHolder
@@ -41,6 +43,7 @@ internal class ChecklistItemAdapter(
     private val itemContentRecyclerHolderFactory: ContentRecyclerHolder.Factory,
     private val itemRecyclerHolderFactory: ChecklistRecyclerHolder.Factory,
     private val itemNewRecyclerHolderFactory: ChecklistNewRecyclerHolder.Factory,
+    private val itemChipContainerRecyclerHolderFactory: ChipContainerRecyclerHolder.Factory,
     private val itemDragListener: ChecklistItemAdapterDragListener,
     items: List<BaseRecyclerItem> = emptyList()
 ) : BaseRecyclerAdapter<BaseRecyclerItem>(items),
@@ -73,7 +76,10 @@ internal class ChecklistItemAdapter(
         parent: ViewGroup,
         viewType: Int
     ): RecyclerView.ViewHolder {
-        return when (BaseRecyclerItem.Type.fromInt(viewType)) {
+        val itemType = BaseRecyclerItem.Type.fromInt(viewType)
+            ?: error("Unknown recycler item type for view type '$viewType'")
+
+        return when (itemType) {
             BaseRecyclerItem.Type.TITLE -> itemTitleRecyclerHolderFactory.create(
                 parent,
                 config.titleConfig
@@ -90,7 +96,10 @@ internal class ChecklistItemAdapter(
                 parent,
                 config.checklistNewConfig
             )
-            else -> error("Unknown item view type. Must be of type 'CHECKLIST' or 'CHECKLIST_NEW'")
+            BaseRecyclerItem.Type.CHIP -> itemChipContainerRecyclerHolderFactory.create(
+                parent,
+                config.chipConfig
+            )
         }
     }
 
@@ -114,6 +123,10 @@ internal class ChecklistItemAdapter(
 
         } else if (holder is ChecklistNewRecyclerHolder && item is ChecklistNewRecyclerItem) {
             holder.updateConfigConditionally(config.checklistNewConfig)
+            holder.bindView(item)
+
+        } else if (holder is ChipContainerRecyclerHolder && item is ChipContainerRecyclerItem) {
+            holder.updateConfigConditionally(config.chipConfig)
             holder.bindView(item)
 
         } else {

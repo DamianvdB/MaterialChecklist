@@ -14,32 +14,47 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager.content
+package com.dvdb.materialchecklist.manager.chip
 
-import com.dvdb.materialchecklist.manager.content.model.ContentManagerConfig
+import com.dvdb.materialchecklist.manager.chip.model.ChipItem
+import com.dvdb.materialchecklist.manager.chip.model.ChipManagerConfig
+import com.dvdb.materialchecklist.manager.chip.model.transform
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterRequestFocus
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerItem
+import com.dvdb.materialchecklist.recycler.chip.model.ChipContainerRecyclerItem
+import com.dvdb.materialchecklist.recycler.chip.model.ChipRecyclerItem
 
 private const val NO_POSITION = -1
 
-internal class ContentManagerImpl : ContentManager {
+internal class ChipManagerImpl : ChipManager {
 
+    override var onItemClicked: (item: ChipItem) -> Unit = {}
+
+    override var onItemInContainerClicked: (id: Int) -> Unit = { id ->
+        val chipItemPredicate: (ChipRecyclerItem) -> Boolean = { item -> item.id == id }
+        val containerItem = adapter.items.firstOrNull {
+            (it as? ChipContainerRecyclerItem)?.items
+                ?.any(chipItemPredicate)
+                ?: false
+        }
+
+        if (containerItem is ChipContainerRecyclerItem) {
+            val item = containerItem.items.first(chipItemPredicate)
+            onItemClicked(item.transform())
+        }
+    }
     private lateinit var adapter: ChecklistItemAdapter
-    private lateinit var config: ContentManagerConfig
-
-    private var hasFocus: Boolean = false
+    private lateinit var config: ChipManagerConfig
 
     override fun lateInitState(
         adapter: ChecklistItemAdapter,
-        config: ContentManagerConfig
+        config: ChipManagerConfig
     ) {
         this.adapter = adapter
         this.config = config
     }
 
-    override fun setConfig(config: ContentManagerConfig) {
+    override fun setConfig(config: ChipManagerConfig) {
         if (this.config.adapterConfig != config.adapterConfig) {
             adapter.config = config.adapterConfig
         }
@@ -47,14 +62,14 @@ internal class ContentManagerImpl : ContentManager {
         this.config = config
     }
 
-    override fun getContentItem(): String? {
-        val item = adapter.items.firstOrNull { it is ContentRecyclerItem }
-        return (item as? ContentRecyclerItem)?.text
+    override fun getChipItems(): List<ChipItem> {
+        val item = adapter.items.firstOrNull { it is ChipContainerRecyclerItem }
+        return (item as? ChipContainerRecyclerItem)?.items?.map { it.transform() } ?: emptyList()
     }
 
-    override fun setContentItem(text: String) {
-        val newItem = ContentRecyclerItem(text)
-        val position = adapter.items.indexOfFirst { it is ContentRecyclerItem }
+    override fun setChipItems(items: List<ChipItem>) {
+        val newItem = ChipContainerRecyclerItem(items = items.map { it.transform() })
+        val position = adapter.items.indexOfFirst { it is ChipContainerRecyclerItem }
 
         if (position != NO_POSITION) {
             updateItemInAdapter(
@@ -69,8 +84,8 @@ internal class ContentManagerImpl : ContentManager {
         }
     }
 
-    override fun removeContentItem(): Boolean {
-        val position = adapter.items.indexOfFirst { it is ContentRecyclerItem }
+    override fun removeChipItems(): Boolean {
+        val position = adapter.items.indexOfFirst { it is ChipContainerRecyclerItem }
 
         return if (position != NO_POSITION) {
             removeItemFromAdapter(position)
@@ -78,45 +93,6 @@ internal class ContentManagerImpl : ContentManager {
         } else {
             false
         }
-    }
-
-    override fun requestContentItemFocus(): Boolean {
-        val position = adapter.items.indexOfFirst { it is ContentRecyclerItem }
-
-        return if (position != NO_POSITION) {
-            adapter.requestFocus = ChecklistItemAdapterRequestFocus(
-                position = position,
-                selectionPosition = Int.MAX_VALUE,
-                isShowKeyboard = true
-            )
-            true
-        } else {
-            false
-        }
-    }
-
-    override fun onContentItemTextChanged(
-        position: Int,
-        text: String
-    ) {
-        val item = adapter.items.getOrNull(position)
-
-        if (item is ContentRecyclerItem) {
-            updateItemInAdapter(
-                item = item.copy(text),
-                position = position,
-                notify = false
-            )
-        }
-    }
-
-    override fun onContentItemFocusChanged(
-        position: Int,
-        startSelection: Int,
-        endSelection: Int,
-        hasFocus: Boolean
-    ) {
-        this.hasFocus = hasFocus
     }
 
     override fun onItemMove(
