@@ -17,11 +17,14 @@
 package com.dvdb.materialchecklist.recycler.base.adapter
 
 import androidx.recyclerview.widget.RecyclerView
+import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolder
+import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderConfig
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 
 @Suppress("PropertyName")
-internal abstract class BaseRecyclerAdapter<T>(
+internal abstract class BaseRecyclerAdapter<T : BaseRecyclerItem, C : BaseRecyclerHolderConfig>(
     items: List<T>
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<BaseRecyclerHolder<T, C>>() {
 
     protected var _items: MutableList<T> = items.toMutableList()
 
