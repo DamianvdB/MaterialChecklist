@@ -24,7 +24,6 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.CheckResult
 import androidx.annotation.ColorInt
-import androidx.annotation.Px
 import androidx.annotation.StyleableRes
 import com.dvdb.materialchecklist.R
 import com.dvdb.materialchecklist.config.checklist.model.BehaviorCheckedItem
@@ -59,7 +58,7 @@ internal class ChecklistConfig(
     @ColorInt var textTitleHintColor: Int? = null,
     @ColorInt var textContentLinkColor: Int? = null,
     @ColorInt var textContentHintColor: Int? = null,
-    @Px var textSize: Float = context.resources.getDimension(R.dimen.mc_item_checklist_text_size),
+    var textSize: Float = context.resources.getDimension(R.dimen.mc_item_checklist_text_size),
     var textTitleHint: String = String(),
     var textContentHint: String = String(),
     var textNewItem: String = context.getString(R.string.mc_item_checklist_new_text),
@@ -105,10 +104,10 @@ internal class ChecklistConfig(
     /**
      * Item
      */
-    @Px var itemFirstTopPadding: Float? = null,
-    @Px var itemLeftAndRightPadding: Float? = null,
-    @Px var itemTopAndBottomPadding: Float = context.resources.getDimension(R.dimen.mc_item_checklist_top_bottom_padding),
-    @Px var itemLastBottomPadding: Float? = null
+    var itemFirstTopPadding: Float? = null,
+    var itemLeftAndRightPadding: Float? = null,
+    var itemTopAndBottomPadding: Float = context.resources.getDimension(R.dimen.mc_item_checklist_top_bottom_padding),
+    var itemLastBottomPadding: Float? = null
 ) : Config {
 
     private val titleTextSizeOffset: Float =

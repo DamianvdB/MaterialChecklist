@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import androidx.annotation.Px
 import com.dvdb.materialchecklist.config.Config
 import com.dvdb.materialchecklist.config.checklist.model.BehaviorCheckedItem
 import com.dvdb.materialchecklist.config.checklist.model.BehaviorUncheckedItem
@@ -26,7 +25,7 @@ internal data class ChecklistManagerConfig(
     val dragAndDropDismissKeyboardBehavior: DragAndDropDismissKeyboardBehavior,
     val behaviorCheckedItem: BehaviorCheckedItem,
     val behaviorUncheckedItem: BehaviorUncheckedItem,
-    @Px val itemFirstTopPadding: Float?,
-    @Px val itemLastBottomPadding: Float?,
+    val itemFirstTopPadding: Float?,
+    val itemLastBottomPadding: Float?,
     val adapterConfig: ChecklistItemAdapterConfig
 ) : Config

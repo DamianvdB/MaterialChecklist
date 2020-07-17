@@ -22,17 +22,14 @@ import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterRequestFocus
 import com.dvdb.materialchecklist.recycler.base.adapter.BaseRecyclerAdapter
+import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolder
+import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.checklist.holder.ChecklistRecyclerHolder
-import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.recycler.checklistnew.holder.ChecklistNewRecyclerHolder
-import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerItem
 import com.dvdb.materialchecklist.recycler.chip.holder.ChipContainerRecyclerHolder
-import com.dvdb.materialchecklist.recycler.chip.model.ChipContainerRecyclerItem
 import com.dvdb.materialchecklist.recycler.content.holder.ContentRecyclerHolder
-import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerItem
 import com.dvdb.materialchecklist.recycler.title.holder.TitleRecyclerHolder
-import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
 import com.dvdb.materialchecklist.recycler.util.holder.DraggableRecyclerHolder
 import com.dvdb.materialchecklist.recycler.util.holder.RequestFocusRecyclerHolder
@@ -46,7 +43,7 @@ internal class ChecklistItemAdapter(
     private val itemChipContainerRecyclerHolderFactory: ChipContainerRecyclerHolder.Factory,
     private val itemDragListener: ChecklistItemAdapterDragListener,
     items: List<BaseRecyclerItem> = emptyList()
-) : BaseRecyclerAdapter<BaseRecyclerItem>(items),
+) : BaseRecyclerAdapter<BaseRecyclerItem, BaseRecyclerHolderConfig>(items),
     ItemTouchHelperAdapter {
 
     var config: ChecklistItemAdapterConfig = config
@@ -72,10 +69,11 @@ internal class ChecklistItemAdapter(
 
     override fun getItemViewType(position: Int): Int = _items[position].type.ordinal
 
+    @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecyclerView.ViewHolder {
+    ): BaseRecyclerHolder<BaseRecyclerItem, BaseRecyclerHolderConfig> {
         val itemType = BaseRecyclerItem.Type.fromInt(viewType)
             ?: error("Unknown recycler item type for view type '$viewType'")
 
@@ -100,38 +98,17 @@ internal class ChecklistItemAdapter(
                 parent,
                 config.chipConfig
             )
-        }
+        } as BaseRecyclerHolder<BaseRecyclerItem, BaseRecyclerHolderConfig>
     }
 
     override fun onBindViewHolder(
-        holder: RecyclerView.ViewHolder,
+        holder: BaseRecyclerHolder<BaseRecyclerItem, BaseRecyclerHolderConfig>,
         position: Int
     ) {
         val item = _items[position]
 
-        if (holder is TitleRecyclerHolder && item is TitleRecyclerItem) {
-            holder.updateConfigConditionally(config.titleConfig)
-            holder.bindView(item)
-
-        } else if (holder is ContentRecyclerHolder && item is ContentRecyclerItem) {
-            holder.updateConfigConditionally(config.contentConfig)
-            holder.bindView(item)
-
-        } else if (holder is ChecklistRecyclerHolder && item is ChecklistRecyclerItem) {
-            holder.updateConfigConditionally(config.checklistConfig)
-            holder.bindView(item)
-
-        } else if (holder is ChecklistNewRecyclerHolder && item is ChecklistNewRecyclerItem) {
-            holder.updateConfigConditionally(config.checklistNewConfig)
-            holder.bindView(item)
-
-        } else if (holder is ChipContainerRecyclerHolder && item is ChipContainerRecyclerItem) {
-            holder.updateConfigConditionally(config.chipConfig)
-            holder.bindView(item)
-
-        } else {
-            error("Unknown holder. Must be of type 'ChecklistRecyclerHolder' or 'ChecklistNewRecyclerHolder'")
-        }
+        holder.bindView(item)
+        holder.updateConfigConditionally(getConfigFromItemType(item.type))
 
         if (holder is RequestFocusRecyclerHolder && position == requestFocus.position) {
             holder.requestFocus(
@@ -169,6 +146,16 @@ internal class ChecklistItemAdapter(
         if (viewHolder is DraggableRecyclerHolder) {
             viewHolder.onDragStop()
             itemDragListener.onItemDragStopped(viewHolder.adapterPosition)
+        }
+    }
+
+    private fun getConfigFromItemType(type: BaseRecyclerItem.Type): BaseRecyclerHolderConfig {
+        return when (type) {
+            BaseRecyclerItem.Type.CHECKLIST -> config.checklistConfig
+            BaseRecyclerItem.Type.CHECKLIST_NEW -> config.checklistNewConfig
+            BaseRecyclerItem.Type.TITLE -> config.titleConfig
+            BaseRecyclerItem.Type.CONTENT -> config.contentConfig
+            BaseRecyclerItem.Type.CHIP -> config.chipConfig
         }
     }
 }

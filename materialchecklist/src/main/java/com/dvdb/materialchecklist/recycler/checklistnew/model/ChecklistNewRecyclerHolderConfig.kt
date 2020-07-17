@@ -19,18 +19,17 @@ package com.dvdb.materialchecklist.recycler.checklistnew.model
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
-import androidx.annotation.Px
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderConfig
 
 internal data class ChecklistNewRecyclerHolderConfig(
     val text: String,
     @ColorInt val textColor: Int,
-    @Px val textSize: Float,
+    val textSize: Float,
     val textAlpha: Float,
     val textTypeFace: Typeface?,
     @ColorInt val iconTintColor: Int,
     val iconAdd: Drawable?,
     val iconAlphaAdd: Float,
-    @Px val topAndBottomPadding: Float,
-    @Px val leftAndRightPadding: Float?
+    val topAndBottomPadding: Float,
+    val leftAndRightPadding: Float?
 ) : BaseRecyclerHolderConfig
