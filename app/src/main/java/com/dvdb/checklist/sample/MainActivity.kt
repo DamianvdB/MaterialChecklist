@@ -17,10 +17,13 @@
 package com.dvdb.checklist.sample
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -31,7 +34,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.preference.PreferenceManager
 import com.dvdb.checklist.R
 import com.dvdb.checklist.sample.config.ChecklistConfiguration
@@ -43,8 +49,10 @@ import com.dvdb.materialchecklist.config.content.setContentHintTextColor
 import com.dvdb.materialchecklist.config.content.setContentLinkTextColor
 import com.dvdb.materialchecklist.config.general.applyConfiguration
 import com.dvdb.materialchecklist.config.general.setTextEditable
+import com.dvdb.materialchecklist.config.image.*
 import com.dvdb.materialchecklist.config.title.*
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
+import com.dvdb.materialchecklist.manager.image.model.ImageItem
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -193,12 +201,14 @@ internal class MainActivity : AppCompatActivity() {
         initChecklist()
         initTitle()
         initChips()
+        initImages()
 
         if (showChecklist) {
             main_checklist.setTitleItem(titleItemText)
             main_checklist.setContentItem(contentItemText)
             main_checklist.setItems(checklistItemsText)
             setChips()
+            setImages()
         } else {
             main_text.setText(checklistItemsText)
 
@@ -233,6 +243,13 @@ internal class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initImages() {
+        main_checklist.setOnImageItemClicked {
+            toast.setText("Image clicked with id '${it.id}'")
+            toast.show()
+        }
+    }
+
     private fun setChips() {
         val important = SpannableString("Important").apply {
             setSpan(
@@ -254,12 +271,65 @@ internal class MainActivity : AppCompatActivity() {
         )
     }
 
+    private fun setImages() {
+        main_checklist.setImageItems(
+            listOf(
+                ImageItem(
+                    id = 1,
+                    text = "Hello Word 1",
+                    primaryImage = ContextCompat.getDrawable(this, R.drawable.ic_add).apply {
+                        this!!.mutate()
+
+                        DrawableCompat.setTintList(this, null)
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            DrawableCompat.setTint(this, Color.BLACK)
+                        } else {
+                            DrawableCompat.setTint(DrawableCompat.wrap(this), Color.BLACK)
+                        }
+                    }
+                ),
+                ImageItem(
+                    id = 2,
+                    text = "Hello Word 2",
+                    secondaryImage = ContextCompat.getDrawable(
+                        this,
+                        R.drawable.ic_baseline_access_time_24
+                    ).apply {
+                        this!!.mutate()
+
+                        DrawableCompat.setTintList(this, null)
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            DrawableCompat.setTint(this, Color.BLACK)
+                        } else {
+                            DrawableCompat.setTint(DrawableCompat.wrap(this), Color.BLACK)
+                        }
+                    }
+                ),
+                ImageItem(
+                    id = 3,
+                    primaryImageUri = generateUriFromDrawableResource(R.drawable.bg_sun_mountain)
+                ),
+                ImageItem(
+                    id = 4,
+                    primaryImageUri = generateUriFromDrawableResource(R.drawable.bg_sun_mountain)
+                ),
+                ImageItem(
+                    id = 5,
+                    secondaryImageUri = generateUriFromDrawableResource(R.drawable.bg_sun_mountain)
+                )
+            )
+        )
+    }
+
     private fun handleSettingConfiguration() {
         handleSettingChecklistConfiguration()
         handleSettingTitleConfiguration()
         handleSettingContentConfiguration()
         handleSettingChipConfiguration()
         handleSettingGeneralConfiguration()
+        handleSettingImageConfiguration()
 
         main_checklist.applyConfiguration()
     }
@@ -370,6 +440,30 @@ internal class MainActivity : AppCompatActivity() {
         main_checklist.setTextEditable(checklistConfiguration.textEditable)
     }
 
+    private fun handleSettingImageConfiguration() {
+        main_checklist.setImageMaxColumnSpan(checklistConfiguration.imageMaxColumnSpan)
+
+        checklistConfiguration.imageTextColor?.let {
+            main_checklist.setImageTextColor(it)
+        }
+
+        main_checklist.setImageStrokeColor(checklistConfiguration.imageStrokeColor)
+            .setImageStrokeWidth(checklistConfiguration.imageStrokeWidth)
+            .setImageTextSize(checklistConfiguration.imageTextSize)
+            .setImageCornerRadius(checklistConfiguration.imageCornerRadius)
+            .setImageInnerPadding(checklistConfiguration.imageInnerPadding)
+
+        checklistConfiguration.imageLeftAndRightPadding?.let {
+            main_checklist.setImageLeftAndRightPadding(it)
+        }
+
+        checklistConfiguration.imageTopAndBottomPadding?.let {
+            main_checklist.setImageTopAndBottomPadding(it)
+        }
+
+        main_checklist.setImageAdjustItemTextSize(checklistConfiguration.imageAdjustItemTextSize)
+    }
+
     private fun handleOnConvertToChecklistMenuItemClicked() {
         updateVisibleContentOnConvertMenuItemClicked(true)
     }
@@ -477,5 +571,14 @@ internal class MainActivity : AppCompatActivity() {
     private fun dismissKeyboard() {
         (this.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
             ?.hideSoftInputFromWindow(window.decorView.windowToken, 0)
+    }
+
+    private fun generateUriFromDrawableResource(@DrawableRes drawableRes: Int): Uri {
+        return Uri.parse(
+            ContentResolver.SCHEME_ANDROID_RESOURCE +
+                    "://" + resources.getResourcePackageName(drawableRes) +
+                    '/' + resources.getResourceTypeName(drawableRes) +
+                    '/' + resources.getResourceEntryName(drawableRes)
+        )
     }
 }

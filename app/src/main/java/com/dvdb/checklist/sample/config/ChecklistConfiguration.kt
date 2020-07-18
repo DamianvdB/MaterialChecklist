@@ -155,6 +155,24 @@ internal class ChecklistConfiguration(
         context.resources.getDimension(com.dvdb.materialchecklist.R.dimen.mc_spacing_medium)
 
     /**
+     * Image
+     */
+    val imageMaxColumnSpan: Int =
+        context.resources.getInteger(R.integer.mc_item_image_container_column_span)
+    val imageTextColor: Int? = null
+    val imageStrokeColor: Int = ContextCompat.getColor(context, R.color.mc_image_container_stroke)
+    val imageStrokeWidth: Int =
+        context.resources.getDimensionPixelSize(R.dimen.mc_item_image_stroke_width)
+    val imageTextSize: Float = context.resources.getDimension(R.dimen.mc_item_image_text_size)
+    val imageCornerRadius: Float =
+        context.resources.getDimension(R.dimen.mc_item_image_corner_radius)
+    val imageInnerPadding: Float =
+        context.resources.getDimension(R.dimen.mc_item_image_inner_margin)
+    val imageLeftAndRightPadding: Float? = null
+    val imageTopAndBottomPadding: Float? = null
+    val imageAdjustItemTextSize: Boolean = true
+
+    /**
      * Checkbox
      */
     val checkboxTintColor: Int?
