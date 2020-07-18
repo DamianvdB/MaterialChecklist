@@ -17,9 +17,13 @@
 package com.dvdb.materialchecklist.util
 
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import com.dvdb.materialchecklist.util.imageloader.ImageLoader
 
 internal fun View.setVisible(
     isVisible: Boolean,
@@ -43,4 +47,17 @@ internal inline fun View.updateLayoutParams(block: ViewGroup.LayoutParams.() -> 
     val params = layoutParams
     block(params)
     layoutParams = params
+}
+
+internal fun ImageView.loadImage(
+    uri: Uri,
+    onLoadSuccess: (Drawable?) -> Unit = {},
+    onLoadFailed: () -> Unit = {}
+) {
+    ImageLoader.loadImage(
+        this,
+        uri,
+        onLoadSuccess,
+        onLoadFailed
+    )
 }

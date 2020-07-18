@@ -22,6 +22,7 @@ dependencies {
 
     implementation deps.androidx.core
     implementation deps.androidx.recycler_view
+    implementation deps.androidx.constraint_layout
 
     implementation deps.google_material
 
