@@ -27,6 +27,6 @@ internal data class ImageRecyclerHolderConfig(
     @Px val strokeWidth: Int,
     val cornerRadius: Float,
     val textSize: Float,
-    val textMaxLines: Int,
+    val maxTextLines: Int,
     val typeFace: Typeface?
 ) : BaseRecyclerHolderConfig

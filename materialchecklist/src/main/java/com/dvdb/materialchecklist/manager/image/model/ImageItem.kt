@@ -14,27 +14,16 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.base.model
+package com.dvdb.materialchecklist.manager.image.model
 
-import androidx.annotation.CheckResult
+import android.graphics.drawable.Drawable
+import android.net.Uri
 
-internal abstract class BaseRecyclerItem {
-    abstract val type: Type
-    abstract val id: Long
-
-    enum class Type {
-        TITLE,
-        CONTENT,
-        CHECKLIST,
-        CHECKLIST_NEW,
-        CHIP,
-        IMAGE;
-
-        companion object {
-            @CheckResult
-            fun fromInt(value: Int): Type? {
-                return values().firstOrNull { it.ordinal == value }
-            }
-        }
-    }
-}
+data class ImageItem(
+    val id: Int,
+    val text: String = "",
+    val primaryImage: Drawable? = null,
+    val primaryImageUri: Uri = Uri.EMPTY,
+    val secondaryImage: Drawable? = null,
+    val secondaryImageUri: Uri = Uri.EMPTY
+)

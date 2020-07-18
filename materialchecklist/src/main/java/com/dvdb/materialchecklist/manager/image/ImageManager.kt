@@ -14,29 +14,30 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager.chip
+package com.dvdb.materialchecklist.manager.image
 
-import com.dvdb.materialchecklist.manager.chip.model.ChipItem
-import com.dvdb.materialchecklist.manager.chip.model.ChipManagerConfig
+import com.dvdb.materialchecklist.manager.image.model.ImageItem
+import com.dvdb.materialchecklist.manager.image.model.ImageManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
+import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyclerItem
 
-internal interface ChipManager : ChecklistItemAdapterDragListener {
+internal interface ImageManager : ChecklistItemAdapterDragListener {
 
-    var onChipItemClicked: (item: ChipItem) -> Unit
+    var onImageItemClicked: (item: ImageItem) -> Unit
 
-    var onChipItemInContainerClicked: (id: Int) -> Unit
+    val onImageItemInContainerClicked: (item: ImageRecyclerItem) -> Unit
 
     fun lateInitState(
         adapter: ChecklistItemAdapter,
-        config: ChipManagerConfig
+        config: ImageManagerConfig
     )
 
-    fun setConfig(config: ChipManagerConfig)
+    fun setConfig(config: ImageManagerConfig)
 
-    fun getChipItems(): List<ChipItem>
+    fun getImageItems(): List<ImageItem>
 
-    fun setChipItems(items: List<ChipItem>)
+    fun setImageItems(items: List<ImageItem>)
 
-    fun removeChipItems(): Boolean
+    fun removeImageItems(): Boolean
 }

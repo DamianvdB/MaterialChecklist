@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.chip.holder
+package com.dvdb.materialchecklist.recycler.chipcontainer.holder
 
 import android.content.res.ColorStateList
 import android.util.TypedValue
 import android.view.ViewGroup
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolder
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderFactory
-import com.dvdb.materialchecklist.recycler.chip.model.ChipContainerRecyclerHolderConfig
-import com.dvdb.materialchecklist.recycler.chip.model.ChipContainerRecyclerItem
-import com.dvdb.materialchecklist.recycler.chip.model.ChipRecyclerItem
+import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecyclerHolderConfig
+import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecyclerItem
+import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipRecyclerItem
 import com.dvdb.materialchecklist.util.getDrawableCompat
 import com.dvdb.materialchecklist.util.setTintCompat
 import com.google.android.material.chip.Chip

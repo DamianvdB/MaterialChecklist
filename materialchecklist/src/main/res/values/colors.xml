@@ -2,4 +2,5 @@
 <resources>
     <color name="mc_text_checklist_item_text">#212121</color>
     <color name="mc_icon_tint">#616161</color>
+    <color name="mc_image_container_stroke">#eeeeee</color>
 </resources>

@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.chip.model
+package com.dvdb.materialchecklist.recycler.imagecontainer.model
 
-import androidx.annotation.DrawableRes
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyclerItem
+import com.dvdb.materialchecklist.recycler.util.RecyclerItemIdentifierUtil
 
-internal data class ChipRecyclerItem(
-    val id: Int,
-    val text: CharSequence,
-    @DrawableRes val iconRes: Int = -1
-)
+internal data class ImageContainerRecyclerItem(
+    val items: List<ImageRecyclerItem>,
+    override val type: Type = Type.IMAGE,
+    override val id: Long = RecyclerItemIdentifierUtil.nextIdentifier
+) : BaseRecyclerItem()

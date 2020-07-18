@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.chip.model
+package com.dvdb.materialchecklist.recycler.chipcontainer.model
 
 import android.graphics.Typeface
 import androidx.annotation.ColorInt

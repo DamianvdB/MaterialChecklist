@@ -88,7 +88,7 @@ internal class ImageRecyclerHolder private constructor(
 
     private fun initText() {
         text.setTextColor(config.textColor)
-        text.maxLines = config.textMaxLines
+        text.maxLines = config.maxTextLines
         text.setTextSize(
             TypedValue.COMPLEX_UNIT_PX,
             config.textSize

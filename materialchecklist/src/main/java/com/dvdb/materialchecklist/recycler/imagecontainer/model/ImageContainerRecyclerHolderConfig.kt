@@ -14,27 +14,16 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.base.model
+package com.dvdb.materialchecklist.recycler.imagecontainer.model
 
-import androidx.annotation.CheckResult
+import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderConfig
+import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyclerHolderConfig
 
-internal abstract class BaseRecyclerItem {
-    abstract val type: Type
-    abstract val id: Long
-
-    enum class Type {
-        TITLE,
-        CONTENT,
-        CHECKLIST,
-        CHECKLIST_NEW,
-        CHIP,
-        IMAGE;
-
-        companion object {
-            @CheckResult
-            fun fromInt(value: Int): Type? {
-                return values().firstOrNull { it.ordinal == value }
-            }
-        }
-    }
-}
+internal data class ImageContainerRecyclerHolderConfig(
+    val maxColumnSpan: Int,
+    val innerPadding: Float,
+    val topAndBottomPadding: Float,
+    val leftAndRightPadding: Float?,
+    val adjustItemTextSize: Boolean,
+    val imageItemConfig: ImageRecyclerHolderConfig
+) : BaseRecyclerHolderConfig

@@ -32,14 +32,17 @@ import com.dvdb.materialchecklist.manager.checklist.util.ChecklistRecyclerItemPo
 import com.dvdb.materialchecklist.manager.chip.ChipManagerImpl
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
 import com.dvdb.materialchecklist.manager.content.ContentManagerImpl
+import com.dvdb.materialchecklist.manager.image.ImageManagerImpl
+import com.dvdb.materialchecklist.manager.image.model.ImageItem
 import com.dvdb.materialchecklist.manager.title.TitleManagerImpl
 import com.dvdb.materialchecklist.manager.title.util.TitleRecyclerItemPositionTracker
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.checklist.holder.ChecklistRecyclerHolder
 import com.dvdb.materialchecklist.recycler.checklistnew.holder.ChecklistNewRecyclerHolder
-import com.dvdb.materialchecklist.recycler.chip.holder.ChipContainerRecyclerHolder
+import com.dvdb.materialchecklist.recycler.chipcontainer.holder.ChipContainerRecyclerHolder
 import com.dvdb.materialchecklist.recycler.content.holder.ContentRecyclerHolder
+import com.dvdb.materialchecklist.recycler.imagecontainer.holder.ImageContainerRecyclerHolder
 import com.dvdb.materialchecklist.recycler.title.holder.TitleRecyclerHolder
 import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
 import com.dvdb.materialchecklist.recycler.util.RecyclerSpaceItemDecorator
@@ -65,7 +68,8 @@ class MaterialChecklist(
                 requestFocus()
             }
         ),
-        ChipManagerImpl()
+        ChipManagerImpl(),
+        ImageManagerImpl()
     ) { items }
 
     internal val config: ChecklistConfig = ChecklistConfig(
@@ -156,7 +160,26 @@ class MaterialChecklist(
     }
 
     fun setOnChipItemClicked(onChipItemClicked: (ChipItem) -> Unit) {
-        manager.onItemClicked = onChipItemClicked
+        manager.onChipItemClicked = onChipItemClicked
+    }
+
+    /**
+     * Image item
+     */
+    fun setImageItems(items: List<ImageItem>) {
+        manager.setImageItems(items)
+    }
+
+    fun getImageItems(): List<ImageItem> {
+        return manager.getImageItems()
+    }
+
+    fun removeImageItems(): Boolean {
+        return manager.removeImageItems()
+    }
+
+    fun setOnImageItemClicked(onImageItemClicked: (ImageItem) -> Unit) {
+        manager.onImageItemClicked = onImageItemClicked
     }
 
     /**
@@ -333,7 +356,10 @@ class MaterialChecklist(
                 manager.onCreateNewChecklistItemClicked
             ),
             itemChipContainerRecyclerHolderFactory = ChipContainerRecyclerHolder.Factory { id ->
-                manager.onItemInContainerClicked(id)
+                manager.onChipItemInContainerClicked(id)
+            },
+            itemImageContainerRecyclerHolderFactory = ImageContainerRecyclerHolder.Factory { item ->
+                manager.onImageItemInContainerClicked(item)
             },
             itemDragListener = manager
         )

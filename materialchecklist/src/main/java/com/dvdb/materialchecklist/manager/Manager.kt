@@ -20,6 +20,7 @@ import com.dvdb.materialchecklist.config.ChecklistConfig
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManager
 import com.dvdb.materialchecklist.manager.chip.ChipManager
 import com.dvdb.materialchecklist.manager.content.ContentManager
+import com.dvdb.materialchecklist.manager.image.ImageManager
 import com.dvdb.materialchecklist.manager.title.TitleManager
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
@@ -29,11 +30,13 @@ internal class Manager(
     private val contentManager: ContentManager,
     private val checklistManager: ChecklistManager,
     private val chipManager: ChipManager,
+    private val imageManager: ImageManager,
     private val items: () -> List<BaseRecyclerItem>
 ) : TitleManager by titleManager,
     ContentManager by contentManager,
     ChecklistManager by checklistManager,
-    ChipManager by chipManager {
+    ChipManager by chipManager,
+    ImageManager by imageManager {
 
     fun lateInitState(
         adapter: ChecklistItemAdapter,
@@ -68,6 +71,11 @@ internal class Manager(
             adapter = adapter,
             config = config.toChipManagerConfig()
         )
+
+        imageManager.lateInitState(
+            adapter = adapter,
+            config = config.toImageManagerConfig()
+        )
     }
 
     fun getItemCount(): Int {
@@ -79,6 +87,7 @@ internal class Manager(
         contentManager.setConfig(config.toContentManagerConfig())
         checklistManager.setConfig(config.toManagerConfig())
         chipManager.setConfig(config.toChipManagerConfig())
+        imageManager.setConfig(config.toImageManagerConfig())
     }
 
     override fun onItemMove(
@@ -107,6 +116,12 @@ internal class Manager(
             },
             chipItemAction = {
                 chipManager.onItemMove(
+                    fromPosition,
+                    toPosition
+                )
+            },
+            imageItemAction = {
+                imageManager.onItemMove(
                     fromPosition,
                     toPosition
                 )
@@ -145,6 +160,12 @@ internal class Manager(
                     targetPosition
                 )
             },
+            imageItemAction = {
+                imageManager.canDragOverTargetItem(
+                    currentPosition,
+                    targetPosition
+                )
+            },
             defaultAction = { false }
         ) as Boolean
     }
@@ -155,7 +176,8 @@ internal class Manager(
             titleItemAction = { titleManager.onItemDragStarted(position) },
             contentItemAction = { contentManager.onItemDragStarted(position) },
             checklistItemAction = { checklistManager.onItemDragStarted(position) },
-            chipItemAction = { chipManager.onItemDragStarted(position) }
+            chipItemAction = { chipManager.onItemDragStarted(position) },
+            imageItemAction = { imageManager.onItemDragStarted(position) }
         )
     }
 
@@ -165,7 +187,8 @@ internal class Manager(
             titleItemAction = { titleManager.onItemDragStopped(position) },
             contentItemAction = { contentManager.onItemDragStopped(position) },
             checklistItemAction = { checklistManager.onItemDragStopped(position) },
-            chipItemAction = { chipManager.onItemDragStopped(position) }
+            chipItemAction = { chipManager.onItemDragStopped(position) },
+            imageItemAction = { imageManager.onItemDragStopped(position) }
         )
     }
 
@@ -175,6 +198,7 @@ internal class Manager(
         contentItemAction: () -> Any,
         checklistItemAction: () -> Any,
         chipItemAction: () -> Any,
+        imageItemAction: () -> Any,
         defaultAction: () -> Any = {}
     ): Any {
         if (item == null) {
@@ -187,6 +211,7 @@ internal class Manager(
             BaseRecyclerItem.Type.CHECKLIST,
             BaseRecyclerItem.Type.CHECKLIST_NEW -> checklistItemAction()
             BaseRecyclerItem.Type.CHIP -> chipItemAction()
+            BaseRecyclerItem.Type.IMAGE -> imageItemAction()
         }
     }
 }

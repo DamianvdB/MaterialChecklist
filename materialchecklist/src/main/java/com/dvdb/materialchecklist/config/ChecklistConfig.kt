@@ -31,8 +31,10 @@ import com.dvdb.materialchecklist.config.checklist.model.BehaviorUncheckedItem
 import com.dvdb.materialchecklist.config.checklist.model.DragAndDropDismissKeyboardBehavior
 import com.dvdb.materialchecklist.config.checklist.model.DragAndDropToggleBehavior
 import com.dvdb.materialchecklist.config.chip.model.ChipConfig
+import com.dvdb.materialchecklist.config.image.model.ImageConfig
 import com.dvdb.materialchecklist.manager.chip.model.ChipManagerConfig
 import com.dvdb.materialchecklist.manager.content.model.ContentManagerConfig
+import com.dvdb.materialchecklist.manager.image.model.ImageManagerConfig
 import com.dvdb.materialchecklist.manager.title.model.TitleManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerHolderConfig
@@ -132,6 +134,14 @@ internal class ChecklistConfig(
         topAndBottomPadding = { itemTopAndBottomPadding + chipTopAndBottomPaddingOffset }
     )
 
+    val imageConfig: ImageConfig = ImageConfig(
+        context,
+        _textColor = { textColor },
+        typeFace = { textTypeFace },
+        _leftAndRightPadding = { itemLeftAndRightPadding },
+        _topAndBottomPadding = { itemTopAndBottomPadding }
+    )
+
     init {
         val attributes: TypedArray = context.obtainStyledAttributes(
             attrs,
@@ -173,6 +183,11 @@ internal class ChecklistConfig(
 
     @CheckResult
     fun toChipManagerConfig() = ChipManagerConfig(
+        adapterConfig = toAdapterConfig()
+    )
+
+    @CheckResult
+    fun toImageManagerConfig() = ImageManagerConfig(
         adapterConfig = toAdapterConfig()
     )
 
@@ -234,7 +249,8 @@ internal class ChecklistConfig(
             topAndBottomPadding = itemTopAndBottomPadding,
             leftAndRightPadding = itemLeftAndRightPadding
         ),
-        chipConfig = chipConfig.transform()
+        chipConfig = chipConfig.transform(),
+        imageConfig = imageConfig.transform()
     )
 
     private fun initTextAttributes(attrs: TypedArray) {

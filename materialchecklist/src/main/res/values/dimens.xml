@@ -29,5 +29,13 @@
     <dimen name="mc_item_content_min_height">60dp</dimen>
     <dimen name="mc_item_chip_text_size_offset">2sp</dimen>
     <dimen name="mc_item_chip_min_height">28dp</dimen>
+    <dimen name="mc_item_image_text_size">12sp</dimen>
+    <dimen name="mc_item_image_text_size_span_count_two">12sp</dimen>
+    <dimen name="mc_item_image_text_size_span_count_three">10sp</dimen>
+    <dimen name="mc_item_image_text_size_span_count_four">9sp</dimen>
+    <dimen name="mc_item_image_text_size_span_count_min">8sp</dimen>
+    <dimen name="mc_item_image_inner_margin">8dp</dimen>
+    <dimen name="mc_item_image_stroke_width">1dp</dimen>
+    <dimen name="mc_item_image_corner_radius">2dp</dimen>
 
 </resources>

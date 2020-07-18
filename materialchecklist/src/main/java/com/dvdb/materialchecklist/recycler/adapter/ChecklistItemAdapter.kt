@@ -27,8 +27,9 @@ import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.checklist.holder.ChecklistRecyclerHolder
 import com.dvdb.materialchecklist.recycler.checklistnew.holder.ChecklistNewRecyclerHolder
-import com.dvdb.materialchecklist.recycler.chip.holder.ChipContainerRecyclerHolder
+import com.dvdb.materialchecklist.recycler.chipcontainer.holder.ChipContainerRecyclerHolder
 import com.dvdb.materialchecklist.recycler.content.holder.ContentRecyclerHolder
+import com.dvdb.materialchecklist.recycler.imagecontainer.holder.ImageContainerRecyclerHolder
 import com.dvdb.materialchecklist.recycler.title.holder.TitleRecyclerHolder
 import com.dvdb.materialchecklist.recycler.util.ItemTouchHelperAdapter
 import com.dvdb.materialchecklist.recycler.util.holder.DraggableRecyclerHolder
@@ -41,6 +42,7 @@ internal class ChecklistItemAdapter(
     private val itemRecyclerHolderFactory: ChecklistRecyclerHolder.Factory,
     private val itemNewRecyclerHolderFactory: ChecklistNewRecyclerHolder.Factory,
     private val itemChipContainerRecyclerHolderFactory: ChipContainerRecyclerHolder.Factory,
+    private val itemImageContainerRecyclerHolderFactory: ImageContainerRecyclerHolder.Factory,
     private val itemDragListener: ChecklistItemAdapterDragListener,
     items: List<BaseRecyclerItem> = emptyList()
 ) : BaseRecyclerAdapter<BaseRecyclerItem, BaseRecyclerHolderConfig>(items),
@@ -97,6 +99,10 @@ internal class ChecklistItemAdapter(
             BaseRecyclerItem.Type.CHIP -> itemChipContainerRecyclerHolderFactory.create(
                 parent,
                 config.chipConfig
+            )
+            BaseRecyclerItem.Type.IMAGE -> itemImageContainerRecyclerHolderFactory.create(
+                parent,
+                config.imageConfig
             )
         } as BaseRecyclerHolder<BaseRecyclerItem, BaseRecyclerHolderConfig>
     }
@@ -156,6 +162,7 @@ internal class ChecklistItemAdapter(
             BaseRecyclerItem.Type.TITLE -> config.titleConfig
             BaseRecyclerItem.Type.CONTENT -> config.contentConfig
             BaseRecyclerItem.Type.CHIP -> config.chipConfig
+            BaseRecyclerItem.Type.IMAGE -> config.imageConfig
         }
     }
 }

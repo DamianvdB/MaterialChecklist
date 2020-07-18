@@ -35,3 +35,8 @@ internal fun Context.getColorCompat(@ColorRes colorRes: Int): Int {
 internal fun Context.getDrawableCompat(@DrawableRes drawableRes: Int): Drawable? {
     return AppCompatResources.getDrawable(this, drawableRes)
 }
+
+@CheckResult
+internal fun Context.isTablet(): Boolean {
+    return resources.configuration.smallestScreenWidthDp >= 600
+}

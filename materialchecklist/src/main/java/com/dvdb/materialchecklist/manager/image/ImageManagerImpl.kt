@@ -14,48 +14,38 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager.chip
+package com.dvdb.materialchecklist.manager.image
 
-import com.dvdb.materialchecklist.manager.chip.model.ChipItem
-import com.dvdb.materialchecklist.manager.chip.model.ChipManagerConfig
-import com.dvdb.materialchecklist.manager.chip.model.transform
+import com.dvdb.materialchecklist.manager.image.model.ImageItem
+import com.dvdb.materialchecklist.manager.image.model.ImageManagerConfig
+import com.dvdb.materialchecklist.manager.image.model.transform
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecyclerItem
-import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipRecyclerItem
+import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyclerItem
+import com.dvdb.materialchecklist.recycler.imagecontainer.model.ImageContainerRecyclerItem
 
 private const val NO_POSITION = -1
 
-internal class ChipManagerImpl : ChipManager {
+internal class ImageManagerImpl : ImageManager {
 
-    override var onChipItemClicked: (item: ChipItem) -> Unit = {}
+    override var onImageItemClicked: (item: ImageItem) -> Unit = {}
 
-    override var onChipItemInContainerClicked: (id: Int) -> Unit = { id ->
-        val chipItemPredicate: (ChipRecyclerItem) -> Boolean = { item -> item.id == id }
-        val containerItem = adapter.items.firstOrNull {
-            (it as? ChipContainerRecyclerItem)?.items
-                ?.any(chipItemPredicate)
-                ?: false
-        }
-
-        if (containerItem is ChipContainerRecyclerItem) {
-            val item = containerItem.items.first(chipItemPredicate)
-            onChipItemClicked(item.transform())
-        }
+    override val onImageItemInContainerClicked: (item: ImageRecyclerItem) -> Unit = {
+        onImageItemClicked(it.transform())
     }
 
     private lateinit var adapter: ChecklistItemAdapter
-    private lateinit var config: ChipManagerConfig
+    private lateinit var config: ImageManagerConfig
 
     override fun lateInitState(
         adapter: ChecklistItemAdapter,
-        config: ChipManagerConfig
+        config: ImageManagerConfig
     ) {
         this.adapter = adapter
         this.config = config
     }
 
-    override fun setConfig(config: ChipManagerConfig) {
+    override fun setConfig(config: ImageManagerConfig) {
         if (this.config.adapterConfig != config.adapterConfig) {
             adapter.config = config.adapterConfig
         }
@@ -63,14 +53,14 @@ internal class ChipManagerImpl : ChipManager {
         this.config = config
     }
 
-    override fun getChipItems(): List<ChipItem> {
-        val item = adapter.items.firstOrNull { it is ChipContainerRecyclerItem }
-        return (item as? ChipContainerRecyclerItem)?.items?.map { it.transform() } ?: emptyList()
+    override fun getImageItems(): List<ImageItem> {
+        val item = adapter.items.firstOrNull { it is ImageContainerRecyclerItem }
+        return (item as? ImageContainerRecyclerItem)?.items?.map { it.transform() } ?: emptyList()
     }
 
-    override fun setChipItems(items: List<ChipItem>) {
-        val newItem = ChipContainerRecyclerItem(items = items.map { it.transform() })
-        val position = adapter.items.indexOfFirst { it is ChipContainerRecyclerItem }
+    override fun setImageItems(items: List<ImageItem>) {
+        val newItem = ImageContainerRecyclerItem(items = items.map { it.transform() })
+        val position = adapter.items.indexOfFirst { it is ImageContainerRecyclerItem }
 
         if (position != NO_POSITION) {
             updateItemInAdapter(
@@ -85,8 +75,8 @@ internal class ChipManagerImpl : ChipManager {
         }
     }
 
-    override fun removeChipItems(): Boolean {
-        val position = adapter.items.indexOfFirst { it is ChipContainerRecyclerItem }
+    override fun removeImageItems(): Boolean {
+        val position = adapter.items.indexOfFirst { it is ImageContainerRecyclerItem }
 
         return if (position != NO_POSITION) {
             removeItemFromAdapter(position)

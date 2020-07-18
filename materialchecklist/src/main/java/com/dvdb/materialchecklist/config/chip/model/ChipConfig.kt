@@ -22,7 +22,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import com.dvdb.materialchecklist.R
 import com.dvdb.materialchecklist.config.Config
-import com.dvdb.materialchecklist.recycler.chip.model.ChipContainerRecyclerHolderConfig
+import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecyclerHolderConfig
 
 internal class ChipConfig(
     context: Context,

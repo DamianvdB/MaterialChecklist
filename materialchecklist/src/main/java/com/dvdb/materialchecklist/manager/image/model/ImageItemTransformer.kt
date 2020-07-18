@@ -14,18 +14,24 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager.chip.model
+package com.dvdb.materialchecklist.manager.image.model
 
-import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipRecyclerItem
+import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyclerItem
 
-internal fun ChipItem.transform() = ChipRecyclerItem(
+internal fun ImageItem.transform() = ImageRecyclerItem(
     id = id,
     text = text,
-    iconRes = iconRes ?: -1
+    primaryImage = primaryImage,
+    primaryImageUri = primaryImageUri,
+    secondaryImage = secondaryImage,
+    secondaryImageUri = secondaryImageUri
 )
 
-internal fun ChipRecyclerItem.transform() = ChipItem(
+internal fun ImageRecyclerItem.transform() = ImageItem(
     id = id,
     text = text,
-    iconRes = if (iconRes != -1) iconRes else null
+    primaryImage = primaryImage,
+    primaryImageUri = primaryImageUri,
+    secondaryImage = secondaryImage,
+    secondaryImageUri = secondaryImageUri
 )
