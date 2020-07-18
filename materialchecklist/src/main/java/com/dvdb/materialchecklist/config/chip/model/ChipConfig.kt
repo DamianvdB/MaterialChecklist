@@ -26,12 +26,6 @@ import com.dvdb.materialchecklist.recycler.chip.model.ChipContainerRecyclerHolde
 
 internal class ChipConfig(
     context: Context,
-    val textColor: () -> Int,
-    val textSize: () -> Float,
-    val typeFace: () -> Typeface?,
-    val iconTintColor: () -> Int,
-    val leftAndRightPadding: () -> Float,
-    val topAndBottomPadding: () -> Float,
     @ColorInt var backgroundColor: Int? = null,
     @ColorInt var strokeColor: Int? = null,
     @Px var strokeWidth: Float? = null,
@@ -39,7 +33,13 @@ internal class ChipConfig(
     @Px var iconEndPadding: Float? = null,
     @Px var minHeight: Float = context.resources.getDimension(R.dimen.mc_item_chip_min_height),
     @Px var horizontalSpacing: Int = context.resources.getDimensionPixelSize(R.dimen.mc_spacing_medium_large),
-    @Px var leftAndRightInternalPadding: Float = context.resources.getDimension(R.dimen.mc_spacing_medium)
+    @Px var leftAndRightInternalPadding: Float = context.resources.getDimension(R.dimen.mc_spacing_medium),
+    private val textColor: () -> Int,
+    private val textSize: () -> Float,
+    private val typeFace: () -> Typeface?,
+    private val iconTintColor: () -> Int,
+    private val leftAndRightPadding: () -> Float,
+    private val topAndBottomPadding: () -> Float
 ) : Config {
 
     fun transform() = ChipContainerRecyclerHolderConfig(
