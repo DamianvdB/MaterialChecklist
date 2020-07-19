@@ -135,11 +135,6 @@ internal class ChecklistRecyclerHolder private constructor(
 
         dragIndicatorIcon.alpha = config.iconAlphaDragIndicator
 
-        dragIndicatorIcon.setVisible(
-            config.dragAndDropToggleBehavior != DragAndDropToggleBehavior.NONE,
-            View.INVISIBLE
-        )
-
         when (config.dragAndDropToggleBehavior) {
             DragAndDropToggleBehavior.ON_TOUCH -> {
                 dragIndicatorIcon.setOnTouchListener { _, event ->
