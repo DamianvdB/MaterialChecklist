@@ -16,6 +16,7 @@
 
 package com.dvdb.materialchecklist.recycler.checklist.holder
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
@@ -128,17 +129,13 @@ internal class ChecklistRecyclerHolder private constructor(
         )
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initialiseDragIndicator() {
         val tintedIcon = config.iconDragIndicator
         tintedIcon?.setTintCompat(config.iconTintColor)
         dragIndicatorIcon.setImageDrawable(tintedIcon)
 
         dragIndicatorIcon.alpha = config.iconAlphaDragIndicator
-
-        dragIndicatorIcon.setVisible(
-            config.dragAndDropToggleBehavior != DragAndDropToggleBehavior.NONE,
-            View.INVISIBLE
-        )
 
         when (config.dragAndDropToggleBehavior) {
             DragAndDropToggleBehavior.ON_TOUCH -> {
