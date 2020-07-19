@@ -75,7 +75,7 @@ internal class ContentRecyclerHolder private constructor(
     }
 
     private fun initialiseRoot() {
-        val leftAndRightPadding = config.leftAndRightPadding?.toInt() ?: itemView.paddingLeft
+        val leftAndRightPadding = config.leftAndRightPadding.toInt()
         itemView.setPadding(
             leftAndRightPadding,
             itemView.paddingTop,

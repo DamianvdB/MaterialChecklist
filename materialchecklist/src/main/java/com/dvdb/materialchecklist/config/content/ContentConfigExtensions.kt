@@ -31,8 +31,8 @@ fun MaterialChecklist.setContentHint(
     val context = context
     if (context != null) {
         val newText = text ?: context.getString(textRes!!)
-        if (config.textContentHint != newText) {
-            config.textContentHint = newText
+        if (config.contentConfig.hint != newText) {
+            config.contentConfig.hint = newText
         }
     }
     return this
@@ -46,8 +46,8 @@ fun MaterialChecklist.setContentLinkTextColor(
     val context = context
     if (context != null) {
         val newTextColor = textColor ?: context.getColorCompat(textColorRes!!)
-        if (config.textContentLinkColor != newTextColor) {
-            config.textContentLinkColor = newTextColor
+        if (config.contentConfig.linkTextColor != newTextColor) {
+            config.contentConfig.linkTextColor = newTextColor
         }
     }
     return this
@@ -61,16 +61,16 @@ fun MaterialChecklist.setContentHintTextColor(
     val context = context
     if (context != null) {
         val newTextColor = textColor ?: context.getColorCompat(textColorRes!!)
-        if (config.textContentHintColor != newTextColor) {
-            config.textContentHintColor = newTextColor
+        if (config.contentConfig.hintTextColor != newTextColor) {
+            config.contentConfig.hintTextColor = newTextColor
         }
     }
     return this
 }
 
 fun MaterialChecklist.setContentClickableLinks(clickableLinks: Boolean): MaterialChecklist {
-    if (config.textContentClickableLinks != clickableLinks) {
-        config.textContentClickableLinks = clickableLinks
+    if (config.contentConfig.isLinksClickable != clickableLinks) {
+        config.contentConfig.isLinksClickable = clickableLinks
     }
     return this
 }

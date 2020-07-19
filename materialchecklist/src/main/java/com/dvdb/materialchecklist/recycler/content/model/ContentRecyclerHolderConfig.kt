@@ -18,7 +18,6 @@ package com.dvdb.materialchecklist.recycler.content.model
 
 import android.graphics.Typeface
 import androidx.annotation.ColorInt
-import androidx.annotation.Px
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderConfig
 
 internal data class ContentRecyclerHolderConfig(
@@ -26,9 +25,9 @@ internal data class ContentRecyclerHolderConfig(
     @ColorInt val textColor: Int,
     @ColorInt val linkTextColor: Int,
     @ColorInt val hintTextColor: Int?,
-    @Px val textSize: Float,
+    val textSize: Float,
     val isLinksClickable: Boolean,
     val isEditable: Boolean,
     val typeFace: Typeface?,
-    @Px val leftAndRightPadding: Float?
+    val leftAndRightPadding: Float
 ) : BaseRecyclerHolderConfig

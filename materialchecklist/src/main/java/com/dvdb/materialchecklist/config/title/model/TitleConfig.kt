@@ -32,7 +32,6 @@ internal class TitleConfig(
     @ColorInt var linkTextColor: Int? = null,
     @ColorInt var hintTextColor: Int? = null,
     var isLinksClickable: Boolean = true,
-    var isEditable: Boolean = true,
     var isShowActionIcon: Boolean = false,
     private val actionIcon: Drawable? = context.getDrawableCompat(R.drawable.ic_more_vert_white),
     private val typeFaceStyle: Int = Typeface.BOLD,
@@ -40,6 +39,7 @@ internal class TitleConfig(
     private val textSize: () -> Float,
     private val typeFace: () -> Typeface?,
     private val iconTintColor: () -> Int,
+    private val isEditable: () -> Boolean,
     private val leftAndRightPadding: () -> Float?
 ) : Config {
 
@@ -57,7 +57,7 @@ internal class TitleConfig(
         iconTintColor = iconTintColor(),
         textSize = textSize() + textSizeOffset,
         isLinksClickable = isLinksClickable,
-        isEditable = isEditable,
+        isEditable = isEditable(),
         isShowActionIcon = isShowActionIcon,
         typeFace = typeFace(),
         typeFaceStyle = typeFaceStyle,

@@ -406,10 +406,10 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun handleSettingContentConfiguration() {
-        main_checklist.setContentHint(checklistConfiguration.textContentHint)
-            .setContentLinkTextColor(checklistConfiguration.textContentLinkColor)
-            .setContentHintTextColor(checklistConfiguration.textContentHintColor)
-            .setContentClickableLinks(checklistConfiguration.textContentClickableLinks)
+        main_checklist.setContentHint(checklistConfiguration.contentHint)
+            .setContentLinkTextColor(checklistConfiguration.contentLinkTextColor)
+            .setContentHintTextColor(checklistConfiguration.contentHintTextColor)
+            .setContentClickableLinks(checklistConfiguration.contentClickableLinks)
     }
 
     private fun handleSettingChipConfiguration() {

@@ -31,6 +31,7 @@ import com.dvdb.materialchecklist.config.checklist.model.BehaviorUncheckedItem
 import com.dvdb.materialchecklist.config.checklist.model.DragAndDropDismissKeyboardBehavior
 import com.dvdb.materialchecklist.config.checklist.model.DragAndDropToggleBehavior
 import com.dvdb.materialchecklist.config.chip.model.ChipConfig
+import com.dvdb.materialchecklist.config.content.model.ContentConfig
 import com.dvdb.materialchecklist.config.image.model.ImageConfig
 import com.dvdb.materialchecklist.config.title.model.TitleConfig
 import com.dvdb.materialchecklist.manager.chip.model.ChipManagerConfig
@@ -40,7 +41,6 @@ import com.dvdb.materialchecklist.manager.title.model.TitleManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerHolderConfig
-import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerHolderConfig
 import com.dvdb.materialchecklist.util.getColorCompat
 import com.dvdb.materialchecklist.util.getDrawableCompat
 
@@ -55,14 +55,10 @@ internal class ChecklistConfig(
      * Text
      */
     @ColorInt var textColor: Int = context.getColorCompat(R.color.mc_text_checklist_item_text),
-    @ColorInt var textContentLinkColor: Int? = null,
-    @ColorInt var textContentHintColor: Int? = null,
     var textSize: Float = context.resources.getDimension(R.dimen.mc_item_checklist_text_size),
-    var textContentHint: String = String(),
     var textNewItem: String = context.getString(R.string.mc_item_checklist_new_text),
     var textAlphaCheckedItem: Float = 0.4F,
     var textAlphaNewItem: Float = 0.5F,
-    var textContentClickableLinks: Boolean = true,
     var textEditable: Boolean = true,
     var textTypeFace: Typeface? = null,
 
@@ -108,15 +104,24 @@ internal class ChecklistConfig(
     private val leftAndRightPaddingOffset: Float =
         context.resources.getDimension(R.dimen.mc_spacing_medium)
 
-    val titleConfig: TitleConfig =
-        TitleConfig(
-            context,
-            _textColor = { textColor },
-            textSize = { textSize },
-            typeFace = { textTypeFace },
-            iconTintColor = { iconTintColor },
-            leftAndRightPadding = { itemLeftAndRightPadding }
-        )
+    val titleConfig: TitleConfig = TitleConfig(
+        context,
+        _textColor = { textColor },
+        textSize = { textSize },
+        typeFace = { textTypeFace },
+        iconTintColor = { iconTintColor },
+        isEditable = { textEditable },
+        leftAndRightPadding = { itemLeftAndRightPadding }
+    )
+
+    val contentConfig: ContentConfig = ContentConfig(
+        textColor = { textColor },
+        textSize = { textSize },
+        typeFace = { textTypeFace },
+        isEditable = { textEditable },
+        leftAndRightPadding = { itemLeftAndRightPadding },
+        leftAndRightPaddingOffset = leftAndRightPaddingOffset
+    )
 
     val chipConfig: ChipConfig = ChipConfig(
         context,
@@ -188,17 +193,7 @@ internal class ChecklistConfig(
     @CheckResult
     fun toAdapterConfig() = ChecklistItemAdapterConfig(
         titleConfig = titleConfig.transform(),
-        contentConfig = ContentRecyclerHolderConfig(
-            hint = textContentHint,
-            textColor = textColor,
-            linkTextColor = textContentLinkColor ?: textColor,
-            hintTextColor = textContentHintColor,
-            textSize = textSize,
-            isLinksClickable = textContentClickableLinks,
-            isEditable = textEditable,
-            typeFace = textTypeFace,
-            leftAndRightPadding = (itemLeftAndRightPadding ?: 0f) + (leftAndRightPaddingOffset)
-        ),
+        contentConfig = contentConfig.transform(),
         checklistConfig = ChecklistRecyclerHolderConfig(
             textColor = textColor,
             textSize = textSize,

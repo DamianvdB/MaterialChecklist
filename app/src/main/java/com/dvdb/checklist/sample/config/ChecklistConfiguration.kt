@@ -138,10 +138,10 @@ internal class ChecklistConfiguration(
     /**
      * Content
      */
-    val textContentHint: String = "Content"
-    val textContentLinkColor: Int = titleLinkTextColor
-    val textContentHintColor: Int = Color.parseColor("#757575")
-    val textContentClickableLinks: Boolean = true
+    val contentHint: String = "Content"
+    val contentLinkTextColor: Int = titleLinkTextColor
+    val contentHintTextColor: Int = Color.parseColor("#757575")
+    val contentClickableLinks: Boolean = true
 
     /**
      * Chip
