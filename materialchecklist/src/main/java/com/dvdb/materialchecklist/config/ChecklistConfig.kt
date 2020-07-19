@@ -111,7 +111,8 @@ internal class ChecklistConfig(
         typeFace = { textTypeFace },
         iconTintColor = { iconTintColor },
         isEditable = { textEditable },
-        leftAndRightPadding = { itemLeftAndRightPadding }
+        leftAndRightPadding = { itemLeftAndRightPadding },
+        leftAndRightPaddingOffset = leftAndRightPaddingOffset
     )
 
     val contentConfig: ContentConfig = ContentConfig(
@@ -130,6 +131,7 @@ internal class ChecklistConfig(
         typeFace = { textTypeFace },
         iconTintColor = { iconTintColor },
         leftAndRightPadding = { itemLeftAndRightPadding },
+        leftAndRightPaddingOffset = leftAndRightPaddingOffset,
         topAndBottomPadding = { itemTopAndBottomPadding }
     )
 

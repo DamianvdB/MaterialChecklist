@@ -39,14 +39,12 @@ internal class ChipConfig(
     private val typeFace: () -> Typeface?,
     private val iconTintColor: () -> Int,
     private val leftAndRightPadding: () -> Float?,
+    private val leftAndRightPaddingOffset: Float,
     private val topAndBottomPadding: () -> Float
 ) : Config {
 
     private val textSizeOffset: Float =
         context.resources.getDimension(R.dimen.mc_item_chip_text_size_offset)
-
-    private val leftAndRightPaddingOffset: Float =
-        context.resources.getDimension(R.dimen.mc_spacing_medium)
 
     private val topAndBottomPaddingOffset: Float =
         context.resources.getDimension(R.dimen.mc_spacing_medium)

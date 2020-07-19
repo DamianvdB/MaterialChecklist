@@ -40,11 +40,9 @@ internal class TitleConfig(
     private val typeFace: () -> Typeface?,
     private val iconTintColor: () -> Int,
     private val isEditable: () -> Boolean,
-    private val leftAndRightPadding: () -> Float?
+    private val leftAndRightPadding: () -> Float?,
+    private val leftAndRightPaddingOffset: Float
 ) : Config {
-
-    private val leftPaddingOffset: Float =
-        context.resources.getDimension(R.dimen.mc_spacing_medium)
 
     private val textSizeOffset: Float =
         context.resources.getDimension(R.dimen.mc_item_title_text_size_offset)
@@ -62,7 +60,7 @@ internal class TitleConfig(
         typeFace = typeFace(),
         typeFaceStyle = typeFaceStyle,
         actionIcon = actionIcon,
-        leftPadding = (leftAndRightPadding() ?: 0f) + leftPaddingOffset,
+        leftPadding = (leftAndRightPadding() ?: 0f) + leftAndRightPaddingOffset,
         rightPadding = leftAndRightPadding()
     )
 }
