@@ -88,17 +88,6 @@ internal class ChecklistConfiguration(
             }
         }
 
-    val textTitleHint: String = "Title"
-    val textTitleColor: Int = ContextCompat.getColor(context, R.color.colorPrimary)
-    val textTitleLinkColor: Int = ContextCompat.getColor(context, R.color.colorPrimary)
-    val textTitleHintColor: Int = Color.parseColor("#9575cd")
-    val textTitleClickableLinks: Boolean = true
-
-    val textContentHint: String = "Content"
-    val textContentLinkColor: Int = textTitleLinkColor
-    val textContentHintColor: Int = Color.parseColor("#757575")
-    val textContentClickableLinks: Boolean = true
-
     val textEditable: Boolean = true
 
     /**
@@ -136,7 +125,23 @@ internal class ChecklistConfiguration(
         ))?.toFloatOrNull()
             ?: 0.7F
 
-    val iconTitleShowAction: Boolean = true
+    /**
+     * Title
+     */
+    val titleHint: String = "Title"
+    val titleTextColor: Int = ContextCompat.getColor(context, R.color.colorPrimary)
+    val titleLinkTextColor: Int = ContextCompat.getColor(context, R.color.colorPrimary)
+    val titleHintTextColor: Int = Color.parseColor("#9575cd")
+    val titleClickableLinks: Boolean = true
+    val titleShowActionIcon: Boolean = true
+
+    /**
+     * Content
+     */
+    val textContentHint: String = "Content"
+    val textContentLinkColor: Int = titleLinkTextColor
+    val textContentHintColor: Int = Color.parseColor("#757575")
+    val textContentClickableLinks: Boolean = true
 
     /**
      * Chip

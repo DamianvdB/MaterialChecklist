@@ -397,12 +397,12 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun handleSettingTitleConfiguration() {
-        main_checklist.setTitleHint(checklistConfiguration.textTitleHint)
-            .setTitleTextColor(checklistConfiguration.textTitleColor)
-            .setTitleLinkTextColor(checklistConfiguration.textTitleLinkColor)
-            .setTitleHintTextColor(checklistConfiguration.textTitleHintColor)
-            .setTitleClickableLinks(checklistConfiguration.textTitleClickableLinks)
-            .setTitleShowActionIcon(checklistConfiguration.iconTitleShowAction)
+        main_checklist.setTitleHint(checklistConfiguration.titleHint)
+            .setTitleTextColor(checklistConfiguration.titleTextColor)
+            .setTitleLinkTextColor(checklistConfiguration.titleLinkTextColor)
+            .setTitleHintTextColor(checklistConfiguration.titleHintTextColor)
+            .setTitleClickableLinks(checklistConfiguration.titleClickableLinks)
+            .setTitleShowActionIcon(checklistConfiguration.titleShowActionIcon)
     }
 
     private fun handleSettingContentConfiguration() {

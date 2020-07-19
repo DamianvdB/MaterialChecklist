@@ -19,7 +19,6 @@ package com.dvdb.materialchecklist.recycler.title.model
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
-import androidx.annotation.Px
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderConfig
 
 internal data class TitleRecyclerHolderConfig(
@@ -28,15 +27,15 @@ internal data class TitleRecyclerHolderConfig(
     @ColorInt val linkTextColor: Int,
     @ColorInt val hintTextColor: Int?,
     @ColorInt val iconTintColor: Int,
-    @Px val textSize: Float,
+    val textSize: Float,
     val isLinksClickable: Boolean,
     val isEditable: Boolean,
     val isShowActionIcon: Boolean,
     val typeFace: Typeface?,
     val typeFaceStyle: Int,
     val actionIcon: Drawable?,
-    @Px val leftPadding: Float?,
-    @Px val rightPadding: Float?
+    val leftPadding: Float?,
+    val rightPadding: Float?
 ) : BaseRecyclerHolderConfig {
 
     private var _isAddClickableLinks: Boolean = true

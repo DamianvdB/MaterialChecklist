@@ -31,8 +31,8 @@ fun MaterialChecklist.setTitleHint(
     val context = context
     if (context != null) {
         val newText = text ?: context.getString(textRes!!)
-        if (config.textTitleHint != newText) {
-            config.textTitleHint = newText
+        if (config.titleConfig.hint != newText) {
+            config.titleConfig.hint = newText
         }
     }
     return this
@@ -46,8 +46,8 @@ fun MaterialChecklist.setTitleTextColor(
     val context = context
     if (context != null) {
         val newTextColor = textColor ?: context.getColorCompat(textColorRes!!)
-        if (config.textTitleColor != newTextColor) {
-            config.textTitleColor = newTextColor
+        if (config.titleConfig.textColor != newTextColor) {
+            config.titleConfig.textColor = newTextColor
         }
     }
     return this
@@ -61,8 +61,8 @@ fun MaterialChecklist.setTitleLinkTextColor(
     val context = context
     if (context != null) {
         val newTextColor = textColor ?: context.getColorCompat(textColorRes!!)
-        if (config.textTitleLinkColor != newTextColor) {
-            config.textTitleLinkColor = newTextColor
+        if (config.titleConfig.linkTextColor != newTextColor) {
+            config.titleConfig.linkTextColor = newTextColor
         }
     }
     return this
@@ -76,23 +76,23 @@ fun MaterialChecklist.setTitleHintTextColor(
     val context = context
     if (context != null) {
         val newTextColor = textColor ?: context.getColorCompat(textColorRes!!)
-        if (config.textTitleHintColor != newTextColor) {
-            config.textTitleHintColor = newTextColor
+        if (config.titleConfig.hintTextColor != newTextColor) {
+            config.titleConfig.hintTextColor = newTextColor
         }
     }
     return this
 }
 
 fun MaterialChecklist.setTitleClickableLinks(clickableLinks: Boolean): MaterialChecklist {
-    if (config.textTitleClickableLinks != clickableLinks) {
-        config.textTitleClickableLinks = clickableLinks
+    if (config.titleConfig.isLinksClickable != clickableLinks) {
+        config.titleConfig.isLinksClickable = clickableLinks
     }
     return this
 }
 
 fun MaterialChecklist.setTitleShowActionIcon(showActionIcon: Boolean): MaterialChecklist {
-    if (config.iconTitleShowAction != showActionIcon) {
-        config.iconTitleShowAction = showActionIcon
+    if (config.titleConfig.isShowActionIcon != showActionIcon) {
+        config.titleConfig.isShowActionIcon = showActionIcon
     }
     return this
 }
