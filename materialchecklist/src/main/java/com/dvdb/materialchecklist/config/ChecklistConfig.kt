@@ -105,13 +105,7 @@ internal class ChecklistConfig(
     var itemLastBottomPadding: Float? = null
 ) : Config {
 
-    private val chipTextSizeOffset: Float =
-        context.resources.getDimension(R.dimen.mc_item_chip_text_size_offset)
-
     private val leftAndRightPaddingOffset: Float =
-        context.resources.getDimension(R.dimen.mc_spacing_medium)
-
-    private val chipTopAndBottomPaddingOffset: Float =
         context.resources.getDimension(R.dimen.mc_spacing_medium)
 
     val titleConfig: TitleConfig =
@@ -127,11 +121,11 @@ internal class ChecklistConfig(
     val chipConfig: ChipConfig = ChipConfig(
         context,
         textColor = { textColor },
-        textSize = { textSize - chipTextSizeOffset },
+        textSize = { textSize },
         typeFace = { textTypeFace },
         iconTintColor = { iconTintColor },
-        leftAndRightPadding = { (itemLeftAndRightPadding ?: 0f) + leftAndRightPaddingOffset },
-        topAndBottomPadding = { itemTopAndBottomPadding + chipTopAndBottomPaddingOffset }
+        leftAndRightPadding = { itemLeftAndRightPadding },
+        topAndBottomPadding = { itemTopAndBottomPadding }
     )
 
     val imageConfig: ImageConfig = ImageConfig(

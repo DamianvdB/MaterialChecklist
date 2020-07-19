@@ -23,17 +23,17 @@ import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderConfig
 
 internal data class ChipContainerRecyclerHolderConfig(
     @ColorInt val textColor: Int,
-    @Px val textSize: Float,
+    val textSize: Float,
     val textTypeFace: Typeface?,
     @ColorInt val iconTintColor: Int,
-    @Px val iconSize: Float,
-    @Px val iconEndPadding: Float?,
+    val iconSize: Float,
+    val iconEndPadding: Float?,
     @ColorInt val backgroundColor: Int?,
     @ColorInt val strokeColor: Int?,
-    @Px val strokeWidth: Float?,
-    @Px val minHeight: Float,
+    val strokeWidth: Float?,
+    val minHeight: Float,
     @Px val horizontalSpacing: Int,
-    @Px val leftAndRightInternalPadding: Float,
-    @Px val topAndBottomPadding: Float?,
-    @Px val leftAndRightPadding: Float?
+    val leftAndRightInternalPadding: Float,
+    val topAndBottomPadding: Float,
+    val leftAndRightPadding: Float
 ) : BaseRecyclerHolderConfig

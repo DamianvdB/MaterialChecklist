@@ -103,8 +103,9 @@ internal class ChipContainerRecyclerHolder private constructor(
     }
 
     private fun initialiseChipGroup() {
-        val topAndBottomPadding = config.topAndBottomPadding?.toInt() ?: itemView.paddingTop
-        val leftAndRightPadding = config.leftAndRightPadding?.toInt() ?: itemView.paddingLeft
+        val topAndBottomPadding = config.topAndBottomPadding.toInt()
+        val leftAndRightPadding = config.leftAndRightPadding.toInt()
+
         chipGroup.setPadding(
             leftAndRightPadding,
             topAndBottomPadding,

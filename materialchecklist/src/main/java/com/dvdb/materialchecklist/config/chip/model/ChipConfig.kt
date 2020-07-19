@@ -28,23 +28,32 @@ internal class ChipConfig(
     context: Context,
     @ColorInt var backgroundColor: Int? = null,
     @ColorInt var strokeColor: Int? = null,
-    @Px var strokeWidth: Float? = null,
-    @Px var iconSize: Float = context.resources.getDimension(R.dimen.mc_icon_size_small),
-    @Px var iconEndPadding: Float? = null,
-    @Px var minHeight: Float = context.resources.getDimension(R.dimen.mc_item_chip_min_height),
+    var strokeWidth: Float? = null,
+    var iconSize: Float = context.resources.getDimension(R.dimen.mc_icon_size_small),
+    var iconEndPadding: Float? = null,
+    var minHeight: Float = context.resources.getDimension(R.dimen.mc_item_chip_min_height),
     @Px var horizontalSpacing: Int = context.resources.getDimensionPixelSize(R.dimen.mc_spacing_medium_large),
-    @Px var leftAndRightInternalPadding: Float = context.resources.getDimension(R.dimen.mc_spacing_medium),
+    var leftAndRightInternalPadding: Float = context.resources.getDimension(R.dimen.mc_spacing_medium),
     private val textColor: () -> Int,
     private val textSize: () -> Float,
     private val typeFace: () -> Typeface?,
     private val iconTintColor: () -> Int,
-    private val leftAndRightPadding: () -> Float,
+    private val leftAndRightPadding: () -> Float?,
     private val topAndBottomPadding: () -> Float
 ) : Config {
 
+    private val textSizeOffset: Float =
+        context.resources.getDimension(R.dimen.mc_item_chip_text_size_offset)
+
+    private val leftAndRightPaddingOffset: Float =
+        context.resources.getDimension(R.dimen.mc_spacing_medium)
+
+    private val topAndBottomPaddingOffset: Float =
+        context.resources.getDimension(R.dimen.mc_spacing_medium)
+
     fun transform() = ChipContainerRecyclerHolderConfig(
         textColor = textColor(),
-        textSize = textSize(),
+        textSize = textSize() - textSizeOffset,
         textTypeFace = typeFace(),
         iconTintColor = iconTintColor(),
         iconSize = iconSize,
@@ -55,7 +64,7 @@ internal class ChipConfig(
         minHeight = minHeight,
         horizontalSpacing = horizontalSpacing,
         leftAndRightInternalPadding = leftAndRightInternalPadding,
-        topAndBottomPadding = topAndBottomPadding(),
-        leftAndRightPadding = leftAndRightPadding()
+        topAndBottomPadding = topAndBottomPadding() + topAndBottomPaddingOffset,
+        leftAndRightPadding = (leftAndRightPadding() ?: 0f) + leftAndRightPaddingOffset
     )
 }
