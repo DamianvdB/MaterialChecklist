@@ -89,8 +89,8 @@ internal class ChecklistItemAdapter(
     ) {
         val item = _items[position]
 
-        holder.bindView(item)
         holder.updateConfigConditionally(getConfigFromItemType(item.type))
+        holder.bindView(item)
 
         if (holder is RequestFocusRecyclerHolder && position == requestFocus.position) {
             holder.requestFocus(
