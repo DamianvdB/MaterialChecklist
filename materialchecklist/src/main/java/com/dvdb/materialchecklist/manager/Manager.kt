@@ -17,26 +17,34 @@
 package com.dvdb.materialchecklist.manager
 
 import com.dvdb.materialchecklist.config.ChecklistConfig
+import com.dvdb.materialchecklist.manager.base.BaseItem
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManager
 import com.dvdb.materialchecklist.manager.chip.ChipManager
 import com.dvdb.materialchecklist.manager.content.ContentManager
 import com.dvdb.materialchecklist.manager.image.ImageManager
 import com.dvdb.materialchecklist.manager.title.TitleManager
+import com.dvdb.materialchecklist.manager.title.model.TitleItem
+import com.dvdb.materialchecklist.manager.title.model.transform
+import com.dvdb.materialchecklist.manager.util.model.RequestFocus
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterRequestFocus
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
+import com.dvdb.materialchecklist.util.exhaustive
 
 internal class Manager(
     private val titleManager: TitleManager,
     private val contentManager: ContentManager,
     private val checklistManager: ChecklistManager,
     private val chipManager: ChipManager,
-    private val imageManager: ImageManager,
-    private val items: () -> List<BaseRecyclerItem>
+    private val imageManager: ImageManager
 ) : TitleManager by titleManager,
     ContentManager by contentManager,
     ChecklistManager by checklistManager,
     ChipManager by chipManager,
     ImageManager by imageManager {
+
+    private lateinit var adapter: ChecklistItemAdapter
 
     fun lateInitState(
         adapter: ChecklistItemAdapter,
@@ -47,9 +55,24 @@ internal class Manager(
         updateItemPadding: (firstItemTopPadding: Float?, lastItemBottomPadding: Float?) -> Unit,
         enableItemAnimations: (isEnabled: Boolean) -> Unit
     ) {
+        this.adapter = adapter
+
+        val updateItemInAdapterSilently: (item: BaseRecyclerItem, position: Int) -> Unit =
+            { item, position ->
+                adapter.updateItem(
+                    item,
+                    position,
+                    false
+                )
+            }
+
+        val items: () -> List<BaseRecyclerItem> = {
+            adapter.items
+        }
+
         titleManager.lateInitState(
-            adapter = adapter,
-            config = config.totTitleManagerConfig()
+            items,
+            updateItemInAdapterSilently
         )
 
         contentManager.lateInitState(
@@ -78,12 +101,68 @@ internal class Manager(
         )
     }
 
+    @Suppress("IMPLICIT_CAST_TO_ANY")
+    fun setItems(items: List<BaseItem>) {
+        if (this::adapter.isInitialized) {
+            val recyclerItems: MutableList<BaseRecyclerItem> = mutableListOf()
+            var requestFocusForItem: Pair<Int, RequestFocus.Perform>? = null
+
+            items.forEachIndexed { index, item ->
+                when (item.type) {
+                    BaseItem.Type.TITLE -> {
+                        val titleItem = item as TitleItem
+                        if (titleItem.requestFocus is RequestFocus.Perform) {
+                            requestFocusForItem = Pair(index, titleItem.requestFocus)
+                        }
+                        recyclerItems.add(titleItem.transform())
+                    }
+                }.exhaustive
+            }
+
+            requestFocusForItem?.let { (position, requestFocus) ->
+                adapter.requestFocusOnce = ChecklistItemAdapterRequestFocus(
+                    position,
+                    requestFocus.selectionPosition,
+                    requestFocus.isShowKeyboard
+                )
+            }
+
+            adapter.setItems(recyclerItems)
+        }
+    }
+
+    fun getItems(
+        keepCheckboxSymbolsOfChecklistItems: Boolean,
+        keepCheckedItems: Boolean
+    ): List<BaseItem> {
+        val items: MutableList<BaseItem> = mutableListOf()
+
+        adapter.items.forEach { item ->
+            when (item.type) {
+                BaseRecyclerItem.Type.TITLE -> {
+                    items.add((item as TitleRecyclerItem).transform())
+                }
+                BaseRecyclerItem.Type.CONTENT -> {
+                }
+                BaseRecyclerItem.Type.CHECKLIST -> {
+                }
+                BaseRecyclerItem.Type.CHECKLIST_NEW -> {
+                }
+                BaseRecyclerItem.Type.CHIP -> {
+                }
+                BaseRecyclerItem.Type.IMAGE -> {
+                }
+            }
+        }
+
+        return items
+    }
+
     fun getItemCount(): Int {
-        return items().size
+        return adapter.itemCount
     }
 
     fun setConfig(config: ChecklistConfig) {
-        titleManager.setConfig(config.totTitleManagerConfig())
         contentManager.setConfig(config.toContentManagerConfig())
         checklistManager.setConfig(config.toManagerConfig())
         chipManager.setConfig(config.toChipManagerConfig())
@@ -95,7 +174,7 @@ internal class Manager(
         toPosition: Int
     ): Boolean {
         return executeActionForRecyclerItemType(
-            item = items().getOrNull(fromPosition),
+            item = adapter.items.getOrNull(fromPosition),
             titleItemAction = {
                 titleManager.onItemMove(
                     fromPosition,
@@ -135,7 +214,7 @@ internal class Manager(
         targetPosition: Int
     ): Boolean {
         return executeActionForRecyclerItemType(
-            item = items().getOrNull(currentPosition),
+            item = adapter.items.getOrNull(currentPosition),
             titleItemAction = {
                 titleManager.canDragOverTargetItem(
                     currentPosition,
@@ -172,7 +251,7 @@ internal class Manager(
 
     override fun onItemDragStarted(position: Int) {
         executeActionForRecyclerItemType(
-            item = items().getOrNull(position),
+            item = adapter.items.getOrNull(position),
             titleItemAction = { titleManager.onItemDragStarted(position) },
             contentItemAction = { contentManager.onItemDragStarted(position) },
             checklistItemAction = { checklistManager.onItemDragStarted(position) },
@@ -183,7 +262,7 @@ internal class Manager(
 
     override fun onItemDragStopped(position: Int) {
         executeActionForRecyclerItemType(
-            item = items().getOrNull(position),
+            item = adapter.items.getOrNull(position),
             titleItemAction = { titleManager.onItemDragStopped(position) },
             contentItemAction = { contentManager.onItemDragStopped(position) },
             checklistItemAction = { checklistManager.onItemDragStopped(position) },

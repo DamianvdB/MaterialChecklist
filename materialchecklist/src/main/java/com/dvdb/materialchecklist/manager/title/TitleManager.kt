@@ -16,10 +16,9 @@
 
 package com.dvdb.materialchecklist.manager.title
 
-import com.dvdb.materialchecklist.manager.title.model.TitleManagerConfig
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
-import com.dvdb.materialchecklist.recycler.holder.title.listener.TitleRecyclerHolderItemListener
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.title.listener.TitleRecyclerHolderItemListener
 
 internal interface TitleManager :
     TitleRecyclerHolderItemListener,
@@ -30,15 +29,7 @@ internal interface TitleManager :
     var onTitleItemActionIconClicked: () -> Unit
 
     fun lateInitState(
-        adapter: ChecklistItemAdapter,
-        config: TitleManagerConfig
+        items: () -> List<BaseRecyclerItem>,
+        updateItemSilently: (item: BaseRecyclerItem, position: Int) -> Unit
     )
-
-    fun setConfig(config: TitleManagerConfig)
-
-    fun getTitleItem(): String?
-
-    fun setTitleItem(text: String)
-
-    fun removeTitleItem(): Boolean
 }

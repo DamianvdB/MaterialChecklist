@@ -63,6 +63,9 @@ internal class ChecklistItemAdapter(
             notifyItemChanged(value.position)
         }
 
+    var requestFocusOnce: ChecklistItemAdapterRequestFocus =
+        ChecklistItemAdapterRequestFocus(RecyclerView.NO_POSITION)
+
     init {
         setHasStableIds(true)
     }
@@ -121,6 +124,14 @@ internal class ChecklistItemAdapter(
                 requestFocus.selectionPosition,
                 requestFocus.isShowKeyboard
             )
+
+        } else if (holder is RequestFocusRecyclerHolder && position == requestFocusOnce.position) {
+            holder.requestFocus(
+                requestFocusOnce.selectionPosition,
+                requestFocusOnce.isShowKeyboard
+            )
+
+            requestFocusOnce = ChecklistItemAdapterRequestFocus(RecyclerView.NO_POSITION)
         }
     }
 

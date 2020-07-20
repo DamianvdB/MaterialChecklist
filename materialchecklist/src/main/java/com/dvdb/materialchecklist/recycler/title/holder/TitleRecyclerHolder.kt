@@ -27,14 +27,12 @@ import android.widget.ImageView
 import com.dvdb.materialchecklist.R
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolder
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderFactory
-import com.dvdb.materialchecklist.recycler.holder.title.listener.TitleRecyclerHolderItemListener
+import com.dvdb.materialchecklist.recycler.title.listener.TitleRecyclerHolderItemListener
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 import com.dvdb.materialchecklist.recycler.util.holder.EnterActionPerformedFactory
-import com.dvdb.materialchecklist.util.LinksMovementMethod
-import com.dvdb.materialchecklist.util.SimpleTextChangedListener
-import com.dvdb.materialchecklist.util.setTintCompat
-import com.dvdb.materialchecklist.util.setVisible
+import com.dvdb.materialchecklist.recycler.util.holder.RequestFocusRecyclerHolder
+import com.dvdb.materialchecklist.util.*
 import kotlinx.android.synthetic.main.item_title.view.*
 
 internal class TitleRecyclerHolder private constructor(
@@ -42,7 +40,8 @@ internal class TitleRecyclerHolder private constructor(
     config: TitleRecyclerHolderConfig,
     enterActionPerformedFactory: EnterActionPerformedFactory,
     private val listener: TitleRecyclerHolderItemListener
-) : BaseRecyclerHolder<TitleRecyclerItem, TitleRecyclerHolderConfig>(itemView, config) {
+) : BaseRecyclerHolder<TitleRecyclerItem, TitleRecyclerHolderConfig>(itemView, config),
+    RequestFocusRecyclerHolder {
 
     private val text: EditText = itemView.item_title_text
     private val actionIcon: ImageView = itemView.item_title_action_icon
@@ -62,6 +61,18 @@ internal class TitleRecyclerHolder private constructor(
 
     override fun onConfigUpdated() {
         initialiseView()
+    }
+
+    override fun requestFocus(
+        selectionPosition: Int,
+        isShowKeyboard: Boolean
+    ) {
+        text.requestFocus()
+        text.setSelection(selectionPosition.coerceIn(0, text.length()))
+
+        if (isShowKeyboard) {
+            text.showKeyboard()
+        }
     }
 
     private fun initialiseView() {

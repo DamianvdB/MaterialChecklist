@@ -16,9 +16,14 @@
 
 package com.dvdb.materialchecklist.manager.title.model
 
-import com.dvdb.materialchecklist.config.Config
-import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
+import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 
-internal data class TitleManagerConfig(
-    val adapterConfig: ChecklistItemAdapterConfig
-) : Config
+internal fun TitleItem.transform() = TitleRecyclerItem(
+    id = id.toLong(),
+    text = text
+)
+
+internal fun TitleRecyclerItem.transform() = TitleItem(
+    id = id.toInt(),
+    text = text
+)

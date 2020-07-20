@@ -16,73 +16,25 @@
 
 package com.dvdb.materialchecklist.manager.title
 
-import com.dvdb.materialchecklist.manager.title.model.TitleManagerConfig
-import com.dvdb.materialchecklist.manager.util.RecyclerItemPositionTracker
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 
-private const val NO_POSITION = -1
-
-internal class TitleManagerImpl(
-    private val itemPositionTracker: RecyclerItemPositionTracker
-) : TitleManager {
+internal class TitleManagerImpl : TitleManager {
 
     override var onTitleItemEnterKeyPressed: () -> Unit = {}
     override var onTitleItemActionIconClicked: () -> Unit = {}
 
-    private lateinit var adapter: ChecklistItemAdapter
-    private lateinit var config: TitleManagerConfig
+    private lateinit var items: () -> List<BaseRecyclerItem>
+    private lateinit var updateItemSilently: (item: BaseRecyclerItem, position: Int) -> Unit
 
     private var hasFocus: Boolean = false
 
     override fun lateInitState(
-        adapter: ChecklistItemAdapter,
-        config: TitleManagerConfig
+        items: () -> List<BaseRecyclerItem>,
+        updateItemSilently: (item: BaseRecyclerItem, position: Int) -> Unit
     ) {
-        this.adapter = adapter
-        this.config = config
-    }
-
-    override fun setConfig(config: TitleManagerConfig) {
-        if (this.config.adapterConfig != config.adapterConfig) {
-            adapter.config = config.adapterConfig
-        }
-
-        this.config = config
-    }
-
-    override fun getTitleItem(): String? {
-        val item = adapter.items.firstOrNull { it is TitleRecyclerItem }
-        return (item as? TitleRecyclerItem)?.text
-    }
-
-    override fun setTitleItem(text: String) {
-        val newItem = TitleRecyclerItem(text)
-        val position = adapter.items.indexOfFirst { it is TitleRecyclerItem }
-
-        if (position != NO_POSITION) {
-            updateItemInAdapter(
-                newItem,
-                position
-            )
-        } else {
-            addItemToAdapter(
-                newItem,
-                itemPositionTracker.firstItemPosition
-            )
-        }
-    }
-
-    override fun removeTitleItem(): Boolean {
-        val position = adapter.items.indexOfFirst { it is TitleRecyclerItem }
-
-        return if (position != NO_POSITION) {
-            removeItemFromAdapter(position)
-            true
-        } else {
-            false
-        }
+        this.items = items
+        this.updateItemSilently = updateItemSilently
     }
 
     override fun onTitleItemEnterKeyPressed(position: Int) {
@@ -93,13 +45,12 @@ internal class TitleManagerImpl(
         position: Int,
         text: String
     ) {
-        val item = adapter.items.getOrNull(position)
+        val item = items().getOrNull(position)
 
         if (item is TitleRecyclerItem) {
-            updateItemInAdapter(
-                item = item.copy(text),
-                position = position,
-                notify = false
+            updateItemSilently(
+                item.copy(text = text),
+                position
             )
         }
     }
@@ -129,31 +80,5 @@ internal class TitleManagerImpl(
         targetPosition: Int
     ): Boolean {
         return false
-    }
-
-    private fun addItemToAdapter(
-        item: BaseRecyclerItem,
-        position: Int
-    ) {
-        adapter.addItem(
-            item = item,
-            position = position
-        )
-    }
-
-    private fun updateItemInAdapter(
-        item: BaseRecyclerItem,
-        position: Int,
-        notify: Boolean = true
-    ) {
-        adapter.updateItem(
-            item = item,
-            position = position,
-            notify = notify
-        )
-    }
-
-    private fun removeItemFromAdapter(position: Int) {
-        adapter.removeItem(position)
     }
 }

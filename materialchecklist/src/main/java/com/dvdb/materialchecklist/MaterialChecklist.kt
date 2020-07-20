@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.materialchecklist.config.ChecklistConfig
 import com.dvdb.materialchecklist.manager.Manager
+import com.dvdb.materialchecklist.manager.base.BaseItem
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManagerImpl
 import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItem
 import com.dvdb.materialchecklist.manager.checklist.util.ChecklistRecyclerItemPositionTracker
@@ -35,7 +36,6 @@ import com.dvdb.materialchecklist.manager.content.ContentManagerImpl
 import com.dvdb.materialchecklist.manager.image.ImageManagerImpl
 import com.dvdb.materialchecklist.manager.image.model.ImageItem
 import com.dvdb.materialchecklist.manager.title.TitleManagerImpl
-import com.dvdb.materialchecklist.manager.title.util.TitleRecyclerItemPositionTracker
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.checklist.holder.ChecklistRecyclerHolder
@@ -57,9 +57,7 @@ class MaterialChecklist(
 ) : FrameLayout(context, attrs) {
 
     internal val manager = Manager(
-        TitleManagerImpl(
-            itemPositionTracker = TitleRecyclerItemPositionTracker { items }
-        ),
+        TitleManagerImpl(),
         ContentManagerImpl(),
         ChecklistManagerImpl(
             itemPositionTracker = ChecklistRecyclerItemPositionTracker { items },
@@ -70,7 +68,7 @@ class MaterialChecklist(
         ),
         ChipManagerImpl(),
         ImageManagerImpl()
-    ) { items }
+    )
 
     internal val config: ChecklistConfig = ChecklistConfig(
         context = context,
@@ -97,22 +95,23 @@ class MaterialChecklist(
         initDefaultChecklistItems()
     }
 
+    fun setEditorItems(items: List<BaseItem>) {
+        manager.setItems(items)
+    }
+
+    fun getEditorItems(
+        keepCheckboxSymbolsOfChecklistItems: Boolean = true,
+        keepCheckedItems: Boolean = true
+    ): List<BaseItem> {
+        return manager.getItems(
+            keepCheckboxSymbolsOfChecklistItems,
+            keepCheckedItems
+        )
+    }
+
     /**
      * Title item
      */
-
-    fun setTitleItem(text: String) {
-        manager.setTitleItem(text)
-    }
-
-    fun removeTitleItem(): Boolean {
-        return manager.removeTitleItem()
-    }
-
-    @CheckResult
-    fun getTitleItem(): String? {
-        return manager.getTitleItem()
-    }
 
     fun setOnTitleItemEnterKeyPressed(onEnterKeyPressed: () -> Unit) {
         manager.onTitleItemEnterKeyPressed = onEnterKeyPressed

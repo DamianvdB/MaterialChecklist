@@ -14,23 +14,15 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.title.listener
+package com.dvdb.materialchecklist.manager.title.model
 
-internal interface TitleRecyclerHolderItemListener {
+import com.dvdb.materialchecklist.manager.base.BaseItem
+import com.dvdb.materialchecklist.manager.util.model.RequestFocus
 
-    fun onTitleItemEnterKeyPressed(position: Int)
-
-    fun onTitleItemTextChanged(
-        position: Int,
-        text: String
-    )
-
-    fun onTitleItemFocusChanged(
-        position: Int,
-        startSelection: Int,
-        endSelection: Int,
-        hasFocus: Boolean
-    )
-
-    fun onTitleItemActionIconClicked(position: Int)
+data class TitleItem(
+    override val id: Int,
+    val text: String,
+    val requestFocus: RequestFocus = RequestFocus.None
+) : BaseItem() {
+    override val type: Type = Type.TITLE
 }

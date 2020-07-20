@@ -14,23 +14,7 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.title.listener
+package com.dvdb.materialchecklist.util
 
-internal interface TitleRecyclerHolderItemListener {
-
-    fun onTitleItemEnterKeyPressed(position: Int)
-
-    fun onTitleItemTextChanged(
-        position: Int,
-        text: String
-    )
-
-    fun onTitleItemFocusChanged(
-        position: Int,
-        startSelection: Int,
-        endSelection: Int,
-        hasFocus: Boolean
-    )
-
-    fun onTitleItemActionIconClicked(position: Int)
-}
+val <T> T.exhaustive: T
+    get() = this

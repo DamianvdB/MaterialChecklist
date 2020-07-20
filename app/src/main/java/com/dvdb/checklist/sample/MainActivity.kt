@@ -53,6 +53,7 @@ import com.dvdb.materialchecklist.config.image.*
 import com.dvdb.materialchecklist.config.title.*
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
 import com.dvdb.materialchecklist.manager.image.model.ImageItem
+import com.dvdb.materialchecklist.manager.title.model.TitleItem
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -77,6 +78,8 @@ private const val SP_CONTENT_ITEM_TEXT_KEY = "mc_item_content_text"
 
 private const val D_NOTES_URL = "https://bit.ly/google_play_store_d_notes"
 private const val GITHUB_URL = "https://bit.ly/github_material_checklist"
+
+private const val CHECKLIST_ITEMS_CONTAINER_ID = 10
 
 internal class MainActivity : AppCompatActivity() {
 
@@ -185,12 +188,12 @@ internal class MainActivity : AppCompatActivity() {
         }
 
         if (showChecklist) {
-            main_checklist.getTitleItem()?.let { title ->
-                titleItemText = title
-            }
+            val items = main_checklist.getEditorItems()
 
-            main_checklist.getContentItem()?.let { content ->
-                contentItemText = content
+            items.forEach { item ->
+                if (item is TitleItem) {
+                    titleItemText = item.text
+                }
             }
         }
 
@@ -204,11 +207,7 @@ internal class MainActivity : AppCompatActivity() {
         initImages()
 
         if (showChecklist) {
-            main_checklist.setTitleItem(titleItemText)
-            main_checklist.setContentItem(contentItemText)
-            main_checklist.setItems(checklistItemsText)
-            setChips()
-            setImages()
+            setItems()
         } else {
             main_text.setText(checklistItemsText)
 
@@ -250,7 +249,22 @@ internal class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setChips() {
+    private fun setItems() {
+        main_checklist.setEditorItems(
+            listOf(
+                TitleItem(
+                    1,
+                    titleItemText
+                )
+            )
+        )
+        main_checklist.setContentItem(contentItemText)
+        main_checklist.setItems(checklistItemsText)
+        main_checklist.setChipItems(generateChipItems())
+        main_checklist.setImageItems(generateImageItems())
+    }
+
+    private fun generateChipItems(): List<ChipItem> {
         val important = SpannableString("Important").apply {
             setSpan(
                 StrikethroughSpan(),
@@ -260,65 +274,61 @@ internal class MainActivity : AppCompatActivity() {
             )
         }
 
-        main_checklist.setChipItems(
-            listOf(
-                ChipItem(1, important, R.drawable.ic_baseline_access_alarm_24),
-                ChipItem(2, "Errands", R.drawable.ic_baseline_access_time_24),
-                ChipItem(3, "Admin"),
-                ChipItem(4, "Work"),
-                ChipItem(5, "Groceries")
-            )
+        return listOf(
+            ChipItem(1, important, R.drawable.ic_baseline_access_alarm_24),
+            ChipItem(2, "Errands", R.drawable.ic_baseline_access_time_24),
+            ChipItem(3, "Admin"),
+            ChipItem(4, "Work"),
+            ChipItem(5, "Groceries")
         )
     }
 
-    private fun setImages() {
-        main_checklist.setImageItems(
-            listOf(
-                ImageItem(
-                    id = 1,
-                    text = "Hello Word 1",
-                    primaryImage = ContextCompat.getDrawable(this, R.drawable.ic_add).apply {
-                        this!!.mutate()
+    private fun generateImageItems(): List<ImageItem> {
+        return listOf(
+            ImageItem(
+                id = 1,
+                text = "Hello Word 1",
+                primaryImage = ContextCompat.getDrawable(this, R.drawable.ic_add).apply {
+                    this!!.mutate()
 
-                        DrawableCompat.setTintList(this, null)
+                    DrawableCompat.setTintList(this, null)
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            DrawableCompat.setTint(this, Color.BLACK)
-                        } else {
-                            DrawableCompat.setTint(DrawableCompat.wrap(this), Color.BLACK)
-                        }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        DrawableCompat.setTint(this, Color.BLACK)
+                    } else {
+                        DrawableCompat.setTint(DrawableCompat.wrap(this), Color.BLACK)
                     }
-                ),
-                ImageItem(
-                    id = 2,
-                    text = "Hello Word 2",
-                    secondaryImage = ContextCompat.getDrawable(
-                        this,
-                        R.drawable.ic_baseline_access_time_24
-                    ).apply {
-                        this!!.mutate()
+                }
+            ),
+            ImageItem(
+                id = 2,
+                text = "Hello Word 2",
+                secondaryImage = ContextCompat.getDrawable(
+                    this,
+                    R.drawable.ic_baseline_access_time_24
+                ).apply {
+                    this!!.mutate()
 
-                        DrawableCompat.setTintList(this, null)
+                    DrawableCompat.setTintList(this, null)
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            DrawableCompat.setTint(this, Color.BLACK)
-                        } else {
-                            DrawableCompat.setTint(DrawableCompat.wrap(this), Color.BLACK)
-                        }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        DrawableCompat.setTint(this, Color.BLACK)
+                    } else {
+                        DrawableCompat.setTint(DrawableCompat.wrap(this), Color.BLACK)
                     }
-                ),
-                ImageItem(
-                    id = 3,
-                    primaryImageUri = generateUriFromDrawableResource(R.drawable.bg_sun_mountain)
-                ),
-                ImageItem(
-                    id = 4,
-                    primaryImageUri = generateUriFromDrawableResource(R.drawable.bg_sun_mountain)
-                ),
-                ImageItem(
-                    id = 5,
-                    secondaryImageUri = generateUriFromDrawableResource(R.drawable.bg_sun_mountain)
-                )
+                }
+            ),
+            ImageItem(
+                id = 3,
+                primaryImageUri = generateUriFromDrawableResource(R.drawable.bg_sun_mountain)
+            ),
+            ImageItem(
+                id = 4,
+                primaryImageUri = generateUriFromDrawableResource(R.drawable.bg_sun_mountain)
+            ),
+            ImageItem(
+                id = 5,
+                secondaryImageUri = generateUriFromDrawableResource(R.drawable.bg_sun_mountain)
             )
         )
     }
@@ -487,15 +497,17 @@ internal class MainActivity : AppCompatActivity() {
         )
 
         if (isConvertToChecklistMenuItemClicked) {
-            main_checklist.setTitleItem(titleItemText)
-
-            main_checklist.setContentItem(contentItemText)
-
-            val content: String = main_text.text.toString()
-            main_checklist.setItems(content)
+            checklistItemsText = main_text.text.toString()
+            setItems()
         } else {
-            main_checklist.getTitleItem()?.let { title ->
-                titleItemText = title
+            val items = main_checklist.getEditorItems()
+
+            items.forEach { item ->
+                when (item) {
+                    is TitleItem -> {
+                        titleItemText = item.text
+                    }
+                }
             }
 
             main_checklist.getContentItem()?.let { content ->
@@ -520,7 +532,8 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun handleOnRemoveCheckedItemsMenuItemClicked() {
-        val itemIdsOfRemovedItems = main_checklist.removeAllCheckedItems()
+        val itemIdsOfRemovedItems =
+            main_checklist.removeAllCheckedItems()// main_checklist.removeAllCheckedItems(CHECKLIST_ITEMS_CONTAINER_ID)
 
         val message = resources.getQuantityString(
             R.plurals.item_checked_removed,

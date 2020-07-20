@@ -37,7 +37,6 @@ import com.dvdb.materialchecklist.config.title.model.TitleConfig
 import com.dvdb.materialchecklist.manager.chip.model.ChipManagerConfig
 import com.dvdb.materialchecklist.manager.content.model.ContentManagerConfig
 import com.dvdb.materialchecklist.manager.image.model.ImageManagerConfig
-import com.dvdb.materialchecklist.manager.title.model.TitleManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerHolderConfig
@@ -160,11 +159,6 @@ internal class ChecklistConfig(
             attributes.recycle()
         }
     }
-
-    @CheckResult
-    fun totTitleManagerConfig() = TitleManagerConfig(
-        adapterConfig = toAdapterConfig()
-    )
 
     @CheckResult
     fun toContentManagerConfig() = ContentManagerConfig(
