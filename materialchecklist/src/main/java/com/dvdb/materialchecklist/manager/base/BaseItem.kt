@@ -22,6 +22,7 @@ abstract class BaseItem {
 
     enum class Type {
         TITLE,
-        IMAGE_CONTAINER
+        IMAGE_CONTAINER,
+        CHIP_CONTAINER
     }
 }

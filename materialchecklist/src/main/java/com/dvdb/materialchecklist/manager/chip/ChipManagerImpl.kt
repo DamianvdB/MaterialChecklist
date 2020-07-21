@@ -17,83 +17,15 @@
 package com.dvdb.materialchecklist.manager.chip
 
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
-import com.dvdb.materialchecklist.manager.chip.model.ChipManagerConfig
 import com.dvdb.materialchecklist.manager.chip.model.transform
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecyclerItem
 import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipRecyclerItem
-
-private const val NO_POSITION = -1
 
 internal class ChipManagerImpl : ChipManager {
 
     override var onChipItemClicked: (item: ChipItem) -> Unit = {}
 
-    override var onChipItemInContainerClicked: (id: Int) -> Unit = { id ->
-        val chipItemPredicate: (ChipRecyclerItem) -> Boolean = { item -> item.id == id }
-        val containerItem = adapter.items.firstOrNull {
-            (it as? ChipContainerRecyclerItem)?.items
-                ?.any(chipItemPredicate)
-                ?: false
-        }
-
-        if (containerItem is ChipContainerRecyclerItem) {
-            val item = containerItem.items.first(chipItemPredicate)
-            onChipItemClicked(item.transform())
-        }
-    }
-
-    private lateinit var adapter: ChecklistItemAdapter
-    private lateinit var config: ChipManagerConfig
-
-    override fun lateInitState(
-        adapter: ChecklistItemAdapter,
-        config: ChipManagerConfig
-    ) {
-        this.adapter = adapter
-        this.config = config
-    }
-
-    override fun setConfig(config: ChipManagerConfig) {
-        if (this.config.adapterConfig != config.adapterConfig) {
-            adapter.config = config.adapterConfig
-        }
-
-        this.config = config
-    }
-
-    override fun getChipItems(): List<ChipItem> {
-        val item = adapter.items.firstOrNull { it is ChipContainerRecyclerItem }
-        return (item as? ChipContainerRecyclerItem)?.items?.map { it.transform() } ?: emptyList()
-    }
-
-    override fun setChipItems(items: List<ChipItem>) {
-        val newItem = ChipContainerRecyclerItem(items = items.map { it.transform() })
-        val position = adapter.items.indexOfFirst { it is ChipContainerRecyclerItem }
-
-        if (position != NO_POSITION) {
-            updateItemInAdapter(
-                newItem,
-                position
-            )
-        } else {
-            addItemToAdapter(
-                newItem,
-                adapter.itemCount
-            )
-        }
-    }
-
-    override fun removeChipItems(): Boolean {
-        val position = adapter.items.indexOfFirst { it is ChipContainerRecyclerItem }
-
-        return if (position != NO_POSITION) {
-            removeItemFromAdapter(position)
-            true
-        } else {
-            false
-        }
+    override var onChipItemInContainerClicked: (item: ChipRecyclerItem) -> Unit = { item ->
+        onChipItemClicked(item.transform())
     }
 
     override fun onItemMove(
@@ -108,31 +40,5 @@ internal class ChipManagerImpl : ChipManager {
         targetPosition: Int
     ): Boolean {
         return false
-    }
-
-    private fun addItemToAdapter(
-        item: BaseRecyclerItem,
-        position: Int
-    ) {
-        adapter.addItem(
-            item = item,
-            position = position
-        )
-    }
-
-    private fun updateItemInAdapter(
-        item: BaseRecyclerItem,
-        position: Int,
-        notify: Boolean = true
-    ) {
-        adapter.updateItem(
-            item = item,
-            position = position,
-            notify = notify
-        )
-    }
-
-    private fun removeItemFromAdapter(position: Int) {
-        adapter.removeItem(position)
     }
 }

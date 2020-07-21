@@ -16,7 +16,18 @@
 
 package com.dvdb.materialchecklist.manager.chip.model
 
+import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecyclerItem
 import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipRecyclerItem
+
+internal fun ChipItemContainer.transform() = ChipContainerRecyclerItem(
+    id = id.toLong(),
+    items = items.map { it.transform() }
+)
+
+internal fun ChipContainerRecyclerItem.transform() = ChipItemContainer(
+    id = id.toInt(),
+    items = items.map { it.transform() }
+)
 
 internal fun ChipItem.transform() = ChipRecyclerItem(
     id = id,

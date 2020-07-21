@@ -52,6 +52,7 @@ import com.dvdb.materialchecklist.config.general.setTextEditable
 import com.dvdb.materialchecklist.config.image.*
 import com.dvdb.materialchecklist.config.title.*
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
+import com.dvdb.materialchecklist.manager.chip.model.ChipItemContainer
 import com.dvdb.materialchecklist.manager.image.model.ImageItem
 import com.dvdb.materialchecklist.manager.image.model.ImageItemContainer
 import com.dvdb.materialchecklist.manager.title.model.TitleItem
@@ -260,12 +261,15 @@ internal class MainActivity : AppCompatActivity() {
                 TitleItem(
                     2,
                     titleItemText
+                ),
+                ChipItemContainer(
+                    5,
+                    generateChipItems()
                 )
             )
         )
         main_checklist.setContentItem(contentItemText)
         main_checklist.setItems(checklistItemsText)
-        main_checklist.setChipItems(generateChipItems())
     }
 
     private fun generateChipItems(): List<ChipItem> {

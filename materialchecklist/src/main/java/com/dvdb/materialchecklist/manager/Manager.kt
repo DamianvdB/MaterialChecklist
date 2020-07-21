@@ -20,6 +20,8 @@ import com.dvdb.materialchecklist.config.ChecklistConfig
 import com.dvdb.materialchecklist.manager.base.BaseItem
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManager
 import com.dvdb.materialchecklist.manager.chip.ChipManager
+import com.dvdb.materialchecklist.manager.chip.model.ChipItemContainer
+import com.dvdb.materialchecklist.manager.chip.model.transform
 import com.dvdb.materialchecklist.manager.content.ContentManager
 import com.dvdb.materialchecklist.manager.image.ImageManager
 import com.dvdb.materialchecklist.manager.image.model.ImageItemContainer
@@ -29,6 +31,7 @@ import com.dvdb.materialchecklist.manager.title.model.TitleItem
 import com.dvdb.materialchecklist.manager.title.model.transform
 import com.dvdb.materialchecklist.manager.util.model.RequestFocus
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
+import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterRequestFocus
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.imagecontainer.model.ImageContainerRecyclerItem
@@ -48,6 +51,7 @@ internal class Manager(
     ImageManager by imageManager {
 
     private lateinit var adapter: ChecklistItemAdapter
+    private lateinit var adapterConfig: ChecklistItemAdapterConfig
 
     fun lateInitState(
         adapter: ChecklistItemAdapter,
@@ -59,6 +63,7 @@ internal class Manager(
         enableItemAnimations: (isEnabled: Boolean) -> Unit
     ) {
         this.adapter = adapter
+        this.adapterConfig = config.toAdapterConfig()
 
         val updateItemInAdapterSilently: (item: BaseRecyclerItem, position: Int) -> Unit =
             { item, position ->
@@ -92,11 +97,6 @@ internal class Manager(
             updateItemPadding = updateItemPadding,
             enableItemAnimations = enableItemAnimations
         )
-
-        chipManager.lateInitState(
-            adapter = adapter,
-            config = config.toChipManagerConfig()
-        )
     }
 
     @Suppress("IMPLICIT_CAST_TO_ANY")
@@ -117,6 +117,10 @@ internal class Manager(
 
                     BaseItem.Type.IMAGE_CONTAINER -> {
                         recyclerItems.add((item as ImageItemContainer).transform())
+                    }
+
+                    BaseItem.Type.CHIP_CONTAINER -> {
+                        recyclerItems.add((item as ChipItemContainer).transform())
                     }
                 }.exhaustive
             }
@@ -166,9 +170,14 @@ internal class Manager(
     }
 
     fun setConfig(config: ChecklistConfig) {
+        val latestAdapterConfig = config.toAdapterConfig()
+        if (adapterConfig != latestAdapterConfig) {
+            adapterConfig = latestAdapterConfig
+            adapter.config = latestAdapterConfig
+        }
+
         contentManager.setConfig(config.toContentManagerConfig())
         checklistManager.setConfig(config.toManagerConfig())
-        chipManager.setConfig(config.toChipManagerConfig())
     }
 
     override fun onItemMove(

@@ -145,19 +145,6 @@ class MaterialChecklist(
     /**
      * Chip item
      */
-
-    fun setChipItems(items: List<ChipItem>) {
-        manager.setChipItems(items)
-    }
-
-    fun getChipItems(): List<ChipItem> {
-        return manager.getChipItems()
-    }
-
-    fun removeChipItems(): Boolean {
-        return manager.removeChipItems()
-    }
-
     fun setOnChipItemClicked(onChipItemClicked: (ChipItem) -> Unit) {
         manager.onChipItemClicked = onChipItemClicked
     }
@@ -342,8 +329,8 @@ class MaterialChecklist(
             itemNewRecyclerHolderFactory = ChecklistNewRecyclerHolder.Factory(
                 manager.onCreateNewChecklistItemClicked
             ),
-            itemChipContainerRecyclerHolderFactory = ChipContainerRecyclerHolder.Factory { id ->
-                manager.onChipItemInContainerClicked(id)
+            itemChipContainerRecyclerHolderFactory = ChipContainerRecyclerHolder.Factory { item ->
+                manager.onChipItemInContainerClicked(item)
             },
             itemImageContainerRecyclerHolderFactory = ImageContainerRecyclerHolder.Factory { item ->
                 manager.onImageItemInContainerClicked(item)

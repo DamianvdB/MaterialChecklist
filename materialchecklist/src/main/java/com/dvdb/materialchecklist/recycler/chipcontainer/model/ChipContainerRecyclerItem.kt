@@ -17,10 +17,10 @@
 package com.dvdb.materialchecklist.recycler.chipcontainer.model
 
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
-import com.dvdb.materialchecklist.recycler.util.RecyclerItemIdentifierUtil
 
 internal data class ChipContainerRecyclerItem(
-    val items: List<ChipRecyclerItem>,
-    override val type: Type = Type.CHIP,
-    override val id: Long = RecyclerItemIdentifierUtil.nextIdentifier
-) : BaseRecyclerItem()
+    override val id: Long,
+    val items: List<ChipRecyclerItem>
+) : BaseRecyclerItem() {
+    override val type: Type = Type.CHIP
+}

@@ -17,26 +17,12 @@
 package com.dvdb.materialchecklist.manager.chip
 
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
-import com.dvdb.materialchecklist.manager.chip.model.ChipManagerConfig
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
+import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipRecyclerItem
 
 internal interface ChipManager : ChecklistItemAdapterDragListener {
 
     var onChipItemClicked: (item: ChipItem) -> Unit
 
-    var onChipItemInContainerClicked: (id: Int) -> Unit
-
-    fun lateInitState(
-        adapter: ChecklistItemAdapter,
-        config: ChipManagerConfig
-    )
-
-    fun setConfig(config: ChipManagerConfig)
-
-    fun getChipItems(): List<ChipItem>
-
-    fun setChipItems(items: List<ChipItem>)
-
-    fun removeChipItems(): Boolean
+    var onChipItemInContainerClicked: (item: ChipRecyclerItem) -> Unit
 }

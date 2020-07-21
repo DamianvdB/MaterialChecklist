@@ -16,9 +16,11 @@
 
 package com.dvdb.materialchecklist.manager.chip.model
 
-import com.dvdb.materialchecklist.config.Config
-import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
+import com.dvdb.materialchecklist.manager.base.BaseItem
 
-internal data class ChipManagerConfig(
-    val adapterConfig: ChecklistItemAdapterConfig
-) : Config
+data class ChipItemContainer(
+    override val id: Int,
+    val items: List<ChipItem>
+) : BaseItem() {
+    override val type: Type = Type.CHIP_CONTAINER
+}

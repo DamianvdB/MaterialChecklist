@@ -32,7 +32,7 @@ import com.google.android.material.chip.ChipGroup
 internal class ChipContainerRecyclerHolder private constructor(
     private val chipGroup: ChipGroup,
     config: ChipContainerRecyclerHolderConfig,
-    private val onItemClicked: (id: Int) -> Unit
+    private val onItemClicked: (item: ChipRecyclerItem) -> Unit
 ) : BaseRecyclerHolder<ChipContainerRecyclerItem, ChipContainerRecyclerHolderConfig>(
     chipGroup,
     config
@@ -43,63 +43,86 @@ internal class ChipContainerRecyclerHolder private constructor(
     }
 
     override fun bindView(item: ChipContainerRecyclerItem) {
-        chipGroup.removeAllViews()
+        if (item.items.size != chipGroup.childCount) {
+            chipGroup.removeAllViews()
 
-        item.items.forEach { chipItem ->
-            chipGroup.addView(createChip(chipItem))
+            item.items.forEach { chipItem ->
+                chipGroup.addView(createChip(chipItem))
+            }
+        } else {
+            for (i in 0 until chipGroup.childCount) {
+                val chip = chipGroup.getChildAt(i) as? Chip
+
+                item.items.getOrNull(i)?.let { chipItem ->
+                    chip?.bindItem(chipItem)
+                }
+            }
         }
     }
 
     override fun onConfigUpdated() {
         initialiseChipGroup()
+
+        for (i in 0 until chipGroup.childCount) {
+            val chip = chipGroup.getChildAt(i) as? Chip
+            chip?.updateAppearance()
+        }
     }
 
     private fun createChip(chipItem: ChipRecyclerItem): Chip {
         val chip = Chip(chipGroup.context)
 
-        chip.text = chipItem.text
-        chip.typeface = config.textTypeFace
-        chip.setTextColor(config.textColor)
+        chip.bindItem(chipItem)
+        chip.updateAppearance()
 
-        chip.setTextSize(
-            TypedValue.COMPLEX_UNIT_PX,
-            config.textSize
-        )
+        return chip
+    }
+
+    private fun Chip.bindItem(chipItem: ChipRecyclerItem) {
+        text = chipItem.text
 
         if (chipItem.iconRes != -1) {
             val drawable = chipGroup.context.getDrawableCompat(chipItem.iconRes)
             drawable?.setTintCompat(config.iconTintColor)
-            chip.chipIcon = drawable
+            chipIcon = drawable
         }
 
-        chip.chipIconSize = config.iconSize
+        setOnClickListener {
+            onItemClicked(chipItem)
+        }
+    }
+
+    private fun Chip.updateAppearance() {
+        typeface = config.textTypeFace
+        setTextColor(config.textColor)
+
+        setTextSize(
+            TypedValue.COMPLEX_UNIT_PX,
+            config.textSize
+        )
+
+        chipIconSize = config.iconSize
 
         config.iconEndPadding?.let {
-            chip.iconEndPadding = it
+            iconEndPadding = it
         }
 
         config.backgroundColor?.let {
-            chip.chipBackgroundColor = ColorStateList.valueOf(it)
+            chipBackgroundColor = ColorStateList.valueOf(it)
         }
 
         config.strokeColor?.let {
-            chip.chipStrokeColor = ColorStateList.valueOf(it)
+            chipStrokeColor = ColorStateList.valueOf(it)
         }
 
         config.strokeWidth?.let {
-            chip.chipStrokeWidth = it
+            chipStrokeWidth = it
         }
 
-        chip.chipStartPadding = config.leftAndRightInternalPadding
-        chip.chipEndPadding = config.leftAndRightInternalPadding
+        chipStartPadding = config.leftAndRightInternalPadding
+        chipEndPadding = config.leftAndRightInternalPadding
 
-        chip.chipMinHeight = config.minHeight
-
-        chip.setOnClickListener {
-            onItemClicked(chipItem.id)
-        }
-
-        return chip
+        chipMinHeight = config.minHeight
     }
 
     private fun initialiseChipGroup() {
@@ -117,7 +140,7 @@ internal class ChipContainerRecyclerHolder private constructor(
     }
 
     class Factory(
-        private val onItemClicked: (id: Int) -> Unit
+        private val onItemClicked: (item: ChipRecyclerItem) -> Unit
     ) : BaseRecyclerHolderFactory<ChipContainerRecyclerItem, ChipContainerRecyclerHolderConfig> {
 
         override fun create(

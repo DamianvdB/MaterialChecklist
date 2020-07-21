@@ -34,7 +34,6 @@ import com.dvdb.materialchecklist.config.chip.model.ChipConfig
 import com.dvdb.materialchecklist.config.content.model.ContentConfig
 import com.dvdb.materialchecklist.config.image.model.ImageConfig
 import com.dvdb.materialchecklist.config.title.model.TitleConfig
-import com.dvdb.materialchecklist.manager.chip.model.ChipManagerConfig
 import com.dvdb.materialchecklist.manager.content.model.ContentManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerHolderConfig
@@ -172,11 +171,6 @@ internal class ChecklistConfig(
         behaviorUncheckedItem = behaviorUncheckedItem,
         itemFirstTopPadding = itemFirstTopPadding,
         itemLastBottomPadding = itemLastBottomPadding,
-        adapterConfig = toAdapterConfig()
-    )
-
-    @CheckResult
-    fun toChipManagerConfig() = ChipManagerConfig(
         adapterConfig = toAdapterConfig()
     )
 
