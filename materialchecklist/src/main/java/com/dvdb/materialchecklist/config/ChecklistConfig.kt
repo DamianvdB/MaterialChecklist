@@ -36,7 +36,6 @@ import com.dvdb.materialchecklist.config.image.model.ImageConfig
 import com.dvdb.materialchecklist.config.title.model.TitleConfig
 import com.dvdb.materialchecklist.manager.chip.model.ChipManagerConfig
 import com.dvdb.materialchecklist.manager.content.model.ContentManagerConfig
-import com.dvdb.materialchecklist.manager.image.model.ImageManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerHolderConfig
@@ -178,11 +177,6 @@ internal class ChecklistConfig(
 
     @CheckResult
     fun toChipManagerConfig() = ChipManagerConfig(
-        adapterConfig = toAdapterConfig()
-    )
-
-    @CheckResult
-    fun toImageManagerConfig() = ImageManagerConfig(
         adapterConfig = toAdapterConfig()
     )
 

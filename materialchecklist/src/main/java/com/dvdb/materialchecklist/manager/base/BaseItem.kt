@@ -21,6 +21,7 @@ abstract class BaseItem {
     abstract val type: Type
 
     enum class Type {
-        TITLE
+        TITLE,
+        IMAGE_CONTAINER
     }
 }

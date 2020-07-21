@@ -18,10 +18,10 @@ package com.dvdb.materialchecklist.recycler.imagecontainer.model
 
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyclerItem
-import com.dvdb.materialchecklist.recycler.util.RecyclerItemIdentifierUtil
 
 internal data class ImageContainerRecyclerItem(
-    val items: List<ImageRecyclerItem>,
-    override val type: Type = Type.IMAGE,
-    override val id: Long = RecyclerItemIdentifierUtil.nextIdentifier
-) : BaseRecyclerItem()
+    override val id: Long,
+    val items: List<ImageRecyclerItem>
+) : BaseRecyclerItem() {
+    override val type: Type = Type.IMAGE
+}

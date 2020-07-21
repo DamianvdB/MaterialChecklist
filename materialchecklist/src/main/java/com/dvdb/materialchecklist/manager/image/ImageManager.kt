@@ -17,8 +17,6 @@
 package com.dvdb.materialchecklist.manager.image
 
 import com.dvdb.materialchecklist.manager.image.model.ImageItem
-import com.dvdb.materialchecklist.manager.image.model.ImageManagerConfig
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
 import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyclerItem
 
@@ -27,17 +25,4 @@ internal interface ImageManager : ChecklistItemAdapterDragListener {
     var onImageItemClicked: (item: ImageItem) -> Unit
 
     val onImageItemInContainerClicked: (item: ImageRecyclerItem) -> Unit
-
-    fun lateInitState(
-        adapter: ChecklistItemAdapter,
-        config: ImageManagerConfig
-    )
-
-    fun setConfig(config: ImageManagerConfig)
-
-    fun getImageItems(): List<ImageItem>
-
-    fun setImageItems(items: List<ImageItem>)
-
-    fun removeImageItems(): Boolean
 }

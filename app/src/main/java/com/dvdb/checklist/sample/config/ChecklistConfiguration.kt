@@ -173,8 +173,8 @@ internal class ChecklistConfiguration(
         context.resources.getDimension(R.dimen.mc_item_image_corner_radius)
     val imageInnerPadding: Float =
         context.resources.getDimension(R.dimen.mc_item_image_inner_margin)
-    val imageLeftAndRightPadding: Float? = null
-    val imageTopAndBottomPadding: Float? = null
+    val imageLeftAndRightPadding: Float? = 0f
+    val imageTopAndBottomPadding: Float? = context.resources.getDimension(R.dimen.mc_spacing_large)
     val imageAdjustItemTextSize: Boolean = true
 
     /**

@@ -165,18 +165,6 @@ class MaterialChecklist(
     /**
      * Image item
      */
-    fun setImageItems(items: List<ImageItem>) {
-        manager.setImageItems(items)
-    }
-
-    fun getImageItems(): List<ImageItem> {
-        return manager.getImageItems()
-    }
-
-    fun removeImageItems(): Boolean {
-        return manager.removeImageItems()
-    }
-
     fun setOnImageItemClicked(onImageItemClicked: (ImageItem) -> Unit) {
         manager.onImageItemClicked = onImageItemClicked
     }

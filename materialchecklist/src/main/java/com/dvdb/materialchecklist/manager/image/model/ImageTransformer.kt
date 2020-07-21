@@ -17,6 +17,17 @@
 package com.dvdb.materialchecklist.manager.image.model
 
 import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyclerItem
+import com.dvdb.materialchecklist.recycler.imagecontainer.model.ImageContainerRecyclerItem
+
+internal fun ImageItemContainer.transform() = ImageContainerRecyclerItem(
+    id = id.toLong(),
+    items = items.map { it.transform() }
+)
+
+internal fun ImageContainerRecyclerItem.transform() = ImageItemContainer(
+    id = id.toInt(),
+    items = items.map { it.transform() }
+)
 
 internal fun ImageItem.transform() = ImageRecyclerItem(
     id = id,

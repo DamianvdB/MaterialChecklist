@@ -16,8 +16,11 @@
 
 package com.dvdb.materialchecklist.manager.image.model
 
-import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
+import com.dvdb.materialchecklist.manager.base.BaseItem
 
-internal data class ImageManagerConfig(
-    val adapterConfig: ChecklistItemAdapterConfig
-)
+data class ImageItemContainer(
+    override val id: Int,
+    val items: List<ImageItem>
+) : BaseItem() {
+    override val type: Type = Type.IMAGE_CONTAINER
+}

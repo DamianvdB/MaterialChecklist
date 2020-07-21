@@ -53,6 +53,7 @@ import com.dvdb.materialchecklist.config.image.*
 import com.dvdb.materialchecklist.config.title.*
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
 import com.dvdb.materialchecklist.manager.image.model.ImageItem
+import com.dvdb.materialchecklist.manager.image.model.ImageItemContainer
 import com.dvdb.materialchecklist.manager.title.model.TitleItem
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -252,8 +253,12 @@ internal class MainActivity : AppCompatActivity() {
     private fun setItems() {
         main_checklist.setEditorItems(
             listOf(
-                TitleItem(
+                ImageItemContainer(
                     1,
+                    generateImageItems()
+                ),
+                TitleItem(
+                    2,
                     titleItemText
                 )
             )
@@ -261,7 +266,6 @@ internal class MainActivity : AppCompatActivity() {
         main_checklist.setContentItem(contentItemText)
         main_checklist.setItems(checklistItemsText)
         main_checklist.setChipItems(generateChipItems())
-        main_checklist.setImageItems(generateImageItems())
     }
 
     private fun generateChipItems(): List<ChipItem> {

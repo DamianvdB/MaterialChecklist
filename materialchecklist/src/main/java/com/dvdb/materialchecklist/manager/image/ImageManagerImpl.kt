@@ -17,14 +17,8 @@
 package com.dvdb.materialchecklist.manager.image
 
 import com.dvdb.materialchecklist.manager.image.model.ImageItem
-import com.dvdb.materialchecklist.manager.image.model.ImageManagerConfig
 import com.dvdb.materialchecklist.manager.image.model.transform
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyclerItem
-import com.dvdb.materialchecklist.recycler.imagecontainer.model.ImageContainerRecyclerItem
-
-private const val NO_POSITION = -1
 
 internal class ImageManagerImpl : ImageManager {
 
@@ -32,58 +26,6 @@ internal class ImageManagerImpl : ImageManager {
 
     override val onImageItemInContainerClicked: (item: ImageRecyclerItem) -> Unit = {
         onImageItemClicked(it.transform())
-    }
-
-    private lateinit var adapter: ChecklistItemAdapter
-    private lateinit var config: ImageManagerConfig
-
-    override fun lateInitState(
-        adapter: ChecklistItemAdapter,
-        config: ImageManagerConfig
-    ) {
-        this.adapter = adapter
-        this.config = config
-    }
-
-    override fun setConfig(config: ImageManagerConfig) {
-        if (this.config.adapterConfig != config.adapterConfig) {
-            adapter.config = config.adapterConfig
-        }
-
-        this.config = config
-    }
-
-    override fun getImageItems(): List<ImageItem> {
-        val item = adapter.items.firstOrNull { it is ImageContainerRecyclerItem }
-        return (item as? ImageContainerRecyclerItem)?.items?.map { it.transform() } ?: emptyList()
-    }
-
-    override fun setImageItems(items: List<ImageItem>) {
-        val newItem = ImageContainerRecyclerItem(items = items.map { it.transform() })
-        val position = adapter.items.indexOfFirst { it is ImageContainerRecyclerItem }
-
-        if (position != NO_POSITION) {
-            updateItemInAdapter(
-                newItem,
-                position
-            )
-        } else {
-            addItemToAdapter(
-                newItem,
-                adapter.itemCount
-            )
-        }
-    }
-
-    override fun removeImageItems(): Boolean {
-        val position = adapter.items.indexOfFirst { it is ImageContainerRecyclerItem }
-
-        return if (position != NO_POSITION) {
-            removeItemFromAdapter(position)
-            true
-        } else {
-            false
-        }
     }
 
     override fun onItemMove(
@@ -98,31 +40,5 @@ internal class ImageManagerImpl : ImageManager {
         targetPosition: Int
     ): Boolean {
         return false
-    }
-
-    private fun addItemToAdapter(
-        item: BaseRecyclerItem,
-        position: Int
-    ) {
-        adapter.addItem(
-            item = item,
-            position = position
-        )
-    }
-
-    private fun updateItemInAdapter(
-        item: BaseRecyclerItem,
-        position: Int,
-        notify: Boolean = true
-    ) {
-        adapter.updateItem(
-            item = item,
-            position = position,
-            notify = notify
-        )
-    }
-
-    private fun removeItemFromAdapter(position: Int) {
-        adapter.removeItem(position)
     }
 }

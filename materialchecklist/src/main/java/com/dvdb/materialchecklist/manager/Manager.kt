@@ -22,6 +22,8 @@ import com.dvdb.materialchecklist.manager.checklist.ChecklistManager
 import com.dvdb.materialchecklist.manager.chip.ChipManager
 import com.dvdb.materialchecklist.manager.content.ContentManager
 import com.dvdb.materialchecklist.manager.image.ImageManager
+import com.dvdb.materialchecklist.manager.image.model.ImageItemContainer
+import com.dvdb.materialchecklist.manager.image.model.transform
 import com.dvdb.materialchecklist.manager.title.TitleManager
 import com.dvdb.materialchecklist.manager.title.model.TitleItem
 import com.dvdb.materialchecklist.manager.title.model.transform
@@ -29,6 +31,7 @@ import com.dvdb.materialchecklist.manager.util.model.RequestFocus
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterRequestFocus
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.imagecontainer.model.ImageContainerRecyclerItem
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 import com.dvdb.materialchecklist.util.exhaustive
 
@@ -94,11 +97,6 @@ internal class Manager(
             adapter = adapter,
             config = config.toChipManagerConfig()
         )
-
-        imageManager.lateInitState(
-            adapter = adapter,
-            config = config.toImageManagerConfig()
-        )
     }
 
     @Suppress("IMPLICIT_CAST_TO_ANY")
@@ -115,6 +113,10 @@ internal class Manager(
                             requestFocusForItem = Pair(index, titleItem.requestFocus)
                         }
                         recyclerItems.add(titleItem.transform())
+                    }
+
+                    BaseItem.Type.IMAGE_CONTAINER -> {
+                        recyclerItems.add((item as ImageItemContainer).transform())
                     }
                 }.exhaustive
             }
@@ -151,6 +153,7 @@ internal class Manager(
                 BaseRecyclerItem.Type.CHIP -> {
                 }
                 BaseRecyclerItem.Type.IMAGE -> {
+                    items.add((item as ImageContainerRecyclerItem).transform())
                 }
             }
         }
@@ -166,7 +169,6 @@ internal class Manager(
         contentManager.setConfig(config.toContentManagerConfig())
         checklistManager.setConfig(config.toManagerConfig())
         chipManager.setConfig(config.toChipManagerConfig())
-        imageManager.setConfig(config.toImageManagerConfig())
     }
 
     override fun onItemMove(
