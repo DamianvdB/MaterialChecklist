@@ -29,7 +29,7 @@ internal class TitleManagerImpl : TitleManager {
 
     private var hasFocus: Boolean = false
 
-    override fun lateInitState(
+    override fun lateInitTitleState(
         items: () -> List<BaseRecyclerItem>,
         updateItemSilently: (item: BaseRecyclerItem, position: Int) -> Unit
     ) {

@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
+
 package com.dvdb.materialchecklist.manager.content.model
 
-import com.dvdb.materialchecklist.config.Config
-import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
+import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerItem
 
-internal data class ContentManagerConfig(
-    val adapterConfig: ChecklistItemAdapterConfig
-) : Config
+internal fun ContentItem.transform() = ContentRecyclerItem(
+    id = id.toLong(),
+    text = text
+)
+
+internal fun ContentRecyclerItem.transform() = ContentItem(
+    id = id.toInt(),
+    text = text
+)

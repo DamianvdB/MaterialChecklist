@@ -34,7 +34,6 @@ import com.dvdb.materialchecklist.config.chip.model.ChipConfig
 import com.dvdb.materialchecklist.config.content.model.ContentConfig
 import com.dvdb.materialchecklist.config.image.model.ImageConfig
 import com.dvdb.materialchecklist.config.title.model.TitleConfig
-import com.dvdb.materialchecklist.manager.content.model.ContentManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerHolderConfig
@@ -113,10 +112,12 @@ internal class ChecklistConfig(
     )
 
     val contentConfig: ContentConfig = ContentConfig(
+        context,
         textColor = { textColor },
         textSize = { textSize },
         typeFace = { textTypeFace },
         isEditable = { textEditable },
+        topAndBottomPadding = { itemTopAndBottomPadding },
         leftAndRightPadding = { itemLeftAndRightPadding },
         leftAndRightPaddingOffset = leftAndRightPaddingOffset
     )
@@ -157,11 +158,6 @@ internal class ChecklistConfig(
             attributes.recycle()
         }
     }
-
-    @CheckResult
-    fun toContentManagerConfig() = ContentManagerConfig(
-        adapterConfig = toAdapterConfig()
-    )
 
     @CheckResult
     fun toManagerConfig() = ChecklistManagerConfig(

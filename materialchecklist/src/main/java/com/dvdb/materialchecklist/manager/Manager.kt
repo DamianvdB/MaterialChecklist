@@ -23,6 +23,8 @@ import com.dvdb.materialchecklist.manager.chip.ChipManager
 import com.dvdb.materialchecklist.manager.chip.model.ChipItemContainer
 import com.dvdb.materialchecklist.manager.chip.model.transform
 import com.dvdb.materialchecklist.manager.content.ContentManager
+import com.dvdb.materialchecklist.manager.content.model.ContentItem
+import com.dvdb.materialchecklist.manager.content.model.transform
 import com.dvdb.materialchecklist.manager.image.ImageManager
 import com.dvdb.materialchecklist.manager.image.model.ImageItemContainer
 import com.dvdb.materialchecklist.manager.image.model.transform
@@ -34,6 +36,8 @@ import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterRequestFocus
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecyclerItem
+import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerItem
 import com.dvdb.materialchecklist.recycler.imagecontainer.model.ImageContainerRecyclerItem
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 import com.dvdb.materialchecklist.util.exhaustive
@@ -78,14 +82,14 @@ internal class Manager(
             adapter.items
         }
 
-        titleManager.lateInitState(
+        titleManager.lateInitTitleState(
             items,
             updateItemInAdapterSilently
         )
 
-        contentManager.lateInitState(
-            adapter = adapter,
-            config = config.toContentManagerConfig()
+        contentManager.lateInitContentState(
+            items,
+            updateItemInAdapterSilently
         )
 
         checklistManager.lateInitState(
@@ -113,6 +117,14 @@ internal class Manager(
                             requestFocusForItem = Pair(index, titleItem.requestFocus)
                         }
                         recyclerItems.add(titleItem.transform())
+                    }
+
+                    BaseItem.Type.CONTENT -> {
+                        val contentItem = item as ContentItem
+                        if (contentItem.requestFocus is RequestFocus.Perform) {
+                            requestFocusForItem = Pair(index, contentItem.requestFocus)
+                        }
+                        recyclerItems.add(contentItem.transform())
                     }
 
                     BaseItem.Type.IMAGE_CONTAINER -> {
@@ -149,12 +161,14 @@ internal class Manager(
                     items.add((item as TitleRecyclerItem).transform())
                 }
                 BaseRecyclerItem.Type.CONTENT -> {
+                    items.add((item as ContentRecyclerItem).transform())
                 }
                 BaseRecyclerItem.Type.CHECKLIST -> {
                 }
                 BaseRecyclerItem.Type.CHECKLIST_NEW -> {
                 }
                 BaseRecyclerItem.Type.CHIP -> {
+                    items.add((item as ChipContainerRecyclerItem).transform())
                 }
                 BaseRecyclerItem.Type.IMAGE -> {
                     items.add((item as ImageContainerRecyclerItem).transform())
@@ -176,7 +190,6 @@ internal class Manager(
             adapter.config = latestAdapterConfig
         }
 
-        contentManager.setConfig(config.toContentManagerConfig())
         checklistManager.setConfig(config.toManagerConfig())
     }
 

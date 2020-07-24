@@ -122,27 +122,6 @@ class MaterialChecklist(
     }
 
     /**
-     * Content item
-     */
-
-    fun setContentItem(text: String) {
-        manager.setContentItem(text)
-    }
-
-    fun removeContentItem(): Boolean {
-        return manager.removeContentItem()
-    }
-
-    @CheckResult
-    fun getContentItem(): String? {
-        return manager.getContentItem()
-    }
-
-    fun requestContentItemFocus(): Boolean {
-        return manager.requestContentItemFocus()
-    }
-
-    /**
      * Chip item
      */
     fun setOnChipItemClicked(onChipItemClicked: (ChipItem) -> Unit) {

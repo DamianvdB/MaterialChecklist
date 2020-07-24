@@ -78,9 +78,9 @@ internal class ContentRecyclerHolder private constructor(
         val leftAndRightPadding = config.leftAndRightPadding.toInt()
         itemView.setPadding(
             leftAndRightPadding,
-            itemView.paddingTop,
+            config.topPadding.toInt(),
             leftAndRightPadding,
-            itemView.paddingBottom
+            config.bottomPadding.toInt()
         )
     }
 
@@ -171,16 +171,6 @@ internal class ContentRecyclerHolder private constructor(
             editText.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-
-            editText.minHeight =
-                context.resources.getDimensionPixelOffset(R.dimen.mc_item_content_min_height)
-
-            editText.setPadding(
-                editText.paddingLeft,
-                editText.paddingTop,
-                editText.paddingRight,
-                context.resources.getDimensionPixelSize(R.dimen.mc_spacing_large)
             )
 
             editText.setLineSpacing(

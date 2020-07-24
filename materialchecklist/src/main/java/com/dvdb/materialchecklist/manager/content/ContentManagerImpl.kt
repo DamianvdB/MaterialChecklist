@@ -16,96 +16,34 @@
 
 package com.dvdb.materialchecklist.manager.content
 
-import com.dvdb.materialchecklist.manager.content.model.ContentManagerConfig
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
-import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterRequestFocus
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerItem
 
-private const val NO_POSITION = -1
-
 internal class ContentManagerImpl : ContentManager {
 
-    private lateinit var adapter: ChecklistItemAdapter
-    private lateinit var config: ContentManagerConfig
+    private lateinit var items: () -> List<BaseRecyclerItem>
+    private lateinit var updateItemSilently: (item: BaseRecyclerItem, position: Int) -> Unit
 
     private var hasFocus: Boolean = false
 
-    override fun lateInitState(
-        adapter: ChecklistItemAdapter,
-        config: ContentManagerConfig
+    override fun lateInitContentState(
+        items: () -> List<BaseRecyclerItem>,
+        updateItemSilently: (item: BaseRecyclerItem, position: Int) -> Unit
     ) {
-        this.adapter = adapter
-        this.config = config
-    }
-
-    override fun setConfig(config: ContentManagerConfig) {
-        if (this.config.adapterConfig != config.adapterConfig) {
-            adapter.config = config.adapterConfig
-        }
-
-        this.config = config
-    }
-
-    override fun getContentItem(): String? {
-        val item = adapter.items.firstOrNull { it is ContentRecyclerItem }
-        return (item as? ContentRecyclerItem)?.text
-    }
-
-    override fun setContentItem(text: String) {
-        val newItem = ContentRecyclerItem(text)
-        val position = adapter.items.indexOfFirst { it is ContentRecyclerItem }
-
-        if (position != NO_POSITION) {
-            updateItemInAdapter(
-                newItem,
-                position
-            )
-        } else {
-            addItemToAdapter(
-                newItem,
-                adapter.itemCount
-            )
-        }
-    }
-
-    override fun removeContentItem(): Boolean {
-        val position = adapter.items.indexOfFirst { it is ContentRecyclerItem }
-
-        return if (position != NO_POSITION) {
-            removeItemFromAdapter(position)
-            true
-        } else {
-            false
-        }
-    }
-
-    override fun requestContentItemFocus(): Boolean {
-        val position = adapter.items.indexOfFirst { it is ContentRecyclerItem }
-
-        return if (position != NO_POSITION) {
-            adapter.requestFocus = ChecklistItemAdapterRequestFocus(
-                position = position,
-                selectionPosition = Int.MAX_VALUE,
-                isShowKeyboard = true
-            )
-            true
-        } else {
-            false
-        }
+        this.items = items
+        this.updateItemSilently = updateItemSilently
     }
 
     override fun onContentItemTextChanged(
         position: Int,
         text: String
     ) {
-        val item = adapter.items.getOrNull(position)
+        val item = items().getOrNull(position)
 
         if (item is ContentRecyclerItem) {
-            updateItemInAdapter(
-                item = item.copy(text),
-                position = position,
-                notify = false
+            updateItemSilently(
+                item.copy(text = text),
+                position
             )
         }
     }
@@ -131,31 +69,5 @@ internal class ContentManagerImpl : ContentManager {
         targetPosition: Int
     ): Boolean {
         return false
-    }
-
-    private fun addItemToAdapter(
-        item: BaseRecyclerItem,
-        position: Int
-    ) {
-        adapter.addItem(
-            item = item,
-            position = position
-        )
-    }
-
-    private fun updateItemInAdapter(
-        item: BaseRecyclerItem,
-        position: Int,
-        notify: Boolean = true
-    ) {
-        adapter.updateItem(
-            item = item,
-            position = position,
-            notify = notify
-        )
-    }
-
-    private fun removeItemFromAdapter(position: Int) {
-        adapter.removeItem(position)
     }
 }

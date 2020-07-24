@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager.base
+package com.dvdb.materialchecklist.manager.content.model
 
-abstract class BaseItem {
-    abstract val id: Int
-    abstract val type: Type
+import com.dvdb.materialchecklist.manager.base.BaseItem
+import com.dvdb.materialchecklist.manager.util.model.RequestFocus
 
-    enum class Type {
-        TITLE,
-        CONTENT,
-        IMAGE_CONTAINER,
-        CHIP_CONTAINER
-    }
+data class ContentItem(
+    override val id: Int,
+    val text: String,
+    val requestFocus: RequestFocus = RequestFocus.None
+) : BaseItem() {
+    override val type: Type = Type.CONTENT
 }

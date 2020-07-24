@@ -53,9 +53,11 @@ import com.dvdb.materialchecklist.config.image.*
 import com.dvdb.materialchecklist.config.title.*
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
 import com.dvdb.materialchecklist.manager.chip.model.ChipItemContainer
+import com.dvdb.materialchecklist.manager.content.model.ContentItem
 import com.dvdb.materialchecklist.manager.image.model.ImageItem
 import com.dvdb.materialchecklist.manager.image.model.ImageItemContainer
 import com.dvdb.materialchecklist.manager.title.model.TitleItem
+import com.dvdb.materialchecklist.manager.util.model.RequestFocus
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -262,13 +264,17 @@ internal class MainActivity : AppCompatActivity() {
                     2,
                     titleItemText
                 ),
+                ContentItem(
+                    3,
+                    contentItemText,
+                    RequestFocus.Perform()
+                ),
                 ChipItemContainer(
                     5,
                     generateChipItems()
                 )
             )
         )
-        main_checklist.setContentItem(contentItemText)
         main_checklist.setItems(checklistItemsText)
     }
 
@@ -515,11 +521,10 @@ internal class MainActivity : AppCompatActivity() {
                     is TitleItem -> {
                         titleItemText = item.text
                     }
+                    is ContentItem -> {
+                        contentItemText = item.text
+                    }
                 }
-            }
-
-            main_checklist.getContentItem()?.let { content ->
-                contentItemText = content
             }
 
             val content: String = main_checklist.getItems()

@@ -29,5 +29,7 @@ internal data class ContentRecyclerHolderConfig(
     val isLinksClickable: Boolean,
     val isEditable: Boolean,
     val typeFace: Typeface?,
+    val topPadding: Float,
+    val bottomPadding: Float,
     val leftAndRightPadding: Float
 ) : BaseRecyclerHolderConfig

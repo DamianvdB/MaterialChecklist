@@ -16,12 +16,15 @@
 
 package com.dvdb.materialchecklist.config.content.model
 
+import android.content.Context
 import android.graphics.Typeface
 import androidx.annotation.ColorInt
+import com.dvdb.materialchecklist.R
 import com.dvdb.materialchecklist.config.Config
 import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerHolderConfig
 
 internal class ContentConfig(
+    context: Context,
     var hint: String = String(),
     @ColorInt var linkTextColor: Int? = null,
     @ColorInt var hintTextColor: Int? = null,
@@ -30,9 +33,14 @@ internal class ContentConfig(
     private val textSize: () -> Float,
     private val typeFace: () -> Typeface?,
     private val isEditable: () -> Boolean,
+    private val topAndBottomPadding: () -> Float,
     private val leftAndRightPadding: () -> Float?,
     private val leftAndRightPaddingOffset: Float
 ) : Config {
+
+    private val topPaddingOffset: Float = context.resources.getDimension(R.dimen.mc_spacing_small)
+    private val bottomPaddingOffset: Float =
+        context.resources.getDimension(R.dimen.mc_spacing_large)
 
     fun transform() = ContentRecyclerHolderConfig(
         hint = hint,
@@ -43,6 +51,8 @@ internal class ContentConfig(
         isLinksClickable = isLinksClickable,
         isEditable = isEditable(),
         typeFace = typeFace(),
+        topPadding = topAndBottomPadding() + topPaddingOffset,
+        bottomPadding = topAndBottomPadding() + bottomPaddingOffset,
         leftAndRightPadding = (leftAndRightPadding() ?: 0f) + leftAndRightPaddingOffset
     )
 }

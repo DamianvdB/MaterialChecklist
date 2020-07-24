@@ -28,7 +28,7 @@ internal interface TitleManager :
 
     var onTitleItemActionIconClicked: () -> Unit
 
-    fun lateInitState(
+    fun lateInitTitleState(
         items: () -> List<BaseRecyclerItem>,
         updateItemSilently: (item: BaseRecyclerItem, position: Int) -> Unit
     )

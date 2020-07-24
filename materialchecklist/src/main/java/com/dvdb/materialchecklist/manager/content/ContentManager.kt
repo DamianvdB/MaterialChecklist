@@ -17,26 +17,15 @@
 package com.dvdb.materialchecklist.manager.content
 
 import ContentRecyclerHolderItemListener
-import com.dvdb.materialchecklist.manager.content.model.ContentManagerConfig
-import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
+import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 
 internal interface ContentManager :
     ContentRecyclerHolderItemListener,
     ChecklistItemAdapterDragListener {
 
-    fun lateInitState(
-        adapter: ChecklistItemAdapter,
-        config: ContentManagerConfig
+    fun lateInitContentState(
+        items: () -> List<BaseRecyclerItem>,
+        updateItemSilently: (item: BaseRecyclerItem, position: Int) -> Unit
     )
-
-    fun setConfig(config: ContentManagerConfig)
-
-    fun getContentItem(): String?
-
-    fun setContentItem(text: String)
-
-    fun removeContentItem(): Boolean
-
-    fun requestContentItemFocus(): Boolean
 }
