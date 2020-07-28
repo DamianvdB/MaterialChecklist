@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.recycler.util
+package com.dvdb.materialchecklist.manager.checklist.model
 
-import java.util.concurrent.atomic.AtomicLong
+import com.dvdb.materialchecklist.manager.base.BaseItem
+import com.dvdb.materialchecklist.manager.util.model.RequestFocus
 
-/**
- * A utility class used to atomically increment and return a unique long value.
- */
-internal object RecyclerItemIdentifierUtil {
-
-    private val incrementer: AtomicLong = AtomicLong(100_000)
-
-    val nextIdentifier: Long
-        get() = incrementer.incrementAndGet()
+data class ChecklistItemContainer(
+    override val id: Int,
+    val formattedText: String,
+    val requestFocus: RequestFocus = RequestFocus.None
+) : BaseItem() {
+    override val type: Type = Type.CHECKLIST_CONTAINER
 }

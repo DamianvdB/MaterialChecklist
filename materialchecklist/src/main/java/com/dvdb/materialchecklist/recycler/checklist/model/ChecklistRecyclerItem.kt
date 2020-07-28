@@ -27,10 +27,9 @@ internal data class ChecklistRecyclerItem(
     override val id: Long = RecyclerItemIdentifierUtil.nextIdentifier
 ) : BaseRecyclerItem() {
 
-    fun toChecklistItem() =
-        ChecklistItem(
-            id = id,
-            text = text,
-            isChecked = isChecked
-        )
+    fun toChecklistItem() = ChecklistItem(
+        id = id,
+        text = text,
+        isChecked = isChecked
+    )
 }

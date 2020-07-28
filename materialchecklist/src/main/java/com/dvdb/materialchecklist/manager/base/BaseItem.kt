@@ -24,6 +24,7 @@ abstract class BaseItem {
         TITLE,
         CONTENT,
         IMAGE_CONTAINER,
-        CHIP_CONTAINER
+        CHIP_CONTAINER,
+        CHECKLIST_CONTAINER
     }
 }

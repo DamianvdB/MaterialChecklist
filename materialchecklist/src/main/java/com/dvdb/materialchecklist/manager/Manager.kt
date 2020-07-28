@@ -19,6 +19,8 @@ package com.dvdb.materialchecklist.manager
 import com.dvdb.materialchecklist.config.ChecklistConfig
 import com.dvdb.materialchecklist.manager.base.BaseItem
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManager
+import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItemContainer
+import com.dvdb.materialchecklist.manager.checklist.model.transform
 import com.dvdb.materialchecklist.manager.chip.ChipManager
 import com.dvdb.materialchecklist.manager.chip.model.ChipItemContainer
 import com.dvdb.materialchecklist.manager.chip.model.transform
@@ -40,7 +42,10 @@ import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecy
 import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerItem
 import com.dvdb.materialchecklist.recycler.imagecontainer.model.ImageContainerRecyclerItem
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
+import com.dvdb.materialchecklist.util.DelayHandler
 import com.dvdb.materialchecklist.util.exhaustive
+
+private const val ENABLE_ITEM_ANIMATIONS_DELAY_MS = 2000L
 
 internal class Manager(
     private val titleManager: TitleManager,
@@ -56,6 +61,11 @@ internal class Manager(
 
     private lateinit var adapter: ChecklistItemAdapter
     private lateinit var adapterConfig: ChecklistItemAdapterConfig
+    private lateinit var enableItemAnimations: (isEnabled: Boolean) -> Unit
+
+    private val delayHandler: DelayHandler = DelayHandler()
+
+    private var checklistItemContainerId: Int = 0
 
     fun lateInitState(
         adapter: ChecklistItemAdapter,
@@ -68,6 +78,7 @@ internal class Manager(
     ) {
         this.adapter = adapter
         this.adapterConfig = config.toAdapterConfig()
+        this.enableItemAnimations = enableItemAnimations
 
         val updateItemInAdapterSilently: (item: BaseRecyclerItem, position: Int) -> Unit =
             { item, position ->
@@ -134,6 +145,14 @@ internal class Manager(
                     BaseItem.Type.CHIP_CONTAINER -> {
                         recyclerItems.add((item as ChipItemContainer).transform())
                     }
+                    BaseItem.Type.CHECKLIST_CONTAINER -> {
+                        val checklistItemContainer = item as ChecklistItemContainer
+                        if (checklistItemContainer.requestFocus is RequestFocus.Perform) {
+                            requestFocusForItem = Pair(index, checklistItemContainer.requestFocus)
+                        }
+                        recyclerItems.addAll(checklistItemContainer.transform())
+                        checklistItemContainerId = checklistItemContainer.id
+                    }
                 }.exhaustive
             }
 
@@ -145,7 +164,13 @@ internal class Manager(
                 )
             }
 
+            enableItemAnimations(false)
+
             adapter.setItems(recyclerItems)
+
+            delayHandler.run(ENABLE_ITEM_ANIMATIONS_DELAY_MS) {
+                enableItemAnimations(true)
+            }
         }
     }
 
@@ -164,6 +189,16 @@ internal class Manager(
                     items.add((item as ContentRecyclerItem).transform())
                 }
                 BaseRecyclerItem.Type.CHECKLIST -> {
+                    val checklistItemsText: String = checklistManager.getFormattedTextItems(
+                        keepCheckboxSymbolsOfChecklistItems,
+                        keepCheckedItems
+                    )
+                    items.add(
+                        ChecklistItemContainer(
+                            checklistItemContainerId,
+                            checklistItemsText
+                        )
+                    )
                 }
                 BaseRecyclerItem.Type.CHECKLIST_NEW -> {
                 }
@@ -174,7 +209,7 @@ internal class Manager(
                     items.add((item as ImageContainerRecyclerItem).transform())
                 }
             }
-        }
+        }.exhaustive
 
         return items
     }

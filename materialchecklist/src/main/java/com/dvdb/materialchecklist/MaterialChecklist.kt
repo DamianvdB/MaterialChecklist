@@ -29,13 +29,16 @@ import com.dvdb.materialchecklist.manager.Manager
 import com.dvdb.materialchecklist.manager.base.BaseItem
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManagerImpl
 import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItem
+import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItemContainer
 import com.dvdb.materialchecklist.manager.checklist.util.ChecklistRecyclerItemPositionTracker
 import com.dvdb.materialchecklist.manager.chip.ChipManagerImpl
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
+import com.dvdb.materialchecklist.manager.chip.model.ChipItemContainer
 import com.dvdb.materialchecklist.manager.content.ContentManagerImpl
 import com.dvdb.materialchecklist.manager.image.ImageManagerImpl
 import com.dvdb.materialchecklist.manager.image.model.ImageItem
 import com.dvdb.materialchecklist.manager.title.TitleManagerImpl
+import com.dvdb.materialchecklist.manager.title.model.TitleItem
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.checklist.holder.ChecklistRecyclerHolder
@@ -340,15 +343,35 @@ class MaterialChecklist(
 
     private fun initDefaultChecklistItems() {
         if (isInEditMode) {
-            setItems(
-                "[ ] Send meeting notes to team\n" +
-                        "[ ] Order flowers\n" +
-                        "[ ] Organise camera gear\n" +
-                        "[ ] Book flights to Dubai\n" +
-                        "[x] Lease out holiday home"
+            setEditorItems(
+                listOf(
+                    TitleItem(
+                        id = 1,
+                        text = "Material Note Editor"
+                    ),
+                    ChecklistItemContainer(
+                        id = 2,
+                        formattedText = "[ ] Send meeting notes to team\n" +
+                                "[ ] Order flowers\n" +
+                                "[ ] Organise camera gear\n" +
+                                "[ ] Book flights to Dubai\n" +
+                                "[x] Lease out holiday home"
+                    ),
+                    ChipItemContainer(
+                        id = 3,
+                        items = listOf(
+                            ChipItem(
+                                id = 10,
+                                text = "Important"
+                            ),
+                            ChipItem(
+                                id = 11,
+                                text = "TAX"
+                            )
+                        )
+                    )
+                )
             )
-        } else {
-            setItems("")
         }
     }
 

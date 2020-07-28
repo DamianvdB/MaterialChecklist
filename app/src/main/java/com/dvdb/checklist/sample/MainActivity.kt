@@ -51,13 +51,13 @@ import com.dvdb.materialchecklist.config.general.applyConfiguration
 import com.dvdb.materialchecklist.config.general.setTextEditable
 import com.dvdb.materialchecklist.config.image.*
 import com.dvdb.materialchecklist.config.title.*
+import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItemContainer
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
 import com.dvdb.materialchecklist.manager.chip.model.ChipItemContainer
 import com.dvdb.materialchecklist.manager.content.model.ContentItem
 import com.dvdb.materialchecklist.manager.image.model.ImageItem
 import com.dvdb.materialchecklist.manager.image.model.ImageItemContainer
 import com.dvdb.materialchecklist.manager.title.model.TitleItem
-import com.dvdb.materialchecklist.manager.util.model.RequestFocus
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -82,8 +82,6 @@ private const val SP_CONTENT_ITEM_TEXT_KEY = "mc_item_content_text"
 
 private const val D_NOTES_URL = "https://bit.ly/google_play_store_d_notes"
 private const val GITHUB_URL = "https://bit.ly/github_material_checklist"
-
-private const val CHECKLIST_ITEMS_CONTAINER_ID = 10
 
 internal class MainActivity : AppCompatActivity() {
 
@@ -112,7 +110,7 @@ internal class MainActivity : AppCompatActivity() {
             sharedPreferences.edit().putString(SP_CONTENT_ITEM_TEXT_KEY, value).apply()
         }
 
-    private var showChecklist: Boolean = true
+    private var showNoteEditor: Boolean = true
         get() = sharedPreferences.getBoolean(SP_SHOW_CHECKLIST_KEY, field)
         set(value) {
             field = value
@@ -141,22 +139,22 @@ internal class MainActivity : AppCompatActivity() {
 
         convertToTextMenuItem =
             menu!!.findItem(R.id.menu_main_activity_convert_to_text).apply {
-                isVisible = showChecklist
+                isVisible = showNoteEditor
             }
 
         removeCheckedItemsMenuItem =
             menu.findItem(R.id.menu_main_activity_remove_checked_items).apply {
-                isVisible = showChecklist
+                isVisible = showNoteEditor
             }
 
         uncheckCheckedItemsMenuItem =
             menu.findItem(R.id.menu_main_activity_uncheck_checked_items).apply {
-                isVisible = showChecklist
+                isVisible = showNoteEditor
             }
 
         convertToChecklistMenuItem =
             menu.findItem(R.id.menu_main_activity_convert_to_checklist).apply {
-                isVisible = !showChecklist
+                isVisible = !showNoteEditor
             }
 
         return true
@@ -185,20 +183,24 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        checklistItemsText = if (showChecklist) {
-            main_checklist.getItems()
-        } else {
-            main_text.text.toString()
-        }
-
-        if (showChecklist) {
+        if (showNoteEditor) {
             val items = main_checklist.getEditorItems()
 
             items.forEach { item ->
-                if (item is TitleItem) {
-                    titleItemText = item.text
+                when (item) {
+                    is TitleItem -> {
+                        titleItemText = item.text
+                    }
+                    is ContentItem -> {
+                        contentItemText = item.text
+                    }
+                    is ChecklistItemContainer -> {
+                        checklistItemsText = item.formattedText
+                    }
                 }
             }
+        } else {
+            checklistItemsText = main_text.text.toString()
         }
 
         super.onStop()
@@ -210,7 +212,7 @@ internal class MainActivity : AppCompatActivity() {
         initChips()
         initImages()
 
-        if (showChecklist) {
+        if (showNoteEditor) {
             setItems()
         } else {
             main_text.setText(checklistItemsText)
@@ -266,16 +268,18 @@ internal class MainActivity : AppCompatActivity() {
                 ),
                 ContentItem(
                     3,
-                    contentItemText,
-                    RequestFocus.Perform()
+                    contentItemText
                 ),
                 ChipItemContainer(
                     5,
                     generateChipItems()
+                ),
+                ChecklistItemContainer(
+                    6,
+                    checklistItemsText
                 )
             )
         )
-        main_checklist.setItems(checklistItemsText)
     }
 
     private fun generateChipItems(): List<ChipItem> {
@@ -497,7 +501,7 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun updateVisibleContentOnConvertMenuItemClicked(isConvertToChecklistMenuItemClicked: Boolean) {
-        showChecklist = isConvertToChecklistMenuItemClicked
+        showNoteEditor = isConvertToChecklistMenuItemClicked
 
         main_root?.handler?.postDelayed(
             {
@@ -546,7 +550,7 @@ internal class MainActivity : AppCompatActivity() {
 
     private fun handleOnRemoveCheckedItemsMenuItemClicked() {
         val itemIdsOfRemovedItems =
-            main_checklist.removeAllCheckedItems()// main_checklist.removeAllCheckedItems(CHECKLIST_ITEMS_CONTAINER_ID)
+            main_checklist.removeAllCheckedItems()
 
         val message = resources.getQuantityString(
             R.plurals.item_checked_removed,
@@ -599,6 +603,7 @@ internal class MainActivity : AppCompatActivity() {
             ?.hideSoftInputFromWindow(window.decorView.windowToken, 0)
     }
 
+    @Suppress("SameParameterValue")
     private fun generateUriFromDrawableResource(@DrawableRes drawableRes: Int): Uri {
         return Uri.parse(
             ContentResolver.SCHEME_ANDROID_RESOURCE +

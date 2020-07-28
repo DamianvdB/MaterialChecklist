@@ -14,30 +14,21 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager.checklist.util
+package com.dvdb.materialchecklist.manager.checklist.model
 
-import com.dvdb.materialchecklist.manager.util.RecyclerItemPositionTracker
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerItem
+import com.dvdb.materialchecklist.recycler.util.DefaultRecyclerItemComparator
+import com.dvdb.materialchecklist.recycler.util.RecyclerItemMapper
 
-internal class ChecklistRecyclerItemPositionTracker(
-    private val items: () -> List<BaseRecyclerItem>
-) : RecyclerItemPositionTracker {
+internal fun ChecklistItemContainer.transform(): List<BaseRecyclerItem> {
+    val unsortedItems = RecyclerItemMapper.toItems(formattedText)
 
-    override val itemCount: Int
-        get() = items().count(predicate)
-
-    override val firstItemPosition: Int
-        get() = items().indexOfFirst(predicate)
-            .coerceAtLeast(0)
-
-    override val lastItemPosition: Int
-        get() = items().indexOfLast(predicate)
-            .coerceAtLeast(0)
-
-    private val predicate: (BaseRecyclerItem) -> Boolean = {
-        it is ChecklistRecyclerItem ||
-                it is ChecklistNewRecyclerItem
-    }
+    return if (unsortedItems.isNotEmpty()) {
+        unsortedItems.filterIsInstance<ChecklistRecyclerItem>()
+    } else {
+        listOf(ChecklistRecyclerItem(""))
+    }.plus(ChecklistNewRecyclerItem())
+        .sortedWith(DefaultRecyclerItemComparator)
 }

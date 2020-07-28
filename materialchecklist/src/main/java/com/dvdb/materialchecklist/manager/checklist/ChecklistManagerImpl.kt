@@ -602,21 +602,16 @@ internal class ChecklistManagerImpl(
     private fun setItemsInternal(items: List<BaseRecyclerItem>) {
         resetState()
 
-        val sortedChecklistItems: List<BaseRecyclerItem> = if (items.isNotEmpty()) {
+        val sortedItems: List<BaseRecyclerItem> = if (items.isNotEmpty()) {
             items.filterIsInstance<ChecklistRecyclerItem>()
         } else {
             listOf(ChecklistRecyclerItem(""))
         }.plus(ChecklistNewRecyclerItem())
             .sortedWith(DefaultRecyclerItemComparator)
 
-        val otherItems = adapter.items.filter {
-            it !is ChecklistRecyclerItem &&
-                    it !is ChecklistNewRecyclerItem
-        }   // todo: update when attachment item type is added
-
         enableItemAnimations(false)
 
-        setItemsInAdapter(otherItems + sortedChecklistItems)
+        setItemsInAdapter(sortedItems)
 
         delayHandler.run(ENABLE_ITEM_ANIMATIONS_DELAY_MS) {
             enableItemAnimations(true)
