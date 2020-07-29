@@ -60,6 +60,7 @@ internal class Manager(
 
     private val delayHandler: DelayHandler = DelayHandler()
 
+    private val originalItemIds: MutableMap<Int, Long> = mutableMapOf()
     private var checklistItemContainerId: Int = 0
 
     fun lateInitState(
@@ -112,6 +113,7 @@ internal class Manager(
     @Suppress("IMPLICIT_CAST_TO_ANY")
     fun setItems(items: List<BaseItem>) {
         if (this::adapter.isInitialized) {
+            originalItemIds.clear()
             val recyclerItems: MutableList<BaseRecyclerItem> = mutableListOf()
             var requestFocusForItem: Pair<Int, RequestFocus.Perform>? = null
 
@@ -144,9 +146,14 @@ internal class Manager(
                             requestFocusForItem = Pair(index, item.requestFocus)
                         }
                         recyclerItems.addAll(item.transform())
-                        checklistItemContainerId = item.id
                     }
                 }.exhaustive
+
+                if (item is ChecklistItemContainer) {
+                    checklistItemContainerId = item.id
+                } else {
+                    originalItemIds[item.id] = recyclerItems.last().id
+                }
             }
 
             requestFocusForItem?.let { (position, requestFocus) ->

@@ -20,7 +20,6 @@ import com.dvdb.materialchecklist.manager.model.TitleItem
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 
 internal fun TitleItem.transform() = TitleRecyclerItem(
-    id = id.toLong(),
     text = text
 )
 

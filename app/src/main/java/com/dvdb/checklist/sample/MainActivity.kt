@@ -271,11 +271,11 @@ internal class MainActivity : AppCompatActivity() {
                     contentItemText
                 ),
                 ChipItemContainer(
-                    5,
+                    4,
                     generateChipItems()
                 ),
                 ChecklistItemContainer(
-                    6,
+                    5,
                     checklistItemsText
                 )
             )

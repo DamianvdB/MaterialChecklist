@@ -21,7 +21,6 @@ import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyc
 import com.dvdb.materialchecklist.recycler.imagecontainer.model.ImageContainerRecyclerItem
 
 internal fun ImageItemContainer.transform() = ImageContainerRecyclerItem(
-    id = id.toLong(),
     items = items.map { it.transform() }
 )
 

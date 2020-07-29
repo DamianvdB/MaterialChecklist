@@ -21,7 +21,6 @@ import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecy
 import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipRecyclerItem
 
 internal fun ChipItemContainer.transform() = ChipContainerRecyclerItem(
-    id = id.toLong(),
     items = items.map { it.transform() }
 )
 

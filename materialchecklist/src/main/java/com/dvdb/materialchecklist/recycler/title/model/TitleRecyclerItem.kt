@@ -17,9 +17,10 @@
 package com.dvdb.materialchecklist.recycler.title.model
 
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.util.RecyclerItemIdentifierUtil
 
 internal data class TitleRecyclerItem(
-    override val id: Long,
+    override val id: Long = RecyclerItemIdentifierUtil.nextIdentifier,
     val text: String
 ) : BaseRecyclerItem() {
     override val type: Type = Type.TITLE

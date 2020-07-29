@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicLong
  */
 internal object RecyclerItemIdentifierUtil {
 
-    private val incrementer: AtomicLong = AtomicLong(100_000)
+    private val incrementer: AtomicLong = AtomicLong()
 
     val nextIdentifier: Long
         get() = incrementer.incrementAndGet()

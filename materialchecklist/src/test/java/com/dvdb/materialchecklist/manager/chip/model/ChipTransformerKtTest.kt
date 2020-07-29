@@ -21,6 +21,7 @@ import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecy
 import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipRecyclerItem
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import kotlin.random.Random
 
 internal class ChipTransformerKtTest {
 
@@ -32,13 +33,13 @@ internal class ChipTransformerKtTest {
         )
 
         val actualChipContainerRecyclerItem: ChipContainerRecyclerItem = ChipItemContainer(
-            id = expectedChipContainerRecyclerItem.id.toInt(),
+            id = Random(0).nextInt(),
             items = expectedChipContainerRecyclerItem.items.map { it.transform() }
         ).transform()
 
         Assertions.assertEquals(
-            expectedChipContainerRecyclerItem,
-            actualChipContainerRecyclerItem
+            expectedChipContainerRecyclerItem.items,
+            actualChipContainerRecyclerItem.items
         )
     }
 

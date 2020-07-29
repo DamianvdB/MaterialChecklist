@@ -20,6 +20,7 @@ import com.dvdb.materialchecklist.manager.model.TitleItem
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import kotlin.random.Random
 
 internal class TitleTransformerKtTest {
 
@@ -31,13 +32,13 @@ internal class TitleTransformerKtTest {
         )
 
         val actualRecyclerItem: TitleRecyclerItem = TitleItem(
-            id = expectedRecyclerItem.id.toInt(),
+            id = Random(0).nextInt(),
             text = expectedRecyclerItem.text
         ).transform()
 
         Assertions.assertEquals(
-            expectedRecyclerItem,
-            actualRecyclerItem
+            expectedRecyclerItem.text,
+            actualRecyclerItem.text
         )
     }
 
