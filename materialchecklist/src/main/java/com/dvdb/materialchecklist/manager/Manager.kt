@@ -172,6 +172,7 @@ internal class Manager(
         keepCheckedItems: Boolean
     ): List<BaseItem> {
         val items: MutableList<BaseItem> = mutableListOf()
+        var addedChecklistItems = false
 
         adapter.items.forEach { item ->
             when (item.type) {
@@ -182,16 +183,19 @@ internal class Manager(
                     items.add((item as ContentRecyclerItem).transform())
                 }
                 BaseRecyclerItem.Type.CHECKLIST -> {
-                    val checklistItemsText: String = checklistManager.getFormattedTextItems(
-                        keepCheckboxSymbolsOfChecklistItems,
-                        keepCheckedItems
-                    )
-                    items.add(
-                        ChecklistItemContainer(
-                            checklistItemContainerId,
-                            checklistItemsText
+                    if (!addedChecklistItems) {
+                        addedChecklistItems = true
+                        val checklistItemsText: String = checklistManager.getFormattedTextItems(
+                            keepCheckboxSymbolsOfChecklistItems,
+                            keepCheckedItems
                         )
-                    )
+                        items.add(
+                            ChecklistItemContainer(
+                                checklistItemContainerId,
+                                checklistItemsText
+                            )
+                        )
+                    }
                 }
                 BaseRecyclerItem.Type.CHECKLIST_NEW -> {
                 }
