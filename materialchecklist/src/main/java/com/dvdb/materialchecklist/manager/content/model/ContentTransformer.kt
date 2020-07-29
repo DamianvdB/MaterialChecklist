@@ -17,6 +17,7 @@
 
 package com.dvdb.materialchecklist.manager.content.model
 
+import com.dvdb.materialchecklist.manager.model.ContentItem
 import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerItem
 
 internal fun ContentItem.transform() = ContentRecyclerItem(

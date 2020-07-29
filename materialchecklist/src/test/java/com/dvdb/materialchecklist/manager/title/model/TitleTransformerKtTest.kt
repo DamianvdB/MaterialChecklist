@@ -16,6 +16,7 @@
 
 package com.dvdb.materialchecklist.manager.title.model
 
+import com.dvdb.materialchecklist.manager.model.TitleItem
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test

@@ -16,6 +16,7 @@
 
 package com.dvdb.materialchecklist.manager.image.model
 
+import com.dvdb.materialchecklist.manager.model.ImageItemContainer
 import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyclerItem
 import com.dvdb.materialchecklist.recycler.imagecontainer.model.ImageContainerRecyclerItem
 

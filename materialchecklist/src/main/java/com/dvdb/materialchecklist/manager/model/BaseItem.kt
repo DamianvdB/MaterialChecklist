@@ -14,15 +14,40 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager.content.model
+package com.dvdb.materialchecklist.manager.model
 
-import com.dvdb.materialchecklist.manager.base.BaseItem
+import com.dvdb.materialchecklist.manager.chip.model.ChipItem
+import com.dvdb.materialchecklist.manager.image.model.ImageItem
 import com.dvdb.materialchecklist.manager.util.model.RequestFocus
+
+sealed class BaseItem {
+    abstract val id: Int
+}
+
+data class TitleItem(
+    override val id: Int,
+    val text: String,
+    val requestFocus: RequestFocus = RequestFocus.None
+) : BaseItem()
 
 data class ContentItem(
     override val id: Int,
     val text: String,
     val requestFocus: RequestFocus = RequestFocus.None
-) : BaseItem() {
-    override val type: Type = Type.CONTENT
-}
+) : BaseItem()
+
+data class ChecklistItemContainer(
+    override val id: Int,
+    val formattedText: String,
+    val requestFocus: RequestFocus = RequestFocus.None
+) : BaseItem()
+
+data class ImageItemContainer(
+    override val id: Int,
+    val items: List<ImageItem>
+) : BaseItem()
+
+data class ChipItemContainer(
+    override val id: Int,
+    val items: List<ChipItem>
+) : BaseItem()

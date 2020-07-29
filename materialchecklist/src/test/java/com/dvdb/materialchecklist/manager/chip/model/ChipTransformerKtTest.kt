@@ -16,6 +16,7 @@
 
 package com.dvdb.materialchecklist.manager.chip.model
 
+import com.dvdb.materialchecklist.manager.model.ChipItemContainer
 import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecyclerItem
 import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipRecyclerItem
 import org.junit.jupiter.api.Assertions

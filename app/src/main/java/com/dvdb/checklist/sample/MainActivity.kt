@@ -51,13 +51,10 @@ import com.dvdb.materialchecklist.config.general.applyConfiguration
 import com.dvdb.materialchecklist.config.general.setTextEditable
 import com.dvdb.materialchecklist.config.image.*
 import com.dvdb.materialchecklist.config.title.*
-import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItemContainer
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
-import com.dvdb.materialchecklist.manager.chip.model.ChipItemContainer
-import com.dvdb.materialchecklist.manager.content.model.ContentItem
 import com.dvdb.materialchecklist.manager.image.model.ImageItem
-import com.dvdb.materialchecklist.manager.image.model.ImageItemContainer
-import com.dvdb.materialchecklist.manager.title.model.TitleItem
+import com.dvdb.materialchecklist.manager.model.*
+import com.dvdb.materialchecklist.util.exhaustive
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -197,7 +194,10 @@ internal class MainActivity : AppCompatActivity() {
                     is ChecklistItemContainer -> {
                         checklistItemsText = item.formattedText
                     }
-                }
+                    is ImageItemContainer,
+                    is ChipItemContainer -> {
+                    }
+                }.exhaustive
             }
         } else {
             checklistItemsText = main_text.text.toString()

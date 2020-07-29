@@ -17,21 +17,16 @@
 package com.dvdb.materialchecklist.manager
 
 import com.dvdb.materialchecklist.config.ChecklistConfig
-import com.dvdb.materialchecklist.manager.base.BaseItem
 import com.dvdb.materialchecklist.manager.checklist.ChecklistManager
-import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItemContainer
 import com.dvdb.materialchecklist.manager.checklist.model.transform
 import com.dvdb.materialchecklist.manager.chip.ChipManager
-import com.dvdb.materialchecklist.manager.chip.model.ChipItemContainer
 import com.dvdb.materialchecklist.manager.chip.model.transform
 import com.dvdb.materialchecklist.manager.content.ContentManager
-import com.dvdb.materialchecklist.manager.content.model.ContentItem
 import com.dvdb.materialchecklist.manager.content.model.transform
 import com.dvdb.materialchecklist.manager.image.ImageManager
-import com.dvdb.materialchecklist.manager.image.model.ImageItemContainer
 import com.dvdb.materialchecklist.manager.image.model.transform
+import com.dvdb.materialchecklist.manager.model.*
 import com.dvdb.materialchecklist.manager.title.TitleManager
-import com.dvdb.materialchecklist.manager.title.model.TitleItem
 import com.dvdb.materialchecklist.manager.title.model.transform
 import com.dvdb.materialchecklist.manager.util.model.RequestFocus
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
@@ -121,37 +116,35 @@ internal class Manager(
             var requestFocusForItem: Pair<Int, RequestFocus.Perform>? = null
 
             items.forEachIndexed { index, item ->
-                when (item.type) {
-                    BaseItem.Type.TITLE -> {
-                        val titleItem = item as TitleItem
-                        if (titleItem.requestFocus is RequestFocus.Perform) {
-                            requestFocusForItem = Pair(index, titleItem.requestFocus)
+                when (item) {
+                    is TitleItem -> {
+                        if (item.requestFocus is RequestFocus.Perform) {
+                            requestFocusForItem = Pair(index, item.requestFocus)
                         }
-                        recyclerItems.add(titleItem.transform())
+                        recyclerItems.add(item.transform())
                     }
 
-                    BaseItem.Type.CONTENT -> {
-                        val contentItem = item as ContentItem
-                        if (contentItem.requestFocus is RequestFocus.Perform) {
-                            requestFocusForItem = Pair(index, contentItem.requestFocus)
+                    is ContentItem -> {
+                        if (item.requestFocus is RequestFocus.Perform) {
+                            requestFocusForItem = Pair(index, item.requestFocus)
                         }
-                        recyclerItems.add(contentItem.transform())
+                        recyclerItems.add(item.transform())
                     }
 
-                    BaseItem.Type.IMAGE_CONTAINER -> {
-                        recyclerItems.add((item as ImageItemContainer).transform())
+                    is ImageItemContainer -> {
+                        recyclerItems.add(item.transform())
                     }
 
-                    BaseItem.Type.CHIP_CONTAINER -> {
-                        recyclerItems.add((item as ChipItemContainer).transform())
+                    is ChipItemContainer -> {
+                        recyclerItems.add(item.transform())
                     }
-                    BaseItem.Type.CHECKLIST_CONTAINER -> {
-                        val checklistItemContainer = item as ChecklistItemContainer
-                        if (checklistItemContainer.requestFocus is RequestFocus.Perform) {
-                            requestFocusForItem = Pair(index, checklistItemContainer.requestFocus)
+
+                    is ChecklistItemContainer -> {
+                        if (item.requestFocus is RequestFocus.Perform) {
+                            requestFocusForItem = Pair(index, item.requestFocus)
                         }
-                        recyclerItems.addAll(checklistItemContainer.transform())
-                        checklistItemContainerId = checklistItemContainer.id
+                        recyclerItems.addAll(item.transform())
+                        checklistItemContainerId = item.id
                     }
                 }.exhaustive
             }
