@@ -111,7 +111,9 @@ internal class ContentRecyclerHolder private constructor(
         text.isLongClickable = config.isEditable
         text.linksClickable = config.isEditable and config.isLinksClickable
 
-        text.movementMethod = LinksMovementMethod.getInstance()
+        if (config.isLinksClickable) {
+            text.movementMethod = LinksMovementMethod
+        }
 
         if (!config.isEditable) {
             text.clearFocus()

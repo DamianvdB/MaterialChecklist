@@ -120,7 +120,7 @@ internal class TitleRecyclerHolder private constructor(
         text.linksClickable = config.isEditable and config.isLinksClickable
 
         if (config.isAddClickableLinks) {
-            text.movementMethod = LinksMovementMethod.getInstance()
+            text.movementMethod = LinksMovementMethod
         }
 
         if (!config.isEditable) {
