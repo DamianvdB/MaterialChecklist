@@ -46,6 +46,17 @@ internal class ChecklistConfiguration(
             com.dvdb.materialchecklist.R.color.mc_text_checklist_item_text
         )
 
+    val textLinkTextColor: Int
+        get() = parseColorOrNull(
+            sharedPreferences.getString(
+                context.getString(R.string.pref_settings_link_text_color),
+                null
+            ) ?: ""
+        ) ?: ContextCompat.getColor(
+            context,
+            com.dvdb.materialchecklist.R.color.mc_text_checklist_item_text
+        )
+
     val textSize: Float
         get() = (sharedPreferences.getString(
             context.getString(R.string.pref_settings_text_size),
@@ -87,6 +98,12 @@ internal class ChecklistConfiguration(
                 else -> null
             }
         }
+
+    val textLinksClickable: Boolean
+        get() = sharedPreferences.getBoolean(
+            context.getString(R.string.pref_settings_text_links_clickable),
+            false
+        )
 
     val textEditable: Boolean = true
 

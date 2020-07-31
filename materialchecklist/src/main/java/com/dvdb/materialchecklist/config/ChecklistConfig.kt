@@ -51,12 +51,14 @@ internal class ChecklistConfig(
      * Text
      */
     @ColorInt var textColor: Int = context.getColorCompat(R.color.mc_text_checklist_item_text),
+    @ColorInt var textLinkTextColor: Int? = null,
     var textSize: Float = context.resources.getDimension(R.dimen.mc_item_checklist_text_size),
     var textNewItem: String = context.getString(R.string.mc_item_checklist_new_text),
     var textAlphaCheckedItem: Float = 0.4F,
     var textAlphaNewItem: Float = 0.5F,
     var textEditable: Boolean = true,
     var textTypeFace: Typeface? = null,
+    var textLinksClickable: Boolean = false,
 
     /**
      * Icon
@@ -176,9 +178,11 @@ internal class ChecklistConfig(
         contentConfig = contentConfig.transform(),
         checklistConfig = ChecklistRecyclerHolderConfig(
             textColor = textColor,
+            textLinkTextColor = textLinkTextColor ?: textColor,
             textSize = textSize,
             textAlphaCheckedItem = textAlphaCheckedItem,
             textTypeFace = textTypeFace,
+            textLinksClickable = textLinksClickable,
             iconTintColor = iconTintColor,
             iconDragIndicator = iconDragIndicator,
             iconAlphaDragIndicator = iconAlphaDragIndicator,
@@ -213,6 +217,11 @@ internal class ChecklistConfig(
             textColor
         )
 
+        textLinkTextColor = attrs.getColor(
+            R.styleable.MaterialChecklist_text_link_text_color,
+            0
+        ).run { if (this == 0) textLinkTextColor else this }
+
         textSize = attrs.getDimension(
             R.styleable.MaterialChecklist_text_size,
             textSize
@@ -230,6 +239,11 @@ internal class ChecklistConfig(
         textAlphaNewItem = attrs.getFloat(
             R.styleable.MaterialChecklist_text_alpha_new_item,
             textAlphaNewItem
+        )
+
+        textLinksClickable = attrs.getBoolean(
+            R.styleable.MaterialChecklist_text_links_clickable,
+            textLinksClickable
         )
     }
 
