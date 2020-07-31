@@ -14,6 +14,13 @@
             app:iconSpaceReserved="false" />
 
         <EditTextPreference
+            android:defaultValue="#212121"
+            android:key="@string/pref_settings_link_text_color"
+            android:summary="Set the link text color of the checklist items"
+            android:title="Link Text Color"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
             android:defaultValue="16"
             android:key="@string/pref_settings_text_size"
             android:summary="Set the text size of the checklist items"
@@ -48,6 +55,13 @@
             android:key="@string/pref_settings_text_type_face"
             android:summary="Set the type face of the checklist items"
             android:title="Type Face"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_settings_text_links_clickable"
+            android:summary="Set whether the links in the text of the checklist items should be clickable"
+            android:title="Clickable Links"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
 

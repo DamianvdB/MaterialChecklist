@@ -54,6 +54,30 @@ fun MaterialChecklist.setTextColor(
 }
 
 /**
+ * Set the link text color of the checklist items.
+ *
+ * @param textColor The literal text color to use.
+ * @param textColorRes The text color resource to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
+ */
+fun MaterialChecklist.setLinkTextColor(
+    @ColorInt textColor: Int? = null,
+    @ColorRes textColorRes: Int? = null
+): MaterialChecklist {
+    assertOneSet("link text color", textColor, textColorRes)
+    val context = context
+    if (context != null) {
+        val newTextColor = textColor ?: context.getColorCompat(textColorRes!!)
+        if (config.textLinkTextColor != newTextColor) {
+            config.textLinkTextColor = newTextColor
+        }
+    }
+    return this
+}
+
+/**
  * Set the text size of the checklist items.
  *
  * @param textSize The literal text size to use.
@@ -142,6 +166,21 @@ fun MaterialChecklist.setNewItemTextAlpha(alpha: Float): MaterialChecklist {
 fun MaterialChecklist.setTextTypeFace(typeface: Typeface): MaterialChecklist {
     if (config.textTypeFace != typeface) {
         config.textTypeFace = typeface
+    }
+    return this
+}
+
+/**
+ * Set whether the links in the text of the checklist items should be clickable.
+ *
+ * @param linksClickable The clickable links flag to use.
+ *
+ * Note that this call must be terminated with [applyConfiguration]
+ * to take effect.
+ */
+fun MaterialChecklist.setLinksClickable(linksClickable: Boolean): MaterialChecklist {
+    if (config.textLinksClickable != linksClickable) {
+        config.textLinksClickable = linksClickable
     }
     return this
 }

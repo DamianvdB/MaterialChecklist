@@ -114,21 +114,25 @@ with ```applyConfiguration()``` to take effect.
 ### Text
 ```kotlin
 checklist.setTextColor(textColor: Int?, textColorRes: Int)
+    .setLinkTextColor(textColor: Int?, textColorRes: Int)
     .setTextSize(textSize: Float?, textSizeRes: Int?)
     .setNewItemText(text: String?, textRes: Int?)
     .setCheckedItemTextAlpha(alpha: Float)
     .setNewItemTextAlpha(alpha: Float)
     .setTextTypeFace(typeface: Typeface)
+    .setLinksClickable(linksClickable: Boolean)
     .applyConfiguration()
 ```
 ```xml
 <com.dvdb.materialchecklist.MaterialChecklist
     ....
     app:text_color="..."
+    app:text_link_text_color="..."
     app:text_size="..."
     app:text_new_item="..."
     app:text_alpha_checked_item="..."
-    app:text_alpha_new_item="..." />
+    app:text_alpha_new_item="..."
+    app:text_links_clickable="..." />
 ```
 
 ### Icon
