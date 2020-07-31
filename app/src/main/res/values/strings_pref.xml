@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pref_settings_text_color">pref_settings_text_color</string>
+    <string name="pref_settings_link_text_color">pref_settings_link_text_color</string>
     <string name="pref_settings_text_size">pref_settings_text_size</string>
     <string name="pref_settings_text_new_item">pref_settings_text_new_item</string>
     <string name="pref_settings_text_alpha_checked_item">pref_settings_text_alpha_checked_item</string>
     <string name="pref_settings_text_alpha_new_item">pref_settings_text_alpha_new_item</string>
     <string name="pref_settings_text_type_face">pref_settings_text_type_face</string>
+    <string name="pref_settings_text_links_clickable">pref_settings_text_links_clickable</string>
     <string name="pref_settings_icon_tint_color">pref_settings_icon_tint_color</string>
     <string name="pref_settings_icon_alpha_drag_indicator">pref_settings_icon_alpha_drag_indicator</string>
     <string name="pref_settings_icon_alpha_delete">pref_settings_icon_alpha_delete</string>

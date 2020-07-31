@@ -20,6 +20,7 @@ import android.content.res.ColorStateList
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.Editable
+import android.text.util.Linkify
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -37,10 +38,7 @@ import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerItem
 import com.dvdb.materialchecklist.recycler.util.holder.DraggableRecyclerHolder
 import com.dvdb.materialchecklist.recycler.util.holder.EnterActionPerformedFactory
 import com.dvdb.materialchecklist.recycler.util.holder.RequestFocusRecyclerHolder
-import com.dvdb.materialchecklist.util.SimpleTextChangedListener
-import com.dvdb.materialchecklist.util.setTintCompat
-import com.dvdb.materialchecklist.util.setVisible
-import com.dvdb.materialchecklist.util.showKeyboard
+import com.dvdb.materialchecklist.util.*
 import com.dvdb.materialchecklist.widget.CheckboxWidget
 import com.dvdb.materialchecklist.widget.EditTextWidget
 import kotlinx.android.synthetic.main.item_checklist.view.*
@@ -78,6 +76,9 @@ internal class ChecklistRecyclerHolder private constructor(
         checkbox.alpha = if (item.isChecked) config.checkboxAlphaCheckedItem else DEFAULT_ALPHA
 
         text.setText(item.text)
+        if (config.textLinksClickable) {
+            Linkify.addLinks(text, Linkify.ALL)
+        }
         updateTextAppearanceForCheckedState(item.isChecked)
     }
 
@@ -177,6 +178,9 @@ internal class ChecklistRecyclerHolder private constructor(
     }
 
     private fun initialiseText() {
+        text.setTextColor(config.textColor)
+        text.setLinkTextColor(config.textLinkTextColor)
+
         text.setTextSize(
             TypedValue.COMPLEX_UNIT_PX,
             config.textSize
@@ -184,6 +188,10 @@ internal class ChecklistRecyclerHolder private constructor(
 
         config.textTypeFace?.let {
             text.typeface = it
+        }
+
+        if (config.textLinksClickable) {
+            text.movementMethod = LinksMovementMethod
         }
     }
 
@@ -279,8 +287,6 @@ internal class ChecklistRecyclerHolder private constructor(
             text.paintFlags = text.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             text.alpha = DEFAULT_ALPHA
         }
-
-        text.setTextColor(config.textColor)
     }
 
     class Factory(

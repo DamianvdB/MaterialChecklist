@@ -3,10 +3,12 @@
 
     <declare-styleable name="MaterialChecklist">
         <attr name="text_color" format="color" />
+        <attr name="text_link_text_color" format="color" />
         <attr name="text_size" format="dimension" />
         <attr name="text_new_item" format="string" />
         <attr name="text_alpha_checked_item" format="float" />
         <attr name="text_alpha_new_item" format="float" />
+        <attr name="text_links_clickable" format="boolean" />
 
         <attr name="icon_tint_color" format="color" />
         <attr name="icon_alpha_drag_indicator" format="float" />

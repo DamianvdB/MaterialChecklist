@@ -24,9 +24,11 @@ import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderConfig
 
 internal data class ChecklistRecyclerHolderConfig(
     @ColorInt val textColor: Int,
+    @ColorInt val textLinkTextColor: Int,
     val textSize: Float,
     val textAlphaCheckedItem: Float,
     val textTypeFace: Typeface?,
+    val textLinksClickable: Boolean,
     @ColorInt val iconTintColor: Int,
     val iconDragIndicator: Drawable?,
     val iconAlphaDragIndicator: Float,

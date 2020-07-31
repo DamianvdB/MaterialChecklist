@@ -173,10 +173,12 @@ internal class MainActivity : AppCompatActivity() {
     private fun handleSettingChecklistConfiguration() {
         // Apply text settings from config to checklist system
         main_checklist.setTextColor(checklistConfiguration.textColor)
+            .setLinkTextColor(checklistConfiguration.textLinkTextColor)
             .setTextSize(checklistConfiguration.textSize)
             .setNewItemText(checklistConfiguration.textNewItem)
             .setCheckedItemTextAlpha(checklistConfiguration.textAlphaCheckedItem)
             .setNewItemTextAlpha(checklistConfiguration.textAlphaNewItem)
+            .setLinksClickable(checklistConfiguration.textLinksClickable)
 
         checklistConfiguration.textTypeFace?.let {
             main_checklist.setTextTypeFace(it)
