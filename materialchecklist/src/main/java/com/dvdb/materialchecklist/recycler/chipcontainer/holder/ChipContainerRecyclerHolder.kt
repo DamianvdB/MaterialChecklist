@@ -25,7 +25,6 @@ import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecy
 import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecyclerItem
 import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipRecyclerItem
 import com.dvdb.materialchecklist.util.getDrawableCompat
-import com.dvdb.materialchecklist.util.setTintCompat
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
@@ -82,9 +81,8 @@ internal class ChipContainerRecyclerHolder private constructor(
         text = chipItem.text
 
         if (chipItem.iconRes != -1) {
-            val drawable = chipGroup.context.getDrawableCompat(chipItem.iconRes)
-            drawable?.setTintCompat(config.iconTintColor)
-            chipIcon = drawable
+            chipIcon = chipGroup.context.getDrawableCompat(chipItem.iconRes)
+            chipIconTint = ColorStateList.valueOf(config.iconTintColor)
         }
 
         setOnClickListener {
