@@ -16,8 +16,8 @@
 
 package com.dvdb.materialchecklist.manager.checklist
 
-import ChecklistManagerConfig
 import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItem
+import com.dvdb.materialchecklist.manager.checklist.model.ChecklistManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
 import com.dvdb.materialchecklist.recycler.checklist.listener.ChecklistRecyclerHolderItemListener

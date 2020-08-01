@@ -80,6 +80,7 @@ class MaterialChecklist(
 
     private val recyclerView: RecyclerView
 
+    @Suppress("UNNECESSARY_SAFE_CALL")
     private val items: List<BaseRecyclerItem>
         get() = (recyclerView?.adapter as? ChecklistItemAdapter)?.items ?: emptyList()
 

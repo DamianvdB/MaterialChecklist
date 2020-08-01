@@ -16,12 +16,12 @@
 
 package com.dvdb.materialchecklist.manager.checklist
 
-import ChecklistManagerConfig
 import android.widget.TextView
 import com.dvdb.materialchecklist.config.checklist.model.BehaviorCheckedItem
 import com.dvdb.materialchecklist.config.checklist.model.BehaviorUncheckedItem
 import com.dvdb.materialchecklist.config.checklist.model.DragAndDropDismissKeyboardBehavior
 import com.dvdb.materialchecklist.manager.checklist.model.ChecklistItem
+import com.dvdb.materialchecklist.manager.checklist.model.ChecklistManagerConfig
 import com.dvdb.materialchecklist.manager.util.RecyclerItemPositionTracker
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterRequestFocus

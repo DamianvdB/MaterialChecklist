@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package com.dvdb.materialchecklist.recycler.content.listener
+
 internal interface ContentRecyclerHolderItemListener {
 
     fun onContentItemTextChanged(

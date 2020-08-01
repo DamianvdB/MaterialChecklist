@@ -16,7 +16,6 @@
 
 package com.dvdb.materialchecklist.config
 
-import ChecklistManagerConfig
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Typeface
@@ -34,6 +33,7 @@ import com.dvdb.materialchecklist.config.chip.model.ChipConfig
 import com.dvdb.materialchecklist.config.content.model.ContentConfig
 import com.dvdb.materialchecklist.config.image.model.ImageConfig
 import com.dvdb.materialchecklist.config.title.model.TitleConfig
+import com.dvdb.materialchecklist.manager.checklist.model.ChecklistManagerConfig
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
 import com.dvdb.materialchecklist.recycler.checklist.model.ChecklistRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.checklistnew.model.ChecklistNewRecyclerHolderConfig

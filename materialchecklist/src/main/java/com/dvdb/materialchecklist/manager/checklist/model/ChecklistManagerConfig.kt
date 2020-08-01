@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package com.dvdb.materialchecklist.manager.checklist.model
+
 import com.dvdb.materialchecklist.config.Config
 import com.dvdb.materialchecklist.config.checklist.model.BehaviorCheckedItem
 import com.dvdb.materialchecklist.config.checklist.model.BehaviorUncheckedItem

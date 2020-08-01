@@ -16,7 +16,6 @@
 
 package com.dvdb.materialchecklist.recycler.content.holder
 
-import ContentRecyclerHolderItemListener
 import android.content.Context
 import android.text.Editable
 import android.text.util.Linkify
@@ -28,6 +27,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.dvdb.materialchecklist.R
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolder
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderFactory
+import com.dvdb.materialchecklist.recycler.content.listener.ContentRecyclerHolderItemListener
 import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerItem
 import com.dvdb.materialchecklist.recycler.util.holder.RequestFocusRecyclerHolder
