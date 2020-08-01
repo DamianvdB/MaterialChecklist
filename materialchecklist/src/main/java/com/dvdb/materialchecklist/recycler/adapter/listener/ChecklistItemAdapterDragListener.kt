@@ -21,12 +21,16 @@ internal interface ChecklistItemAdapterDragListener {
     fun onItemMove(
         fromPosition: Int,
         toPosition: Int
-    ): Boolean
+    ): Boolean {
+        return false
+    }
 
     fun canDragOverTargetItem(
         currentPosition: Int,
         targetPosition: Int
-    ): Boolean
+    ): Boolean {
+        return false
+    }
 
     fun onItemDragStarted(position: Int) {}
 

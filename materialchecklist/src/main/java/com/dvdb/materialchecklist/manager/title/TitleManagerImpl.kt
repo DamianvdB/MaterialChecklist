@@ -67,18 +67,4 @@ internal class TitleManagerImpl : TitleManager {
     override fun onTitleItemActionIconClicked(position: Int) {
         onTitleItemActionIconClicked()
     }
-
-    override fun onItemMove(
-        fromPosition: Int,
-        toPosition: Int
-    ): Boolean {
-        return false
-    }
-
-    override fun canDragOverTargetItem(
-        currentPosition: Int,
-        targetPosition: Int
-    ): Boolean {
-        return false
-    }
 }

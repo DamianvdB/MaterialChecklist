@@ -56,18 +56,4 @@ internal class ContentManagerImpl : ContentManager {
     ) {
         this.hasFocus = hasFocus
     }
-
-    override fun onItemMove(
-        fromPosition: Int,
-        toPosition: Int
-    ): Boolean {
-        return false
-    }
-
-    override fun canDragOverTargetItem(
-        currentPosition: Int,
-        targetPosition: Int
-    ): Boolean {
-        return false
-    }
 }

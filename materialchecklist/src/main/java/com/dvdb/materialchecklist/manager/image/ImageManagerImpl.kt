@@ -27,18 +27,4 @@ internal class ImageManagerImpl : ImageManager {
     override val onImageItemInContainerClicked: (item: ImageRecyclerItem) -> Unit = {
         onImageItemClicked(it.transform())
     }
-
-    override fun onItemMove(
-        fromPosition: Int,
-        toPosition: Int
-    ): Boolean {
-        return false
-    }
-
-    override fun canDragOverTargetItem(
-        currentPosition: Int,
-        targetPosition: Int
-    ): Boolean {
-        return false
-    }
 }

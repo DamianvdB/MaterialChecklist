@@ -27,18 +27,4 @@ internal class ChipManagerImpl : ChipManager {
     override var onChipItemInContainerClicked: (item: ChipRecyclerItem) -> Unit = { item ->
         onChipItemClicked(item.transform())
     }
-
-    override fun onItemMove(
-        fromPosition: Int,
-        toPosition: Int
-    ): Boolean {
-        return false
-    }
-
-    override fun canDragOverTargetItem(
-        currentPosition: Int,
-        targetPosition: Int
-    ): Boolean {
-        return false
-    }
 }
