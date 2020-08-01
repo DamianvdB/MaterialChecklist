@@ -4,8 +4,7 @@ apply from: rootProject.file("gradle/android_common_config.gradle")
 apply from: rootProject.file("gradle/android_signing_config.gradle")
 
 android {
-    android.defaultConfig.applicationId "com.dvdb.editor"
-
+    android.defaultConfig.applicationId "com.dvdb.materialeditor"
     buildTypes {
         release {
             minifyEnabled true
