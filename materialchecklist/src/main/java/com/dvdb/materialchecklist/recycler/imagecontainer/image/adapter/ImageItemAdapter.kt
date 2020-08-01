@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.materialchecklist.recycler.imagecontainer.image.holder.ImageRecyclerHolder
 import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.imagecontainer.image.model.ImageRecyclerItem
+import com.dvdb.materialchecklist.recycler.util.SimpleItemDiffCallback
 
 internal class ImageItemAdapter(
     private val itemImageRecyclerHolderFactory: ImageRecyclerHolder.Factory,
@@ -29,12 +30,9 @@ internal class ImageItemAdapter(
     items: List<ImageRecyclerItem> = emptyList()
 ) : RecyclerView.Adapter<ImageRecyclerHolder>() {
 
-    var items: List<ImageRecyclerItem> = items
-        set(value) {
-            val diffResult = DiffUtil.calculateDiff(DiffCallback(field, value))
-            diffResult.dispatchUpdatesTo(this)
-            field = value
-        }
+    private val _items: MutableList<ImageRecyclerItem> = items.toMutableList()
+    val items: List<ImageRecyclerItem>
+        get() = _items
 
     var config: ImageRecyclerHolderConfig = config
         set(value) {
@@ -52,32 +50,23 @@ internal class ImageItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ImageRecyclerHolder, position: Int) {
-        val item = items[position]
-
+        val item = _items[position]
         holder.updateConfigConditionally(config)
         holder.bindView(item)
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = _items.size
 
-    private class DiffCallback(
-        private val oldList: List<ImageRecyclerItem>,
-        private val newList: List<ImageRecyclerItem>
-    ) : DiffUtil.Callback() {
-
-        override fun getOldListSize(): Int = oldList.size
-
-        override fun getNewListSize(): Int = newList.size
-
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldItem = oldList[oldItemPosition]
-            val newItem = newList[newItemPosition]
-            return oldItem.id == newItem.id &&
-                    oldItem.text == newItem.text
-        }
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == newList[newItemPosition]
-        }
+    fun submitItems(items: List<ImageRecyclerItem>) {
+        val diffCallback = SimpleItemDiffCallback(
+            oldItems = this._items,
+            newItems = items,
+            areTheSame = { left, right -> left.id == right.id },
+            areContentsTheSame = { left, right -> left == right }
+        )
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        this._items.clear()
+        this._items.addAll(items)
+        diffResult.dispatchUpdatesTo(this)
     }
 }

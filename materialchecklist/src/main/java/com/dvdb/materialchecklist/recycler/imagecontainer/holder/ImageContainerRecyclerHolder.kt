@@ -62,7 +62,7 @@ internal class ImageContainerRecyclerHolder private constructor(
         itemView.context.resources.getDimension(R.dimen.mc_item_image_text_size_span_count_min)
 
     override fun bindView(item: ImageContainerRecyclerItem) {
-        (recyclerView.adapter as? ImageItemAdapter)?.items = item.items
+        (recyclerView.adapter as? ImageItemAdapter)?.submitItems(item.items)
 
         if (!isTablet) {
             val columnSpan = calculateItemColumnSpan(item.items.size)
