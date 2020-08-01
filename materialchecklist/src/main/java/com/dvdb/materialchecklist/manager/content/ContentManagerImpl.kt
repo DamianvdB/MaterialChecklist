@@ -16,6 +16,7 @@
 
 package com.dvdb.materialchecklist.manager.content
 
+import com.dvdb.materialchecklist.manager.util.ManagerConstants
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerItem
 
@@ -24,7 +25,7 @@ internal class ContentManagerImpl : ContentManager {
     private lateinit var items: () -> List<BaseRecyclerItem>
     private lateinit var updateItemSilently: (item: BaseRecyclerItem, position: Int) -> Unit
 
-    private var hasFocus: Boolean = false
+    private var positionWithFocus: Int = ManagerConstants.NO_POSITION
 
     override fun lateInitContentState(
         items: () -> List<BaseRecyclerItem>,
@@ -54,6 +55,8 @@ internal class ContentManagerImpl : ContentManager {
         endSelection: Int,
         hasFocus: Boolean
     ) {
-        this.hasFocus = hasFocus
+        positionWithFocus = if (hasFocus) position else ManagerConstants.NO_POSITION
     }
+
+    override fun getContentItemFocusPosition(): Int = positionWithFocus
 }

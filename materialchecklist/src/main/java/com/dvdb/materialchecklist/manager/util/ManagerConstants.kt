@@ -14,20 +14,8 @@
  * limitations under the License.
  */
 
-package com.dvdb.materialchecklist.manager.content
+package com.dvdb.materialchecklist.manager.util
 
-import ContentRecyclerHolderItemListener
-import com.dvdb.materialchecklist.recycler.adapter.listener.ChecklistItemAdapterDragListener
-import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
-
-internal interface ContentManager :
-    ContentRecyclerHolderItemListener,
-    ChecklistItemAdapterDragListener {
-
-    fun lateInitContentState(
-        items: () -> List<BaseRecyclerItem>,
-        updateItemSilently: (item: BaseRecyclerItem, position: Int) -> Unit
-    )
-
-    fun getContentItemFocusPosition(): Int
+object ManagerConstants {
+    const val NO_POSITION = -1
 }

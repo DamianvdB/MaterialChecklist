@@ -32,4 +32,6 @@ internal interface TitleManager :
         items: () -> List<BaseRecyclerItem>,
         updateItemSilently: (item: BaseRecyclerItem, position: Int) -> Unit
     )
+
+    fun getTitleItemFocusPosition(): Int
 }

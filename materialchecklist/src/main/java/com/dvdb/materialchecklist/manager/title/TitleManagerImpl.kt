@@ -16,6 +16,7 @@
 
 package com.dvdb.materialchecklist.manager.title
 
+import com.dvdb.materialchecklist.manager.util.ManagerConstants
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 
@@ -27,7 +28,7 @@ internal class TitleManagerImpl : TitleManager {
     private lateinit var items: () -> List<BaseRecyclerItem>
     private lateinit var updateItemSilently: (item: BaseRecyclerItem, position: Int) -> Unit
 
-    private var hasFocus: Boolean = false
+    private var positionWithFocus: Int = ManagerConstants.NO_POSITION
 
     override fun lateInitTitleState(
         items: () -> List<BaseRecyclerItem>,
@@ -61,10 +62,12 @@ internal class TitleManagerImpl : TitleManager {
         endSelection: Int,
         hasFocus: Boolean
     ) {
-        this.hasFocus = hasFocus
+        positionWithFocus = if (hasFocus) position else ManagerConstants.NO_POSITION
     }
 
     override fun onTitleItemActionIconClicked(position: Int) {
         onTitleItemActionIconClicked()
     }
+
+    override fun getTitleItemFocusPosition(): Int = positionWithFocus
 }

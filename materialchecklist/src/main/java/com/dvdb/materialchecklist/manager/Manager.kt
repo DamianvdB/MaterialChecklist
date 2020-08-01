@@ -28,6 +28,7 @@ import com.dvdb.materialchecklist.manager.image.model.transform
 import com.dvdb.materialchecklist.manager.model.*
 import com.dvdb.materialchecklist.manager.title.TitleManager
 import com.dvdb.materialchecklist.manager.title.model.transform
+import com.dvdb.materialchecklist.manager.util.ManagerConstants
 import com.dvdb.materialchecklist.manager.util.model.RequestFocus
 import com.dvdb.materialchecklist.recycler.adapter.ChecklistItemAdapter
 import com.dvdb.materialchecklist.recycler.adapter.model.ChecklistItemAdapterConfig
@@ -60,7 +61,7 @@ internal class Manager(
 
     private val delayHandler: DelayHandler = DelayHandler()
 
-    private val originalItemIds: MutableMap<Int, Long> = mutableMapOf()
+    private val originalItemIds: MutableMap<Long, Int> = mutableMapOf()
     private var checklistItemContainerId: Int = 0
 
     fun lateInitState(
@@ -152,7 +153,7 @@ internal class Manager(
                 if (item is ChecklistItemContainer) {
                     checklistItemContainerId = item.id
                 } else {
-                    originalItemIds[item.id] = recyclerItems.last().id
+                    originalItemIds[recyclerItems.last().id] = item.id
                 }
             }
 
@@ -178,44 +179,21 @@ internal class Manager(
         keepCheckboxSymbolsOfChecklistItems: Boolean,
         keepCheckedItems: Boolean
     ): List<BaseItem> {
-        val items: MutableList<BaseItem> = mutableListOf()
         var addedChecklistItems = false
 
-        adapter.items.forEach { item ->
-            when (item.type) {
-                BaseRecyclerItem.Type.TITLE -> {
-                    items.add((item as TitleRecyclerItem).transform())
-                }
-                BaseRecyclerItem.Type.CONTENT -> {
-                    items.add((item as ContentRecyclerItem).transform())
-                }
-                BaseRecyclerItem.Type.CHECKLIST -> {
-                    if (!addedChecklistItems) {
-                        addedChecklistItems = true
-                        val checklistItemsText: String = checklistManager.getFormattedTextItems(
-                            keepCheckboxSymbolsOfChecklistItems,
-                            keepCheckedItems
-                        )
-                        items.add(
-                            ChecklistItemContainer(
-                                checklistItemContainerId,
-                                checklistItemsText
-                            )
-                        )
-                    }
-                }
-                BaseRecyclerItem.Type.CHECKLIST_NEW -> {
-                }
-                BaseRecyclerItem.Type.CHIP -> {
-                    items.add((item as ChipContainerRecyclerItem).transform())
-                }
-                BaseRecyclerItem.Type.IMAGE -> {
-                    items.add((item as ImageContainerRecyclerItem).transform())
+        return adapter.items.map { item ->
+            if (item.type == BaseRecyclerItem.Type.CHECKLIST) {
+                if (!addedChecklistItems) {
+                    addedChecklistItems = true
+                } else {
+                    return@map null
                 }
             }
-        }.exhaustive
-
-        return items
+            return@map item.transformToBaseItem(
+                keepCheckboxSymbolsOfChecklistItems,
+                keepCheckedItems
+            )
+        }.filterNotNull()
     }
 
     fun getItemCount(): Int {
@@ -230,6 +208,20 @@ internal class Manager(
         }
 
         checklistManager.setConfig(config.toManagerConfig())
+    }
+
+    fun getItemWithFocus(): BaseItem? {
+        val position =
+            if (titleManager.getTitleItemFocusPosition() != ManagerConstants.NO_POSITION) {
+                titleManager.getTitleItemFocusPosition()
+            } else {
+                contentManager.getContentItemFocusPosition()
+            }
+
+        return adapter.items.getOrNull(position)?.transformToBaseItem(
+            keepCheckboxSymbolsOfChecklistItems = true,
+            keepCheckedItems = true
+        )
     }
 
     override fun onItemMove(
@@ -332,6 +324,45 @@ internal class Manager(
             chipItemAction = { chipManager.onItemDragStopped(position) },
             imageItemAction = { imageManager.onItemDragStopped(position) }
         )
+    }
+
+    private fun BaseRecyclerItem.transformToBaseItem(
+        keepCheckboxSymbolsOfChecklistItems: Boolean,
+        keepCheckedItems: Boolean
+    ): BaseItem? {
+        val originalItemId = originalItemIds[id] ?: id.toInt()
+
+        return when (type) {
+            BaseRecyclerItem.Type.TITLE -> {
+                (this as TitleRecyclerItem).transform()
+                    .copy(id = originalItemId)
+            }
+            BaseRecyclerItem.Type.CONTENT -> {
+                (this as ContentRecyclerItem).transform()
+                    .copy(id = originalItemId)
+            }
+            BaseRecyclerItem.Type.CHECKLIST -> {
+                val checklistItemsText: String = checklistManager.getFormattedTextItems(
+                    keepCheckboxSymbolsOfChecklistItems,
+                    keepCheckedItems
+                )
+                ChecklistItemContainer(
+                    checklistItemContainerId,
+                    checklistItemsText
+                )
+            }
+            BaseRecyclerItem.Type.CHECKLIST_NEW -> {
+                null
+            }
+            BaseRecyclerItem.Type.CHIP -> {
+                (this as ChipContainerRecyclerItem).transform()
+                    .copy(id = originalItemId)
+            }
+            BaseRecyclerItem.Type.IMAGE -> {
+                (this as ImageContainerRecyclerItem).transform()
+                    .copy(id = originalItemId)
+            }
+        }
     }
 
     private fun executeActionForRecyclerItemType(

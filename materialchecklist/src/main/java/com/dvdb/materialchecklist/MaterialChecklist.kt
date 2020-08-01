@@ -112,6 +112,10 @@ class MaterialChecklist(
         )
     }
 
+    fun getEditorItemWithFocus(): BaseItem? {
+        return manager.getItemWithFocus()
+    }
+
     /**
      * Title item
      */
