@@ -16,10 +16,13 @@
 
 package com.dvdb.materialchecklist.recycler.base.adapter
 
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolder
 import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.base.model.BaseRecyclerItem
+import com.dvdb.materialchecklist.recycler.util.LeftAndRightComparer
+import com.dvdb.materialchecklist.recycler.util.SimpleItemDiffCallback
 
 @Suppress("PropertyName")
 internal abstract class BaseRecyclerAdapter<T : BaseRecyclerItem, C : BaseRecyclerHolderConfig>(
@@ -35,11 +38,27 @@ internal abstract class BaseRecyclerAdapter<T : BaseRecyclerItem, C : BaseRecycl
 
     fun setItems(
         items: List<T>,
-        notify: Boolean = true
+        notify: Boolean = true,
+        areItemsTheSame: LeftAndRightComparer<T> = { left, right -> left.id == right.id },
+        areContentsTheSame: LeftAndRightComparer<T> = { left, right -> left == right }
     ) {
-        _items = items.toMutableList()
+        fun replaceItems() {
+            _items.clear()
+            _items.addAll(items)
+        }
+
         if (notify) {
-            notifyDataSetChanged()
+            val diffCallback = SimpleItemDiffCallback(
+                _items,
+                items,
+                areItemsTheSame,
+                areContentsTheSame
+            )
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+            replaceItems()
+            diffResult.dispatchUpdatesTo(this)
+        } else {
+            replaceItems()
         }
     }
 
