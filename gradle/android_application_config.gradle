@@ -8,7 +8,10 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-glide.pro'
         }
         debug {
             applicationIdSuffix ".debug"
