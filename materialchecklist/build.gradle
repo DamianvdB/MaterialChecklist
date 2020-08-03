@@ -1,1 +1,8 @@
+ext.module_group = "com.dvdb"
+ext.module_name = "material-editor"
+
 apply from: rootProject.file("gradle/android_library_config.gradle")
+
+dependencies {
+    implementation deps.glide
+}

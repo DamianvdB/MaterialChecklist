@@ -3,6 +3,8 @@ apply plugin: "com.android.library"
 apply from: rootProject.file("gradle/android_common_config.gradle")
 apply from: rootProject.file("gradle/android_publish_config.gradle")
 
-dependencies {
-    implementation deps.glide
+android {
+    defaultConfig {
+        archivesBaseName = POM_ARTIFACT_ID
+    }
 }
