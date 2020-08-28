@@ -38,7 +38,8 @@ import kotlinx.android.synthetic.main.item_image.view.*
 internal class ImageRecyclerHolder private constructor(
     itemView: View,
     private var config: ImageRecyclerHolderConfig,
-    private val onItemClicked: (position: Int) -> Unit
+    private val onItemClicked: (position: Int) -> Unit,
+    private val onItemLongClicked: (position: Int) -> Boolean
 ) : RecyclerView.ViewHolder(itemView) {
 
     private val primaryImage: ImageView = itemView.item_image_primary_image
@@ -100,6 +101,10 @@ internal class ImageRecyclerHolder private constructor(
         itemView.setOnClickListener {
             onItemClicked(adapterPosition)
         }
+
+        itemView.setOnLongClickListener {
+            onItemLongClicked(adapterPosition)
+        }
     }
 
     private fun bindText(item: ImageRecyclerItem) {
@@ -144,7 +149,8 @@ internal class ImageRecyclerHolder private constructor(
     }
 
     class Factory(
-        private val onItemClicked: (position: Int) -> Unit
+        private val onItemClicked: (position: Int) -> Unit,
+        private val onItemLongClicked: (position: Int) -> Boolean
     ) {
         fun create(
             parent: ViewGroup,
@@ -159,7 +165,8 @@ internal class ImageRecyclerHolder private constructor(
             return ImageRecyclerHolder(
                 itemView,
                 config,
-                onItemClicked
+                onItemClicked,
+                onItemLongClicked
             )
         }
     }

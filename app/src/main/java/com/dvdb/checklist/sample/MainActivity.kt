@@ -268,6 +268,12 @@ internal class MainActivity : AppCompatActivity() {
             toast.setText("Image clicked with id '${it.id}'")
             toast.show()
         }
+
+        main_checklist.setOnImageItemLongClicked {
+            toast.setText("Image long clicked with id '${it.id}'")
+            toast.show()
+            true
+        }
     }
 
     private fun setItems() {

@@ -147,6 +147,10 @@ class MaterialChecklist(
         manager.onImageItemClicked = onImageItemClicked
     }
 
+    fun setOnImageItemLongClicked(onImageItemLongClicked: (ImageItem) -> Boolean) {
+        manager.onImageItemLongClicked = onImageItemLongClicked
+    }
+
     /**
      * Set the list of checklist items by parsing the [formattedText] string.
      *
@@ -328,9 +332,14 @@ class MaterialChecklist(
                     manager.onChipItemInContainerLongClicked(item)
                 }
             ),
-            itemImageContainerRecyclerHolderFactory = ImageContainerRecyclerHolder.Factory { item ->
-                manager.onImageItemInContainerClicked(item)
-            },
+            itemImageContainerRecyclerHolderFactory = ImageContainerRecyclerHolder.Factory(
+                { item ->
+                    manager.onImageItemInContainerClicked(item)
+                },
+                { item ->
+                    manager.onImageItemInContainerLongClicked(item)
+                }
+            ),
             itemDragListener = manager
         )
 

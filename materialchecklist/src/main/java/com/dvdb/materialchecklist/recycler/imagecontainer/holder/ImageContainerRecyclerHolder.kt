@@ -37,7 +37,8 @@ private const val MAX_COLUMN_SPAN_FOR_TWO_TEXT_LINES = 4
 internal class ImageContainerRecyclerHolder private constructor(
     private val recyclerView: RecyclerView,
     config: ImageContainerRecyclerHolderConfig,
-    private val onItemClicked: (item: ImageRecyclerItem) -> Unit
+    private val onItemClicked: (item: ImageRecyclerItem) -> Unit,
+    private val onItemLongClicked: (item: ImageRecyclerItem) -> Boolean
 ) : BaseRecyclerHolder<ImageContainerRecyclerItem, ImageContainerRecyclerHolderConfig>(
     recyclerView,
     config
@@ -117,14 +118,24 @@ internal class ImageContainerRecyclerHolder private constructor(
             config.maxColumnSpan
         )
 
+        fun getItemForPosition(position: Int): ImageRecyclerItem? {
+            return (recyclerView.adapter as? ImageItemAdapter)?.items
+                ?.getOrNull(position)
+        }
+
         recyclerView.adapter = ImageItemAdapter(
-            ImageRecyclerHolder.Factory { position ->
-                (recyclerView.adapter as? ImageItemAdapter)?.items
-                    ?.getOrNull(position)
-                    ?.let { item ->
+            ImageRecyclerHolder.Factory(
+                onItemClicked = {
+                    getItemForPosition(it)?.let { item ->
                         onItemClicked(item)
                     }
-            },
+                },
+                onItemLongClicked = {
+                    getItemForPosition(it)?.let { item ->
+                        onItemLongClicked(item)
+                    } ?: false
+                }
+            ),
             config.imageItemConfig
         )
 
@@ -170,7 +181,8 @@ internal class ImageContainerRecyclerHolder private constructor(
     }
 
     class Factory(
-        private val onItemClicked: (item: ImageRecyclerItem) -> Unit
+        private val onItemClicked: (item: ImageRecyclerItem) -> Unit,
+        private val onItemLongClicked: (item: ImageRecyclerItem) -> Boolean
     ) : BaseRecyclerHolderFactory<ImageContainerRecyclerItem, ImageContainerRecyclerHolderConfig> {
 
         override fun create(
@@ -180,7 +192,8 @@ internal class ImageContainerRecyclerHolder private constructor(
             return ImageContainerRecyclerHolder(
                 createRecyclerView(parent),
                 config,
-                onItemClicked
+                onItemClicked,
+                onItemLongClicked
             )
         }
 

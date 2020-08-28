@@ -24,7 +24,13 @@ internal class ImageManagerImpl : ImageManager {
 
     override var onImageItemClicked: (item: ImageItem) -> Unit = {}
 
+    override var onImageItemLongClicked: (item: ImageItem) -> Boolean = { false }
+
     override val onImageItemInContainerClicked: (item: ImageRecyclerItem) -> Unit = {
         onImageItemClicked(it.transform())
+    }
+
+    override val onImageItemInContainerLongClicked: (item: ImageRecyclerItem) -> Boolean = {
+        onImageItemLongClicked(it.transform())
     }
 }
