@@ -24,5 +24,9 @@ internal interface ChipManager : ChecklistItemAdapterDragListener {
 
     var onChipItemClicked: (item: ChipItem) -> Unit
 
+    var onChipItemLongClicked: (item: ChipItem) -> Boolean
+
     var onChipItemInContainerClicked: (item: ChipRecyclerItem) -> Unit
+
+    var onChipItemInContainerLongClicked: (item: ChipRecyclerItem) -> Boolean
 }

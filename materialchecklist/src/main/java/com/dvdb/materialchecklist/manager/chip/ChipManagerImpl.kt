@@ -24,7 +24,13 @@ internal class ChipManagerImpl : ChipManager {
 
     override var onChipItemClicked: (item: ChipItem) -> Unit = {}
 
+    override var onChipItemLongClicked: (item: ChipItem) -> Boolean = { false }
+
     override var onChipItemInContainerClicked: (item: ChipRecyclerItem) -> Unit = { item ->
         onChipItemClicked(item.transform())
+    }
+
+    override var onChipItemInContainerLongClicked: (item: ChipRecyclerItem) -> Boolean = { item ->
+        onChipItemLongClicked(item.transform())
     }
 }

@@ -31,7 +31,8 @@ import com.google.android.material.chip.ChipGroup
 internal class ChipContainerRecyclerHolder private constructor(
     private val chipGroup: ChipGroup,
     config: ChipContainerRecyclerHolderConfig,
-    private val onItemClicked: (item: ChipRecyclerItem) -> Unit
+    private val onItemClicked: (item: ChipRecyclerItem) -> Unit,
+    private val onItemLongClicked: (item: ChipRecyclerItem) -> Boolean
 ) : BaseRecyclerHolder<ChipContainerRecyclerItem, ChipContainerRecyclerHolderConfig>(
     chipGroup,
     config
@@ -88,6 +89,10 @@ internal class ChipContainerRecyclerHolder private constructor(
         setOnClickListener {
             onItemClicked(chipItem)
         }
+
+        setOnLongClickListener {
+            onItemLongClicked(chipItem)
+        }
     }
 
     private fun Chip.updateAppearance() {
@@ -138,7 +143,8 @@ internal class ChipContainerRecyclerHolder private constructor(
     }
 
     class Factory(
-        private val onItemClicked: (item: ChipRecyclerItem) -> Unit
+        private val onItemClicked: (item: ChipRecyclerItem) -> Unit,
+        private val onItemLongClicked: (item: ChipRecyclerItem) -> Boolean
     ) : BaseRecyclerHolderFactory<ChipContainerRecyclerItem, ChipContainerRecyclerHolderConfig> {
 
         override fun create(
@@ -148,7 +154,8 @@ internal class ChipContainerRecyclerHolder private constructor(
             return ChipContainerRecyclerHolder(
                 ChipGroup(parent.context),
                 config,
-                onItemClicked
+                onItemClicked,
+                onItemLongClicked
             )
         }
     }

@@ -136,6 +136,10 @@ class MaterialChecklist(
         manager.onChipItemClicked = onChipItemClicked
     }
 
+    fun setOnChipItemLongClicked(onChipItemLongClicked: (ChipItem) -> Boolean) {
+        manager.onChipItemLongClicked = onChipItemLongClicked
+    }
+
     /**
      * Image item
      */
@@ -316,9 +320,14 @@ class MaterialChecklist(
             itemNewRecyclerHolderFactory = ChecklistNewRecyclerHolder.Factory(
                 manager.onCreateNewChecklistItemClicked
             ),
-            itemChipContainerRecyclerHolderFactory = ChipContainerRecyclerHolder.Factory { item ->
-                manager.onChipItemInContainerClicked(item)
-            },
+            itemChipContainerRecyclerHolderFactory = ChipContainerRecyclerHolder.Factory(
+                onItemClicked = { item ->
+                    manager.onChipItemInContainerClicked(item)
+                },
+                onItemLongClicked = { item ->
+                    manager.onChipItemInContainerLongClicked(item)
+                }
+            ),
             itemImageContainerRecyclerHolderFactory = ImageContainerRecyclerHolder.Factory { item ->
                 manager.onImageItemInContainerClicked(item)
             },

@@ -54,6 +54,7 @@ import com.dvdb.materialchecklist.config.title.*
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
 import com.dvdb.materialchecklist.manager.image.model.ImageItem
 import com.dvdb.materialchecklist.manager.model.*
+import com.dvdb.materialchecklist.manager.util.model.RequestFocus
 import com.dvdb.materialchecklist.util.exhaustive
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -237,7 +238,15 @@ internal class MainActivity : AppCompatActivity() {
 
     private fun initTitle() {
         main_checklist.setOnTitleItemEnterKeyPressed {
-            main_checklist.setItemFocusPosition(1)
+            val items = main_checklist.getEditorItems()
+                .map { item ->
+                    if (item is ContentItem) {
+                        item.copy(requestFocus = RequestFocus.Perform())
+                    } else {
+                        item
+                    }
+                }
+            main_checklist.setEditorItems(items)
         }
     }
 
@@ -245,6 +254,12 @@ internal class MainActivity : AppCompatActivity() {
         main_checklist.setOnChipItemClicked {
             toast.setText("Chip item clicked with text '${it.text}'")
             toast.show()
+        }
+
+        main_checklist.setOnChipItemLongClicked {
+            toast.setText("Chip item long clicked with text '${it.text}'")
+            toast.show()
+            true
         }
     }
 
