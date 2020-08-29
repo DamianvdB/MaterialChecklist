@@ -29,6 +29,7 @@ import com.dvdb.materialchecklist.recycler.imagecontainer.model.ImageContainerRe
 import com.dvdb.materialchecklist.recycler.imagecontainer.model.ImageContainerRecyclerItem
 import com.dvdb.materialchecklist.recycler.util.RecyclerGridSpaceItemDecorator
 import com.dvdb.materialchecklist.util.isTablet
+import com.dvdb.materialchecklist.util.updatePadding
 
 private const val MIN_COLUMN_SPAN = 1
 private const val MIN_TEXT_LINES = 1
@@ -71,6 +72,7 @@ internal class ImageContainerRecyclerHolder private constructor(
 
             adjustItemTextConfig(columnSpan)
         }
+        updateTopAndBottomPadding()
     }
 
     override fun onConfigUpdated() {
@@ -102,13 +104,10 @@ internal class ImageContainerRecyclerHolder private constructor(
 
     private fun initRoot() {
         val leftAndRightPadding = config.leftAndRightPadding?.toInt() ?: itemView.paddingLeft
-        val topAndBottomPadding = config.topAndBottomPadding.toInt()
 
-        itemView.setPadding(
-            leftAndRightPadding,
-            topAndBottomPadding,
-            leftAndRightPadding,
-            topAndBottomPadding
+        itemView.updatePadding(
+            left = leftAndRightPadding,
+            right = leftAndRightPadding
         )
     }
 
@@ -178,6 +177,23 @@ internal class ImageContainerRecyclerHolder private constructor(
             MAX_COLUMN_SPAN_FOR_TWO_TEXT_LINES -> textSizeForColumnSpanFour
             else -> textSizeForColumnSpanGreaterThanFour
         }.coerceAtMost(maxTextSize)
+    }
+
+    private fun updateTopAndBottomPadding() {
+        val topAndBottomPadding = if ((recyclerView.adapter?.itemCount ?: 0) > 0) {
+            config.topAndBottomPadding.toInt()
+        } else {
+            0
+        }
+
+        if (itemView.paddingTop != topAndBottomPadding ||
+            itemView.paddingBottom != topAndBottomPadding
+        ) {
+            itemView.updatePadding(
+                top = topAndBottomPadding,
+                bottom = topAndBottomPadding
+            )
+        }
     }
 
     class Factory(
