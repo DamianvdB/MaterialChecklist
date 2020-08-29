@@ -25,6 +25,7 @@ import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecy
 import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecyclerItem
 import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipRecyclerItem
 import com.dvdb.materialchecklist.util.getDrawableCompat
+import com.dvdb.materialchecklist.util.updatePadding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
@@ -58,6 +59,7 @@ internal class ChipContainerRecyclerHolder private constructor(
                 }
             }
         }
+        updateTopAndBottomPadding()
     }
 
     override fun onConfigUpdated() {
@@ -129,17 +131,31 @@ internal class ChipContainerRecyclerHolder private constructor(
     }
 
     private fun initialiseChipGroup() {
-        val topAndBottomPadding = config.topAndBottomPadding.toInt()
         val leftAndRightPadding = config.leftAndRightPadding.toInt()
 
-        chipGroup.setPadding(
-            leftAndRightPadding,
-            topAndBottomPadding,
-            leftAndRightPadding,
-            topAndBottomPadding
+        chipGroup.updatePadding(
+            left = leftAndRightPadding,
+            right = leftAndRightPadding,
         )
 
         chipGroup.chipSpacingHorizontal = config.horizontalSpacing
+    }
+
+    private fun updateTopAndBottomPadding() {
+        val topAndBottomPadding = if (chipGroup.childCount > 0) {
+            config.topAndBottomPadding.toInt()
+        } else {
+            0
+        }
+
+        if (chipGroup.paddingTop != topAndBottomPadding ||
+            chipGroup.paddingBottom != topAndBottomPadding
+        ) {
+            chipGroup.updatePadding(
+                top = topAndBottomPadding,
+                bottom = topAndBottomPadding,
+            )
+        }
     }
 
     class Factory(
