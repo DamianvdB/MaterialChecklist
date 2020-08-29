@@ -211,12 +211,11 @@ internal class Manager(
     }
 
     fun getItemWithFocus(): BaseItem? {
-        val position =
-            if (titleManager.getTitleItemFocusPosition() != ManagerConstants.NO_POSITION) {
-                titleManager.getTitleItemFocusPosition()
-            } else {
-                contentManager.getContentItemFocusPosition()
-            }
+        val position = titleManager.getTitleItemFocusPosition().takeIf {
+            it != ManagerConstants.NO_POSITION
+        } ?: contentManager.getContentItemFocusPosition().takeIf {
+            it != ManagerConstants.NO_POSITION
+        } ?: checklistManager.getItemFocusPosition()
 
         return adapter.items.getOrNull(position)?.transformToBaseItem(
             keepCheckboxSymbolsOfChecklistItems = true,

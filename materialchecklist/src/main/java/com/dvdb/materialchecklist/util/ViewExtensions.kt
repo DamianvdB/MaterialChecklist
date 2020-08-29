@@ -23,6 +23,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import androidx.annotation.Px
 import com.dvdb.materialchecklist.util.imageloader.ImageLoader
 
 internal fun View.setVisible(
@@ -47,6 +48,21 @@ internal inline fun View.updateLayoutParams(block: ViewGroup.LayoutParams.() -> 
     val params = layoutParams
     block(params)
     layoutParams = params
+}
+
+
+internal fun View.updatePadding(
+    @Px left: Int = paddingLeft,
+    @Px top: Int = paddingTop,
+    @Px right: Int = paddingRight,
+    @Px bottom: Int = paddingBottom
+) {
+    setPadding(
+        left,
+        top,
+        right,
+        bottom
+    )
 }
 
 internal fun ImageView.loadImage(
