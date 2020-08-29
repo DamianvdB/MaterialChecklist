@@ -39,7 +39,7 @@ internal abstract class BaseRecyclerAdapter<T : BaseRecyclerItem, C : BaseRecycl
     fun setItems(
         items: List<T>,
         notify: Boolean = true,
-        areItemsTheSame: LeftAndRightComparer<T> = { left, right -> left.id == right.id },
+        areItemsTheSame: LeftAndRightComparer<T> = { left, right -> left.type == right.type },
         areContentsTheSame: LeftAndRightComparer<T> = { left, right -> left == right }
     ) {
         fun replaceItems() {
