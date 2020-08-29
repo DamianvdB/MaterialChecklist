@@ -38,10 +38,7 @@ import com.dvdb.materialchecklist.recycler.chipcontainer.model.ChipContainerRecy
 import com.dvdb.materialchecklist.recycler.content.model.ContentRecyclerItem
 import com.dvdb.materialchecklist.recycler.imagecontainer.model.ImageContainerRecyclerItem
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
-import com.dvdb.materialchecklist.util.DelayHandler
 import com.dvdb.materialchecklist.util.exhaustive
-
-private const val ENABLE_ITEM_ANIMATIONS_DELAY_MS = 2000L
 
 internal class Manager(
     private val titleManager: TitleManager,
@@ -57,9 +54,6 @@ internal class Manager(
 
     private lateinit var adapter: ChecklistItemAdapter
     private lateinit var adapterConfig: ChecklistItemAdapterConfig
-    private lateinit var enableItemAnimations: (isEnabled: Boolean) -> Unit
-
-    private val delayHandler: DelayHandler = DelayHandler()
 
     private val originalItemIds: MutableMap<Long, Int> = mutableMapOf()
     private var checklistItemContainerId: Int = 0
@@ -75,7 +69,6 @@ internal class Manager(
     ) {
         this.adapter = adapter
         this.adapterConfig = config.toAdapterConfig()
-        this.enableItemAnimations = enableItemAnimations
 
         val updateItemInAdapterSilently: (item: BaseRecyclerItem, position: Int) -> Unit =
             { item, position ->
@@ -165,13 +158,7 @@ internal class Manager(
                 )
             }
 
-            enableItemAnimations(false)
-
             adapter.setItems(recyclerItems)
-
-            delayHandler.run(ENABLE_ITEM_ANIMATIONS_DELAY_MS) {
-                enableItemAnimations(true)
-            }
         }
     }
 
