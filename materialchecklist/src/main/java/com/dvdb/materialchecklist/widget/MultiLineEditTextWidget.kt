@@ -17,6 +17,7 @@
 package com.dvdb.materialchecklist.widget
 
 import android.content.Context
+import android.text.InputType
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
@@ -31,13 +32,18 @@ import androidx.appcompat.widget.AppCompatEditText
  * 1. Changes in the current selection positioning.
  * 2. Delete key presses via the input connection.
  */
-internal class EditTextWidget(
+internal class MultiLineEditTextWidget(
     context: Context,
     attrs: AttributeSet?
 ) : AppCompatEditText(context, attrs) {
 
     var onSelectionChanged: ((startSelection: Int, endSelection: Int) -> Unit)? = null
     var onDeleteKeyPressed: (() -> Unit)? = null
+
+    init {
+        imeOptions = EditorInfo.IME_ACTION_NEXT
+        setRawInputType(InputType.TYPE_CLASS_TEXT)
+    }
 
     override fun onSelectionChanged(
         selStart: Int,
@@ -68,8 +74,8 @@ internal class EditTextWidget(
         override fun sendKeyEvent(event: KeyEvent?): Boolean {
             if (event?.action == KeyEvent.ACTION_DOWN &&
                 event.keyCode == KeyEvent.KEYCODE_DEL &&
-                this@EditTextWidget.selectionStart == 0 &&
-                this@EditTextWidget.selectionEnd == 0
+                this@MultiLineEditTextWidget.selectionStart == 0 &&
+                this@MultiLineEditTextWidget.selectionEnd == 0
             ) {
                 onDeleteKeyPressed?.invoke()
             }

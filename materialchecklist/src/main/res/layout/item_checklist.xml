@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.dvdb.materialchecklist.widget.EditTextWidget
+    <com.dvdb.materialchecklist.widget.MultiLineEditTextWidget
         android:id="@+id/item_checklist_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -30,7 +30,6 @@
         android:layout_marginRight="@dimen/mc_spacing_medium"
         android:layout_weight="1"
         android:background="@android:color/transparent"
-        android:imeOptions="actionNext"
         android:importantForAutofill="no"
         android:inputType="textMultiLine|textCapSentences"
         android:paddingTop="@dimen/mc_spacing_small_medium"
