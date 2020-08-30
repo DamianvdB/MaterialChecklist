@@ -18,8 +18,6 @@ package com.dvdb.materialchecklist.recycler.title.listener
 
 internal interface TitleRecyclerHolderItemListener {
 
-    fun onTitleItemEnterKeyPressed(position: Int)
-
     fun onTitleItemTextChanged(
         position: Int,
         text: String

@@ -120,11 +120,6 @@ class MaterialChecklist(
     /**
      * Title item
      */
-
-    fun setOnTitleItemEnterKeyPressed(onEnterKeyPressed: () -> Unit) {
-        manager.onTitleItemEnterKeyPressed = onEnterKeyPressed
-    }
-
     fun setOnTitleItemActionIconClicked(onActionIconClicked: () -> Unit) {
         manager.onTitleItemActionIconClicked = onActionIconClicked
     }
@@ -311,7 +306,6 @@ class MaterialChecklist(
         recyclerView.adapter = ChecklistItemAdapter(
             config = config.toAdapterConfig(),
             itemTitleRecyclerHolderFactory = TitleRecyclerHolder.Factory(
-                enterActionPerformedFactory,
                 manager
             ),
             itemContentRecyclerHolderFactory = ContentRecyclerHolder.Factory(

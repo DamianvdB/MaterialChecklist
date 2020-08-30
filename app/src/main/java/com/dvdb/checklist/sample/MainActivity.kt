@@ -54,7 +54,6 @@ import com.dvdb.materialchecklist.config.title.*
 import com.dvdb.materialchecklist.manager.chip.model.ChipItem
 import com.dvdb.materialchecklist.manager.image.model.ImageItem
 import com.dvdb.materialchecklist.manager.model.*
-import com.dvdb.materialchecklist.manager.util.model.RequestFocus
 import com.dvdb.materialchecklist.util.exhaustive
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -209,7 +208,6 @@ internal class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         initChecklist()
-        initTitle()
         initChips()
         initImages()
 
@@ -233,20 +231,6 @@ internal class MainActivity : AppCompatActivity() {
                 .setAction("undo") {
                     main_checklist.restoreDeletedItem(id)
                 }.show()
-        }
-    }
-
-    private fun initTitle() {
-        main_checklist.setOnTitleItemEnterKeyPressed {
-            val items = main_checklist.getEditorItems()
-                .map { item ->
-                    if (item is ContentItem) {
-                        item.copy(requestFocus = RequestFocus.Perform())
-                    } else {
-                        item
-                    }
-                }
-            main_checklist.setEditorItems(items)
         }
     }
 

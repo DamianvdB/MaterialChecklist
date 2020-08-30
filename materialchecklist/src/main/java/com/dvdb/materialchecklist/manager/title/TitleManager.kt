@@ -24,8 +24,6 @@ internal interface TitleManager :
     TitleRecyclerHolderItemListener,
     ChecklistItemAdapterDragListener {
 
-    var onTitleItemEnterKeyPressed: () -> Unit
-
     var onTitleItemActionIconClicked: () -> Unit
 
     fun lateInitTitleState(

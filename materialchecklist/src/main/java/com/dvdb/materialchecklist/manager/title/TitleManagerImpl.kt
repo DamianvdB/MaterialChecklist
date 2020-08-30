@@ -22,7 +22,6 @@ import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
 
 internal class TitleManagerImpl : TitleManager {
 
-    override var onTitleItemEnterKeyPressed: () -> Unit = {}
     override var onTitleItemActionIconClicked: () -> Unit = {}
 
     private lateinit var items: () -> List<BaseRecyclerItem>
@@ -36,10 +35,6 @@ internal class TitleManagerImpl : TitleManager {
     ) {
         this.items = items
         this.updateItemSilently = updateItemSilently
-    }
-
-    override fun onTitleItemEnterKeyPressed(position: Int) {
-        onTitleItemEnterKeyPressed()
     }
 
     override fun onTitleItemTextChanged(

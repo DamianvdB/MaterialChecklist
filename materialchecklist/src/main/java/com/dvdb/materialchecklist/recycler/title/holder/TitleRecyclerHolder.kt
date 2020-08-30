@@ -30,7 +30,6 @@ import com.dvdb.materialchecklist.recycler.base.holder.BaseRecyclerHolderFactory
 import com.dvdb.materialchecklist.recycler.title.listener.TitleRecyclerHolderItemListener
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerHolderConfig
 import com.dvdb.materialchecklist.recycler.title.model.TitleRecyclerItem
-import com.dvdb.materialchecklist.recycler.util.holder.EnterActionPerformedFactory
 import com.dvdb.materialchecklist.recycler.util.holder.RequestFocusRecyclerHolder
 import com.dvdb.materialchecklist.util.*
 import kotlinx.android.synthetic.main.item_title.view.*
@@ -38,7 +37,6 @@ import kotlinx.android.synthetic.main.item_title.view.*
 internal class TitleRecyclerHolder private constructor(
     itemView: View,
     config: TitleRecyclerHolderConfig,
-    enterActionPerformedFactory: EnterActionPerformedFactory,
     private val listener: TitleRecyclerHolderItemListener
 ) : BaseRecyclerHolder<TitleRecyclerItem, TitleRecyclerHolderConfig>(itemView, config),
     RequestFocusRecyclerHolder {
@@ -48,7 +46,7 @@ internal class TitleRecyclerHolder private constructor(
 
     init {
         initialiseView()
-        initListeners(enterActionPerformedFactory)
+        initListeners()
     }
 
     override fun bindView(item: TitleRecyclerItem) {
@@ -136,21 +134,12 @@ internal class TitleRecyclerHolder private constructor(
         actionIcon.setVisible(config.isShowActionIcon)
     }
 
-    private fun initListeners(enterActionPerformedFactory: EnterActionPerformedFactory) {
-        initTextListeners(enterActionPerformedFactory)
+    private fun initListeners() {
+        initTextListeners()
         initActionIconListener()
     }
 
-    private fun initTextListeners(enterActionPerformedFactory: EnterActionPerformedFactory) {
-        text.setOnEditorActionListener(
-            enterActionPerformedFactory.create(
-                runnable = {
-                    listener.onTitleItemEnterKeyPressed(adapterPosition)
-                    true
-                }
-            )
-        )
-
+    private fun initTextListeners() {
         text.addTextChangedListener(object : SimpleTextChangedListener() {
             override fun afterTextChanged(s: Editable?) {
                 if (text.isFocused) {
@@ -181,7 +170,6 @@ internal class TitleRecyclerHolder private constructor(
     }
 
     class Factory(
-        private val enterActionPerformedFactory: EnterActionPerformedFactory,
         private val listener: TitleRecyclerHolderItemListener
     ) : BaseRecyclerHolderFactory<TitleRecyclerItem, TitleRecyclerHolderConfig> {
 
@@ -198,7 +186,6 @@ internal class TitleRecyclerHolder private constructor(
             return TitleRecyclerHolder(
                 itemView,
                 config,
-                enterActionPerformedFactory,
                 listener
             )
         }
