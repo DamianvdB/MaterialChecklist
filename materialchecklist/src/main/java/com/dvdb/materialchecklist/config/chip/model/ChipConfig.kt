@@ -46,12 +46,15 @@ internal class ChipConfig(
     private val textSizeOffset: Float =
         context.resources.getDimension(R.dimen.mc_item_chip_text_size_offset)
 
+    private val minTextSize: Float =
+        context.resources.getDimension(R.dimen.mc_item_chip_min_text_size)
+
     private val topAndBottomPaddingOffset: Float =
         context.resources.getDimension(R.dimen.mc_spacing_medium)
 
     fun transform() = ChipContainerRecyclerHolderConfig(
         textColor = textColor(),
-        textSize = textSize() - textSizeOffset,
+        textSize = (textSize() - textSizeOffset).coerceAtLeast(minTextSize),
         textTypeFace = typeFace(),
         iconTintColor = iconTintColor(),
         iconSize = iconSize,
