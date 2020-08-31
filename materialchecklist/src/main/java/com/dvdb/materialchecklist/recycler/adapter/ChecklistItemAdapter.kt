@@ -56,14 +56,7 @@ internal class ChecklistItemAdapter(
             }
         }
 
-    var requestFocus: ChecklistItemAdapterRequestFocus =
-        ChecklistItemAdapterRequestFocus(RecyclerView.NO_POSITION)
-        set(value) {
-            field = value
-            notifyItemChanged(value.position)
-        }
-
-    var requestFocusOnce: ChecklistItemAdapterRequestFocus =
+    private var requestFocus: ChecklistItemAdapterRequestFocus =
         ChecklistItemAdapterRequestFocus(RecyclerView.NO_POSITION)
 
     init {
@@ -125,13 +118,17 @@ internal class ChecklistItemAdapter(
                 requestFocus.isShowKeyboard
             )
 
-        } else if (holder is RequestFocusRecyclerHolder && position == requestFocusOnce.position) {
-            holder.requestFocus(
-                requestFocusOnce.selectionPosition,
-                requestFocusOnce.isShowKeyboard
-            )
+            requestFocus = ChecklistItemAdapterRequestFocus(RecyclerView.NO_POSITION)
+        }
+    }
 
-            requestFocusOnce = ChecklistItemAdapterRequestFocus(RecyclerView.NO_POSITION)
+    fun setRequestFocus(
+        requestFocus: ChecklistItemAdapterRequestFocus,
+        notify: Boolean = true
+    ) {
+        this.requestFocus = requestFocus
+        if (notify) {
+            notifyItemChanged(requestFocus.position)
         }
     }
 

@@ -740,10 +740,12 @@ internal class ChecklistManagerImpl(
             scrollToPosition(position)
 
             delayHandler.run {
-                adapter.requestFocus = ChecklistItemAdapterRequestFocus(
-                    position = position,
-                    selectionPosition = selectionPosition,
-                    isShowKeyboard = showKeyboard
+                adapter.setRequestFocus(
+                    ChecklistItemAdapterRequestFocus(
+                        position = position,
+                        selectionPosition = selectionPosition,
+                        isShowKeyboard = showKeyboard
+                    )
                 )
             }
         }

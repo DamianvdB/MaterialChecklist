@@ -158,10 +158,13 @@ internal class Manager(
             }
 
             requestFocusForItem?.let { (position, requestFocus) ->
-                adapter.requestFocusOnce = ChecklistItemAdapterRequestFocus(
-                    position,
-                    requestFocus.selectionPosition,
-                    requestFocus.isShowKeyboard
+                adapter.setRequestFocus(
+                    ChecklistItemAdapterRequestFocus(
+                        position,
+                        requestFocus.selectionPosition,
+                        requestFocus.isShowKeyboard
+                    ),
+                    false
                 )
             }
 
