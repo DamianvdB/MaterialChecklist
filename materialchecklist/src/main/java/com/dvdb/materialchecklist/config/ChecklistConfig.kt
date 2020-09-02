@@ -109,6 +109,7 @@ internal class ChecklistConfig(
         typeFace = { textTypeFace },
         iconTintColor = { iconTintColor },
         isEditable = { textEditable },
+        topAndBottomPadding = { itemTopAndBottomPadding },
         leftAndRightPadding = { itemLeftAndRightPadding },
         leftAndRightPaddingOffset = leftAndRightPaddingOffset
     )

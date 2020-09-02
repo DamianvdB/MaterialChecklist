@@ -34,6 +34,7 @@ internal data class TitleRecyclerHolderConfig(
     val typeFace: Typeface?,
     val typeFaceStyle: Int,
     val actionIcon: Drawable?,
+    val topAndBottomPadding: Float,
     val leftPadding: Float?,
     val rightPadding: Float?
 ) : BaseRecyclerHolderConfig {

@@ -40,6 +40,7 @@ internal class TitleConfig(
     private val typeFace: () -> Typeface?,
     private val iconTintColor: () -> Int,
     private val isEditable: () -> Boolean,
+    private val topAndBottomPadding: ()-> Float,
     private val leftAndRightPadding: () -> Float?,
     private val leftAndRightPaddingOffset: Float
 ) : Config {
@@ -60,6 +61,7 @@ internal class TitleConfig(
         typeFace = typeFace(),
         typeFaceStyle = typeFaceStyle,
         actionIcon = actionIcon,
+        topAndBottomPadding = topAndBottomPadding(),
         leftPadding = (leftAndRightPadding() ?: 0f) + leftAndRightPaddingOffset,
         rightPadding = leftAndRightPadding()
     )

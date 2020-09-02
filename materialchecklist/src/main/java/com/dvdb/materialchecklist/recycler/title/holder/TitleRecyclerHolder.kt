@@ -82,11 +82,12 @@ internal class TitleRecyclerHolder private constructor(
     private fun initialiseRoot() {
         val leftPadding = config.leftPadding?.toInt() ?: itemView.paddingLeft
         val rightPadding = config.rightPadding?.toInt() ?: itemView.paddingRight
+        val topAndBottomPadding = config.topAndBottomPadding.toInt()
         itemView.setPadding(
             leftPadding,
-            itemView.paddingTop,
+            topAndBottomPadding,
             rightPadding,
-            itemView.paddingBottom
+            topAndBottomPadding
         )
     }
 
