@@ -33,7 +33,7 @@ import com.dvdb.materialchecklist.util.DelayHandler
 import java.util.*
 
 private const val NO_POSITION = -1
-private const val ENABLE_ITEM_ANIMATIONS_DELAY_MS = 1000L
+private const val ENABLE_ITEM_ANIMATIONS_DELAY_MS = 100L
 private const val MIN_ITEM_COUNT = 2
 
 /**
