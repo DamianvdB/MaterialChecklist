@@ -42,7 +42,7 @@ internal class MultiLineEditTextWidget(
 
     init {
         imeOptions = EditorInfo.IME_ACTION_NEXT
-        setRawInputType(InputType.TYPE_CLASS_TEXT)
+        inputType = inputType or InputType.TYPE_TEXT_FLAG_MULTI_LINE
     }
 
     override fun onSelectionChanged(

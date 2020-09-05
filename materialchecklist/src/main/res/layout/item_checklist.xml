@@ -27,7 +27,7 @@
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:importantForAutofill="no"
-        android:inputType="textMultiLine|textCapSentences"
+        android:inputType="textCapSentences"
         android:paddingStart="@dimen/mc_spacing_medium_large"
         android:paddingLeft="@dimen/mc_spacing_medium_large"
         android:paddingTop="@dimen/mc_spacing_small_medium"
