@@ -1,4 +1,5 @@
 # Material Checklist
+![Android CI](https://github.com/DamianvdB/MaterialChecklist/workflows/Android%20CI/badge.svg)
 [ ![Download](https://api.bintray.com/packages/damianvdb/maven/MaterialChecklist/images/download.svg) ](https://bintray.com/damianvdb/maven/MaterialChecklist/_latestVersion)
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
 
