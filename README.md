@@ -104,6 +104,12 @@ val removedItemIds: List<Long> = checklist.removeAllCheckedItems()
 checklist.uncheckAllCheckedItems()
 ```
 
+### Set the focus on an item at a specified position
+```kotlin
+// Set the focus on the first item
+checklist.setItemFocusPosition(0)
+```
+
 ## Configuration
 All the XML styling attributes are available under the ```app``` namespace:
 ```xml
