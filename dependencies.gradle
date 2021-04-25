@@ -10,8 +10,7 @@ def kotlin_version = "1.4.0"
 ext.deps = [
         gradle_plugins : [
                 android: "com.android.tools.build:gradle:4.0.1",
-                kotlin : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version",
-                bintray: "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5"
+                kotlin : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         ],
 
         androidx       : [

@@ -9,7 +9,6 @@ buildscript {
     dependencies {
         classpath deps.gradle_plugins.android
         classpath deps.gradle_plugins.kotlin
-        classpath deps.gradle_plugins.bintray
     }
 }
 
