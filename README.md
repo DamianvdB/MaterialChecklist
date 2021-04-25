@@ -1,6 +1,6 @@
 # Material Checklist
 ![Android CI](https://github.com/DamianvdB/MaterialChecklist/workflows/Android%20CI/badge.svg)
-[ ![Download](https://api.bintray.com/packages/damianvdb/maven/MaterialChecklist/images/download.svg) ](https://bintray.com/damianvdb/maven/MaterialChecklist/_latestVersion)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
 
 <div>
@@ -16,12 +16,12 @@ Download the sample application from the [Google Play Store](https://bit.ly/goog
 </div>
 
 ## Dependency
-Add this to your module's `build.gradle` file (make sure the version matches the Bintray badge above):
+Add this to your module's `build.gradle` file:
 
 ```gradle
 dependencies {
   ...
-  implementation 'com.dvdb:materialchecklist:1.0.0'
+  implementation 'io.github.damianvdb:materialchecklist:1.0.0'
 
   // Required Android libraries
   implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -219,7 +219,7 @@ Want to be here? Open an ```issue``` or make a ```pull request```.
 
 ## License
 
-    Copyright 2020 Damian van den Berg
+    Copyright 2021 Damian van den Berg
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
