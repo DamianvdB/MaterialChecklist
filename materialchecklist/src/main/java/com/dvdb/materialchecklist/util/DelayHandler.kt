@@ -17,6 +17,7 @@
 package com.dvdb.materialchecklist.util
 
 import android.os.Handler
+import android.os.Looper
 
 private const val DEFAULT_DELAY_MS = 100L
 
@@ -25,7 +26,7 @@ private const val DEFAULT_DELAY_MS = 100L
  * the specified amount of time elapses.
  */
 internal class DelayHandler {
-    private val handler: Handler = Handler()
+    private val handler: Handler = Handler(Looper.myLooper()!!)
 
     fun run(
         delayMs: Long = DEFAULT_DELAY_MS,

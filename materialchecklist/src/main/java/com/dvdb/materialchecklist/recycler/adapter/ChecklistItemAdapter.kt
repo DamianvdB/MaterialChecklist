@@ -112,22 +112,22 @@ internal class ChecklistItemAdapter(
         target: RecyclerView.ViewHolder
     ): Boolean {
         return itemDragListener.canDragOverTargetItem(
-            current.adapterPosition,
-            target.adapterPosition
+            current.bindingAdapterPosition,
+            target.bindingAdapterPosition
         )
     }
 
     override fun onDragStart(viewHolder: RecyclerView.ViewHolder) {
         if (viewHolder is DraggableRecyclerHolder) {
             viewHolder.onDragStart()
-            itemDragListener.onItemDragStarted(viewHolder.adapterPosition)
+            itemDragListener.onItemDragStarted(viewHolder.bindingAdapterPosition)
         }
     }
 
     override fun onDragStop(viewHolder: RecyclerView.ViewHolder) {
         if (viewHolder is DraggableRecyclerHolder) {
             viewHolder.onDragStop()
-            itemDragListener.onItemDragStopped(viewHolder.adapterPosition)
+            itemDragListener.onItemDragStopped(viewHolder.bindingAdapterPosition)
         }
     }
 
