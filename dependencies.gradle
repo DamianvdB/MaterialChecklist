@@ -24,5 +24,8 @@ ext.deps = [
 
         google_material: "com.google.android.material:material:1.7.0",
 
-        junit          : "org.junit.jupiter:junit-jupiter-api:5.9.1"
+        junit          : [
+                api   : "org.junit.jupiter:junit-jupiter-api:5.9.2",
+                engine: "org.junit.jupiter:junit-jupiter-engine:5.9.2"
+        ],
 ]

@@ -4,6 +4,5 @@ dependencies {
     implementation project(':materialchecklist')
 
     implementation deps.androidx.preference
-
     implementation deps.google_material
 }
