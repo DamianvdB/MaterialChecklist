@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 internal class RecyclerGridSpaceItemDecorator(
     @Px var spacing: Int = 0,
-    var includeEdge: Boolean = false
+    private var includeEdge: Boolean = false,
 ) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(

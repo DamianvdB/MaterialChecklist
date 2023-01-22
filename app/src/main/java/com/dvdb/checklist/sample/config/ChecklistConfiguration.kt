@@ -163,13 +163,13 @@ internal class ChecklistConfiguration(
     /**
      * Chip
      */
-    val chipBackgroundColor: Int? = Color.TRANSPARENT
-    val chipStrokeColor: Int? = Color.parseColor("#bdbdbd")
-    val chipStrokeWidth: Float? = 1f.toPx(context)
+    val chipBackgroundColor: Int = Color.TRANSPARENT
+    val chipStrokeColor: Int = Color.parseColor("#bdbdbd")
+    val chipStrokeWidth: Float = 1f.toPx(context)
     val chipIconSize: Float =
         context.resources.getDimension(com.dvdb.materialchecklist.R.dimen.mc_icon_size_small)
     val chipIconEndPadding: Float? = null
-    val chipMinHeight: Float? =
+    val chipMinHeight: Float =
         context.resources.getDimension(com.dvdb.materialchecklist.R.dimen.mc_item_chip_min_height)
     val chipHorizontalSpacing: Int =
         context.resources.getDimensionPixelSize(com.dvdb.materialchecklist.R.dimen.mc_spacing_medium_large)
@@ -190,8 +190,8 @@ internal class ChecklistConfiguration(
         context.resources.getDimension(R.dimen.mc_item_image_corner_radius)
     val imageInnerPadding: Float =
         context.resources.getDimension(R.dimen.mc_item_image_inner_margin)
-    val imageLeftAndRightPadding: Float? = 0f
-    val imageTopAndBottomPadding: Float? = context.resources.getDimension(R.dimen.mc_spacing_large)
+    val imageLeftAndRightPadding: Float = 0f
+    val imageTopAndBottomPadding: Float = context.resources.getDimension(R.dimen.mc_spacing_large)
     val imageAdjustItemTextSize: Boolean = true
 
     /**

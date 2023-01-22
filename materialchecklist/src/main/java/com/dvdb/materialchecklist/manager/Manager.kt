@@ -111,7 +111,6 @@ internal class Manager(
         )
     }
 
-    @Suppress("IMPLICIT_CAST_TO_ANY")
     fun setItems(items: List<BaseItem>) {
         if (this::adapter.isInitialized) {
             originalItemIds.clear()

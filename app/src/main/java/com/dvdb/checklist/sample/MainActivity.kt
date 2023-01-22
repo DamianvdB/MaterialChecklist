@@ -448,18 +448,9 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun handleSettingChipConfiguration() {
-        checklistConfiguration.chipBackgroundColor?.let {
-            main_checklist.setChipBackgroundColor(it)
-        }
-
-        checklistConfiguration.chipStrokeColor?.let {
-            main_checklist.setChipStrokeColor(it)
-        }
-
-        checklistConfiguration.chipStrokeWidth?.let {
-            main_checklist.setChipStrokeWidth(it)
-        }
-
+        main_checklist.setChipBackgroundColor(checklistConfiguration.chipBackgroundColor)
+        main_checklist.setChipStrokeColor(checklistConfiguration.chipStrokeColor)
+        main_checklist.setChipStrokeWidth(checklistConfiguration.chipStrokeWidth)
         main_checklist.setChipIconSize(checklistConfiguration.chipIconSize)
 
         checklistConfiguration.chipIconEndPadding?.let {
@@ -488,13 +479,9 @@ internal class MainActivity : AppCompatActivity() {
             .setImageCornerRadius(checklistConfiguration.imageCornerRadius)
             .setImageInnerPadding(checklistConfiguration.imageInnerPadding)
 
-        checklistConfiguration.imageLeftAndRightPadding?.let {
-            main_checklist.setImageLeftAndRightPadding(it)
-        }
+        main_checklist.setImageLeftAndRightPadding(checklistConfiguration.imageLeftAndRightPadding)
 
-        checklistConfiguration.imageTopAndBottomPadding?.let {
-            main_checklist.setImageTopAndBottomPadding(it)
-        }
+        main_checklist.setImageTopAndBottomPadding(checklistConfiguration.imageTopAndBottomPadding)
 
         main_checklist.setImageAdjustItemTextSize(checklistConfiguration.imageAdjustItemTextSize)
     }
