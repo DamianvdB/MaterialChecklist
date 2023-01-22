@@ -219,7 +219,7 @@ Want to be here? Open an ```issue``` or make a ```pull request```.
 
 ## License
 
-    Copyright 2021 Damian van den Berg
+    Copyright 2022 Damian van den Berg
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
