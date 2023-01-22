@@ -21,11 +21,11 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'io.github.damianvdb:materialchecklist:1.0.0'
+  implementation 'io.github.damianvdb:materialchecklist:1.1.0'
 
   // Required Android libraries
-  implementation 'androidx.appcompat:appcompat:1.1.0'
-  implementation 'androidx.recyclerview:recyclerview:1.1.0'
+  implementation 'androidx.appcompat:appcompat:1.5.1'
+  implementation 'androidx.recyclerview:recyclerview:1.2.1'
 }
 ```
 
