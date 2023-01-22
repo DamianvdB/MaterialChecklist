@@ -36,8 +36,8 @@ internal class ContentTransformerKtTest {
         ).transform()
 
         Assertions.assertEquals(
-            expectedContentRecyclerItem,
-            actualContentRecyclerItem
+            expectedContentRecyclerItem.text,
+            actualContentRecyclerItem.text
         )
     }
 

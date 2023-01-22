@@ -22,7 +22,6 @@ android {
     testOptions {
         unitTests.all {
             useJUnitPlatform()
-            includeAndroidResources = true
         }
     }
 }
