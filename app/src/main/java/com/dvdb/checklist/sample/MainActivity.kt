@@ -535,6 +535,9 @@ internal class MainActivity : AppCompatActivity() {
                     is ContentItem -> {
                         contentItemText = item.text
                     }
+                    is ChecklistItemContainer,
+                    is ChipItemContainer,
+                    is ImageItemContainer -> Unit
                 }
             }
 
