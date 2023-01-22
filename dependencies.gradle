@@ -2,8 +2,8 @@ ext.versions = [
         min_sdk             : 16,
         compile_sdk         : 33,
         build_tools         : "33.0.0",
-        publish_version     : "1.0.3",
-        publish_version_code: 4
+        publish_version     : "1.0.4",
+        publish_version_code: 5
 ]
 
 def kotlin_version = "1.7.22"
