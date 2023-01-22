@@ -53,21 +53,19 @@ internal class MultiLineEditTextWidget(
         onSelectionChanged?.invoke(selStart, selEnd)
     }
 
-    override fun onCreateInputConnection(outAttrs: EditorInfo?): InputConnection {
+    override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection {
         val connection = super.onCreateInputConnection(outAttrs)
 
         // Revert removal of actions such as NEXT, DONE, etc, when setting inputType="textMultiLine"
-        outAttrs?.let {
-            if (it.imeOptions and EditorInfo.IME_FLAG_NO_ENTER_ACTION != 0) {
-                it.imeOptions = it.imeOptions and EditorInfo.IME_FLAG_NO_ENTER_ACTION.inv()
-            }
+        if (outAttrs.imeOptions and EditorInfo.IME_FLAG_NO_ENTER_ACTION != 0) {
+            outAttrs.imeOptions = outAttrs.imeOptions and EditorInfo.IME_FLAG_NO_ENTER_ACTION.inv()
         }
 
         return DeleteKeyPressedInputConnectionWrapper(connection, true)
     }
 
     inner class DeleteKeyPressedInputConnectionWrapper(
-        target: InputConnection,
+        target: InputConnection?,
         mutable: Boolean
     ) : InputConnectionWrapper(target, mutable) {
 

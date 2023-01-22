@@ -20,7 +20,8 @@ android {
     }
 
     testOptions {
-        unitTests {
+        unitTests.all {
+            useJUnitPlatform()
             includeAndroidResources = true
         }
     }
@@ -30,12 +31,16 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.kotlin
-
     implementation deps.androidx.core
     implementation deps.androidx.recycler_view
+    implementation deps.androidx.view_model
     implementation deps.androidx.constraint_layout
-
     implementation deps.google_material
 
-    testImplementation deps.junit
+    testImplementation deps.junit.api
+    testRuntimeOnly deps.junit.engine
+}
+
+tasks.withType(Javadoc).configureEach {
+    enabled = false
 }

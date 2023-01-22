@@ -91,7 +91,7 @@ internal class ChecklistNewRecyclerHolder private constructor(
     }
 
     private fun initRootListener() {
-        itemView.setOnClickListener { onItemClicked(adapterPosition) }
+        itemView.setOnClickListener { onItemClicked(bindingAdapterPosition) }
     }
 
     class Factory(

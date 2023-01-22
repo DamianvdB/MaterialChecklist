@@ -142,7 +142,7 @@ internal class ChecklistRecyclerHolder private constructor(
             DragAndDropToggleBehavior.ON_TOUCH -> {
                 dragIndicatorIcon.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        listener.onItemDragHandledClicked(adapterPosition)
+                        listener.onItemDragHandledClicked(bindingAdapterPosition)
                         return@setOnTouchListener true
                     }
                     return@setOnTouchListener false
@@ -153,7 +153,7 @@ internal class ChecklistRecyclerHolder private constructor(
 
             DragAndDropToggleBehavior.ON_LONG_CLICK -> {
                 dragIndicatorIcon.setOnLongClickListener {
-                    listener.onItemDragHandledClicked(adapterPosition)
+                    listener.onItemDragHandledClicked(bindingAdapterPosition)
                     return@setOnLongClickListener true
                 }
 
@@ -209,7 +209,7 @@ internal class ChecklistRecyclerHolder private constructor(
     private fun initCheckboxListener() {
         checkbox.setOnCheckedChangeListener { _, isChecked ->
             listener.onItemChecked(
-                adapterPosition,
+                bindingAdapterPosition,
                 isChecked
             )
         }
@@ -222,7 +222,7 @@ internal class ChecklistRecyclerHolder private constructor(
                     if (text.isFocused) {
                         s?.let { text ->
                             listener.onItemTextChanged(
-                                adapterPosition,
+                                bindingAdapterPosition,
                                 text.toString()
                             )
                         }
@@ -237,7 +237,7 @@ internal class ChecklistRecyclerHolder private constructor(
             )
 
             listener.onItemFocusChanged(
-                position = adapterPosition,
+                position = bindingAdapterPosition,
                 startSelection = text.selectionStart,
                 endSelection = text.selectionEnd,
                 hasFocus = hasFocus
@@ -247,7 +247,7 @@ internal class ChecklistRecyclerHolder private constructor(
         text.setOnEditorActionListener(
             enterActionActionFactory.create(
                 runnable = {
-                    listener.onItemEnterKeyPressed(adapterPosition, text)
+                    listener.onItemEnterKeyPressed(bindingAdapterPosition, text)
                     true
                 },
                 preConditions = {
@@ -258,7 +258,7 @@ internal class ChecklistRecyclerHolder private constructor(
 
         text.onSelectionChanged = { startSelection, endSelection ->
             listener.onItemSelectionChanged(
-                position = adapterPosition,
+                position = bindingAdapterPosition,
                 startSelection = startSelection,
                 endSelection = endSelection,
                 hasFocus = text.hasFocus()
@@ -266,13 +266,13 @@ internal class ChecklistRecyclerHolder private constructor(
         }
 
         text.onDeleteKeyPressed = {
-            listener.onItemDeleteKeyPressed(adapterPosition)
+            listener.onItemDeleteKeyPressed(bindingAdapterPosition)
         }
     }
 
     private fun initDeleteIconListener() {
         deleteIcon.setOnClickListener {
-            listener.onItemDeleteClicked(adapterPosition)
+            listener.onItemDeleteClicked(bindingAdapterPosition)
         }
     }
 

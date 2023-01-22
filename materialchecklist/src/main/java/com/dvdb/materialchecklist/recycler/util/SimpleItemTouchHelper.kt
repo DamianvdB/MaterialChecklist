@@ -51,7 +51,7 @@ internal class SimpleItemTouchHelper(
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        return adapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+        return adapter.onItemMove(viewHolder.bindingAdapterPosition, target.bindingAdapterPosition)
     }
 
     override fun onSwiped(
