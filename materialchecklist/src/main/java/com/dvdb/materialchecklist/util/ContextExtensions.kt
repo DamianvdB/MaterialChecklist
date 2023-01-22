@@ -33,5 +33,5 @@ internal fun Context.getColorCompat(@ColorRes colorRes: Int): Int {
 
 @CheckResult
 internal fun Context.getDrawableCompat(@DrawableRes drawableRes: Int): Drawable? {
-    return AppCompatResources.getDrawable(this, drawableRes)
+    return runCatching { AppCompatResources.getDrawable(this, drawableRes) }.getOrNull()
 }

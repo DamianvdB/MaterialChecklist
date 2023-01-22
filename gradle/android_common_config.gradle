@@ -13,6 +13,12 @@ android {
         versionCode versions.publish_version_code
         versionName versions.publish_version
     }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -22,6 +28,12 @@ dependencies {
 
     implementation deps.androidx.core
     implementation deps.androidx.recycler_view
+    implementation deps.androidx.view_model
 
-    testImplementation deps.junit
+    testImplementation deps.junit.api
+    testRuntimeOnly deps.junit.engine
+}
+
+tasks.withType(Javadoc).configureEach {
+    enabled = false
 }

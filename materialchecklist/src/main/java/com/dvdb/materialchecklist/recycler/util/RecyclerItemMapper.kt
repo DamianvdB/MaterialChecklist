@@ -59,7 +59,7 @@ internal object RecyclerItemMapper {
                 text.isFormatValid() -> {
                     ChecklistRecyclerItem(
                         text.substring(4, text.length),
-                        text.substring(0, 3).toLowerCase().isChecked()
+                        text.substring(0, 3).lowercase().isChecked()
                     )
                 }
                 text.isNotEmpty() -> ChecklistRecyclerItem(text)
@@ -71,7 +71,7 @@ internal object RecyclerItemMapper {
     @SuppressLint("DefaultLocale")
     private fun String.isFormatValid(): Boolean {
         return substringOrNull(0, 4)
-            ?.toLowerCase()
+            ?.lowercase()
             .run { this == "$UNCHECKED_SYMBOL " || this == "$CHECKED_SYMBOL " }
     }
 
